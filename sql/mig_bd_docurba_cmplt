@@ -1,0 +1,1954 @@
+-- ############################################################################################ SUIVI CODE SQL ###################################################################################################
+
+-- 2018/01/16 : GB / initialisation du script SQL de création de la nouvelle structure de données suite au nouveau standard CNIG de décembre 2017
+--		GB / ATTENTION : les tables et liste de domaine (ou valeur), ..... spécifiques au PNR et à OLV ont été mis en commentaire dans ce script mais adaptée au modèle
+--		GB / Reste à la charge de chaque partenaire d'adapter ce script à sa situation
+
+--		GB / Ce script est un test pour l'intégration des champs optionnels comme dans le standard cnig 2017 (pour les tables PROD uniquement). Attention les attributs concernés sont ceux qui s'export (les attributs optionnels dans la table an_doc_urba
+--		ne sont pas concernés car non exporté. Ils relèvent d'une gestion interne à chacun.
+
+-- ############################################################################################## SCHEMA #########################################################################################################
+
+--
+
+-- COMMENT GB : -------------------------------------------------------------------
+-- Début de la transaction (ne s'exécutera en base qu'une fois le processus réussi)
+-- --------------------------------------------------------------------------------
+
+BEGIN;
+
+-- COMMENT GB : ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Création d'un schéma pour tester le script d'import et vérifier les données
+-- Mettre en commentaire pour la mise en production, le rennomage des tables s'effectue à la fin de ce script (qui seront à décommenter pour la mise en production)
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures
+
+-- IMPORTANT : lors de la mise en production il faut remplacer m_urbanisme_doc_cnig2017_v2 par m_urbanisme_doc ,mettre en commentaire lacréation du schéma et décommenter la partie de DROP IF EXISTS ou ALTER TABLE qui suivent
+-- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- COMMENT GB : ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- IMPORTANT : Mettre en commentaire pour la mise en production
+DROP SCHEMA IF EXISTS m_urbanisme_doc_cnig2017_v2 CASCADE;
+CREATE SCHEMA m_urbanisme_doc_cnig2017_v2
+  AUTHORIZATION postgres;
+
+GRANT ALL ON SCHEMA m_urbanisme_doc_cnig2017_v2 TO postgres;
+
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON SCHEMA m_urbanisme_doc_cnig2017_v2 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON SCHEMA m_urbanisme_doc_cnig2017_v2
+  IS 'Schéma contenant les données métiers relatives aux documents d''urbanisme du nouveau modèle CNIG2017 pour test';
+
+
+-- COMMENT GB : --------------------------------------------------------------------------------------------------------------------------------------------
+-- RENOMMAGE DES ANCIENNES TABLES DU MODELES EN _CNIG2014 (hors table spécifique PNR-OLV)
+-- Sera utilisé ici pour la migration définitive afin de garder une trace des anciennes données (pourront être supprimé par la suite)
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.an_doc_urba rename to an_doc_urba_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.an_doc_urba_com rename to an_doc_urba_com_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin rename to geo_p_habillage_lin_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct rename to geo_p_habillage_pct_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf rename to geo_p_habillage_surf_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt rename to geo_p_habillage_txt_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_info_lin rename to geo_p_info_lin_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_info_pct rename to geo_p_info_pct_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_info_surf rename to geo_p_info_surf_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin rename to geo_p_prescription_lin_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct rename to geo_p_prescription_pct_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf rename to geo_p_prescription_surf_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba rename to geo_p_zone_urba_cnig2014;
+
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_destdomi rename to lt_destdomi_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_etat rename to lt_etat_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_l_secteur rename to lt_l_secteur_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typedoc rename to lt_typedoc_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typeinf rename to lt_typeinf_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_l_typeinf2 rename to lt_l_typeinf2_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typepsc rename to lt_typepsc_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_l_typepsc2 rename to lt_l_typepsc2_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typeref rename to lt_typeref_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typesect rename to lt_typesect_cnig2014;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typezone rename to lt_typezone_cnig2014;
+
+
+
+
+-- ####################################################################################################################################################
+-- ###                                                                                                                                              ###
+-- ###                                                                  DOMAINES DE VALEURS                                                         ###
+-- ###                                                                                                                                              ###
+-- ####################################################################################################################################################
+
+
+
+
+-- COMMENT GB : --------------------------------------------------------------------------------------
+-- Création des domaines de valeurs avant les tables nécessaires pour la création des clés étrangères
+-- ---------------------------------------------------------------------------------------------------
+
+-- ################################################################# Domaine valeur - lt_etat #############################################
+
+-- Table: m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017
+
+-- DROP TABLE m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017
+(
+  code character(2) NOT NULL,
+  valeur character varying(80) NOT NULL,
+  CONSTRAINT lt_etat_cnig2017_pkey PRIMARY KEY (code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017 TO postgres;
+
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017
+  IS 'Liste des valeurs de l''attribut état de la donnée doc_urba';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017.valeur IS 'Valeur';
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017(
+            code, valeur)
+    VALUES
+    ('01','en cours de procédure'),
+    ('02','arrêté'),
+    ('03','opposable'),
+    ('04','annulé'),
+    ('05','remplacé'),
+    ('06','abrogé'),
+    ('07','approuvé'),
+    ('08','partiellement annulé'),
+    ('09','caduc');
+
+-- ################################################################# Domaine valeur - lt_typedoc #############################################
+
+-- Table: m_urbanisme_doc.lt_typedoc
+
+-- DROP TABLE m_urbanisme_doc.lt_typedoc;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.lt_typedoc_cnig2017
+(
+  code character varying(4) NOT NULL,
+  valeur character varying(80) NOT NULL,
+  CONSTRAINT lt_typedoc_cnig2017_pkey PRIMARY KEY (code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.lt_typedoc_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typedoc_cnig2017 TO postgres;
+
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typedoc_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typedoc_cnig2017
+  IS 'Liste des valeurs de l''attribut état de la donnée doc_urba';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typedoc_cnig2017.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typedoc_cnig2017.valeur IS 'Valeur';
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.lt_typedoc_cnig2017(
+            code, valeur)
+    VALUES
+    ('RNU','Règlement national de l''urbanisme'),
+    ('PLU','Plan local d''urbanisme'),
+    ('PLUI','Plan local d''urbanisme intercommunal'),
+    ('POS','Plan d''occupation des sols'),
+    ('CC','Carte communale'),
+    ('PSMV','Plan de sauvegarde et de mise en valeur'); 
+
+-- ################################################################# Domaine valeur - lt_typeref #############################################
+
+-- Table: m_urbanisme_doc.lt_typeref
+
+-- DROP TABLE m_urbanisme_doc.lt_typeref;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.lt_typeref_cnig2017
+(
+  code character varying(2) NOT NULL,
+  valeur character varying(80) NOT NULL,
+  CONSTRAINT lt_typeref_cnig2017_pkey PRIMARY KEY (code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.lt_typeref_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typeref_cnig2017 TO postgres;
+
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typeref_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typeref_cnig2017
+  IS 'Liste des valeurs de l''attribut typeref de la donnée doc_urba';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typeref_cnig2017.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typeref_cnig2017.valeur IS 'Valeur';
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.lt_typeref_cnig2017(
+            code, valeur)
+    VALUES
+    ('01','PCI'),
+    ('02','BD Parcellaire'),
+    ('03','RPCU'),
+    ('04','Référentiel local');
+
+
+-- ################################################################# Domaine valeur - lt_nomproc #############################################
+
+-- COMMENT GB : ------------------------------------------------------------------------------------------------------------------------------------------------
+-- Cette table a été implémentéé en prenant en compte pour chaque procédure associée à un numéro, de tous les cas possibles de 1 à 9 (au besoin ajouter des cas)
+-- -------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: m_urbanisme_doc.lt_nomproc
+
+-- DROP TABLE m_urbanisme_doc_cnig2017_v2.lt_nomproc;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.lt_nomproc_cnig2017
+(
+  code character varying(3) NOT NULL,
+  valeur character varying(80) NOT NULL,
+  CONSTRAINT lt_nomproc_cnig2017_pkey PRIMARY KEY (code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.lt_nomproc_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_nomproc_cnig2017 TO postgres;
+
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_nomproc_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.lt_nomproc_cnig2017
+  IS 'Liste des valeurs de l''attribut Nom de la procédure de la donnée doc_urba';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_nomproc_cnig2017.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_nomproc_cnig2017.valeur IS 'Valeur';
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.lt_nomproc_cnig2017(
+            code, valeur)
+    VALUES
+    ('RNU','Commune soumise au RNU'),
+    ('E','Elaboration'),
+    ('MC','Mise en compatibilité'),
+    ('MJ','Mise à jour'),
+    ('M','Modification de droit commun'),
+    ('MS','Modification simplifiée'),
+    ('R','Révision'),
+    ('RS','Révision simplifiée'),
+    ('A','Abrogation');
+
+
+-- ################################################################# Domaine valeur - lt_typezone #############################################
+
+-- Table: m_urbanisme_doc.lt_typezone
+
+-- DROP TABLE m_urbanisme_doc.lt_typezone;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.lt_typezone_cnig2017
+(
+  code character varying(3) NOT NULL,
+  valeur character varying(80) NOT NULL,
+  CONSTRAINT lt_typezone_cnig2017_pkey PRIMARY KEY (code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.lt_typezone_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typezone_cnig2017 TO postgres;
+
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typezone_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typezone_cnig2017
+  IS 'Liste des valeurs de l''attribut typezone de la donnée zone_urba';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typezone_cnig2017.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typezone_cnig2017.valeur IS 'Valeur';
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.lt_typezone_cnig2017(
+            code, valeur)
+    VALUES
+    ('U','Urbaine'),
+    ('AUc','A urbaniser'),
+    ('AUs','A urbaniser bloquée'),
+    ('A','Agricole'),
+    ('N','Naturel et forestière');
+
+-- ################################################################# Domaine valeur - lt_destdomi #############################################
+
+-- Table: m_urbanisme_doc.lt_destdomi
+
+-- DROP TABLE m_urbanisme_doc.lt_destdomi;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.lt_destdomi_cnig2017
+(
+  code character (2) NOT NULL,
+  valeur character varying(80) NOT NULL,
+  CONSTRAINT lt_destdomi_cnig2017_pkey PRIMARY KEY (code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.lt_destdomi_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_destdomi_cnig2017 TO postgres;
+
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_destdomi_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.lt_destdomi_cnig2017
+  IS 'Liste des valeurs de l''attribut destdomi de la donnée zone_urba';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_destdomi_cnig2017.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_destdomi_cnig2017.valeur IS 'Valeur';
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.lt_destdomi_cnig2017(
+            code, valeur)
+    VALUES
+    ('00','Sans objet ou non encore définie dans le règlement'),
+    ('01','Habitat'),
+    ('02','Activité'),
+    ('03','Destination mixte habitat/activité'),
+    ('04','Loisirs et tourisme'),
+    ('05','Equipement'),
+    ('07','Activité agricole'),
+    ('08','Espace naturel'),
+    ('09','Espace remarquable'),
+    ('10','Secteur de carrière'),
+    ('99','Autre');
+
+
+-- ################################################################# Domaine valeur - lt_typesect #############################################
+
+
+-- Table: m_urbanisme_doc.lt_typesect
+
+-- DROP TABLE m_urbanisme_doc.lt_typesect;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.lt_typesect_cnig2017
+(
+  code character varying(2) NOT NULL, -- Code
+  valeur character varying(100) NOT NULL, -- Valeur
+  CONSTRAINT lt_typesect_cnig2017_pkey PRIMARY KEY (code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.lt_typesect_cnig2017
+  OWNER TO postgres;
+
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typesect_cnig2017 TO postgres WITH GRANT OPTION;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typesect_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typesect_cnig2017
+  IS 'Liste des valeurs de l''attribut typesect de la donnée zone_urba';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typesect_cnig2017.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typesect_cnig2017.valeur IS 'Valeur';
+
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.lt_typesect_cnig2017(
+            code, valeur)
+    VALUES
+    ('ZZ','Non concerné'),
+    ('01','Secteur ouvert à la construction'),
+    ('02','Secteur réservé aux activités'),
+    ('03','Secteur non ouvert à la construction, sauf exceptions prévues par la loi'),
+    ('99','Zone non couverte par la carte communale');
+
+-- ################################################################# Domaine valeur - lt_libsect #############################################
+
+-- Table: m_urbanisme_doc.lt_libsect
+
+-- DROP TABLE m_urbanisme_doc.lt_libsect;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.lt_libsect_cnig2017
+(
+  code character varying(3) NOT NULL,
+  valeur character varying(100) NOT NULL,
+  CONSTRAINT lt_libsect_cnig2017_pkey PRIMARY KEY (code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.lt_libsect_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_libsect_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_libsect_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.lt_libsect_cnig2017
+  IS 'Liste des valeurs de l''attribut libelle à saisir pour la carte communale (convention de libellé pour l''affichage cartographique)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_libsect_cnig2017.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_libsect_cnig2017.valeur IS 'Valeur';
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.lt_libsect_cnig2017(
+            code, valeur)
+    VALUES
+    ('ZC','Secteur ouvert à la construction'),
+    ('ZCa','Secteur réservé aux activités'),
+    ('ZnC','Secteur non ouvert à la construction, sauf exceptions prévues par la loi'),
+    ('RNU','Zone non couverte par la carte communale (soumise au Règlement National de l''Urbanisme');
+
+
+-- ################################################################# Domaine valeur - lt_typepsc #############################################
+
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------
+-- La liste de valeurs des prescriptions est celle fournie par le modèle, et contient dans une seule table le code et sous-code (une clé étrangère composéea été créée)
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: m_urbanisme_doc.lt_typepsc
+
+-- DROP TABLE m_urbanisme_doc.lt_typepsc;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017
+(
+  code character(2) NOT NULL,
+  sous_code character varying(2) NOT NULL,
+  valeur character varying(254) NOT NULL,
+  ref_leg character varying(80),
+  ref_reg character varying(80),
+  CONSTRAINT lt_typepsc_cnig2017_pkey PRIMARY KEY (code,sous_code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017
+  IS 'Liste des valeurs de l''attribut typepsc de la donnée prescription_surf, prescription_lin et prescription_pct';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017.sous_code IS 'Sous code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017.valeur IS 'Valeur';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017.ref_leg IS 'Références législatives du code de l''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017.ref_reg IS 'Références réglementaires du code de l''urbanisme';
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017(
+            code, sous_code, valeur, ref_leg, ref_reg)
+    VALUES
+    ('01','00','Espace boisé classé','L113-1','R151-31 1°'),
+    ('01','01','Espace boisé classé à protéger ou conserver','L113-1','R151-31 1°'),
+    ('01','02','Espace boisé classé à créer','L113-1','R151-31 1°'),
+    ('01','03','Espace boisé classé significatif au titre de la loi littoral','L121-27',null),
+    ('02','00','Limitations de la constructibilité pour des raisons environnementales, de risques,d''intérêt général',null,'R151-31 2° et R151-34 1°'),
+    ('02','01','Secteur avec interdiction de constructibilité pour des raisons environnementales,de risques, d''intérêt général',null,'R151-31 2°'),
+    ('02','02','Secteur avec conditions spéciales de constructibilité pour des raisons environnementales, de risques, d''intérêt général',null,'R151-34 1°'),
+    ('03','00','Secteur avec disposition de reconstruction / démolition','L151-10','R151-34 3°'),
+    ('03','01','Secteur dans lequel la reconstruction à l''identique d''un bâtiment détruit par un sinistre n''est pas autorisée',null,'R161-7'),
+    ('03','02','Interdiction de restauration de bâtiment dont il reste l''essentiel des murs porteurs','L111-23',null),
+    ('04','00','Périmètre issu des PDU sur obligation de stationnement','L151-47 dernier alinéa',null),
+    ('05','00','Emplacement réservé','L151-41 1° à 3°','R151-48 2°,R151-50 1°,R151-34 4°,R151-43 3°'),
+    ('05','01','Emplacement réservé aux voies publiques','L151-41 1°','R151-48 2°'),
+    ('05','02','Emplacement réservé aux ouvrages publics','L151-41 1°','R151-50 1°'),
+    ('05','03','Emplacement réservé aux installations d''intérêt général','L151-41 2°','R151-34 4°'),
+    ('05','04','Emplacement réservé aux espaces verts/continuités écologiques','L151-41 3°','R151-43 3°'),
+    ('05','05','Emplacement réservé logement social/mixité sociale','L151-41 4°','R151-38 1°'),
+    ('05','06','Servitude de localisation des voies, ouvrages publics, installations d''intérêt général et espaces verts en zone U ou AU','L151-41 dernier alinéa',null),
+    ('05','07','Secteur de projet en attente d''un projet d''aménagement global','L151-41 5°','R151-32'),
+    ('06','06','Secteur à densité maximale pour les reconstructions ou aménagements de bâtiments existants','Abrogé','Abrogé'),
+    ('07','00','Patrimoine bâti, paysager ou éléments de paysages à protéger pour des motifs d''ordre culturel, historique, architectural ou écologique','L151-19 et L151-23','R151-41 3° et R151-43 5°'),
+    ('07','01','Patrimoine bâti à protéger pour des motifs d''ordre culturel, historique, architectural','L151-19','R151-41 3°'),
+    ('07','02','Patrimoine paysager à protéger pour des motifs d''ordre culturel, historique, architectural','L151-19','R151-41 3°'),
+    ('07','03','Patrimoine paysager correspondant à un espacer boisé à protéger pour des motifs d''ordre culturel, historique, architectural','L151-19','R151-41 3°'),
+    ('07','04','Éléments de paysage, (sites et secteurs) à préserver pour des motifs d''ordre écologique','L151-23','R151-43 5°'),
+    ('07','05','Éléments de paysage correspondant à un espace boisé, (sites et secteurs) à préserver pour des motifs d''ordre écologique','L151-23 al.1','R151-43 5°'),
+    ('08','00','Terrain cultivé ou non bâti à protéger en zone urbaine','L151-23 al. 2','R151-43 6°'),
+    ('13','00','Zone à aménager en vue de la pratique du ski','L151-38 al. 2','R151-48 3°'),
+    ('14','00','Secteur de plan de masse',null,'R151-40'),
+    ('15','00','Règles d''implantation des constructions','L151-17 et L151-18 ?','R151-39 dernier alinéa'),
+    ('15','01','Implantation des constructions par rapport aux voies et aux emprises publiques','L151-18',null),
+    ('15','02','Implantation des constructions par rapport aux limites séparatives latérales','L151-18',null),
+    ('15','03','Implantation des constructions par rapport aux limites des fonds de parcelles','L151-18 ?',null),
+    ('15','98','Implantation alternative des constructions','L151-17',null),
+    ('16','00','Constructions et installations nécessaires à des équipements collectifs','L151-11 1°',null),
+    ('16','01','Bâtiment susceptible de changer de destination','L151-11 2°',null),
+    ('16','02','Bâtiments d''habitation existants pouvant faire l''objet d’extensions ou d’annexes','L151-12',null),
+    ('16','03','Secteur de taille et de capacité d''accueil limitées (STECAL)','L151-13',null),
+    ('17','00','Secteur à programme de logements mixité sociale en zone U et AU','L151-15','R151-38 3°'),
+    ('18','00','Secteur comportant des orientations d''aménagement et de programmation (OAP)','L151-6 et L151-7',null),
+    ('18','01','OAP de projet (sans règlement)','L151-6 et L151-7','R151-8'),
+    ('18','02','OAP entrées de ville','L151-6 et L151-7 1°','R151-6'),
+    ('18','03','OAP relatives à la réhabilitation, la restructuration, la mise en valeur ou l''aménagement','L.151-7 4°',null),
+    ('18','04','OAP d''adaptation des périmètres de transports collectifs','L151-7 6°',null),
+    ('18','05','OAP patrimoniales, architecturales et écologiques','L151-6 et L151-7','R151-7'),
+    ('18','06','OAP relatives à l''habitat','L151-6 ou L151-46',null),
+    ('18','07','OAP comprenant des dispositions relatives à l''équipement commercial et artisanal','L151-6 2e alinéa ou L151-7 2°',null),
+    ('18','08','OAP relatives aux transports et aux déplacements','L151-6 ou L151-47',null),
+    ('19','00','Secteur protégé en raison de la richesse du sol et du sous-sol',null,'R.151-34 2°'),
+    ('20','00','Secteur à transfert de constructibilité en zone N','L151-25','R151-36'),
+    ('22','00','Diversité commerciale à protéger ou à développer','L151-16','R151-37 4°'),
+    ('22','01','Diversité commerciale à protéger','L151-16','R151-37 4°'),
+    ('22','02','Diversité commerciale à développer','L151-16','R151-37 4°'),
+    ('22','03','Linéaire commercial protégé','L151-16','R151-37 4°'),
+    ('22','04','Linéaire commercial protégé renforcé','L151-16','R151-37 4°'),
+    ('23','00','Secteur avec taille minimale des logements en zone U et AU','L151-14','R151-38 2°'),
+    ('24','00','Voies, chemins, transport public à conserver et à créer','L151-38','R151-48 1°'),
+    ('24','01','Voies de circulation à créer, modifier ou conserver','L151-38','R151-48 1°'),
+    ('24','02','Voies de circulation à modifier','L151-38','R151-48 1°'),
+    ('24','03','Voies de circulation à créer','L151-38','R151-48 1°'),
+    ('24','04','Voies de circulation à conserver','L151-38','R151-48 1°'),
+    ('25','00','Eléments de continuité écologique et trame verte et bleue','L151-23 al. 2','R151-43 4° et R151-43-8°'),
+    ('26','00','Secteur de performance énergétique','L151-21','R151-42 1°'),
+    ('26','01','Secteur de performance énergétique renforcé','L151-21','R151-42 2°'),
+    ('27','00','Secteur d’aménagement numérique','L151-40','R151-50 2°'),
+    ('28','00','Conditions de desserte',null,' R151-47 1° et 2°'),
+    ('28','01','Conditions permettant une bonne desserte des terrains par les services publics de collecte des déchets',null,'R151-47 2°'),
+    ('29','00','Secteur avec densité minimale de construction',null,'R151-39 2e alinéa'),
+    ('29','01','Secteur avec densité minimale de construction à proximité des transports collectifs','L151-26',null),
+    ('30','00','Majoration des volumes constructibles',null,'R151-37 2°'),
+    ('30','01','Majoration des volumes constructibles pour l''habitation','L151-28 1°','R151-37 5°'),
+    ('30','02','Majoration des volumes constructibles pour les programmes comportant des logements locatifs sociaux','L151-28 2°','R151-37 2°'),
+    ('30','03','Majoration des volumes constructibles pour exemplarité énergétique ou environnementale','L151-28 3°','R151-42 3°'),
+    ('30','04','Majoration des volumes constructibles pour les programmes comportant des logements intermédiaires','L151-28 4°','R151-37 7°'),
+    ('31','00','Espaces remarquables du littoral','L121-23','R121-4 1° à 8°'),
+    ('31','01','Dunes, landes côtières, plages et lidos, estrans, falaises et abords','L121-23','R121-4 1°'),
+    ('31','02','Forêts et zones boisées proches du rivage de la mer et des plans d''eau intérieurs d''une superficie supérieure à 1 000 hectares','L121-23','R121-4 2°'),
+    ('31','03','Ilots inhabités','L121-23','R121-4 3°'),
+    ('31','04','Parties naturelles des estuaires, des rias ou abers et des caps','L121-23','R121-4 4°'),
+    ('31','05','Marais, vasières, tourbières, plans d''eau, les zones humides et milieux temporairement immergés','L121-23','R121-4 5°'),
+    ('31','06','Milieux abritant des concentrations naturelles d''espèces animales ou végétales','L121-23','R121-4 6°'),
+    ('31','07','Parties naturelles des sites inscrits ou classés','L121-23','R121-4 7°'),
+    ('31','08','Formations géologiques','L121-23','R121-4 8°'),
+    ('32','00','Exclusion protection de plans d''eau de faible importance','L122-12','R122-2'),
+    ('33','00','Secteur de dérogation aux protections des rives des plans d''eau en zone de montagne','L122-14 1°',null),
+    ('34','00','Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver','L122-9°',null),
+    ('35','00','Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver','L122-10',null),
+    ('36','00','Mixité des destinations ou sous-destinations',null,'R151-37 1°'),
+    ('37','00','Règles différenciées entre le rez-de-chaussée et les étages supérieurs des constructions',null,'R151-37 3°'),
+    ('37','01','Règles différenciées pour le rez-de-chaussée en raison des risques inondations',null,'R151-42 4°'),
+    ('37','02','Règles différenciées pour mixité sociale et fonctionnelle',null,'R151-37 1° et 3°'),
+    ('38','00','Emprise au sol',null,'R151-39'),
+    ('38','01','Emprise au sol minimale',null,'R151-39 2e alinéa'),
+    ('38','02','Emprise au sol maximale',null,'R151-39 1er alinéa'),
+    ('38','97','Emprise au sol règles qualitatives',null,'R151-39 dernier alinéa'),
+    ('38','98','Emprise au sol règles alternatives',null,'R151-41 1°'),
+    ('39','00','Hauteur',null,'R151-39'),
+    ('39','01','Hauteur minimale',null,'R151-39 2e alinéa'),
+    ('39','02','Hauteur maximale',null,'R151-39 1er alinéa'),
+    ('39','97','Hauteur règles qualitatives',null,'R151-39 dernier alinéa'),
+    ('39','98','Hauteur règles alternatives',null,'R151-41 1°'),
+    ('40','00','Volumétrie',null,'R151-39'),
+    ('40','01','Volumétrie minimale',null,null),
+    ('40','02','Volumétrie maximale',null,null),
+    ('40','97','Règles volumétriques qualitatives',null,'R151-39 dernier alinéa'),
+    ('40','98','Règles volumétriques alternatives',null,'R151-41 1°'),
+    ('41','00','Aspect extérieur','L151-18','R151-41 2°'),
+    ('41','01','Aspect extérieur façades','L151-18','R151-41 2°'),
+    ('41','02','Aspect extérieur toitures','L151-18','R151-41 2°'),
+    ('41','03','Aspect extérieur clôtures','L151-18','R151-41 2°'),
+    ('41','98','Aspect extérieur règles alternatives',null,'R151-13'),
+    ('42','00','Coefficient de biotope par surface','L151-22','R151-43 1°'),
+    ('43','00','Réalisation d''espaces libres, plantations, aires de jeux et de loisir',null,'R151-43 2° et 8°'),
+    ('43','01','Réalisation d''espaces libres',null,'R151-43 2°'),
+    ('43','02','Réalisation d''aires de jeux et de loisirs',null,'R151-43 2°'),
+    ('43','03','Réglementation des plantations',null,'R151-43 8°'),
+    ('44','00','Stationnement',null,null),
+    ('44','01','Stationnement minimal','L151-30 à L151-37',null),
+    ('44','02','Stationnement maximal','L151-30 à L151-37','R151-45 3°'),
+    ('44','03','Caractéristiques et type de stationnement',null,'R151-45 1°'),
+    ('44','04','Minoration des règles de stationnement',null,'R151-45 2°'),
+    ('44','98','Stationnement règles alternatives',null,'R151-13'),
+    ('45','00','Zone d''aménagement concerté (surface de plancher, destination)','L151-27',null),
+    ('46','00','Constructibilité espace boisé antérieur au 20ème siècle','L151-20',null),
+    ('47','00','Desserte par les réseaux','L151-39','R151-49'),
+    ('47','01','Réseaux publics d''eau','L151-39','R151-49'),
+    ('47','02','Réseaux publics d''électricité','L151-39','R151-49'),
+    ('47','03','Réseaux publics d''assainissement','L151-39','R151-49'),
+    ('47','04','Conditions de réalisation d''un assainissement non collectif','L151-39','R151-49'),
+    ('47','05','Infrastructures et réseaux de communications électroniques','L151-39','R151-49 3°'),
+    ('48','00','Mesures pour limiter l''imperméabilisation des sols',null,'R151-49 2°'),
+    ('48','01','Installations nécessaires à la gestion des eaux pluviales et du ruissellement',null,'R151-43 7° et R151-49 2°'),
+    ('49','00','Opération d''ensemble imposée en zone AU',null,'R151-20'),
+    ('49','01','Urbanisation par opération d''ensemble',null,'R151-20 2'),
+    ('49','02','Urbanisation conditionnée à la réalisation des équipements internes à la zone',null,'R151-20 2'),
+    ('50','00','Interdiction types d''activités, destinations, sous-destinations','L151-9','R151-30'),
+    ('51','00','Autorisation sous conditions types d''activités, destinations, sous-destinations','L151-9','R151-33'),
+    ('99','00','Autre',null,'R151-27 à R151-29'),
+    ('99','01','Autre : affectation des sols et destination des constructions','L151-9 à L151-10','R151-30 à R151-36'),
+    ('99','02','Autre : zones naturelles, agricoles ou forestières','L151-11 à L151-13','R151-17 à R151-26'),
+    ('99','03','Autre : mixité sociale et fonctionnelle en zones urbaines ou à urbaniser','L151-14 à L151-16','R151-37 à R151-38'),
+    ('99','04','Autre : qualité du cadre de vie','L151-17 à L151-25',null),
+    ('99','05','Autre : Qualité urbaine, architecturale, environnementale et paysagère',null,'R151-41 à R151-42'),
+    ('99','06','Autre : Traitement environnemental et paysager des espaces non bâtis et abords des constructions',null,'R151-43'),
+    ('99','07','Autre : densité','L151-26 à L151-29-1',null),
+    ('99','08','Autre : équipements, réseaux et emplacements réservés','L151-38 à L151-42','R151-47 à R151-50'),
+    ('99','09','Autre : plan local d''urbanisme tenant lieu de programme local de l''habitat et de plan de déplacements urbains','L151-44 à L151-48','R151-54 à R151-55'),
+    ('99','10','Autre : plan local d''urbanisme tenant lieu de programme de déplacements urbains',null,'R151-54 à R151-55');
+
+
+-- ################################################################# Domaine valeur - lt_typeinf #############################################
+
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------
+-- La liste de valeurs des informations est celle fournie par le modèle, et contient dans une seule table le code et sous-code (une clé étrangère composéea été créée)
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: m_urbanisme_doc.lt_typeinf
+
+-- DROP TABLE m_urbanisme_doc.lt_typeinf;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017
+(
+  code character(2) NOT NULL,
+  sous_code character varying(2) NOT NULL,
+  valeur character varying(254) NOT NULL,
+  ref_leg character varying(80),
+  ref_reg character varying(80),
+  CONSTRAINT lt_typeinf_cnig2017_pkey PRIMARY KEY (code,sous_code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017
+  IS 'Liste des valeurs de l''attribut typeinf de la donnée info_surf, info_lin et info_pct';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017.sous_code IS 'Sous code';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017.valeur IS 'Valeur';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017.ref_leg IS 'Références législatives du code de l''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017.ref_reg IS 'Références réglementaires du code de l''urbanisme';
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017(
+            code, sous_code, valeur, ref_leg, ref_reg)
+    VALUES
+	('01','00','Anciennement « Secteur sauvegardé » puis « Site patrimonial remarquable » supprimé car il correspond à une SUP','Abrogé','Abrogé'),
+	('02','00','Zone d''aménagement concerté','Livre III code de l''urbanisme','R151-52 8°'),
+	('03','00','Zone de préemption dans un espace naturel et sensible (Attention : information facultative non exigée par la loi)','L215-1 du code de l''urbanisme','Pas de référence pour annexion'),
+	('04','00','Périmètre de droit de préemption urbain',null,'R151-52 7°'),
+	('04','01','Périmètre de droit de préemption urbain renforcé',null,null),
+	('05','00','Zone d''aménagement différé',null,'R151-52 7°'),
+	('07','00','Périmètre de développement prioritaire économie d''énergie',null,'R151-53 1°'),
+	('08','00','Périmètre forestier : interdiction ou réglementation des plantations (code rural et de la pêche maritime), plantations à réaliser et semis d''essence forestière',null,'R151-53 2°'),
+	('09','00','Périmètre minier de concession pour l''exploitation ou le stockage',null,'R151-53 3°'),
+	('10','00','Zone de recherche et d''exploitation de carrière',null,'R151-53 4°'),
+	('11','00','Périmètre des zones délimitées - divisions foncières soumises à déclaration préalable',null,'R151-52 4°'),
+	('12','00','Périmètre de sursis à statuer',null,'R151-52 13°'),
+	('13','00','Secteur de programme d''aménagement d''ensemble',null,'R151-52 9°'),
+	('14','00','Périmètre de voisinage d''infrastructure de transport terrestre',null,'R151-53 5°'),
+	('15','00','les Zones Agricoles Protégées abrogées car traitées en SUP A9','Abrogé','Abrogé'),
+	('16','00','Site archéologique (Attention : information facultative non exigée par la loi)','L522-5 2e alinéa du code du patrimoine sans obligation pour le PLU',null),
+	('17','00','Zone à risque d''exposition au plomb',null,'R151-53 6°'),
+	('19','01','Zone d''assainissement collectif/non collectif, eaux usées/eaux pluviales, schéma de réseaux eau et assainissement, systèmes d''élimination des déchets',null,'R151-53 8° (zone)'),
+	('19','02','Emplacements traitement eaux et déchets',null,'R151-53 8° (emplacement)'),
+	('20','00','Règlement local de publicité','L581-14 code de l''environnement','R151-53 11°'),
+	('21','00','Projet de plan de prévention des risques','L562-2 code de l’environnement','R151-53 9°'),
+	('22','00','Protection des rives des plans d''eau en zone de montagne','L122-12',null),
+	('23','00','Arrêté du préfet coordonnateur de massif',null,'R151-52 6°'),
+	('25','00','Périmètre de protection des espaces agricoles et naturels périurbain',null,'R151-52 3°'),
+	('26','00','Lotissement','Abrogé','Abrogé'),
+	('27','00','Plan d''exposition au bruit des aérodromes',null,'R151-52 2°'),
+	('30','00','Périmètre projet urbain partenarial',null,'R151-52 12°'),
+	('31','00','Périmètre patrimoniaux d''exclusion des matériaux et énergies renouvelables pris par délibération','L151-17 2°','R151-52 1°'),
+	('32','00','Secteur de taxe d''aménagement',null,'R151-52 10°'),
+	('33','00','Droit de préemption commercial (Attention : information facultative non exigée par la loi)','L 214-1','Aucune base pour report en annexe PLU - R 214-1 et 2'),
+	('34','00','Périmètre d''opération d''intérêt national (Attention : information facultative non exigée par la loi)','L102-12','Aucune base pour report en annexe PLU – R102-3'),
+	('35','00','Périmètre de secteur affecté par un seuil minimal de densité',null,'R151-52 11°'),
+	('36','00','Schémas d''aménagement de plage',null,'R151-52 5°'),
+	('37','00','Bois ou forêts relevant du régime forestier',null,'R151-53 7°'),
+	('38','00','Secteurs d''information sur les sols',null,'R151-53 10°'),
+	('39','00','Périmètres de projets AFUP (dans lesquels les propriétaires fonciers sont incités à se regrouper en AFU de projet et les AFU de projet à mener leurs opérations de façon concertée)','L322-13','R151-52 14°'),
+	('99','00','Autre périmètre, secteur, plan, document, site, projet, espace',null,null),
+	('99','01','Autre relevant de la loi littoral',null,null),
+	('99','02','Autre relevant de la loi montagne',null,null);
+
+
+
+
+-- ####################################################################################################################################################
+-- ###                                                  DOMAINES DE VALEURS SPECIFIQUE PNR-OLV                                                      ###
+-- ####################################################################################################################################################
+
+
+-- EN ATTENTE CHOIX DE LA GESTION DES CHAMPS OPTIONNELS
+
+
+-- ####################################################################################################################################################
+-- ###                                                                                                                                              ###
+-- ###                                                  TABLES METIERS DOCUMENTS D'URBANISME                                                        ###
+-- ###                                                                                                                                              ###
+-- ####################################################################################################################################################
+
+
+-- ####################################################################################################################################################
+-- ###                                                  	  MODE PRODUCTION                                                                   ###
+-- ####################################################################################################################################################
+
+
+-- ########################################################################## table an_doc_urba #######################################################
+
+-- Table: m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017
+
+-- DROP TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017
+(
+  idurba character varying(30) NOT NULL, -- identifiant
+  typedoc character varying(4) NOT NULL, -- Type du document concerné
+  etat character varying(2) NOT NULL, -- Etat juridique du document
+  nomproc character varying(10), -- Etat juridique du document
+  l_nomprocn integer, -- n° d'ordre de la procédure
+  datappro character varying(8), -- Date d'approbation
+  datefin character varying(8), -- date de fin de validité
+  siren character varying(9), -- Code SIREN de l'intercommunalité si elle est MO du document d'urbanisme
+  nomreg character varying(80), -- Nom du fichier de règlement
+  urlreg character varying(254), -- URL ou URI du fichier du règlement
+  nomplan character varying(80), -- Nom du fichier du plan scanné
+  urlplan character varying(254), -- URL ou URI du fichier du plan scanné
+  urlpe character varying(254), -- Lien d'accès à l'archive zip comprenant l'ensemble des pièces écrites
+  siteweb character varying(254), -- Site web du service d'accès
+  typeref character varying(2), -- Type de référentiel utilisé
+  dateref character varying(8), -- Date du référentiel de saisie
+  l_moa_proc character varying(80), -- Maitre d'ouvrage de la procédure
+  l_moe_proc character varying(80), -- Maitre d'oeuvre de la procédure
+  l_moa_dmat character varying(80), -- Maitre d'ouvrage de la dématérialisation
+  l_moe_dmat character varying(80), -- Maitre d'oeuvre de la dématérialisation
+  l_observ character varying(254), -- Observations
+  l_parent integer, -- Identification des documents parents pour recherche des historiques entre version de documents (1 pour le premier document (élaboration, modif, mise à jour), 2 pour la révision (révision n°1, modif, mise à jour), 3 pour le 2nd révisoon (révision n°2, modif, mise à jour), ...)
+  CONSTRAINT an_doc_urba_cnig2017_pkey PRIMARY KEY (idurba)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017
+  IS 'Donnée alphanumerique de référence des documents d''urbanisme en projet ou ayant été approuvés';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.typedoc IS 'Type du document concerné';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.datappro IS 'Date d''approbation';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.datefin IS 'date de fin de validité';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.siren IS 'Code SIREN de l''intercommunalité';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.etat IS 'Etat juridique du document';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.nomproc IS 'Codage de la version du document concerné';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.l_nomprocn IS 'N° d''ordre de la procédure';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.nomreg IS 'Nom du fichier de règlement';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.urlreg IS 'URL ou URI du fichier du règlement';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.nomplan IS 'Nom du fichier du plan scanné';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.urlplan IS 'URL ou URI du fichier du plan scanné';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.urlpe IS 'Lien d''accès à l''archive zip comprenant l''ensemble des pièces écrites';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.siteweb IS 'Site web du service d''accès';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.typeref IS 'Type de référentiel utilisé';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.dateref IS 'Date du référentiel de saisie';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.l_moa_proc IS 'Maitre d''ouvrage de la procédure';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.l_moe_proc IS 'Maitre d''oeuvre de la procédure';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.l_moa_dmat IS 'Maitre d''ouvrage de la dématérialisation';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.l_moe_dmat IS 'Maitre d''oeuvre de la dématérialisation';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.l_observ IS 'Observations';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017.l_parent IS 'Identification des documents parents pour recherche des historiques entre version de documents (1 pour le premier document (élaboration, modif, mise à jour), 2 pour la révision (révision n°1, modif, mise à jour), 3 
+  pour le 2nd révisoon (révision n°2, modif, mise à jour), ...)';
+
+
+-- ########################################################################## table an_doc_urba_com #######################################################
+
+
+-- Table: m_urbanisme_doc_cnig2017_v2.an_doc_urba_com
+
+-- DROP TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_com;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_com_cnig2017
+(
+  idurba character varying(30) NOT NULL, -- identifiant
+  insee character varying(5) NOT NULL -- code insee de la commune 
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_com_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_com_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_com_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_com_cnig2017
+  IS 'Donnée alphanumerique d''appartenance d''une commune à une procédure définie';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_com_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.an_doc_urba_com_cnig2017.insee IS 'Code insee de la commune';
+
+
+-- ########################################################################### table geo_p_zone_urba #######################################################
+
+-- Table: m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba
+
+-- DROP TABLE m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017
+(
+  idzone character varying(10) NOT NULL, -- Identifiant unique de zone
+  libelle character varying(12) NOT NULL, -- Nom court de la zone
+  libelong character varying(254), -- Nom complet de la zone
+  typezone character varying(3) NOT NULL, -- Type de la zone
+  nomfic character varying(80), -- Nom du fichier contenant le réglement complet
+  urlfic character varying(254), -- URL ou URI du fichier du règlement complet
+  idurba character varying(30) NOT NULL, -- identifiant
+  datvalid character varying(8), -- Date de validation (aaaammjj)
+  typesect character varying(2) DEFAULT 'ZZ'::character varying, -- Type de secteur (uniquement pour la carte communale, ZZ correspond à non concerné)
+  fermreco character varying(3) NOT NULL DEFAULT 'non', -- Secteur fermé à la reconstruction (uniquement pour la carte communale)
+  lib_attr1 character varying(20), -- libellé de l'attribut optionnel 1,ici nom du fichier contenant le règlement de la zone
+  lib_val1 character varying(80), -- valeur de l'attribut optionnel 1,ici nom du fichier contenant le règlement de la zone
+  lib_attr2 character varying(20), -- libellé de l'attribut optionnel 2,ici url du fichier contenant le règlement de la zone
+  lib_val2 character varying(254), -- valeur de l'attribut optionnel 2,ici url du fichier contenant le règlement de la zone
+  lib_attr3 character varying(20), -- libellé de l'attribut optionnel 3,ici destination dominante de la zone
+  lib_val3 character varying(2), -- valeur de l'attribut optionnel 3,ici destination dominante de la zone
+  lib_attr4 character varying(5), -- libellé de l'attribut optionnel 4,ici insee
+  lib_val4 character varying(5), -- valeur de l'attribut optionnel 4,ici code insee de la commune
+  lib_attr5 character varying(20), -- libellé de l'attribut optionnel 5,ici surface
+  lib_val5 numeric NOT NULL, -- valeur de l'attribut optionnel 5,ici la surface en ha
+  lib_attr6 character varying(20), -- libellé de l'attribut optionnel 4,ici observation
+  lib_val6 character varying(500), -- valeur de l'attribut optionnel 4,ici observation
+  geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_p_zone_urba_cnig2017_pkey PRIMARY KEY (idzone)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017
+  IS 'Donnée géographique contenant les zonages des documents d''urbanisme locaux (PLUi, PLU, POS)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.idzone IS 'Identifiant unique de zone';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.libelle IS 'Nom court de la zone';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.libelong IS 'Nom complet de la zone';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.typezone IS 'Type de la zone';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.typesect IS 'Type de secteur (uniquement pour la carte communale, ZZ correspond à non concerné)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.fermreco IS 'Secteur fermé à la reconstruction (uniquement pour la carte communale)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.nomfic IS 'Nom du fichier du règlement complet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.urlfic IS 'URL ou URI du fichier du règlement complet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.datvalid IS 'Date de validation (aaaammjj)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_attr1 IS 'libellé de l''attribut optionnel 1,ici nom du fichier contenant le règlement de la zone';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_val1 IS 'valeur de l''attribut optionnel 1,ici nom du fichier contenant le règlement de la zone';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_attr2 IS 'libellé de l''attribut optionnel 2,ici url du fichier contenant le règlement de la zone';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_val2 IS 'valeur de l''attribut optionnel 2,ici url du fichier contenant le règlement de la zone';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_attr3 IS 'libellé de l''attribut optionnel 3,ici destination dominante de la zone';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_val3 IS 'valeur de l''attribut optionnel 3,ici destination dominante de la zone';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_attr4 IS 'libellé de l''attribut optionnel 4,ici insee';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_val4 IS 'valeur de l''attribut optionnel 4,ici code insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_attr5 IS 'libellé de l''attribut optionnel 5,ici surface';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_val5 IS 'valeur de l''attribut optionnel 5,ici surface';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_attr6 IS 'libellé de l''attribut optionnel 4,ici observation';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017.lib_val6 IS 'valeur de l''attribut optionnel 4,ici observation';
+
+-- ########################################################################### geo_p_prescription_surf #######################################################
+
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Mettre en commentaire la création du champ geom1 et la ligne de commentaire par les partenaires si pas utilisé
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: m_urbanisme_doc.geo_p_prescription_surf
+
+-- DROP TABLE m_urbanisme_doc.geo_p_prescription_surf;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017
+(
+  idpsc character varying(10) NOT NULL, -- Identifiant unique de prescription surfacique
+  libelle character varying(254) NOT NULL, -- Nom de la prescription
+  txt character varying(10), -- Texte étiquette
+  typepsc character varying(2) NOT NULL, -- Type de la prescription
+  stypepsc character varying(2) NOT NULL, -- Sous-Type de la prescription
+  nomfic character varying(80), -- Nom du fichier
+  urlfic character varying(254), -- URL ou URI du fichier
+  idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
+  datvalid character(8), -- Date de validation (aaaammjj)
+  lib_attr1 character varying(20), -- libellé de l'attribut optionnel 1,ici insee
+  lib_val1 character varying(254), -- valeur de l'attribut optionnel 1,ici code insee de la commune
+  lib_attr2 character varying(20), -- libellé de l'attribut optionnel 2
+  lib_val2 character varying(254), -- valeur de l'attribut optionnel 2
+  lib_attr3 character varying(20), -- libellé de l'attribut optionnel 3
+  lib_val3 character varying(254), -- valeur de l'attribut optionnel 3
+  lib_attr4 character varying(20), -- libellé de l'attribut optionnel 4
+  lib_val4 character varying(254), -- valeur de l'attribut optionnel 4
+  lib_attr5 character varying(20), -- libellé de l'attribut optionnel 5
+  lib_val5 character varying(254), -- valeur de l'attribut optionnel 5
+  lib_attr6 character varying(20), -- libellé de l'attribut optionnel 6
+  lib_val6 character varying(254), -- valeur de l'attribut optionnel 6
+
+  geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
+  geom1 geometry(MultiPolygon,2154), -- Géométrie de l''objet avec un buffer de -0.5 pour calcul de la vue an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l''insertion, mise à jour du champ geom
+  CONSTRAINT geo_p_prescription_surf_cnig2017_pkey PRIMARY KEY (idpsc)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017
+  IS 'Donnée géographique contenant les prescriptions surfaciques des documents d''urbanisme locaux (PLUi, PLU, POS, CC)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.idpsc IS 'Identifiant unique de prescription surfacique';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.libelle IS 'Nom de la prescription';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.txt IS 'Texte étiquette';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.typepsc IS 'Type de la prescription';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.stypepsc IS 'Sous type de la prescription';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.nomfic IS 'Nom du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.urlfic IS 'URL ou URI du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.datvalid IS 'Date de validation (aaaammjj)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.geom1 IS 'Géométrie de l''objet avec un buffer de -0.5 pour calcul de la vue an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l''insertion, mise à jour du champ geom';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_attr1 IS 'libellé de l''attribut optionnel 1,code insee';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_val1 IS 'valeur de l''attribut optionnel 1, code insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_attr2 IS 'libellé de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_val2 IS 'valeur de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_attr3 IS 'libellé de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_val3 IS 'valeur de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_attr4 IS 'libellé de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_val4 IS 'valeur de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_attr5 IS 'libellé de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_val5 IS 'valeur de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_attr6 IS 'libellé de l''attribut optionnel 6';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017.lib_val6 IS 'valeur de l''attribut optionnel 6';
+
+
+-- ########################################################################### geo_p_prescription_lin #######################################################
+
+-- Table: m_urbanisme_doc.geo_p_prescription_lin
+
+-- DROP TABLE m_urbanisme_doc.geo_p_prescription_lin;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017
+(
+  idpsc character varying(10) NOT NULL, -- Identifiant unique de prescription surfacique
+  libelle character varying(254) NOT NULL, -- Nom de la prescription
+  txt character varying(10), -- Texte étiquette
+  typepsc character varying(2) NOT NULL, -- Type de la prescription
+  stypepsc character varying(2) NOT NULL, -- Sous-Type de la prescription
+  nomfic character varying(80), -- Nom du fichier
+  urlfic character varying(254), -- URL ou URI du fichier
+  idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
+  datvalid character(8), -- Date de validation (aaaammjj)
+  lib_attr1 character varying(20), -- libellé de l'attribut optionnel 1,ici insee
+  lib_val1 character varying(80), -- valeur de l'attribut optionnel 1,ici code insee de la commune
+  lib_attr2 character varying(20), -- libellé de l'attribut optionnel 2
+  lib_val2 character varying(80), -- valeur de l'attribut optionnel 2
+  lib_attr3 character varying(20), -- libellé de l'attribut optionnel 3
+  lib_val3 character varying(80), -- valeur de l'attribut optionnel 3
+  lib_attr4 character varying(20), -- libellé de l'attribut optionnel 4
+  lib_val4 character varying(80), -- valeur de l'attribut optionnel 4
+  lib_attr5 character varying(20), -- libellé de l'attribut optionnel 5
+  lib_val5 character varying(80), -- valeur de l'attribut optionnel 5
+  lib_attr6 character varying(20), -- libellé de l'attribut optionnel 6
+  lib_val6 character varying(80), -- valeur de l'attribut optionnel 6
+  geom geometry(Multilinestring,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_p_prescription_lin_cnig2017_pkey PRIMARY KEY (idpsc)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017
+  IS 'Donnée géographique contenant les prescriptions linéaires des documents d''urbanisme locaux (PLUi, PLU, POS, CC)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.idpsc IS 'Identifiant unique de prescription linéaire';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.libelle IS 'Nom de la prescription';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.txt IS 'Texte étiquette';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.typepsc IS 'Type de la prescription';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.stypepsc IS 'Sous type de la prescription';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.nomfic IS 'Nom du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.urlfic IS 'URL ou URI du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.datvalid IS 'Date de validation (aaaammjj)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_attr1 IS 'libellé de l''attribut optionnel 1,code insee';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_val1 IS 'valeur de l''attribut optionnel 1, code insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_attr2 IS 'libellé de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_val2 IS 'valeur de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_attr3 IS 'libellé de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_val3 IS 'valeur de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_attr4 IS 'libellé de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_val4 IS 'valeur de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_attr5 IS 'libellé de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_val5 IS 'valeur de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_attr6 IS 'libellé de l''attribut optionnel 6';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017.lib_val6 IS 'valeur de l''attribut optionnel 6';
+
+
+-- ########################################################################### geo_p_prescription_pct #######################################################
+
+-- Table: m_urbanisme_doc.geo_p_prescription_pct
+
+-- DROP TABLE m_urbanisme_doc.geo_p_prescription_pct;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017
+(
+  idpsc character varying(10) NOT NULL, -- Identifiant unique de prescription surfacique
+  libelle character varying(254) NOT NULL, -- Nom de la prescription
+  txt character varying(10), -- Texte étiquette
+  typepsc character varying(2) NOT NULL, -- Type de la prescription
+  stypepsc character varying(2) NOT NULL, -- Sous-Type de la prescription
+  nomfic character varying(80), -- Nom du fichier
+  urlfic character varying(254), -- URL ou URI du fichier
+  idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
+  datvalid character(8), -- Date de validation (aaaammjj)
+  lib_attr1 character varying(20), -- libellé de l'attribut optionnel 1,ici insee
+  lib_val1 character varying(80), -- valeur de l'attribut optionnel 1,ici code insee de la commune
+  lib_attr2 character varying(20), -- libellé de l'attribut optionnel 2
+  lib_val2 character varying(80), -- valeur de l'attribut optionnel 2
+  lib_attr3 character varying(20), -- libellé de l'attribut optionnel 3
+  lib_val3 character varying(80), -- valeur de l'attribut optionnel 3
+  lib_attr4 character varying(20), -- libellé de l'attribut optionnel 4
+  lib_val4 character varying(80), -- valeur de l'attribut optionnel 4
+  lib_attr5 character varying(20), -- libellé de l'attribut optionnel 5
+  lib_val5 character varying(80), -- valeur de l'attribut optionnel 5
+  lib_attr6 character varying(20), -- libellé de l'attribut optionnel 6
+  lib_val6 character varying(80), -- valeur de l'attribut optionnel 6
+  geom geometry(MultiPoint,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_p_prescription_pct_cnig2017_pkey PRIMARY KEY (idpsc)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017
+  IS 'Donnée géographique contenant les prescriptions ponctuelles des documents d''urbanisme locaux (PLUi, PLU, POS, CC)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.idpsc IS 'Identifiant unique de prescription ponctuelle';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.libelle IS 'Nom de la prescription';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.txt IS 'Texte étiquette';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.typepsc IS 'Type de la prescription';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.stypepsc IS 'Sous type de la prescription';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.nomfic IS 'Nom du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.urlfic IS 'URL ou URI du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.datvalid IS 'Date de validation (aaaammjj)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_attr1 IS 'libellé de l''attribut optionnel 1,code insee';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_val1 IS 'valeur de l''attribut optionnel 1, code insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_attr2 IS 'libellé de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_val2 IS 'valeur de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_attr3 IS 'libellé de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_val3 IS 'valeur de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_attr4 IS 'libellé de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_val4 IS 'valeur de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_attr5 IS 'libellé de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_val5 IS 'valeur de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_attr6 IS 'libellé de l''attribut optionnel 6';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017.lib_val6 IS 'valeur de l''attribut optionnel 6';
+
+-- ################################################################################ geo_p_info_surf ##########################################################
+
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Mettre en commentaire la création du champ geom1 et la ligne de commentaire par les partenaires si pas utilisé
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: m_urbanisme_doc.geo_p_info_surf
+
+-- DROP TABLE m_urbanisme_doc.geo_p_info_surf;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017
+(
+  idinf character varying(10) NOT NULL, -- Identifiant unique de l'information surfacique
+  libelle character varying(254) NOT NULL, -- Nom de l'information
+  txt character varying(10), -- Texte étiquette
+  typeinf character varying(2) NOT NULL, -- Type d'information
+  stypeinf character varying(2) NOT NULL, -- Sous type d'information
+  nomfic character varying(80), -- Nom du fichier
+  urlfic character varying(254), -- URL ou URI du fichier
+  idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
+  datvalid character(8), -- Date de validation (aaaammjj)
+  lib_attr1 character varying(20), -- libellé de l'attribut optionnel 1,ici insee
+  lib_val1 character varying(80), -- valeur de l'attribut optionnel 1,ici code insee de la commune
+  lib_attr2 character varying(20), -- libellé de l'attribut optionnel 2
+  lib_val2 character varying(80), -- valeur de l'attribut optionnel 2
+  lib_attr3 character varying(20), -- libellé de l'attribut optionnel 3
+  lib_val3 character varying(80), -- valeur de l'attribut optionnel 3
+  lib_attr4 character varying(20), -- libellé de l'attribut optionnel 4
+  lib_val4 character varying(80), -- valeur de l'attribut optionnel 4
+  lib_attr5 character varying(20), -- libellé de l'attribut optionnel 5
+  lib_val5 character varying(80), -- valeur de l'attribut optionnel 5
+  lib_attr6 character varying(20), -- libellé de l'attribut optionnel 6
+  lib_val6 character varying(80), -- valeur de l'attribut optionnel 6
+  lib_attr7 character varying(20), -- libellé de l'attribut optionnel 7
+  lib_val7 character varying(80), -- valeur de l'attribut optionnel 7
+  lib_attr8 character varying(20), -- libellé de l'attribut optionnel 8
+  lib_val8 character varying(80), -- valeur de l'attribut optionnel 8
+  lib_attr9 character varying(20), -- libellé de l'attribut optionnel 9
+  lib_val9 character varying(80), -- valeur de l'attribut optionnel 9
+  geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
+  geom1 geometry(MultiPolygon,2154), -- Géométrie de l'objet avec un buffer de -0.5 pour calcul de la vue an_vmr_p_information pour GEO. Champ mis à jour en automatique par un trigger à l'insertion, mise à jour du champ geom
+  CONSTRAINT geo_p_info_surf_cnig2017_pkey PRIMARY KEY (idinf)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017
+  IS 'Donnée géographique contenant les informations surfaciques des documents d''urbanisme locaux (PLUi, PLU, POS)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.idinf IS 'Identifiant unique de l''information surfacique';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.libelle IS 'Nom de l''information';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.txt IS 'Texte étiquette';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.typeinf IS 'Type d''information';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.stypeinf IS 'Sous type d''information';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.nomfic IS 'Nom du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.urlfic IS 'URL ou URI du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.datvalid IS 'Date de validation (aaaammjj)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.geom1 IS 'Géométrie de l''objet avec un buffer de -0.5 pour calcul de la vue an_vmr_p_information pour GEO. Champ mis à jour en automatique par un trigger à l''insertion, mise à jour du champ geom';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_attr1 IS 'libellé de l''attribut optionnel 1,code insee';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_val1 IS 'valeur de l''attribut optionnel 1, code insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_attr2 IS 'libellé de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_val2 IS 'valeur de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_attr3 IS 'libellé de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_val3 IS 'valeur de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_attr4 IS 'libellé de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_val4 IS 'valeur de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_attr5 IS 'libellé de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_val5 IS 'valeur de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_attr6 IS 'libellé de l''attribut optionnel 6';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_val6 IS 'valeur de l''attribut optionnel 6';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_attr7 IS 'libellé de l''attribut optionnel 7';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_val7 IS 'valeur de l''attribut optionnel 7';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_attr8 IS 'libellé de l''attribut optionnel 8';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_val8 IS 'valeur de l''attribut optionnel 8';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_attr9 IS 'libellé de l''attribut optionnel 9';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017.lib_val9 IS 'valeur de l''attribut optionnel 9';
+
+
+-- ################################################################################ geo_p_info_lin ##########################################################
+
+-- Table: m_urbanisme_doc.geo_p_info_lin
+
+-- DROP TABLE m_urbanisme_doc.geo_p_info_lin;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017
+(
+  idinf character varying(10) NOT NULL, -- Identifiant unique de l'information surfacique
+  libelle character varying(254) NOT NULL, -- Nom de l'information
+  txt character varying(10), -- Texte étiquette
+  typeinf character varying(2) NOT NULL, -- Type d'information
+  stypeinf character varying(2) NOT NULL, -- Sous type d'information
+  nomfic character varying(80), -- Nom du fichier
+  urlfic character varying(254), -- URL ou URI du fichier
+  idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
+  datvalid character(8), -- Date de validation (aaaammjj)
+  lib_attr1 character varying(20), -- libellé de l'attribut optionnel 1,ici insee
+  lib_val1 character varying(80), -- valeur de l'attribut optionnel 1,ici code insee de la commune
+  lib_attr2 character varying(20), -- libellé de l'attribut optionnel 2
+  lib_val2 character varying(80), -- valeur de l'attribut optionnel 2
+  lib_attr3 character varying(20), -- libellé de l'attribut optionnel 3
+  lib_val3 character varying(80), -- valeur de l'attribut optionnel 3
+  lib_attr4 character varying(20), -- libellé de l'attribut optionnel 4
+  lib_val4 character varying(80), -- valeur de l'attribut optionnel 4
+  lib_attr5 character varying(20), -- libellé de l'attribut optionnel 5
+  lib_val5 character varying(80), -- valeur de l'attribut optionnel 5
+  lib_attr6 character varying(20), -- libellé de l'attribut optionnel 6
+  lib_val6 character varying(80), -- valeur de l'attribut optionnel 6
+  lib_attr7 character varying(20), -- libellé de l'attribut optionnel 7
+  lib_val7 character varying(80), -- valeur de l'attribut optionnel 7
+  lib_attr8 character varying(20), -- libellé de l'attribut optionnel 8
+  lib_val8 character varying(80), -- valeur de l'attribut optionnel 8
+  lib_attr9 character varying(20), -- libellé de l'attribut optionnel 9
+  lib_val9 character varying(80), -- valeur de l'attribut optionnel 9
+  geom geometry(MultiLineString,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_p_info_lin_cnig2017_pkey PRIMARY KEY (idinf)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017
+  IS 'Donnée géographique contenant les informations linéaires des documents d''urbanisme locaux (PLUi, PLU, POS)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.idinf IS 'Identifiant unique de l''information linéaire';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.libelle IS 'Nom de l''information';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.txt IS 'Texte étiquette';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.typeinf IS 'Type d''information';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.stypeinf IS 'Sous type d''information';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.nomfic IS 'Nom du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.urlfic IS 'URL ou URI du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.datvalid IS 'Date de validation (aaaammjj)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_attr1 IS 'libellé de l''attribut optionnel 1,code insee';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_val1 IS 'valeur de l''attribut optionnel 1, code insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_attr2 IS 'libellé de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_val2 IS 'valeur de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_attr3 IS 'libellé de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_val3 IS 'valeur de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_attr4 IS 'libellé de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_val4 IS 'valeur de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_attr5 IS 'libellé de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_val5 IS 'valeur de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_attr6 IS 'libellé de l''attribut optionnel 6';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_val6 IS 'valeur de l''attribut optionnel 6';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_attr7 IS 'libellé de l''attribut optionnel 7';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_val7 IS 'valeur de l''attribut optionnel 7';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_attr8 IS 'libellé de l''attribut optionnel 8';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_val8 IS 'valeur de l''attribut optionnel 8';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_attr9 IS 'libellé de l''attribut optionnel 9';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017.lib_val9 IS 'valeur de l''attribut optionnel 9';
+
+
+-- ################################################################################ geo_p_info_pct ##########################################################
+
+-- Table: m_urbanisme_doc.geo_p_info_pct
+
+-- DROP TABLE m_urbanisme_doc.geo_p_info_pct;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017
+(
+  idinf character varying(10) NOT NULL, -- Identifiant unique de l'information surfacique
+  libelle character varying(254) NOT NULL, -- Nom de l'information
+  txt character varying(10), -- Texte étiquette
+  typeinf character varying(2) NOT NULL, -- Type d'information
+  stypeinf character varying(2) NOT NULL, -- Sous type d'information
+  nomfic character varying(80), -- Nom du fichier
+  urlfic character varying(254), -- URL ou URI du fichier
+  idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
+  datvalid character(8), -- Date de validation (aaaammjj)
+  lib_attr1 character varying(20), -- libellé de l'attribut optionnel 1,ici insee
+  lib_val1 character varying(80), -- valeur de l'attribut optionnel 1,ici code insee de la commune
+  lib_attr2 character varying(20), -- libellé de l'attribut optionnel 2
+  lib_val2 character varying(80), -- valeur de l'attribut optionnel 2
+  lib_attr3 character varying(20), -- libellé de l'attribut optionnel 3
+  lib_val3 character varying(80), -- valeur de l'attribut optionnel 3
+  lib_attr4 character varying(20), -- libellé de l'attribut optionnel 4
+  lib_val4 character varying(80), -- valeur de l'attribut optionnel 4
+  lib_attr5 character varying(20), -- libellé de l'attribut optionnel 5
+  lib_val5 character varying(80), -- valeur de l'attribut optionnel 5
+  lib_attr6 character varying(20), -- libellé de l'attribut optionnel 6
+  lib_val6 character varying(80), -- valeur de l'attribut optionnel 6
+  lib_attr7 character varying(20), -- libellé de l'attribut optionnel 7
+  lib_val7 character varying(80), -- valeur de l'attribut optionnel 7
+  lib_attr8 character varying(20), -- libellé de l'attribut optionnel 8
+  lib_val8 character varying(80), -- valeur de l'attribut optionnel 8
+  lib_attr9 character varying(20), -- libellé de l'attribut optionnel 9
+  lib_val9 character varying(80), -- valeur de l'attribut optionnel 9
+  geom geometry(Multipoint,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_p_info_pct_cnig2017_pkey PRIMARY KEY (idinf)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017
+  IS 'Donnée géographique contenant les informations ponctuelles des documents d''urbanisme locaux (PLUi, PLU, POS)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.idinf IS 'Identifiant unique de l''information ponctuelle';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.libelle IS 'Nom de l''information';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.txt IS 'Texte étiquette';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.typeinf IS 'Type d''information';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.stypeinf IS 'Sous type d''information';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.nomfic IS 'Nom du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.urlfic IS 'URL ou URI du fichier';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.datvalid IS 'Date de validation (aaaammjj)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_attr1 IS 'libellé de l''attribut optionnel 1,code insee';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_val1 IS 'valeur de l''attribut optionnel 1, code insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_attr2 IS 'libellé de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_val2 IS 'valeur de l''attribut optionnel 2';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_attr3 IS 'libellé de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_val3 IS 'valeur de l''attribut optionnel 3';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_attr4 IS 'libellé de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_val4 IS 'valeur de l''attribut optionnel 4';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_attr5 IS 'libellé de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_val5 IS 'valeur de l''attribut optionnel 5';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_attr6 IS 'libellé de l''attribut optionnel 6';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_val6 IS 'valeur de l''attribut optionnel 6';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_attr7 IS 'libellé de l''attribut optionnel 7';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_val7 IS 'valeur de l''attribut optionnel 7';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_attr8 IS 'libellé de l''attribut optionnel 8';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_val8 IS 'valeur de l''attribut optionnel 8';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_attr9 IS 'libellé de l''attribut optionnel 9';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017.lib_val9 IS 'valeur de l''attribut optionnel 9';
+
+
+-- ######################################################################## geo_p_habillage_surf #######################################################
+
+-- Table: m_urbanisme_doc.geo_p_habillage_surf
+
+-- DROP TABLE m_urbanisme_doc.geo_p_habillage_surf;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017
+(
+  idhab character varying(10) NOT NULL, -- Identifiant unique de l'habillage surfacique
+  nattrac character varying(40) NOT NULL, -- Nature du tracé
+  couleur character varying(11), -- Couleur de l'élément graphique, sous forme RVB (255-255-000)
+  idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
+  lib_attr1 character varying(20), -- libellé de l'attribut optionnel 1,ici insee
+  lib_val1 character varying(80), -- valeur de l'attribut optionnel 1,ici code insee de la commune
+  lib_attr2 character varying(20), -- libellé de l'attribut optionnel 2, ici couleur (hexa)
+  lib_val2 character varying(80), -- valeur de l'attribut optionnel 2, ici code couleur (hexa)
+  geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_p_habillage_surf_cnig2017_pkey PRIMARY KEY (idhab)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017
+  IS 'Donnée géographique contenant l''habillage surfacique des documents d''urbanisme locaux (PLUi, PLU, POS)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017.idhab IS 'Identifiant unique de l''habillage surfacique';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017.nattrac IS 'Nature du tracé';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017.couleur IS 'Couleur de l''élément graphique, sous forme RVB (255-255-000)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017.lib_attr1 IS 'libellé de l''attribut optionnel 1,code insee';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017.lib_val1 IS 'valeur de l''attribut optionnel 1, code insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017.lib_attr2 IS 'libellé de l''attribut optionnel 2, ici couleur (hexa)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017.lib_val2 IS 'valeur de l''attribut optionnel 2, ici code couleur (hexa)';
+
+
+-- ######################################################################## geo_p_habillage_lin #######################################################
+
+-- Table: m_urbanisme_doc.geo_p_habillage_lin
+
+-- DROP TABLE m_urbanisme_doc.geo_p_habillage_lin;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017
+(
+  idhab character varying(10) NOT NULL, -- Identifiant unique de l'habillage surfacique
+  nattrac character varying(40) NOT NULL, -- Nature du tracé
+  couleur character varying(11), -- Couleur de l'élément graphique, sous forme RVB (255-255-000)
+  idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
+  lib_attr1 character varying(20), -- libellé de l'attribut optionnel 1,ici insee
+  lib_val1 character varying(80), -- valeur de l'attribut optionnel 1,ici code insee de la commune
+  lib_attr2 character varying(20), -- libellé de l'attribut optionnel 2, ici couleur (hexa)
+  lib_val2 character varying(80), -- valeur de l'attribut optionnel 2, ici code couleur (hexa)
+  geom geometry(MultiLineString,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_p_habillage_lin_cnig2017_pkey PRIMARY KEY (idhab)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017
+  IS 'Donnée géographique contenant l''habillage linéaire des documents d''urbanisme locaux (PLUi, PLU, POS)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017.idhab IS 'Identifiant unique de l''habillage linéaire';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017.nattrac IS 'Nature du tracé';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017.couleur IS 'Couleur de l''élément graphique, sous forme RVB (255-255-000)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017.lib_attr1 IS 'libellé de l''attribut optionnel 1,code insee';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017.lib_val1 IS 'valeur de l''attribut optionnel 1, code insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017.lib_attr2 IS 'libellé de l''attribut optionnel 2, ici couleur (hexa)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017.lib_val2 IS 'valeur de l''attribut optionnel 2, ici code couleur (hexa)';
+
+
+
+-- ######################################################################## geo_p_habillage_pct #######################################################
+
+-- Table: m_urbanisme_doc.geo_p_habillage_pct
+
+-- DROP TABLE m_urbanisme_doc.geo_p_habillage_pct;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017
+(
+  idhab character varying(10) NOT NULL, -- Identifiant unique de l'habillage surfacique
+  nattrac character varying(40) NOT NULL, -- Nature du tracé
+  couleur character varying(11), -- Couleur de l'élément graphique, sous forme RVB (255-255-000)
+  idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
+  lib_attr1 character varying(20), -- libellé de l'attribut optionnel 1,ici insee
+  lib_val1 character varying(80), -- valeur de l'attribut optionnel 1,ici code insee de la commune
+  lib_attr2 character varying(20), -- libellé de l'attribut optionnel 2, ici couleur (hexa)
+  lib_val2 character varying(80), -- valeur de l'attribut optionnel 2, ici code couleur (hexa)
+  geom geometry(MultiLineString,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_p_habillage_pct_cnig2017_pkey PRIMARY KEY (idhab)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017
+  IS 'Donnée géographique contenant l''habillage ponctuel des documents d''urbanisme locaux (PLUi, PLU, POS)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017.idhab IS 'Identifiant unique de l''habillage ponctuel';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017.nattrac IS 'Nature du tracé';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017.couleur IS 'Couleur de l''élément graphique, sous forme RVB (255-255-000)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017.lib_attr1 IS 'libellé de l''attribut optionnel 1,code insee';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017.lib_val1 IS 'valeur de l''attribut optionnel 1, code insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017.lib_attr2 IS 'libellé de l''attribut optionnel 2, ici couleur (hexa)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017.lib_val2 IS 'valeur de l''attribut optionnel 2, ici code couleur (hexa)';
+
+
+-- ######################################################################## geo_p_habillage_txt #######################################################
+
+-- Table: m_urbanisme_doc.geo_p_habillage_txt
+
+-- DROP TABLE m_urbanisme_doc.geo_p_habillage_txt;
+
+CREATE TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017
+(
+  idhab character varying(10) NOT NULL, -- Identifiant unique de l'habillage ponctuel
+  natecr character varying(40) NOT NULL, -- Nature de l'écriture
+  txt character varying(80) NOT NULL, -- Texte de l'écriture
+  police character varying(40), -- Police de l'écriture
+  taille integer, -- Taille de l'écriture
+  style character varying(40), -- Style de l'écriture
+  couleur character varying(11), -- Couleur de l'élément graphique, sous forme RVB (255-255-000)
+  angle integer, -- Angle de l'écriture exprimé en degré, par rapport à l'horizontale, dans le sens trigonométrique
+  idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
+  lib_attr1 character varying(20), -- libellé de l'attribut optionnel 1,ici insee
+  lib_val1 character varying(80), -- valeur de l'attribut optionnel 1,ici code insee de la commune
+  lib_attr2 character varying(20), -- libellé de l'attribut optionnel 2, ici couleur (hexa)
+  lib_val2 character varying(80), -- valeur de l'attribut optionnel 2, ici code couleur (hexa)
+  geom geometry(MultiPoint,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_p_habillage_txt_cnig2017_pkey PRIMARY KEY (idhab)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017 TO postgres;
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Laisser également en commentaire les lignes affectant des droits au groupe_sig si ce groupe n'existe pas dans vos structures et ajouter éventuellement les droits de vos groupes
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017 TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017
+  IS 'Donnée géographique contenant l''habillage textuel des documents d''urbanisme locaux (PLUi, PLU, POS) sous la forme de ponctuels';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.idhab IS 'Identifiant unique de l''habillage ponctuel';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.natecr IS 'Nature de l''écriture';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.txt IS 'Texte de l''écriture';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.police IS 'Police de l''écriture';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.taille IS 'Taille de l''écriture';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.style IS 'Style de l''écriture';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.angle IS 'Angle de l''écriture exprimé en degré, par rapport à l''horizontale, dans le sens trigonométrique';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.lib_attr1 IS 'libellé de l''attribut optionnel 1,code insee';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.lib_val1 IS 'valeur de l''attribut optionnel 1, code insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.lib_attr2 IS 'libellé de l''attribut optionnel 2, ici couleur (hexa)';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017.lib_val2 IS 'valeur de l''attribut optionnel 2, ici code couleur (hexa)';
+
+
+-- ####################################################################################################################################################
+-- ###                                                  	     MODE ARCHIVE                                                                   ###
+-- ####################################################################################################################################################
+
+-- EN ATTENTE CHOIX DE LA GESTION DES CHAMPS OPTIONNELS
+
+
+-- ####################################################################################################################################################
+-- ###                                                 	      MODE TEST (pré-production)                                                            ###
+-- ####################################################################################################################################################
+
+-- EN ATTENTE CHOIX DE LA GESTION DES CHAMPS OPTIONNELS
+
+
+-- ####################################################################################################################################################
+-- ###                                         		  TABLES SPECIFIQUES AU PNR ET OLV                                                          ###
+-- ####################################################################################################################################################
+
+
+-- EN ATTENTE CHOIX DE LA GESTION DES CHAMPS OPTIONNELS
+
+-- ####################################################################################################################################################
+-- ###                                                                                                                                              ###
+-- ###                                                           FKEY (clé étrangère)                                                               ###
+-- ###                                                                                                                                              ###
+-- ####################################################################################################################################################
+
+-- Table: m_urbanisme_doc.an_doc_urba
+
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017
+ADD CONSTRAINT lt_etat_cnig2017_fkey FOREIGN KEY (etat)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017 (code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+ADD CONSTRAINT lt_typedoc_cnig2017_fkey FOREIGN KEY (typedoc)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_typedoc_cnig2017 (code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+ADD CONSTRAINT lt_typeref_cnig2017_fkey FOREIGN KEY (typeref)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_typeref_cnig2017 (code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+ADD CONSTRAINT lt_nomproc_cnig2017_fkey FOREIGN KEY (nomproc)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_nomproc_cnig2017 (code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+-- Table: m_urbanisme_doc.geo_p_zone_urba
+
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017
+ADD CONSTRAINT lt_typezone_cnig2017_fkey FOREIGN KEY (typezone)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_typezone_cnig2017 (code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+ADD CONSTRAINT lt_destdomi_cnig2017_fkey FOREIGN KEY (lib_val3)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_destdomi_cnig2017 (code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+ADD CONSTRAINT lt_typesect_cnig2017_fkey FOREIGN KEY (typesect)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_typesect_cnig2017 (code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+-- Table: m_urbanisme_doc.geo_p_prescription_surf
+
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017
+ADD CONSTRAINT lt_typepsc_surf_cnig2017_fkey FOREIGN KEY (typepsc,stypepsc)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017 (code, sous_code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+-- Table: m_urbanisme_doc.geo_p_prescription_lin
+
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017
+ADD CONSTRAINT lt_typepsc_lin_cnig2017_fkey FOREIGN KEY (typepsc,stypepsc)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017 (code, sous_code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+-- Table: m_urbanisme_doc.geo_p_prescription_pct
+
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017
+ADD CONSTRAINT lt_typepsc_pct_cnig2017_fkey FOREIGN KEY (typepsc,stypepsc)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017 (code, sous_code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+-- Table: m_urbanisme_doc.geo_p_info_surf
+
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017
+ADD CONSTRAINT lt_typeinf_surf_cnig2017_fkey FOREIGN KEY (typeinf,stypeinf)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017 (code, sous_code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+
+-- Table: m_urbanisme_doc.geo_p_info_lin
+
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017
+ADD CONSTRAINT lt_typeinf_lin_cnig2017_fkey FOREIGN KEY (typeinf,stypeinf)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017 (code, sous_code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+-- Table: m_urbanisme_doc.geo_p_info_pct
+
+ALTER TABLE m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017
+ADD CONSTRAINT lt_typeinf_pct_cnig2017_fkey FOREIGN KEY (typeinf,stypeinf)
+      REFERENCES m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017 (code, sous_code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+
+-- EN ATTENTE CHOIX DE LA GESTION DES CHAMPS OPTIONNELS
+
+
+
+-- ####################################################################################################################################################
+-- ###                                                                                                                                              ###
+-- ###                                                           MIGRATION DES DONNEES                                                              ###
+-- ###                                                                                                                                              ###
+-- ####################################################################################################################################################
+
+
+-- COMMENT GB : ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Les requêtes SQL d'intégration des données spécifiques au PNR et OLV n'ont pas été réalisées, à charge de chaque partenaires de les créer :
+-- Pour le PNR et OLV :
+--			. intégrer dans les requêtes existantes pour les tables du modèle (production, archive et test) le champ l_datemaj
+--			. créer les requêtes d'intégration (à partir des exemples ci-dessous) pour les tables spécifiques aux PNR et OLV
+-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-- COMMENT GB : ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Migration de la table an_doc_urba
+-- Prise en compte de l'implémentation de l'idurba
+-- Réaffectation de la codification des versions (ATTENTION : le champ l_version doit-être nettoyée avant la migration pour contenir les valeurs présentes dans ce code, sinon il faut l'adapter
+-- Implémentation du champ urlpe par reconstruction du lien (ATTENTION : modifier l'adresse par chaque organisme pour ces communes)
+-- Formatage de la dateref au 1er janvier de l'année si une année a été renseignée (le modèle contraint un format de date et non-null, le non-null n'a pas été pris en compte dans la table (à l'export il le faudra)
+-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017 (idurba,typedoc,etat,nomproc,l_nomprocn,datappro,datefin,siren,nomreg,urlreg,nomplan,urlplan,urlpe,siteweb,typeref,dateref,l_moa_proc,l_moe_proc,l_moa_dmat,l_moe_dmat,l_observ,l_parent) 
+SELECT
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- recomposition du champ idurba
+left(idurba,5) || '_' || typedoc || '_' || CASE WHEN (datappro is not null or datappro <> '' ) THEN right(datappro,8) ELSE '999999' END as idurba,
+typedoc,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- gestion de l'état 09:caduc 
+-- spécifique ARC ==> pour la migration intégration du mot caduc pour les procédures concernées dans la champ l_observ de la table an_doc_urba avant la migration.
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CASE WHEN l_observ like '%caduc%' THEN '09' ELSE etat END as etat,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- réaffectation des noms de procédures selon la nouvelle codification (pour la migration harmoniser à la main le champ l_version et modifier le code ci-dessous au besoin)
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CASE 
+	WHEN l_version = 'Commune soumise au RNU' THEN 'RNU'
+	WHEN l_version = 'élaboration'  THEN 'E'
+	WHEN l_version like 'mise à jour%'  THEN 'MJ'
+	WHEN l_version like 'mise en compatibilité%'  THEN 'MC'
+	WHEN l_version like 'modification simplifiée%'  THEN 'MS'
+	WHEN l_version like 'modification n°%' THEN 'M'
+	WHEN l_version like 'révision%'  THEN 'R'
+	WHEN l_version like 'révision simplifiée%'  THEN 'RS'
+        WHEN l_version = 'abrogé'  THEN 'A'
+ELSE l_version
+END AS nomproc,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- récupération du numéro d'ordre de la procédure (pour la migration harmoniser à la main le champ l_version et modifier le code ci-dessous au besoin)
+-- adapter les numéros en fonction des cas des chaque partenaire (ici prévu 10 procédures).A l'ARC relevé jusqu'à 8 n° d'ordre pour une même procédure.
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CASE 
+	WHEN l_version like '%n°1'  THEN 1
+	WHEN l_version like '%n°2'  THEN 2
+	WHEN l_version like '%n°3'  THEN 3
+	WHEN l_version like '%n°4'  THEN 4
+	WHEN l_version like '%n°5'  THEN 5
+	WHEN l_version like '%n°6'  THEN 6
+	WHEN l_version like '%n°7'  THEN 7
+        WHEN l_version like '%n°8'  THEN 8
+	WHEN l_version like '%n°9'  THEN 9
+        WHEN l_version like '%n°10'  THEN 10
+ELSE null
+END AS l_nomprocn,
+datappro,
+datefin,
+siren,
+nomreg,
+urlreg,
+nomplan,
+urlplan,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- pour les documents (hors RNU) implémentation du champ urlpe avec le lien interne de téléchargement de chaque organisme (à modifier selon les cas)
+CASE WHEN l_version <> 'Commune soumise au RNU' and (nomreg is not null or nomreg <> '') THEN
+'http://geo.compiegnois.fr/documents/metiers/urba/docurba/' || left(idurba,5) || '_' || typedoc || '_' || right(datappro,8) || '.zip'
+ELSE null END as urlpe,
+siteweb,
+typeref,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- affectation d'une date cohérente sur 8 caractères pour le référentiel si la date est saisie sur 4 caractères (à adapter éventuellement par les partenaires)
+CASE 
+	WHEN (dateref is not null or dateref <> '') and (length(dateref) = 4) THEN dateref || '0101'
+ELSE dateref
+END AS dateref,
+l_moa_proc,
+l_moe_proc,
+l_moa_dmat,
+l_moe_dmat,
+l_observ,
+l_parent
+FROM m_urbanisme_doc.an_doc_urba;
+
+
+-- COMMENT GB : ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Migration de la table an_doc_urba_com
+-- Prise en compte de l'implémentation de l'idurba
+-- Suppression du champ l_secteur
+-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.an_doc_urba_com_cnig2017 (idurba,insee) 
+SELECT
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- recomposition du champ idurba
+left(idurba,5) || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where a.idurba = an_doc_urba_com.idurba) || '_' || right(idurba,8) as idurba,
+insee
+FROM m_urbanisme_doc.an_doc_urba_com;
+
+
+-- COMMENT GB : ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Migration de la table geo_p_zone_urba
+-- Prise en compte de l'implémentation de l'idurba
+-- Intégration du changement de codification des types de zone pour les secteur s Nh, Nd et Ah en N et A
+-- Mise en champ libre des champs (Insee, destdomi)
+-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017 (idzone,libelle,libelong,typezone,nomfic,urlfic,idurba,datvalid,typesect,fermreco,lib_attr1,lib_val1,lib_attr2,lib_val2,lib_attr3,lib_val3,lib_attr4,lib_val4,
+	    lib_attr5,lib_val5,lib_attr6,lib_val6,geom)
+SELECT 
+idzone,
+libelle,
+libelong,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- réaffectation des valeurs de typezone
+CASE
+	WHEN (typezone = 'Nh' or typezone='Nd') THEN 'N'
+	WHEN typezone = 'Ah' THEN 'A'
+ELSE
+	typezone
+END as typezone,
+nomfic,
+urlfic,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- recomposition du champ idurba
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_zone_urba.insee || geo_p_zone_urba.datappro ) || '_' || datappro as idurba,
+datvalid,
+typesect,
+CASE WHEN fermreco = false THEN 'non'::character varying ELSE 'oui'::character varying END fermreco,
+'Règlement zone'::character varying,
+''::character varying,
+'Url règlement zone'::character varying,
+''::character varying,
+'Destination'::character varying,
+destdomi,
+'Insee'::character varying,
+insee,
+'Surface (ha)'::character varying,
+l_surf_cal,
+'Observation(s)'::character varying,
+l_observ,
+geom
+FROM m_urbanisme_doc.geo_p_zone_urba;
+
+
+-- COMMENT GB : --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Migration de la table geo_p_prescription_surf
+-- Prise en compte de l'implémentation de l'idurba
+-- Mise en champ libre du champ (Insee)
+-- Migration des anciens vers les nouveaux codes et sous-code des prescriptions (ATTENTION : la grille de correspondance intégrée ici correspond au cas présent dans les données de l'ARC. Chaque organisme doit adapté
+-- cette grille en fonction des cas supplémentaires présents dans ces données
+-- Le champ geom1 est spécifique à l'ARC, il peut-être mise en commentaire pour les autres organismes ou supprimé
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017 (idpsc,libelle,txt,typepsc,stypepsc,nomfic,urlfic,idurba,datvalid,
+	    lib_attr1,lib_val1,lib_attr2,lib_val2,lib_attr3,lib_val3,lib_attr4,lib_val4,lib_attr5,lib_val5,lib_attr6,lib_val6
+	    ,geom,geom1)
+SELECT 
+idpsc,
+libelle,
+txt,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- migration des types de spécifications qui ont évolué (ATTENTION : a adapté ici par chaque organisme selon ces données)
+CASE
+	WHEN typepsc = '09' THEN '05'
+	WHEN typepsc = '11' THEN '15'
+	WHEN typepsc = '12' THEN '05' 
+	WHEN typepsc = '21' THEN '05'
+ELSE
+typepsc END  as typepsc,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- migration des sous-codes de spécifications qui ont évolué (ATTENTION : a adapté ici par chaque organisme selon ces données)
+CASE
+	WHEN l_typepsc2 = '01-03' THEN '00'
+	WHEN typepsc = '02' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN l_typepsc2 = '05-02' THEN '01'
+	WHEN l_typepsc2 = '05-06' THEN '04'
+	WHEN l_typepsc2 = '05-03' THEN '02'
+	WHEN l_typepsc2 = '05-01' THEN '04'
+	WHEN l_typepsc2 = '05-04' THEN '01'
+        WHEN typepsc = '05' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN typepsc = '25' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN l_typepsc2 = '05-05' THEN '01'
+	WHEN l_typepsc2 = '07-08' THEN '02'
+	WHEN l_typepsc2 = '07-04' THEN '03'
+	WHEN l_typepsc2 = '07-05' THEN '01'
+	WHEN l_typepsc2 = '07-07' THEN '01'
+	WHEN l_typepsc2 = '07-02' THEN '01'
+        WHEN typepsc = '07' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+        WHEN typepsc = '08' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+        WHEN typepsc = '09' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '05'
+        WHEN l_typepsc2 = '11-05' THEN '00'
+        WHEN l_typepsc2 = '11-06' THEN '00'
+        WHEN l_typepsc2 = '11-04' THEN '00'
+        WHEN l_typepsc2 = '11-01' THEN '01'
+        WHEN typepsc = '12' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '07'
+	WHEN typepsc = '15' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '01'
+	WHEN typepsc = '16' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '01'
+	WHEN typepsc = '17' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN typepsc = '18' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN typepsc = '21' THEN '06'
+	WHEN l_typepsc2 = '24-01' THEN '01'
+	WHEN typepsc = '25' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN typepsc = '99' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+ END as stypepsc,
+nomfic,
+urlfic,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- recomposition du champ idurba
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_prescription_surf.insee || geo_p_prescription_surf.datappro ) || '_' || datappro as idurba,
+datvalid,
+'Insee',
+insee,
+CASE 
+     WHEN typepsc='05' THEN 'Nature' 
+     WHEN typepsc='07' and (l_nature is not null or l_nature <> '')  THEN 'Nature'
+     WHEN typepsc='15' THEN 'Nom'
+     WHEN typepsc='18' THEN 'Nom'
+ELSE
+     null
+END,
+CASE 
+     WHEN typepsc='05' THEN l_nature 
+     WHEN typepsc='07' THEN l_nature
+     WHEN typepsc='15' THEN l_nom
+     WHEN typepsc='18' THEN l_nom
+ELSE
+     null
+END,
+
+CASE 
+     WHEN typepsc='05' THEN 'Bénéficiaire' 
+     WHEN typepsc='07' and (l_numero is not null or l_numero <> '') THEN 'Numéro'
+     WHEN typepsc='15' THEN 'Nature'
+     WHEN typepsc='18' AND (l_gen is not null or l_gen <> '') THEN 'Générateur du recul'
+ELSE
+     null
+END,
+CASE 
+     WHEN typepsc='05' THEN l_bnfcr 
+     WHEN typepsc='07' THEN l_numero
+     WHEN typepsc='15' THEN l_nature
+     WHEN typepsc='18' THEN l_gen
+ELSE
+     null
+END,
+CASE 
+     WHEN typepsc='05' THEN 'Numéro' 
+     WHEN typepsc='15' THEN 'Numéro'
+     WHEN typepsc='18' AND (l_valrecul is not null or l_valrecul <> '') THEN 'Valeur du recul'
+ELSE
+     null
+END,
+CASE 
+     WHEN typepsc='05' THEN l_numero
+     WHEN typepsc='15' THEN l_numero
+     WHEN typepsc='18' THEN l_valrecul
+ELSE
+     null
+END,
+
+CASE 
+     WHEN typepsc='05' THEN 'Surface' 
+     WHEN typepsc='18' AND (l_typrecul is not null or l_typrecul <> '') THEN 'Type du recul'
+ELSE
+     null
+END,
+CASE 
+     WHEN typepsc='05' THEN l_surf_txt
+     WHEN typepsc='18' THEN l_typrecul
+ELSE
+     null
+END,
+CASE 
+     WHEN typepsc='18' AND (l_observ is not null or l_observ <> '') THEN 'Observations'
+ELSE
+     null
+END,
+CASE 
+     WHEN typepsc='18' THEN l_observ
+ELSE
+     null
+END,
+geom,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- A mettre en commentaire ou à supprimer pour les partenaires si n'utilisent pas cet attribut spécifique à l'ARC
+geom1
+FROM m_urbanisme_doc.geo_p_prescription_surf;
+
+-- ####################################################################################################################################################
+-- ###                                                                                                                                              ###
+-- ###                                                                      RENOMMAGE                                                               ###
+-- ###                                                                                                                                              ###
+-- ####################################################################################################################################################
+
+
+
+-- COMMENT GB : ---------------------------------------------------------------------------------------------------------------------------------------
+-- RENNOMAGE DES NOUVELLES TABLES _CNIG2017 sans le suffixe (hors table spécifique PNR-OLV)
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.an_doc_urba_cnig2017 rename to an_doc_urba;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.an_doc_urba_com_cnig2017 rename to an_doc_urba_com;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_habillage_lin_cnig2017 rename to geo_p_habillage_lin;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_habillage_pct_cnig2017 rename to geo_p_habillage_pct;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_habillage_surf_cnig2017 rename to geo_p_habillage_surf;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_habillage_txt_cnig2017 rename to geo_p_habillage_txt;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_info_lin_cnig2017 rename to geo_p_info_lin;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_info_pct_cnig2017 rename to geo_p_info_pct;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_info_surf_cnig2017 rename to geo_p_info_surf;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_prescription_lin_cnig2017 rename to geo_p_prescription_lin;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_prescription_pct_cnig2017 rename to geo_p_prescription_pct;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_prescription_surf_cnig2017 rename to geo_p_prescription_surf;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.geo_p_zone_urba_cnig2017 rename to geo_p_zone_urba;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_destdomi_cnig2017 rename to lt_destdomi;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_etat_cnig2017 rename to lt_etat;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_libsect_cnig2017 rename to lt_libsect;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typedoc_cnig2017 rename to lt_typedoc;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typeinf_cnig2017 rename to lt_typeinf;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typepsc_cnig2017 rename to lt_typepsc;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typeref_cnig2017 rename to lt_typeref;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typesect_cnig2017 rename to lt_typesect;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_typezone_cnig2017 rename to lt_typezone;
+ALTER TABLE IF EXISTS m_urbanisme_doc_cnig2017_v2.lt_nomproc_cnig2017 rename to lt_nomproc;
+
+
+
+
+-- COMMENT GB : --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- FIN DE LA TRANSACTION : si tu s'est bien passé, l'ensemble des requêtes sont écrites en base, si non  message d'erreur pour indiquer le problème mais rien ne s'est exécutée en base. ATTENTION : pour relancer
+-- le script il faut faire un rollback (bouton en haut à droite à côté du ? pour les intégration via la fenêtre SQL de PGAdmin)
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+COMMIT;
+
+
+
