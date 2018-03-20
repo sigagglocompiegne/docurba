@@ -5,4 +5,4 @@ le projet contient :
 * script de migration des données cnig2014>cnig2017 avec conservation des champs optionnels cnig2014 `sql\mig_bd_docurba.sql`
 * script de test pour la gestion des champs optionnels cnig2017 `sql\mig_bd_docurba_cmplt` 
 
-test
+test2
