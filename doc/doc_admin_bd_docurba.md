@@ -1497,7 +1497,7 @@ L'ensemble des fichiers a utilisé est placé ici `Y:\Ressources\4-Partage\3-Pro
 
 Une série de traitement a été mis en place pour gérer l'ensemble des cas généré par une procédure de mise à jour des données.
 
-### Intégration d'une procédure nouvellement approuvée `00_PLU_integration_finale_executoire.fmw`
+**Intégration d'une procédure nouvellement approuvée** `00_PLU_integration_finale_executoire.fmw`
  
 Ce traitement fait appel à des traitements secondaires :
    - `\bloc\01_PLU_Prod_à_Archi_sup_Prod_executoire.fmw` : les données des tables de production `geo_p_` sont intégrées dans les tables d' archives `geo_a_` puis supprimées des tables de production `geo_p_`
@@ -1505,20 +1505,20 @@ Ce traitement fait appel à des traitements secondaires :
    - `\bloc\05_PLU_Export_Format_CNIG.fmw` : les données sont exportées au format CNIG correspondant ici `Y:\fichiers_ref\metiers\urba\docurba`
    - à la fin du traitement les vues matérialisées applicatives, dans le schéma x_apps, concernées sont mises à jour (xapps_an_vmr_p_information, xapps_an_vmr_p_information_dpu, xapps_an_vmr_p_prescription, xapps_geo_vmr_p_zone_urba, xapps_an_vmr_parcelle_plu)
    
-### Récupération d'une procédure annulée `02_PLU_recuperation_annulation.fmw`
+**Récupération d'une procédure annulée** `02_PLU_recuperation_annulation.fmw`
 
 Ce traitement fait appel à des traitements secondaires :
    - `\bloc\03_PLU_Prod_à_Archi_sup_Prod_annulation.fmw` : les données des tables de production `geo_p_` sont intégrées dans les tables d'archives `geo_a_` puis supprimées des tables de production `geo_p_`
    - `\bloc\04_PLU_Archi_à_Prod_sup_Archi_annulation.fmw` : les données des tables d'archives `geo_a_` sont intégrées dans les tables de production `geo_p_` puis supprimées des tables d'archive `geo_a_`
    - à la fin du traitement les vues matérialisées applicatives, dans le schéma x_apps, concernées sont mises à jour (xapps_an_vmr_p_information, xapps_an_vmr_p_information_dpu, xapps_an_vmr_p_prescription, xapps_geo_vmr_p_zone_urba, xapps_an_vmr_parcelle_plu)
    
-### Intégration de données reçues par un bureau d'étude `03_PLU_integration_BE_shape_test.fmw`
+**Intégration de données reçues par un bureau d'étude** `03_PLU_integration_BE_shape_test.fmw`
 
 Les données reçues d'un bureau d'étude doivent être vérifier au préalable dans QGIS avant intégration dans les données de pré-production `geo_t_` via ce traitement. Une fois la vérification et les corrections réalisées, le traitement d'intégration d'une procédure approuvée peut-être lancé.
 
-### Préparation d'une nouvelle procédure à partir des données des tables production `geo_p_`(pour les procédures gérées en interne) `011_PLU_Prod_à_Test_pour_modification.fmw`
+**Préparation d'une nouvelle procédure à partir des données des tables production** `geo_p_`(pour les procédures gérées en interne) `011_PLU_Prod_à_Test_pour_modification.fmw`
 
-### Préparation d'une nouvelle procédure à partir des données des tables d'archive `geo_a_`(pour les procédures gérées en interne) `012_PLU_Archi_à_test_pour_modification.fmw`
+**Préparation d'une nouvelle procédure à partir des données des tables d'archive** `geo_a_`(pour les procédures gérées en interne) `012_PLU_Archi_à_test_pour_modification.fmw`
 
 
 ## Export Open Data
