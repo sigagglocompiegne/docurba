@@ -25,7 +25,11 @@ L'ensemble des classes d'objets de gestion sont stockés dans le schéma m_urban
    
 |Nom attribut | Définition | Type | Valeurs par défaut |
 |:---|:---|:---|:---|
-
+|insee|Code INSEE|character(5)| |
+|docurba|Présence d'un document d'urbanisme (PLUi,PLU,POS,CC)|boolean| |
+|ads_arc|Gestion de l'ADS par l'ARC|boolean| |
+|l_rev|Information sur la révision en cours ou non du document d'urbanisme|character varying(30)| |
+|l_daterev|Date de prescripiton de la révision|timestamp without time zone| |
 
 Particularité(s) à noter :
 * Une clé primaire existe sur le champ insee
@@ -35,12 +39,35 @@ Particularité(s) à noter :
    
 |Nom attribut | Définition | Type | Valeurs par défaut |
 |:---|:---|:---|:---|
-
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|typedoc|Type du document concerné|character varying(4)| |
+|etat|Etat juridique du document|character varying(2)| |
+|nomproc|Codage de la version du document concerné|character varying(10)| |
+|l_nomprocn|N° d'ordre de la procédure|integer| |
+|datappro|Date d'approbation|character varying(8)| |
+|datefin|date de fin de validité|character varying(8)| |
+|siren|Code SIREN de l'intercommunalité|character varying(9)| |
+|nomreg|Nom du fichier de règlement|character varying(80)| |
+|urlreg|URL ou URI du fichier du règlement|character varying(254)| |
+|nomplan|Nom du fichier du plan scanné|character varying(80)| |
+|urlplan|URL ou URI du fichier du plan scanné|character varying(254)| |
+|urlpe|Lien d'accès à l'archive zip comprenant l'ensemble des pièces écrites|character varying(254)| |
+|siteweb|Site web du service d'accès|character varying(254)| |
+|typeref|Type de référentiel utilisé|character varying(2)| |
+|dateref|Date du référentiel de saisie|character varying(8)| |
+|l_moa_proc|Maitre d'ouvrage de la procédure|character varying(80)| |
+|l_moe_proc|Maitre d'oeuvre de la procédure|character varying(80)| |
+|l_moa_dmat|Maitre d'ouvrage de la dématérialisation|character varying(80)| |
+|l_moe_dmat|Maitre d'oeuvre de la dématérialisation|character varying(80)| |
+|l_observ|Observations|character varying(254)| |
+|l_parent|Identification des documents parents pour recherche des historiques entre version de documents (1 pour le premier document (élaboration, modif, mise à jour), 2 pour la révision (révision n°1, modif, mise à jour), 3 pour le 2nd révision, ...|integer||
 
 Particularité(s) à noter :
-* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation d'un numéro automatique ``an_euep_cc_media_gid_seq``
-* Une clé étrangère exsiste sur la table de valeur `lt_euep_doc`
-
+* Une clé primaire existe sur le champ idurba
+* Une clé étrangère exsiste sur la table de valeur `lt_etat`
+* Une clé étrangère exsiste sur la table de valeur `lt_nomproc`
+* Une clé étrangère exsiste sur la table de valeur `lt_typedoc`
+* Une clé étrangère exsiste sur la table de valeur `lt_typeref`
 ---
 
 `log_an_euep_cc` : table de logs permettant de suivre l'ensemble des transactions sur la table an_euep_cc (insert, update). Un contrôle ne peut pas être supprimé, la transaction delele n'est donc pas gérée dans ce cas.
