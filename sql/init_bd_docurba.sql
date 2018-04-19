@@ -6,7 +6,8 @@
 --		GB / Toutes les données spécifiques au PNR et OLV doivent être traitée par les pertenaires concernés et intégrés dans ce fichier puis communiqués à l'ensemble des parties dans une version 2
 
 --		GB / ATTENTION : ce fichier correspond au squellette de la base de données. il a pour objectif de suivre les évolutions structurelles du modèle. Il ne doit pas être utilisé pour une migration.
---
+-- 2018/04/19 : GB / ATTENTION : ce code contient également la table geo_p_zone_pau intégrant les données des Parties Actuellement Urbanisées utilisées pour les communes en RNU (cette table ne fait pas partie du Standard CNIG)
+--              GB / Ce code d'initialisation contient également la table an_ads_commune pour l'information des communes gérée par le droit des sols (cette table ne fait pas partie du Standard CNIG)
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -2578,6 +2579,158 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_t_habillage_txt.idurba IS 'Identifiant du 
 COMMENT ON COLUMN m_urbanisme_doc.geo_t_habillage_txt.couleur IS 'Couleur de l''élément graphique, sous forme RVB (255-255-000)';
 COMMENT ON COLUMN m_urbanisme_doc.geo_t_habillage_txt.l_couleur IS 'Couleur de l''élément graphique, sous forme HEXA (#000000)';
 
+
+-- ####################################################################################################################################################
+-- ###                                                                                                                                              ###
+-- ###                                       TABLES METIERS DOCUMENTS D'URBANISME (hors standard CNIG spécifique ARC)                               ###
+-- ###                                                                                                                                              ###
+-- ####################################################################################################################################################
+
+-- ######################################################################## an_ads_commune #######################################################
+
+-- Table: m_urbanisme_doc.an_ads_commune
+
+-- DROP TABLE m_urbanisme_doc.an_ads_commune;
+
+CREATE TABLE m_urbanisme_doc.an_ads_commune
+(
+  insee character(5) NOT NULL, -- Code INSEE
+  docurba boolean, -- Présence d'un document d'urbanisme (PLUi,PLU,POS,CC)
+  ads_arc boolean, -- Gestion de l'ADS par l'ARC
+  l_rev character varying(30), -- Information sur la révision en cours ou non du document d'urbanisme
+  l_daterev timestamp without time zone, -- Date de prescripiton de la révision
+  CONSTRAINT an_doc_commune_pkey PRIMARY KEY (insee)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc.an_ads_commune
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc.an_ads_commune TO groupe_sig WITH GRANT OPTION;
+GRANT ALL ON TABLE m_urbanisme_doc.an_ads_commune TO postgres;
+GRANT SELECT ON TABLE m_urbanisme_doc.an_ads_commune TO groupe_sig_stage WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc.an_ads_commune
+  IS 'Donnée source sur l''état de l''ADS ARC sur les communes';
+COMMENT ON COLUMN m_urbanisme_doc.an_ads_commune.insee IS 'Code INSEE';
+COMMENT ON COLUMN m_urbanisme_doc.an_ads_commune.docurba IS 'Présence d''un document d''urbanisme (PLUi,PLU,POS,CC)';
+COMMENT ON COLUMN m_urbanisme_doc.an_ads_commune.ads_arc IS 'Gestion de l''ADS par l''ARC';
+COMMENT ON COLUMN m_urbanisme_doc.an_ads_commune.l_rev IS 'Information sur la révision en cours ou non du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc.an_ads_commune.l_daterev IS 'Date de prescripiton de la révision';
+
+
+
+-- ######################################################################## geo_p_zone_pau #######################################################
+
+-- Sequence: m_urbanisme_doc.idpau_seq
+
+-- DROP SEQUENCE m_urbanisme_doc.idpau_seq;
+
+CREATE SEQUENCE m_urbanisme_doc.idpau_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 99999999999999999
+  START 1
+  CACHE 1;
+ALTER TABLE m_urbanisme_doc.idpau_seq
+  OWNER TO postgres;
+GRANT ALL ON SEQUENCE m_urbanisme_doc.idpau_seq TO postgres;
+GRANT USAGE ON SEQUENCE m_urbanisme_doc.idpau_seq TO groupe_sig;
+
+
+-- Table: m_urbanisme_doc.geo_p_zone_pau
+
+-- DROP TABLE m_urbanisme_doc.geo_p_zone_pau;
+
+CREATE TABLE m_urbanisme_doc.geo_p_zone_pau
+(
+  idpau integer NOT NULL DEFAULT nextval('m_urbanisme_doc.idpau_seq'::regclass), -- Identifiant géographique
+  date_sai timestamp without time zone, -- Date de saisie des données
+  date_maj timestamp without time zone, -- Date de mise à jour
+  op_sai character varying(50), -- Opérateur de saisie
+  org_sai character varying(100), -- Organisme de saisie
+  insee character varying(5), -- Code Insee de la commune
+  commune character varying(100), -- Libellé de la commune
+  src_geom character varying(2) DEFAULT '00'::character varying, -- Référentiel spatila utilisé pour la saisie
+  sup_m2 double precision, -- Surface brute de l'objet en m²
+  l_type character varying(50), -- Type de bâti intégré à la PAU
+  l_statut boolean DEFAULT true, -- Prise en compte de la PAU (oui : en RNU, non : documents d'urbaniusme en vigieur)
+  geom geometry(MultiPolygon,2154), -- Champ contenant la géométrie des objets
+  CONSTRAINT geo_p_zone_pau_pkey PRIMARY KEY (idpau),
+  CONSTRAINT geo_p_zone_pau_srcgeom_fkey FOREIGN KEY (src_geom)
+      REFERENCES r_objet.lt_src_geom (code) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc.geo_p_zone_pau
+  OWNER TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc.geo_p_zone_pau TO postgres;
+GRANT ALL ON TABLE m_urbanisme_doc.geo_p_zone_pau TO groupe_sig WITH GRANT OPTION;
+COMMENT ON TABLE m_urbanisme_doc.geo_p_zone_pau
+  IS 'Table géométriquer contenant la délimitation des PAU (partie à urbaniser) dans le cadre d''une commune en RNU';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.idpau IS 'Identifiant géographique';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.date_sai IS 'Date de saisie des données';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.date_maj IS 'Date de mise à jour';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.op_sai IS 'Opérateur de saisie';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.org_sai IS 'Organisme de saisie';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.insee IS 'Code Insee de la commune';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.commune IS 'Libellé de la commune';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.src_geom IS 'Référentiel spatila utilisé pour la saisie';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.sup_m2 IS 'Surface brute de l''objet en m²';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.l_type IS 'Type de bâti intégré à la PAU';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.l_statut IS 'Prise en compte de la PAU (oui : en RNU, non : documents d''urbaniusme en vigieur)';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_zone_pau.geom IS 'Champ contenant la géométrie des objets';
+
+-- Index: m_urbanisme_doc.geo_p_zone_pau_geom_idx
+
+-- DROP INDEX m_urbanisme_doc.geo_p_zone_pau_geom_idx;
+
+CREATE INDEX geo_p_zone_pau_geom_idx
+  ON m_urbanisme_doc.geo_p_zone_pau
+  USING gist
+  (geom);
+
+
+-- Trigger: t_t1_pau_inseecommune on m_urbanisme_doc.geo_p_zone_pau
+
+-- DROP TRIGGER t_t1_pau_inseecommune ON m_urbanisme_doc.geo_p_zone_pau;
+
+CREATE TRIGGER t_t1_pau_inseecommune
+  BEFORE INSERT
+  ON m_urbanisme_doc.geo_p_zone_pau
+  FOR EACH ROW
+  EXECUTE PROCEDURE public.r_commune_s();
+
+-- Trigger: t_t2_pau_insert_date_sai on m_urbanisme_doc.geo_p_zone_pau
+
+-- DROP TRIGGER t_t2_pau_insert_date_sai ON m_urbanisme_doc.geo_p_zone_pau;
+
+CREATE TRIGGER t_t2_pau_insert_date_sai
+  BEFORE INSERT
+  ON m_urbanisme_doc.geo_p_zone_pau
+  FOR EACH ROW
+  EXECUTE PROCEDURE public.r_timestamp_sai();
+
+-- Trigger: t_t3_pau_update_date_maj on m_urbanisme_doc.geo_p_zone_pau
+
+-- DROP TRIGGER t_t3_pau_update_date_maj ON m_urbanisme_doc.geo_p_zone_pau;
+
+CREATE TRIGGER t_t3_pau_update_date_maj
+  BEFORE UPDATE
+  ON m_urbanisme_doc.geo_p_zone_pau
+  FOR EACH ROW
+  EXECUTE PROCEDURE public.r_timestamp_maj();
+
+-- Trigger: t_t4_pau_surface on m_urbanisme_doc.geo_p_zone_pau
+
+-- DROP TRIGGER t_t4_pau_surface ON m_urbanisme_doc.geo_p_zone_pau;
+
+CREATE TRIGGER t_t4_pau_surface
+  BEFORE INSERT OR UPDATE
+  ON m_urbanisme_doc.geo_p_zone_pau
+  FOR EACH ROW
+  EXECUTE PROCEDURE public.r_sup_m2_maj();
 
 
 -- ####################################################################################################################################################
