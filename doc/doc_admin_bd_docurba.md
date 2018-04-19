@@ -10,17 +10,9 @@
  * **résumé fonctionnel** :
  le fonctionnement de la base de données répond à la norme CNIG à la fois sur les attributs et les primitives géographiques (se référer au standard http://cnig.gouv.fr/?page_id=2732). Le système de versionnement repose sur une partie production (qui contient l'ensemble des procédures en vigueur), une partie archive (qui contient l'ensemble des procédures annulée,remplacée,abrogée,...) et une partie test (qui contient l'ensemble des documents en cours de création ou de modification). Le basculement des données entre les diverses parties s'effectuent via des Workflow de l'ETL FME.
 
-## Dépendances
+## Dépendances (non critiques)
 
-La base de données des documents d'urbanisme s'appui sur des référentiels préexistants uniquement pour les vues applicatives constituant autant de dépendances nécessaires pour l'implémentatation de cette base.
-
-|Schéma | Table/Vue | Description | Usage |
-|:---|:---|:---|:---|
-|r_osm | geo_osm_commune | donnée de référence géographique du découpage communal OSM | nom de la commune, jointure avec m_urbanisme_doc.an_doc_urba sur insee = (substring(an_doc_urba.idurba::text, 1, 5))|
-|r_osm | geo_vm_osm_epci | donnée de référence géographique du découpage epci OSM | sélection par intersection de géométrie (geom) des communes dans son EPCI|
-|r_administratif | an_geo | donnée de référence alphanumérique des communes (Insee) | nom de la commune, jointure avec r_osm.geo_osm_commune sur insee pour une sélection via le code EPCI contenu dans la table an_geo|
-|r_osm | geo_v_osm_commune_apc | donnée de référence géographique du découpage communal OSM | nom de l'EPCI, jointure avec m_urbanisme_doc_cnig.an_ads_commune sur insee |
-|PARCELLE | r_bg_edigeo | donnée de référence géographique des parcelles cadastrales | intersection avec les informations ponctuelles (geom) |
+La base de données des documents d'urbanisme s'appui sur des référentiels préexistants uniquement pour les vues applicatives constituant autant de dépendances nécessaires pour l'implémentatation des vues de cette base. Il n'y a donc pas de dépendances critiques pour la gestion des données des documents d'urbanisme.
 
 
 ## Classes d'objets
@@ -29,109 +21,21 @@ L'ensemble des classes d'objets de gestion sont stockés dans le schéma m_urban
 
  ### classes d'objets de gestion :
   
-   `an_euep_cc` : table des attributs métiers permettant de gérer l'ensemble des éléments d'un contrôle de conformité.
+   `an_ads_commune` : table des attributs sur l'état de l'ADS ARC sur les communes.
    
 |Nom attribut | Définition | Type | Valeurs par défaut |
 |:---|:---|:---|:---|
-|idcc|Identifiant interne unique du contrôle|integer|nextval('m_reseau_humide.an_euep_cc_idcc_seq'::regclass)|
-|id_adresse|Identifiant unique de l'objet point adresse (issu de la BAL)|bigint| |
-|ccvalid|validation par l'ARC du contrôle (la valeur true empêche la modification des données|boolean|false|
-|ccinit|information sur le fait que ce contrôle soit le contrôle initial dans le cas de contrôle supplémentaire suite à une non conformité|boolean|false|
-|adapt|Complément de l'adresse avec le n° d'appartement dans le cadre d'un immeuble collectif|character varying(20)| |
-|adeta|Etage|integer| |
-|tnidcc|Type de dossier pour lacréation d'un nouveau contrôle (clé étrangère sur la liste de valeur lt_euep_cc_tnidcc)|character varying(2)| |
-|nidcc|N° de dossier du contrôle (ce numéro suit pour une vérification en cas de non conformité)|character varying(20)| |
-|rcc|Résultat du contrôle (true : conforme, false : non conforme)|character varying(3)| |
-|ccdate|Date du contrôle|timestamp without time zone| |
-|ccdated|Date de délivrance du contrôle|timestamp without time zone| |
-|ccbien|Code du type de bien contrôlé (neuf ou ancien) (clé étrangère sur la liste de valeur lt_euep_cc_bien)|character varying(2)|'00'::character varying|
-|certtype|Code de l'organisme certificateur agréé (clé étrangère sur la liste de valeur lt_euep_cc_certificateur)|integer| |
-|certnom|Nom de la personne appartenant à l'organisme certificateur agréé qui a fait le contrôle|character varying(80)| |
-|certpre|Prénom de la personne appartenant à l'organisme certificateur agréé qui a fait le contrôle|character varying(80)| |
-|propriopat|Patronyme du propriétaire (clé étrangère sur la liste de valeur lt_euep_cc_pat)|character varying(2)|'00'::character varying|
-|propriopatp|Patronyme du propriétaire (précision si autre renseigné dans propriopat)|character varying(50)| |
-|proprionom|Nom de la personne désignant le propriétaire|character varying(80)| |
-|propriopre|Prénom de la personne désignant le propriétaire|character varying(80)| |
-|proprioad|Adresse de la personne désignant le propriétaire|character varying(254)| |
-|dotype|Code de la qualité du donneur d'ordre (clé étrangère sur la liste de valeur lt_euep_cc_ordre)|character varying(2)|'00'::character varying|
-|doaut|Autre donneur d'ordre si pas présent dans dotype|character varying(80)| |
-|donom|Nom de la personne désignant le donneur d'ordre|character varying(80)| |
-|dopre|Prénom de la personne désignant le donneur d'ordre|character varying(80)| |
-|doad|Adresse de la personne désignant le donneur d'ordre|character varying(80)| |
-|achetpat|Patronyme de l'acheteur (clé étrangère sur la liste de valeur lt_euep_cc_pat)|character varying(2)|'00'::character varying|
-|achetpatp|Patronyme de l'acheteur (précision si autre renseigné dans achetpat)|character varying(50)| |
-|achetnom|Nom de la personne désignant l'acheteur|character varying(80)| |
-|achetpre|Prénom de la personne désignant l'acheteur|character varying(80)| |
-|achetad|Adresse de la personne désignant l'acheteur|character varying(80)| |
-|batitype|Code du type de bâtiment concerné par le contrôle (clé étrangère sur la liste de valeur lt_euep_cc_typebati)|character varying(2)|'00'::character varying|
-|batiaut|Autre type de bâtiment si pas présent dans batitype|character varying(80)| |
-|eppublic|Desservie par un réseau public d'eau potable (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|epaut|Autre alimentation que le réseau d'eau potable public|character varying(80)| |
-|rredptype|Code du type de réseau de raccordement au domaine publique (clé étrangère sur la liste de valeur lt_euep_cc_typeres)|character varying(2)|'ZZ'::character varying|
-|rrebrtype|Information sur l'existence d'une boîte de raccordement (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|rrechype|Information sur l'existence d'un regard sous chaussée si pas de boîte de raccordement (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|eupc|Information sur l'existence d'un raccordement sur les parties communes (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|euevent|Information sur l'existence d'un évent (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|euregar|Information sur l'existence d'un regard (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|euregardp|Information sur l'existence d'un regard accessible dans le domaine privé (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|eusup|Information sur l'existence d'une servitude avec une autre propriété pour les EU ou les EP (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|eusuptype|Précision du réseau en cas de servitude avec une autre propriété (clé étrangère sur la liste de valeur lt_euep_sup)|character varying(2)|'ZZ'::character varying|
-|eusupdoc|Information sur l'existence de documents attestant la servitude avec une autre propriété pour les EU ou les EP (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|euecoul|Information le bon déroulé de l'écoulement (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|eufluo|Information l'existence d'un test à la fluorescéine (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|eubrsch|Information sur l'existence d'un branchement sous chaussée (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|eurefl|Information sur la protection du branchement par un système d'anti reflux (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|euepsep|Information sur la séparation de la collecte des EP et EU (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|eudivers|Autres informations sur la collecte des eaux usées|character varying(500)| |
-|euanomal|Information sur la présence d'anomalies constatées (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|euobserv|Précisions sur les anomalies constatées sur la collecte des eaux usées|character varying(500)| |
-|eusiphon|Présence de syphons sur chaque évacuation contrôlée (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|epdiagpc|Diagnostic réalisé sur les parties communes (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|epracpc|Raccordement sur les parties communes (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|epregarcol|Existence d'une regard de collecte (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|epregarext|Regard de collecte à l'extérieur de l'habitation (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|epracdp|Raccordement au réseau public d'évacuation des eaux pluviales (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|eppar|Eaux pluviales traitées à la parcelle (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|epparpre|Précision sur le traitement des eaux pluviales à la parcelle si existe|character varying(200)| |
-|epfum|Test à la fummée réalisée (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|epecoul|Ecoulement correct (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|epecoulobs|Observation sur l'écoulement (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(500)| |
-|eprecup|Système de récupération des eaux pluviales (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|eprecupcpt|Compteur présent en cas de récupération des eaux pluviales à usage domestique (clé étrangère sur la liste de valeur lt_euep_cc_eval)|character varying(2)|'ZZ'::character varying|
-|epautre|Autre|character varying(200)| |
-|epobserv|Observations diverses sur la collecte des eaux usées|character varying(200)| |
-|euepanomal|Anomalies identifiées entrainant la non conformité|character varying(1000)| |
-|euepdivers|Constatations diverses|character varying(1000)| |
-|date_sai|Date de saisie|timestamp without time zone| |
-|date_maj|Datede mise à jour|timestamp without time zone| |
-|op_sai|Opérateur de saisie|character varying(80)| |
-|scr_geom|Source du référentiel géographique de saisie|character varying(2)| |
+
 
 Particularité(s) à noter :
-* Une clé primaire existe sur le champ idcc avec une séquence d'incrémentation d'un numéro automatique ``an_euep_cc_idcc_seq``
-* 35 clés étrangères existent et correspondent aux classes de listes de valeurs
-* le n° de dossier nidcc est composé come suit ```[insee]cc[n° auto max+1 déjà présent sur la commune```. Cet identifiant est généré automatiquement à la création d'un nouveau contrôle depuis l'application métier
-* 2 triggers :
-  * ``t_t1_an_euep_cc_insert`` : gère après une insertion la transformation des '' en valeur null
-  * ``t_t2_log_an_euep_cc_insert_update`` : gère après une insertion ou une mise à jour l'écriture de la transaction dans la classe des logs
-
+* Une clé primaire existe sur le champ insee
 ---
 
-   `an_euep_cc_media` : table des médias structurée selon les recommandations de l'éditeur des applications métiers. Elle permet de stocker des documents joints (ici documents en lien avec le contrôle, formulaire, schémas ,photos , ...)
+   `an_doc_urba` : table issue du standard CNIG listant l'ensemble des procédures des documents d''urbanisme en projet, annulé ou ayant été approuvés
    
 |Nom attribut | Définition | Type | Valeurs par défaut |
 |:---|:---|:---|:---|
-|gid|Identifiant unique|integer|nextval('m_reseau_humide.an_euep_cc_media_gid_seq'::regclass)|
-|id|Identifiant du contrôle de conformité Assainissement collectif|integer| |
-|media|Champ Média de GEO|text| |
-|miniature|Champ miniature de GEO|bytea| |
-|n_fichier|Nom du fichier|text| |
-|t_fichier|Type de média dans GEO|text| |
-|op_sai|Libellé de l'opérateur ayant intégrer le document|character varying(100)| |
-|date_sai|Date d'intégration du document|timestamp without time zone| |
-|l_type|Code du type de document de cessions ou d'acquisitions|character varying(2)| |
-|l_prec|Précision sur le document|character varying(50)| |
-|l_test|Champ test pour stockage image et l'imprimer dans la fiche info|character varying(254)| |
+
 
 Particularité(s) à noter :
 * Une clé primaire existe sur le champ gid avec une séquence d'incrémentation d'un numéro automatique ``an_euep_cc_media_gid_seq``
