@@ -829,7 +829,7 @@ ALTER TABLE m_urbanisme_doc.an_doc_urba
 GRANT ALL ON TABLE m_urbanisme_doc.an_doc_urba TO postgres;
 
 COMMENT ON TABLE m_urbanisme_doc.an_doc_urba
-  IS 'Donnée alphanumerique de référence des documents d''urbanisme en projet ou ayant été approuvés';
+  IS 'Ensemble des procédures des documents d''urbanisme (y compris les communes en RNU)';
 COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba.idurba IS 'Identifiant du document d''urbanisme';
 COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba.typedoc IS 'Type du document concerné';
 COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba.datappro IS 'Date d''approbation';
