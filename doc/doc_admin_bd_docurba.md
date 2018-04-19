@@ -24,7 +24,7 @@ La base de données des documents d'urbanisme s'appui sur des référentiels pr�
 
 ## Classes d'objets
 
-L'ensemble des classes d'objets de gestion sont stockés dans le schéma m_reseau_humide et celles applicatives dans le schéma x_apps.
+L'ensemble des classes d'objets de gestion sont stockés dans le schéma m_urbanisme_doc et celles applicatives dans les schémas x_apps ou x_apps_public.
 
  ### classes d'objets de gestion :
   
