@@ -662,7 +662,7 @@ Particularité(s) à noter :
 |sup_m2|Surface brute de l'objet en m²|double precision| |
 |l_type|Type de bâti intégré à la PAU|character varying(50)| |
 |l_statut|Prise en compte de la PAU (oui : en RNU, non : documents d'urbaniusme en vigieur)|boolean|true|
-|geom|Champ contenant la géométrie des objets|USER-DEFINED| |
+|geom|Champ contenant la géométrie des objets|Multipolygon,2154| |
 
 
 Particularité(s) à noter :
