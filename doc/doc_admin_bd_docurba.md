@@ -1191,7 +1191,7 @@ Valeurs possibles :
 `lt_typeinf` : Liste des valeurs de l''attribut typeinf de la donnée info_surf, info_lin et info_pct
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|    
+|:---|:---|:---|:---|:---|    
 |code|Code|character(2)| |
 |sous_code|Sous code|character varying(2)| |
 |valeur|Valeur|character varying(254)| |
@@ -1252,7 +1252,7 @@ Valeurs possibles :
 `lt_typepsc` : Liste des valeurs de l''attribut typepsc de la donnée prescription_surf, prescription_lin et prescription_pct
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|    
+|:---|:---|:---|:---|:---| 
 |code|Code|character(2)| |
 |sous_code|Sous code|character varying(2)| |
 |valeur|Valeur|character varying(254)| |
@@ -1266,7 +1266,7 @@ Particularité(s) à noter :
 Valeurs possibles :
 
 |Code|Valeur|
-|:---|:---|
+|:---|:---|:---|:---|:---| 
 |01|00|Espace boisé classé|L113-1|R151-31 1°|
 |01|01|Espace boisé classé à protéger ou conserver|L113-1|R151-31 1°|
 |01|02|Espace boisé classé à créer|L113-1|R151-31 1°|
@@ -1493,9 +1493,11 @@ Plusieurs Workflow ont été mis en place pour gérer à la fois l'intégration 
 
 L'ensemble des fichiers a utilisé est placé ici `Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB\PLU`.
 
-Une série de traitement a été mis en place pour gérer l'ensemble des cas généré par une procédure de mise à jour des données :
-  - Intégration d'une procédure nouvellement approuvée `00_PLU_integration_finale_executoire.fmw`. 
-  Ce traitement fait appel à des traitements secondaires :
+Une série de traitement a été mis en place pour gérer l'ensemble des cas généré par une procédure de mise à jour des données.
+
+### Intégration d'une procédure nouvellement approuvée `00_PLU_integration_finale_executoire.fmw`
+ 
+Ce traitement fait appel à des traitements secondaires :
    - `\bloc\01_PLU_Prod_à_Archi_sup_Prod_executoire.fmw` : les données des tables de production `geo_p_` sont intégrées dans les tables d' archives `geo_a_` puis supprimées des tables de production `geo_p_`
    - `\bloc\02_PLU_Test_à_Prod_sup_Test_executoire.fmw` : les données des tables de pré-production `geo_t_` sont intégrées dans les tables de production `geo_p_` puis supprimées des tables de pré-production `geo_t_`
    - `\bloc\05_PLU_Export_Format_CNIG.fmw` : les données sont exportées au format CNIG correspondant ici `Y:\fichiers_ref\metiers\urba\docurba`
