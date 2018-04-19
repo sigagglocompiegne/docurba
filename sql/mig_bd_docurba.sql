@@ -6924,7 +6924,7 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc_cnig2017.an_vmr_p_information AS
                         END AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_urbanisme_reg.geo_vmr_proc z,
+                    x_apps.xapps_geo_vmr_proc z,
                     m_urbanisme_reg.lt_proced zl
                   WHERE z.z_proced::text = zl.z_proced::text AND z.z_proced::text <> '10'::text AND st_intersects(p."GEOM", z.geom1)
                 )
