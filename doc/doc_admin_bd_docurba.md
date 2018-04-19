@@ -1191,7 +1191,7 @@ Valeurs possibles :
 `lt_typeinf` : Liste des valeurs de l''attribut typeinf de la donnée info_surf, info_lin et info_pct
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|:---|    
+|:---|:---|:---|:---|
 |code|Code|character(2)| |
 |sous_code|Sous code|character varying(2)| |
 |valeur|Valeur|character varying(254)| |
@@ -1204,7 +1204,7 @@ Particularité(s) à noter :
 
 Valeurs possibles :
 
-|Code|Valeur|
+|Code|Sous code|Valeur|Référence législative|Référence réglementaire|
 |:---|:---|:---|:---|:---|
 |01|00|Anciennement « Secteur sauvegardé » puis « Site patrimonial remarquable » supprimé car il correspond à une SUP|Abrogé|Abrogé|
 |02|00|Zone d'aménagement concerté|Livre III code de l'urbanisme|R151-52 8°|
