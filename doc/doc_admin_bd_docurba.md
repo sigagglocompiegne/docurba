@@ -1008,7 +1008,18 @@ Particularité(s) à noter :
 
 ---
 
+`an_v_docurba_arcba` : Vue ARC simplifiée de la table an_doc_urba à usage interne. Ajout nom de la commune et du libellé de l'état du document
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+
+
+Particularité(s) à noter : aucune
+
+---
+
  ### classes d'objets applicatives :
+ 
 `xapps_an_euep_cc_n` : vue attributaire listant l'ensemble des contrôles non conforme (unique) pour les recherches dans l'application métiers et permettre l'édition des courriers
 
 Particularité(s) à noter :
@@ -1255,9 +1266,9 @@ Sans objet
 
 ### Modèle conceptuel simplifié
 
-![mcd](../img/MCD.jpg)
+![mcd](../img/)
 
 ### Schéma fonctionnel
 
-![schema_fonctionnel](../img/schema_fonctionnel.jpg)
+![schema_fonctionnel](../img/)
 
