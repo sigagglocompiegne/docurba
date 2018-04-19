@@ -8,29 +8,19 @@
  Cette norme est implantée dans la base de données Igeo Compiègnois de l'Agglomération de la Région de Compiègne. Des ajouts spécifiques ont été réalisés comme l'ajout de champs optionnels ou de nouvelles tables de gestion. De plus, l'Agglomération a mise en oeuvre un système de versionnement afin de conserver toutes les procédures d'urbanisme. La restauration d'une ancienne procédure doit-être possible suite à l'annulation de l'actuelle.
  
  * **résumé fonctionnel** :
- le fonctionnement de la base de données répond à la norme CNIG à la fois sur les attributs et les primitives géographiques (se référer au standard http://cnig.gouv.fr/?page_id=2732). 
+ le fonctionnement de la base de données répond à la norme CNIG à la fois sur les attributs et les primitives géographiques (se référer au standard http://cnig.gouv.fr/?page_id=2732). Le système de versionnement repose sur une partie production (qui contient l'ensemble des procédures en vigueur), une partie archive (qui contient l'ensemble des procédures annulée,remplacée,abrogée,...) et une partie test (qui contient l'ensemble des documents en cours de création ou de modification). Le basculement des données entre les diverses parties s'effectuent via des Workflow de l'ETL FME.
 
 ## Dépendances
 
-La base de données des contrôles de conformité s'appuie sur des référentiels préexistants constituant autant de dépendances nécessaires pour l'implémentatation de cette base.
+La base de données des documents d'urbanisme s'appui sur des référentiels préexistants uniquement pour les vues applicatives constituant autant de dépendances nécessaires pour l'implémentatation de cette base.
 
 |Schéma | Table/Vue | Description | Usage |
 |:---|:---|:---|:---|
-|x_apps | xapps_geo_v_adresse | vue de la base de données urbanisées des adresses | géométrie de positionnement des contrôles + adresse |
-|r_objet | geo_objet_pt_adresse | donnée des points d'adresse (géométrie) | géométrie de positionnement des contrôles |
-|r_adresse | an_adresse | donnée alphanumérique des adresses | n° de voirie, jointure avec r_objet.geo_objet_pt_adresse sur id_adresse |
-|r_voie | an_voie | donnée alphanumérique des voies | libellé de la voie, jointure avec r_objet.geo_objet_pt_adresse sur id_voie |
-|r_administratif | lk_insee_codepostal | donnée des codes postaux des communes | code postal de la commune, jointure avec r_objet.geo_objet_pt_adresse sur insee |
-|r_osm | geo_osm_commune | donnée de référence géographique du découpage communal OSM | nom de la commune, jointure avec r_objet.geo_objet_pt_adresse sur insee |
-|r_objet | lt_position | domaine de valeur générique d'une table géographique | positionnement du point adresse, jointure avec r_objet.geo_objet_pt_adresse code = position |
-|r_adresse | lt_dest_adr | domaine de valeur générique d'une table géographique | destination de l'adresse, jointure avec r_objet.geo_objet_pt_adresse code = dest_adr |
-|r_adresse | lt_etat_adr | domaine de valeur générique d'une table géographique | état de l'adresse, jointure avec r_objet.geo_objet_pt_adresse code = etat_adr |
-|r_adresse | lt_groupee | domaine de valeur générique d'une table géographique | groupage de l'adresse, jointure avec r_objet.geo_objet_pt_adresse code = groupee |
-|r_adresse | lt_secondaire | domaine de valeur générique d'une table géographique | adresse secondaire, jointure avec r_objet.geo_objet_pt_adresse code = secondaire |
-|r_adresse | lt_src_adr | domaine de valeur générique d'une table géographique | source de l'adresse, jointure avec r_objet.geo_objet_pt_adresse code = src_adr |
-|r_objet | lt_src_geom | domaine de valeur générique d'une table géographique | source du positionnement du point adresse, jointure avec r_objet.geo_objet_pt_adresse code = src_geom |
-|r_adresse | lt_diag_adr | domaine de valeur générique d'une table géographique | diagnostic de l'adresse, jointure avec r_objet.geo_objet_pt_adresse code = diag_adr |
-|r_adresse | lt_qual_adr | domaine de valeur générique d'une table géographique | qualité de l'adresse, jointure avec r_objet.geo_objet_pt_adresse code = qual_adr |
+|r_osm | geo_osm_commune | donnée de référence géographique du découpage communal OSM | nom de la commune, jointure avec m_urbanisme_doc.an_doc_urba sur insee = (substring(an_doc_urba.idurba::text, 1, 5))|
+|r_osm | geo_vm_osm_epci | donnée de référence géographique du découpage epci OSM | sélection par intersection de géométrie (geom) des communes dans son EPCI|
+|r_administratif | an_geo | donnée de référence alphanumérique des communes (Insee) | nom de la commune, jointure avec r_osm.geo_osm_commune sur insee pour une sélection via le code EPCI contenu dans la table an_geo|
+|r_osm | geo_v_osm_commune_apc | donnée de référence géographique du découpage communal OSM | nom de l'EPCI, jointure avec m_urbanisme_doc_cnig.an_ads_commune sur insee |
+|r_osm | geo_v_osm_commune_apc | donnée de référence géographique du découpage communal OSM | nom de l'EPCI, jointure avec m_urbanisme_doc_cnig.an_ads_commune sur insee |
 
 ## Classes d'objets
 
