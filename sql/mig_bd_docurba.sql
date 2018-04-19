@@ -3391,6 +3391,18 @@ ADD CONSTRAINT lt_typeinf_pct_fkey FOREIGN KEY (typeinf,stypeinf)
 INSERT INTO m_urbanisme_doc_cnig2017.an_ads_commune (insee,docurba,ads_arc,l_rev,l_daterev)
 SELECT insee,docurba,ads_arc,l_rev,l_daterev FROM m_urbanisme_doc.an_ads_commune;
 
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_p_zone_pau DISABLE TRIGGER t_t1_pau_inseecommune;
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_p_zone_pau DISABLE TRIGGER t_t2_pau_insert_date_sai;
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_p_zone_pau DISABLE TRIGGER t_t3_pau_update_date_maj;
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_p_zone_pau DISABLE TRIGGER t_t4_pau_surface;
+
+INSERT INTO m_urbanisme_doc_cnig2017.geo_p_zone_pau (idpau,date_sai,date_maj,op_sai,org_sai,insee,commune,src_geom,sup_m2,l_type,l_statut,geom)
+SELECT idpau,date_sai,date_maj,op_sai,org_sai,insee,commune,src_geom,sup_m2,l_type,l_statut,geom FROM m_urbanisme_doc.geo_p_zone_pau;
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_p_zone_pau ENABLE TRIGGER t_t1_pau_inseecommune;
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_p_zone_pau ENABLE TRIGGER t_t2_pau_insert_date_sai;
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_p_zone_pau ENABLE TRIGGER t_t3_pau_update_date_maj;
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_p_zone_pau ENABLE TRIGGER t_t4_pau_surface;
 
 -- COMMENT GB : ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Migration de la table an_doc_urba
