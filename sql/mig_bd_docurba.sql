@@ -6093,7 +6093,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.an_v_controle AS
  SELECT 'an_doc_urba'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.an_doc_urba
+   FROM m_urbanisme_doc.an_doc_urba
 UNION ALL
  SELECT 'an_doc_urba'::text AS nom_table,
     '2017'::text AS standard,
@@ -6103,7 +6103,7 @@ UNION ALL
  SELECT 'an_doc_urba_com'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.an_doc_urba_com
+   FROM m_urbanisme_doc.an_doc_urba_com
 UNION ALL
  SELECT 'an_doc_urba_com'::text AS nom_table,
     '2017'::text AS standard,
@@ -6113,7 +6113,7 @@ UNION ALL
  SELECT 'geo_a_habillage_lin'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_a_habillage_lin
+   FROM m_urbanisme_doc.geo_a_habillage_lin
 UNION ALL
  SELECT 'geo_a_habillage_lin'::text AS nom_table,
     '2017'::text AS standard,
@@ -6123,7 +6123,7 @@ UNION ALL
  SELECT 'geo_a_habillage_pct'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_a_habillage_pct
+   FROM m_urbanisme_doc.geo_a_habillage_pct
 UNION ALL
  SELECT 'geo_a_habillage_pct'::text AS nom_table,
     '2017'::text AS standard,
@@ -6133,7 +6133,7 @@ UNION ALL
  SELECT 'geo_a_habillage_surf'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_a_habillage_surf
+   FROM m_urbanisme_doc.geo_a_habillage_surf
 UNION ALL
  SELECT 'geo_a_habillage_surf'::text AS nom_table,
     '2017'::text AS standard,
@@ -6143,7 +6143,7 @@ UNION ALL
  SELECT 'geo_a_habillage_txt'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_a_habillage_txt
+   FROM m_urbanisme_doc.geo_a_habillage_txt
 UNION ALL
  SELECT 'geo_a_habillage_txt'::text AS nom_table,
     '2017'::text AS standard,
@@ -6153,7 +6153,7 @@ UNION ALL
  SELECT 'geo_a_info_lin'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_a_info_lin
+   FROM m_urbanisme_doc.geo_a_info_lin
 UNION ALL
  SELECT 'geo_a_info_lin'::text AS nom_table,
     '2017'::text AS standard,
@@ -6163,7 +6163,7 @@ UNION ALL
  SELECT 'geo_a_info_pct'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_a_info_pct
+   FROM m_urbanisme_doc.geo_a_info_pct
 UNION ALL
  SELECT 'geo_a_info_pct'::text AS nom_table,
     '2017'::text AS standard,
@@ -6173,7 +6173,7 @@ UNION ALL
  SELECT 'geo_a_info_surf'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_a_info_surf
+   FROM m_urbanisme_doc.geo_a_info_surf
 UNION ALL
  SELECT 'geo_a_info_surf'::text AS nom_table,
     '2017'::text AS standard,
@@ -6183,7 +6183,7 @@ UNION ALL
  SELECT 'geo_a_prescription_lin'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_a_prescription_lin
+   FROM m_urbanisme_doc.geo_a_prescription_lin
 UNION ALL
  SELECT 'geo_a_prescription_lin'::text AS nom_table,
     '2017'::text AS standard,
@@ -6193,7 +6193,7 @@ UNION ALL
  SELECT 'geo_a_prescription_pct'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_a_prescription_pct
+   FROM m_urbanisme_doc.geo_a_prescription_pct
 UNION ALL
  SELECT 'geo_a_prescription_pct'::text AS nom_table,
     '2017'::text AS standard,
@@ -6203,7 +6203,7 @@ UNION ALL
  SELECT 'geo_a_prescription_surf'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_a_prescription_surf
+   FROM m_urbanisme_doc.geo_a_prescription_surf
 UNION ALL
  SELECT 'geo_a_prescription_surf'::text AS nom_table,
     '2017'::text AS standard,
@@ -6213,7 +6213,7 @@ UNION ALL
  SELECT 'geo_a_zone_urba'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_a_zone_urba
+   FROM m_urbanisme_doc.geo_a_zone_urba
 UNION ALL
  SELECT 'geo_a_zone_urba'::text AS nom_table,
     '2017'::text AS standard,
@@ -6223,7 +6223,7 @@ UNION ALL
  SELECT 'geo_p_habillage_lin'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_lin
+   FROM m_urbanisme_doc.geo_p_habillage_lin
 UNION ALL
  SELECT 'geo_p_habillage_lin'::text AS nom_table,
     '2017'::text AS standard,
@@ -6233,7 +6233,7 @@ UNION ALL
  SELECT 'geo_p_habillage_pct'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_pct
+   FROM m_urbanisme_doc.geo_p_habillage_pct
 UNION ALL
  SELECT 'geo_p_habillage_pct'::text AS nom_table,
     '2017'::text AS standard,
@@ -6243,7 +6243,7 @@ UNION ALL
  SELECT 'geo_p_habillage_surf'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_surf
+   FROM m_urbanisme_doc.geo_p_habillage_surf
 UNION ALL
  SELECT 'geo_p_habillage_surf'::text AS nom_table,
     '2017'::text AS standard,
@@ -6253,7 +6253,7 @@ UNION ALL
  SELECT 'geo_p_habillage_txt'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_txt
+   FROM m_urbanisme_doc.geo_p_habillage_txt
 UNION ALL
  SELECT 'geo_p_habillage_txt'::text AS nom_table,
     '2017'::text AS standard,
@@ -6263,7 +6263,7 @@ UNION ALL
  SELECT 'geo_p_info_lin'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_p_info_lin
+   FROM m_urbanisme_doc.geo_p_info_lin
 UNION ALL
  SELECT 'geo_p_info_lin'::text AS nom_table,
     '2017'::text AS standard,
@@ -6273,7 +6273,7 @@ UNION ALL
  SELECT 'geo_p_info_pct'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_p_info_pct
+   FROM m_urbanisme_doc.geo_p_info_pct
 UNION ALL
  SELECT 'geo_p_info_pct'::text AS nom_table,
     '2017'::text AS standard,
@@ -6283,7 +6283,7 @@ UNION ALL
  SELECT 'geo_p_info_surf'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_p_info_surf
+   FROM m_urbanisme_doc.geo_p_info_surf
 UNION ALL
  SELECT 'geo_p_info_surf'::text AS nom_table,
     '2017'::text AS standard,
@@ -6293,7 +6293,7 @@ UNION ALL
  SELECT 'geo_p_prescription_lin'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_p_prescription_lin
+   FROM m_urbanisme_doc.geo_p_prescription_lin
 UNION ALL
  SELECT 'geo_p_prescription_lin'::text AS nom_table,
     '2017'::text AS standard,
@@ -6303,7 +6303,7 @@ UNION ALL
  SELECT 'geo_p_prescription_pct'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_p_prescription_pct
+   FROM m_urbanisme_doc.geo_p_prescription_pct
 UNION ALL
  SELECT 'geo_p_prescription_pct'::text AS nom_table,
     '2017'::text AS standard,
@@ -6313,7 +6313,7 @@ UNION ALL
  SELECT 'geo_p_prescription_surf'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_p_prescription_surf
+   FROM m_urbanisme_doc.geo_p_prescription_surf
 UNION ALL
  SELECT 'geo_p_prescription_surf'::text AS nom_table,
     '2017'::text AS standard,
@@ -6323,7 +6323,7 @@ UNION ALL
  SELECT 'geo_p_zone_urba'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_p_zone_urba
+   FROM m_urbanisme_doc.geo_p_zone_urba
 UNION ALL
  SELECT 'geo_p_zone_urba'::text AS nom_table,
     '2017'::text AS standard,
@@ -6333,7 +6333,7 @@ UNION ALL
  SELECT 'geo_t_habillage_lin'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_t_habillage_lin
+   FROM m_urbanisme_doc.geo_t_habillage_lin
 UNION ALL
  SELECT 'geo_t_habillage_lin'::text AS nom_table,
     '2017'::text AS standard,
@@ -6343,7 +6343,7 @@ UNION ALL
  SELECT 'geo_t_habillage_pct'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_t_habillage_pct
+   FROM m_urbanisme_doc.geo_t_habillage_pct
 UNION ALL
  SELECT 'geo_t_habillage_pct'::text AS nom_table,
     '2017'::text AS standard,
@@ -6353,7 +6353,7 @@ UNION ALL
  SELECT 'geo_t_habillage_surf'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_t_habillage_surf
+   FROM m_urbanisme_doc.geo_t_habillage_surf
 UNION ALL
  SELECT 'geo_t_habillage_surf'::text AS nom_table,
     '2017'::text AS standard,
@@ -6363,7 +6363,7 @@ UNION ALL
  SELECT 'geo_t_habillage_txt'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_t_habillage_txt
+   FROM m_urbanisme_doc.geo_t_habillage_txt
 UNION ALL
  SELECT 'geo_t_habillage_txt'::text AS nom_table,
     '2017'::text AS standard,
@@ -6373,7 +6373,7 @@ UNION ALL
  SELECT 'geo_t_info_lin'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_t_info_lin
+   FROM m_urbanisme_doc.geo_t_info_lin
 UNION ALL
  SELECT 'geo_t_info_lin'::text AS nom_table,
     '2017'::text AS standard,
@@ -6383,7 +6383,7 @@ UNION ALL
  SELECT 'geo_t_info_pct'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_t_info_pct
+   FROM m_urbanisme_doc.geo_t_info_pct
 UNION ALL
  SELECT 'geo_t_info_pct'::text AS nom_table,
     '2017'::text AS standard,
@@ -6393,7 +6393,7 @@ UNION ALL
  SELECT 'geo_t_info_surf'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_t_info_surf
+   FROM m_urbanisme_doc.geo_t_info_surf
 UNION ALL
  SELECT 'geo_t_info_surf'::text AS nom_table,
     '2017'::text AS standard,
@@ -6403,7 +6403,7 @@ UNION ALL
  SELECT 'geo_t_prescription_lin'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_t_prescription_lin
+   FROM m_urbanisme_doc.geo_t_prescription_lin
 UNION ALL
  SELECT 'geo_t_prescription_lin'::text AS nom_table,
     '2017'::text AS standard,
@@ -6413,7 +6413,7 @@ UNION ALL
  SELECT 'geo_t_prescription_pct'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_t_prescription_pct
+   FROM m_urbanisme_doc.geo_t_prescription_pct
 UNION ALL
  SELECT 'geo_t_prescription_pct'::text AS nom_table,
     '2017'::text AS standard,
@@ -6423,7 +6423,7 @@ UNION ALL
  SELECT 'geo_t_prescription_surf'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_t_prescription_surf
+   FROM m_urbanisme_doc.geo_t_prescription_surf
 UNION ALL
  SELECT 'geo_t_prescription_surf'::text AS nom_table,
     '2017'::text AS standard,
@@ -6433,7 +6433,7 @@ UNION ALL
  SELECT 'geo_t_zone_urba'::text AS nom_table,
     '2014'::text AS standard,
     count(*) AS count
-   FROM m_urbanisme_doc_cnig2017.geo_t_zone_urba
+   FROM m_urbanisme_doc.geo_t_zone_urba
 UNION ALL
  SELECT 'geo_t_zone_urba'::text AS nom_table,
     '2017'::text AS standard,
