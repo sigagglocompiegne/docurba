@@ -35,7 +35,7 @@ Particularité(s) à noter :
 * Une clé primaire existe sur le champ insee
 ---
 
-   `an_doc_urba` : table issue du standard CNIG listant l'ensemble des procédures des documents d''urbanisme (y compris les communes en RNU)
+   `an_doc_urba` : table issue du standard CNIG 2017  listant l'ensemble des procédures des documents d''urbanisme (y compris les communes en RNU)
    
 |Nom attribut | Définition | Type | Valeurs par défaut |
 |:---|:---|:---|:---|
@@ -70,26 +70,117 @@ Particularité(s) à noter :
 * Une clé étrangère exsiste sur la table de valeur `lt_typeref`
 ---
 
-`log_an_euep_cc` : table de logs permettant de suivre l'ensemble des transactions sur la table an_euep_cc (insert, update). Un contrôle ne peut pas être supprimé, la transaction delele n'est donc pas gérée dans ce cas.
+`an_doc_urba_com` : table issue du standard CNIG 2017 d'appartenance d'une commune à une procédure définie.
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|gid|identifiant unique|integer| |
-|objet|Type de modification (update, delete, insert)|character varying(10)| |
-|d_maj|Date de l'exécution de la modification|timestamp without time zone| |
-|user|Utilisateur ayant exécuté l'exécution|character varying(50)| |
-|relid|ID d'objet de la table qui a causé le déclenchement.|character varying(255)| |
-|l_schema|Libellé du schéma contenant la table ou la vue exécutée ou mlodifiée|character varying(30)| |
-|l_table|Libellé de la table exécutée|character varying(30)| |
-|idgeo|Identifiant unique de l'objet de la table correspondante|character varying(100)| |
-|geom|Champ contenant la géométrie des objets polygones modifiés ou supprimés|USER-DEFINED| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|insee|Code insee de la commune|character varying(5)| |
 
-Particularité(s) à noter :
-* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation d'un numéro automatique ``log_an_euep_cc_gid_seq``
+Particularité(s) à noter : aucune
 
 ---
 
-`an_v_euep_cc` : vue attributaire éditable (contenant le point d''adresse qui est lui non éditable) récupérant l''ensemble des contrôles triés par date pour leur gestion dans l'application métier ainsi que l'identifiant et les informations de l'adresse issue de la BAL
+`geo_a_habillage_lin` : (archive) Donnée géographique contenant l'habillage linéaire des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idhab|Identifiant unique de l'habillage linéaire|character varying(10)| |
+|nattrac|Nature du tracé|character varying(40)| |
+|couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_couleur|Couleur de l'élément graphique, sous forme HEXE (#000000)|character varying(7)| |
+|geom|Géométrie de l'objet|USER-DEFINED| |
+
+Particularité(s) à noter : aucune
+
+---
+
+`geo_a_habillage_pct` : (archive) Donnée géographique contenant l'habillage ponctuel des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idhab|Identifiant unique de l'habillage ponctuel|character varying(10)| |
+|nattrac|Nature du tracé|character varying(40)| |
+|couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_couleur|Couleur de l'élément graphique, sous forme HEXA (#000000)|character varying(7)| |
+|geom|Géométrie de l'objet|USER-DEFINED| |
+
+Particularité(s) à noter : aucune
+
+---
+
+`geo_a_habillage_surf` : (archive) Donnée géographique contenant l'habillage surfacique des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idhab|Identifiant unique de l'habillage surfacique|character varying(10)| |
+|nattrac|Nature du tracé|character varying(40)| |
+|couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_couleur|Couleur de l'élément graphique, sous forme HEXA (#000000)|character varying(7)| |
+|geom|Géométrie de l'objet|USER-DEFINED| |
+
+Particularité(s) à noter : aucune
+
+---
+
+`geo_a_habillage_txt` : (archive) Donnée géographique contenant l'habillage textuel des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idhab|Identifiant unique de l'habillage ponctuel|character varying(10)| |
+|natecr|Nature de l'écriture|character varying(40)| |
+|txt|Texte de l'écriture|character varying(80)| |
+|police|Police de l'écriture|character varying(40)| |
+|taille|Taille de l'écriture|integer| |
+|style|Style de l'écriture|character varying(40)| |
+|couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
+|angle|Angle de l'écriture exprimé en degré, par rapport à l'horizontale, dans le sens trigonométrique|integer| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_couleur|Couleur de l'élément graphique, sous forme HEXA (#000000)|character varying(7)| |
+|geom|Géométrie de l'objet|USER-DEFINED| |
+|gid|Identifiant unique pour l'ARC|integer|nextval('m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq'::regclass)|
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq`
+
+---
+
+`geo_a_info_lin` : (archive) Donnée géographique contenant les informations linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idinf|Identifiant unique de l'information linéaire|character varying(10)| |
+|libelle|Nom de l'information|character varying(254)| |
+|txt|Texte étiquette|character varying(10)| |
+|typeinf|Type d'information|character varying(2)| |
+|stypeinf|Sous type d'information|character varying(2)| |
+|nomfic|Nom du fichier|character varying(80)| |
+|urlfic|URL ou URI du fichier|character varying(254)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|datvalid|Date de validation (aaaammjj)|character(8)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_nom|Nom|character varying(80)| |
+|l_dateins|Date d'instauration|character(8)| |
+|l_bnfcr|Bénéficiaire|character varying(80)| |
+|l_datdlg|Date de délégation|character(8)| |
+|l_gen|Générateur du recul|character varying(80)| |
+|l_valrecul|Valeur de recul|character varying(80)| |
+|l_typrecul|Type de recul|character varying(80)| |
+|l_observ|Observations|character varying(254)| |
+|geom|Géométrie de l'objet|USER-DEFINED| |
+
+
+Particularité(s) à noter :
+* Une clé étrangère existe sur la table de valeur `lt_typeinf` (sur les attributs code et sous-code)
+
+---
 
  ### classes d'objets applicatives :
 `xapps_an_euep_cc_n` : vue attributaire listant l'ensemble des contrôles non conforme (unique) pour les recherches dans l'application métiers et permettre l'édition des courriers
