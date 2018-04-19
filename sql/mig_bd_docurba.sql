@@ -120,7 +120,7 @@ GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.lt_typedoc TO postgres;
 -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.lt_typedoc TO groupe_sig WITH GRANT OPTION;
 COMMENT ON TABLE m_urbanisme_doc_cnig2017.lt_typedoc
-  IS 'Liste des valeurs de l''attribut état de la donnée doc_urba';
+  IS 'Liste des valeurs de l''attribut typedoc de la donnée doc_urba';
 COMMENT ON COLUMN m_urbanisme_doc_cnig2017.lt_typedoc.code IS 'Code';
 COMMENT ON COLUMN m_urbanisme_doc_cnig2017.lt_typedoc.valeur IS 'Valeur';
 
