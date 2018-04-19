@@ -91,7 +91,7 @@ Particularité(s) à noter : aucune
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_couleur|Couleur de l'élément graphique, sous forme HEXE (#000000)|character varying(7)| |
-|geom|Géométrie de l'objet|USER-DEFINED| |
+|geom|Géométrie de l'objet|MultiLineString,2154| |
 
 Particularité(s) à noter : aucune
 
@@ -107,7 +107,7 @@ Particularité(s) à noter : aucune
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_couleur|Couleur de l'élément graphique, sous forme HEXA (#000000)|character varying(7)| |
-|geom|Géométrie de l'objet|USER-DEFINED| |
+|geom|Géométrie de l'objet|MultiLineString,2154| |
 
 Particularité(s) à noter : aucune
 
@@ -123,7 +123,7 @@ Particularité(s) à noter : aucune
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_couleur|Couleur de l'élément graphique, sous forme HEXA (#000000)|character varying(7)| |
-|geom|Géométrie de l'objet|USER-DEFINED| |
+|geom|Géométrie de l'objet|MultiPolygon,2154| |
 
 Particularité(s) à noter : aucune
 
@@ -144,7 +144,7 @@ Particularité(s) à noter : aucune
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_couleur|Couleur de l'élément graphique, sous forme HEXA (#000000)|character varying(7)| |
-|geom|Géométrie de l'objet|USER-DEFINED| |
+|geom|Géométrie de l'objet|MultiPoint,2154| |
 |gid|Identifiant unique pour l'ARC|integer|nextval('m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq'::regclass)|
 
 Particularité(s) à noter :
@@ -174,11 +174,233 @@ Particularité(s) à noter :
 |l_valrecul|Valeur de recul|character varying(80)| |
 |l_typrecul|Type de recul|character varying(80)| |
 |l_observ|Observations|character varying(254)| |
-|geom|Géométrie de l'objet|USER-DEFINED| |
+|geom|Géométrie de l'objet|MultiLineString,2154| |
 
 
 Particularité(s) à noter :
 * Une clé étrangère existe sur la table de valeur `lt_typeinf` (sur les attributs code et sous-code)
+
+---
+
+`geo_a_info_pct` : (archive) Donnée géographique contenant les informations ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idinf|Identifiant unique de l'information ponctuelle|character varying(10)| |
+|libelle|Nom de l'information|character varying(254)| |
+|txt|Texte étiquette|character varying(10)| |
+|typeinf|Type d'information|character varying(2)| |
+|stypeinf|Sous type d'information|character varying(2)| |
+|nomfic|Nom du fichier|character varying(80)| |
+|urlfic|URL ou URI du fichier|character varying(254)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|datvalid|Date de validation (aaaammjj)|character(8)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_nom|Nom|character varying(80)| |
+|l_dateins|Date d'instauration|character(8)| |
+|l_bnfcr|Bénéficiaire|character varying(80)| |
+|l_datdlg|Date de délégation|character(8)| |
+|l_gen|Générateur du recul|character varying(80)| |
+|l_valrecul|Valeur de recul|character varying(80)| |
+|l_typrecul|Type de recul|character varying(80)| |
+|l_observ|Observations|character varying(254)| |
+|geom|Géométrie de l'objet|MultiPoint,2154| |
+
+
+Particularité(s) à noter :
+* Une clé étrangère existe sur la table de valeur `lt_typeinf` (sur les attributs code et sous-code)
+
+---
+
+`geo_a_info_surf` : (archive) Donnée géographique contenant les informations surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idinf|Identifiant unique de l'information surfacique|character varying(10)| |
+|libelle|Nom de l'information|character varying(254)| |
+|txt|Texte étiquette|character varying(10)| |
+|typeinf|Type d'information|character varying(2)| |
+|stypeinf|Sous type d'information|character varying(2)| |
+|nomfic|Nom du fichier|character varying(80)| |
+|urlfic|URL ou URI du fichier|character varying(254)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|datvalid|Date de validation (aaaammjj)|character(8)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_nom|Nom|character varying(80)| |
+|l_dateins|Date d'instauration|character(8)| |
+|l_bnfcr|Bénéficiaire|character varying(80)| |
+|l_datdlg|Date de délégation|character(8)| |
+|l_gen|Générateur du recul|character varying(80)| |
+|l_valrecul|Valeur de recul|character varying(80)| |
+|l_typrecul|Type de recul|character varying(80)| |
+|l_observ|Observations|character varying(254)| |
+|geom|Géométrie de l'objet|MultiPolygon,2154| |
+|gid|Identifiant unique spécifique à l'ARC|integer|nextval('m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq'::regclass)|
+
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq`
+* Une clé étrangère existe sur la table de valeur `lt_typeinf` (sur les attributs code et sous-code)
+
+---
+
+`geo_a_prescription_lin` : (archive) Donnée géographique contenant les prescriptions linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idpsc|Identifiant unique de prescription linéaire|character varying(10)| |
+|libelle|Nom de la prescription|character varying(254)| |
+|txt|Texte étiquette|character varying(10)| |
+|typepsc|Type de la prescription|character varying(2)| |
+|stypepsc|Sous type de la prescription|character varying(2)| |
+|nomfic|Nom du fichier|character varying(80)| |
+|urlfic|URL ou URI du fichier|character varying(254)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|datvalid|Date de validation (aaaammjj)|character(8)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_nom|Nom|character varying(80)| |
+|l_nature|Nature / vocation|character varying(254)| |
+|l_bnfcr|Bénéficiaire|character varying(80)| |
+|l_numero|Numéro|character varying(10)| |
+|l_surf_txt|Superficie littérale|character varying(30)| |
+|l_gen|Générateur du recul|character varying(80)| |
+|l_valrecul|Valeur de recul|character varying(80)| |
+|l_typrecul|Type de recul|character varying(80)| |
+|l_observ|Observations|character varying(254)| |
+|geom|Géométrie de l'objet|MultiLineString,2154| |
+
+
+Particularité(s) à noter :
+* Une clé étrangère existe sur la table de valeur `lt_typepsc` (sur les attributs code et sous-code)
+
+---
+
+`geo_a_prescription_pct` : (archive) Donnée géographique contenant les prescriptions ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idpsc|Identifiant unique de prescription ponctuelle|character varying(10)| |
+|libelle|Nom de la prescription|character varying(254)| |
+|txt|Texte étiquette|character varying(10)| |
+|typepsc|Type de la prescription|character varying(2)| |
+|stypepsc|Sous type de la prescription|character varying(2)| |
+|nomfic|Nom du fichier|character varying(80)| |
+|urlfic|URL ou URI du fichier|character varying(254)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|datvalid|Date de validation (aaaammjj)|character(8)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_nom|Nom|character varying(80)| |
+|l_nature|Nature / vocation|character varying(254)| |
+|l_bnfcr|Bénéficiaire|character varying(80)| |
+|l_numero|Numéro|character varying(10)| |
+|l_surf_txt|Superficie littérale|character varying(30)| |
+|l_gen|Générateur du recul|character varying(80)| |
+|l_valrecul|Valeur de recul|character varying(80)| |
+|l_typrecul|Type de recul|character varying(80)| |
+|l_observ|Observations|character varying(254)| |
+|geom|Géométrie de l'objet|MultiPoint,2154| |
+
+
+Particularité(s) à noter :
+* Une clé étrangère existe sur la table de valeur `lt_typepsc` (sur les attributs code et sous-code)
+
+---
+
+`geo_a_prescription_surf` : (archive) Donnée géographique contenant les prescriptions surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idpsc|Identifiant unique de prescription surfacique|character varying(10)| |
+|libelle|Nom de la prescription|character varying(254)| |
+|txt|Texte étiquette|character varying(10)| |
+|typepsc|Type de la prescription|character varying(2)| |
+|stypepsc|Sous type de la prescription|character varying(2)| |
+|nomfic|Nom du fichier|character varying(80)| |
+|urlfic|URL ou URI du fichier|character varying(254)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|datvalid|Date de validation (aaaammjj)|character(8)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_nom|Nom|character varying(80)| |
+|l_nature|Nature / vocation|character varying(254)| |
+|l_bnfcr|Bénéficiaire|character varying(80)| |
+|l_numero|Numéro|character varying(10)| |
+|l_surf_txt|Superficie littérale|character varying(30)| |
+|l_gen|Générateur du recul|character varying(80)| |
+|l_valrecul|Valeur de recul|character varying(80)| |
+|l_typrecul|Type de recul|character varying(80)| |
+|l_observ|Observations|character varying(254)| |
+|geom|Géométrie de l'objet|MultiPolygon,2154| |
+|gid|Identifiant unique spécifique à l'ARC|integer|nextval('m_urbanisme_doc_cnig2017.geo_a_prescription_surf_gid_seq'::regclass)|
+
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc_cnig2017.geo_a_prescription_surf_gid_seq`
+* Une clé étrangère existe sur la table de valeur `lt_typepsc` (sur les attributs code et sous-code)
+
+---
+
+`geo_a_zone_urba` : (archive) Donnée géographique contenant les zonages des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idzone|Identifiant unique de zone|character varying(10)| |
+|libelle|Nom court de la zone|character varying(12)| |
+|libelong|Nom complet de la zone|character varying(254)| |
+|typezone|Type de la zone|character varying(3)| |
+|nomfic|Nom du fichier du règlement complet|character varying(80)| |
+|urlfic|URL ou URI du fichier du règlement complet|character varying(254)| |
+|l_nomfic|Nom du fichier du règlement de la zone|character varying(80)| |
+|l_urlfic|URL ou URI du fichier du règlement de la zone|character varying(254)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|datvalid|Date de validation (aaaammjj)|character varying(8)| |
+|typesect|Type de secteur (uniquement pour la carte communale, ZZ correspond à non concerné)|character varying(2)|'ZZ'::character varying|
+|fermreco|Secteur fermé à la reconstruction (uniquement pour la carte communale)|character varying(3)|'non'::character varying|
+|l_destdomi|Vocation de la zone|character varying(2)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_surf_cal|Surface calculée de la zone en ha|numeric| |
+|l_observ|Observations|character varying(254)| |
+|geom|Géométrie de l'objet|MultiPolygon,2154| |
+|gid|Identifiant unique spécifique à l'ARC|integer|nextval('m_urbanisme_doc_cnig2017.geo_a_zone_urba_gid_seq'::regclass)|
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc_cnig2017.geo_a_zone_urba_gid_seq`
+* Une clé étrangère existe sur la table de valeur `lt_destdomi`
+* Une clé étrangère existe sur la table de valeur `lt_typesect`
+* Une clé étrangère existe sur la table de valeur `lt_typezone`
+
+---
+
+`geo_p_habillage_lin` : (production) Donnée géographique contenant les habillages linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idhab|Identifiant unique de l'habillage linéaire|character varying(10)| |
+|nattrac|Nature du tracé|character varying(40)| |
+|couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_couleur|Couleur de l'élément graphique, sous forme HEXA (#000000)|character varying(7)| |
+|geom|Géométrie de l'objet|MultiLineString,2154| |
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ idhab
+
+---
+
+`geo_p_habillage_pct` : (production) Donnée géographique contenant les habillages ponctuels des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idhab|Identifiant unique de l'habillage ponctuel|character varying(10)| |
+|nattrac|Nature du tracé|character varying(40)| |
+|couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|l_insee|Code INSEE|character varying(5)| |
+|l_couleur|Couleur de l'élément graphique, sous forme HEXA (#000000)|character varying(7)| |
+|geom|Géométrie de l'objet|MultiPoint,2154| |
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ idhab
 
 ---
 
