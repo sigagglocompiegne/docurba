@@ -4572,5 +4572,3 @@ CREATE INDEX geo_p_zone_urba_geom_idx
   ON m_urbanisme_doc_cnig2017.geo_p_zone_urba
   USING gist
   (geom);
-
-
