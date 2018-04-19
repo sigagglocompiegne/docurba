@@ -1491,8 +1491,12 @@ Plusieurs Workflow ont été mis en place pour gérer à la fois l'intégration 
 
 ### Gestion des procédures
 
+L'ensemble des fichiers a utilisé est placé ici `Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB\PLU`.
+
 Une série de traitement a été mis en place pour gérer l'ensemble des cas généré par une procédure de mise à jour des données :
-  - qsffq
+  - Intégration d'une procédure nouvellement approuvée `00_PLU_integration_finale_executoire.fmw`. 
+  Ce traitement fait appel à des traitements secondaires :
+  - qfqdf
 
 ## Export Open Data
 
