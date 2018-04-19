@@ -1379,7 +1379,7 @@ CREATE TABLE m_urbanisme_doc.geo_p_habillage_pct
   idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
   l_insee character varying(5) NOT NULL, -- Code INSEE
   l_couleur character varying(7), -- Couleur de l'élément graphique, sous forme HEXA (#000000)
-  geom geometry(MultiLineString,2154), -- Géométrie de l'objet
+  geom geometry(Multipoint,2154), -- Géométrie de l'objet
   CONSTRAINT geo_p_habillage_pct_pkey PRIMARY KEY (idhab)
 )
 WITH (
@@ -1946,7 +1946,7 @@ CREATE TABLE m_urbanisme_doc.geo_a_habillage_pct
   idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
   l_insee character varying(5) NOT NULL, -- Code INSEE
   l_couleur character varying(7), -- Couleur de l'élément graphique, sous forme hexa (#000000)
-  geom geometry(MultiLineString,2154) -- Géométrie de l'objet
+  geom geometry(Multipoint,2154) -- Géométrie de l'objet
 )
 WITH (
   OIDS=FALSE
@@ -2514,7 +2514,7 @@ CREATE TABLE m_urbanisme_doc.geo_t_habillage_pct
   idurba character varying(30), -- Identifiant du document d''urbanisme
   l_insee character varying(5) NOT NULL, -- Code INSEE
   l_couleur character varying(7), -- Couleur de l'élément graphique, sous forme HEXA (#000000)
-  geom geometry(MultiLineString,2154), -- Géométrie de l'objet
+  geom geometry(Multipoint,2154), -- Géométrie de l'objet
   CONSTRAINT geo_t_habillage_pct_pkey PRIMARY KEY (idhab)
 )
 WITH (
