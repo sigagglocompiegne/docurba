@@ -1010,33 +1010,51 @@ Particularité(s) à noter :
 
 `an_v_docurba_arcba` : Vue ARC simplifiée de la table an_doc_urba à usage interne. Ajout nom de la commune et du libellé de l'état du document
 
-|Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|  
+`an_v_docurba_cclo` : Vue CCLO simplifiée de la table an_doc_urba à usage interne. Ajout nom de la commune et du libellé de l''état du document
 
+`an_v_docurba_ccpe` : Vue CCPE simplifiée de la table an_doc_urba à usage interne. Ajout nom de la commune et du libellé de l''état du document
 
-Particularité(s) à noter : aucune
+`an_v_docurba_valide` : Liste des documents d''urbanisme valide sur les communes du Pays Compiégnois
+
+`geo_v_docurba` : Vue géographique présentant le types de document d'urbanisme valide par commune du Pays Compiégnois
+
+`geo_v_p_habillage_lin_arc` : Vue géographique des habillages linéaires PLU filtrée sur les communes de l'ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l'application PLU Interactif
+
+`geo_v_p_habillage_txt_arc` : Vue géographique des habillages textuels PLU filtrée sur les communes de l'ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l'application PLU Interactif
+
+`geo_v_p_info_lin_arc` : Vue géographique des informations linéaires PLU filtrée sur les communes de l'ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l'application PLU Interactif
+
+`geo_v_p_info_pct_arc` : Vue géographique des informations ponctuelles PLU filtrée sur les communes de l'ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l'application PLU Interactif
+
+`geo_v_p_info_surf_arc` : Vue géographique des informations surfaciques PLU filtrée sur les communes de l'ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l'application PLU Interactif
+
+`geo_v_p_prescription_lin_arc` : Vue géographique des prescriptions linéaires PLU filtrée sur les communes de l'ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l'application PLU Interactif
+
+`geo_v_p_prescription_pct_arc` : Vue géographique des prescriptions ponctuelles PLU filtrée sur les communes de l'ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l'application PLU Interactif
+
+`geo_v_p_prescription_surf_arc` : Vue géographique des prescriptions surfaciques PLU filtrée sur les communes de l'ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l'application PLU Interactif
+
+`geo_v_p_zone_urba_arc` : Vue géographique des zonages PLU filtrée sur les communes de l'ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l'application PLU Interactif
+
+`geo_v_urbreg_ads_commune` :   Vue géographique sur l'état de l'ADS par l'ARC sur les communes du Pays Compiégnois
 
 ---
 
- ### classes d'objets applicatives :
+ ### classes d'objets applicatives sont classés dans le schéma x_apps :
  
-`xapps_an_euep_cc_n` : vue attributaire listant l'ensemble des contrôles non conforme (unique) pour les recherches dans l'application métiers et permettre l'édition des courriers
+ Les classes d'objets applicatives pour l'application de Renseignements d'urbanisme pour le Grand Public seront intégrés plus tard (en cours de réalisation et de tests fonctionnels).
+ 
+ **ATTENTION** : ces vues sont reformatées à chaque mise à jour de cadastre ou d'une document d'urbanisme dans un Workflow de l'ETL FME.
+ 
+`xapps_an_vmr_p_information` : Vue matérialisée alphanumérique formatant une liste des parcelles avec les informations ponctuelles, surfaciques (hors DPU et ZAD), linénaires issues des documents d'urbanisme et d'autres informations jugées utiles issues d'autres données métiers (Natura 2000,ZICO, ZNIEFF, ...) impactant chaque parcelle. Cette vue est liée dans GEO pour récupération de ces informations dans la fiche de renseignements d'urbanisme (cf dossier GitHub correspondant à l'application).
 
-Particularité(s) à noter :
-* 1 trigger :
-  * `t_t1_an_v_euep_cc_update_insert` : gère pour l'instance d'insertion ou de mise à jour l'intégration des données dans la classe d'objet `an_v_euep_cc`
-    * fonctionnement :
-      * à l'entrée : 
-        * une variable est calculée pour définir si il existe déjà au moins un contrôle à l'adresse qui permet d'en déduire si il s'agit d'un contrôle initial
-        * une variable est calculée pour la génération du n° de dossier lorsque l'utilisateur choisit nouveau dossier dans l'applicatif métier
-      
-      * à l'insertion : vérification du n° de dossier (si il s'agit d'un suivi de dossier mal saisie, il ne passe rien)
-        * intégration des valeurs saisies par l'utilisateur (par défaut la séquence calcul le n° de l'identifiant unique de l'enregistrement, la validation du contrôle est forcée à `FALSE`, insertion de la variable définissant le contrôle initial et le n° de dossier)
-        * à la mise à jour : vérification de la validation du contrôle (si celui-ci est validé à `TRUE` par l'Agglomération, aucune modification n'est permise, si non les données peuvent être modifiées sauf le n° de dossier)        
+`xapps_an_vmr_p_information_dpu` : Vue matérialisée alphanumérique formatant une liste des parcelles avec l'information d'appartenance ou non à une DPU. Cette vue est liée dans GEO pour récupération de ces informations dans la fiche de renseignements d'urbanisme (cf dossier GitHub correspondant à l'application).
 
----
+`xapps_an_vmr_p_prescription` :  Vue matérialisée alphanumérique formatant une liste des parcelles avec les prescriptions ponctuelles, surfaciques, linénaires issues des documents d'urbanisme impactant chaque parcelle. Cette vue est liée dans GEO pour récupération de ces informations dans la fiche de renseignements d'urbanisme (cf dossier GitHub correspondant à l'application).
 
-`xapps_geo_v_euep_cc` : vue géographique calculant le nombre de dossier de conformité par adresse et affichant l'état du dernier contrôle (conforme ou non conforme) pour affichage dans l'applicatif métier au niveau de la cartographie et de la fiche d'information par adresse
+`xapps_an_vmr_parcelle_plu` :  Vue matérialisée contenant les informations pré-formatés pour la constitution de la fiche d'information Renseignements d'urbanisme. Cette vue permet de récupérer pour chaque parcelle les informations du PLU et traiter les pbs liés aux zones entre commune et les zonages se touchant. 
+
+`xapps_geo_vmr_p_zone_urba` :  Vue matérialisée des zones du PLU servant dans les recherches par zonage ou type dans les applicatifs GEO. 
 
 ## Liste de valeurs
 
