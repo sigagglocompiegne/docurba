@@ -1058,12 +1058,13 @@ Particularité(s) à noter :
 
 ## Liste de valeurs
 
-`lt_euep_cc_bien` : Liste des types de bien contrôlé
+`lt_destdomi` : Liste des valeurs de l'attribut destdomi de la donnée zone_urba
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|    
-|code|Code interne des types de bien|character(2)| |
-|valeur|Libellé des types de bien|character varying(80)| |
+|code|Code|character(2)| |
+|valeur|Valeur|character varying(80)| |
+
 
 Particularité(s) à noter :
 * Une clé primaire existe sur le champ code 
@@ -1072,85 +1073,27 @@ Valeurs possibles :
 
 |Code|Valeur|
 |:---|:---|
-|00|Non renseigné|
-|10|Neuf|
-|20|Ancien|
-
----
-
-`lt_euep_cc_certificateur` : Liste des certificateurs agrées pour les contrôles de conformité assainissement
-
-|Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|    
-|code|Code interne du donneur d'ordre|integer| |
-|valeur|Libellé du donneur d'ordre|character varying(80)| |
-|exist|Information sur le prestataire agréé qui excerce toujours ou non (filtre dans GEO (par rapport à la connexion du prestataire) pour afficher la fiche et l'éditer)|boolean|true|
-|adresse|Adresse du certificateur agréé|character varying(150)| |
-|tel|Téléphone fixe du certificateur agréé|character varying(10)| |
-|tel_port|Téléphone portable du certificateur agréé|character varying(10)| |
-|email|Email de contact du prestataire|character varying(80)| |
-|etat|Etat de la certification (true : agréé, false : plus agréé)|boolean|true|
-|siret|N° de SIRET|character varying(14)| |
-|nom_assur|Libellé de la compagnie d'assurance|character varying(150)| |
-|num_assur|N° de la police d'assurance ou du contrat|character varying(150)| |
-|date_assur|Date de fin validé du contrat d'assurance|timestamp without time zone| |
-
-Particularité(s) à noter :
-* Une clé primaire existe sur le champ code avec une séquence d'incrémentation d'un numéro automatique ``lt_euep_cc_certificateur_code_seq``
-
-Valeurs possibles : données non diffusables pour cette liste pour des raisons de confidentialités des données
-
-
----
-
-`lt_euep_cc_eval` : Liste des types de réponse aux questions pour les contrôles de conformité assainissement
-
-|Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|
-|code|Code interne des types de réponse|character(2)| |
-|valeur|Libellé des types de réponse|character varying(80)| |
-
-Particularité(s) à noter :
-* Une clé primaire existe sur le champ code 
-
-Valeurs possibles :
-
-|Code|Valeur|
-|:---|:---|
-|00|Non renseigné (cf formulaire PDF)|
-|10|Oui|
-|20|Non|
-|30|Non visible|
-|ZZ|Sans objet|
-
----
-
-`lt_euep_cc_ordre` : Liste des donneurs d'ordre pour les contrôles de conformité assainissement
-
-|Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|
-|code|Code interne des types de donneurs d'ordre|character(2)| |
-|valeur|Libellé des types de donneurs d'ordre|character varying(80)| |
-
-Particularité(s) à noter :
-* Une clé primaire existe sur le champ code 
-
-Valeurs possibles :
-
-|Code|Valeur|
-|:---|:---|
-|00|Non renseigné (cf formulaire PDF)|
-|10|Propriétaire|
+|00|Sans objet ou non encore définie dans le règlement|
+|01|Habitat|
+|02|Activité|
+|03|Destination mixte habitat/activité|
+|04|Loisirs et tourisme|
+|05|Equipement|
+|07|Activité agricole|
+|08|Espace naturel|
+|09|Espace remarquable|
+|10|Secteur de carrière|
 |99|Autre|
 
 ---
 
-`lt_euep_cc_pat` : Liste des types de patronyme
+`lt_etat` : Liste des valeurs de l''attribut état de la donnée doc_urba
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|
-|code|Code interne des types de patronyme|character(2)| |
-|valeur|Libellé des types de patronyme|character varying(80)| |
+|:---|:---|:---|:---|    
+|code|Code|character(2)| |
+|valeur|Valeur|character varying(80)| |
+
 
 Particularité(s) à noter :
 * Une clé primaire existe sur le champ code 
@@ -1159,120 +1102,391 @@ Valeurs possibles :
 
 |Code|Valeur|
 |:---|:---|
-|00|Non renseigné|
-|10|M|
-|20|Mme|
-|30|M et Mme|
-|40|Autre (précisez)|
+|01|en cours de procédure|
+|02|arrêté|
+|03|opposable|
+|04|annulé|
+|05|remplacé|
+|06|abrogé|
+|07|approuvé|
+|08|partiellement annulé|
+|09|caduc|
+
 
 ---
 
-`lt_euep_cc_tnidcc` : Liste des types de suivi des n° dossier pour un nouveau contrôle. Cette table est utilisée pour gérer la constitution d'un nouveau n° de dossier à l'enregistrement
+`lt_libsect` : Liste des valeurs de l'attribut libelle à saisir pour la carte communale (convention de libellé pour l'affichage cartographique)
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|
-|code|Code interne des types de suivi des n° dossier pour un nouveau contrôle|character(2)| |
-|valeur|Libellé des types de suivi des n° dossier pour un nouveau contrôle|character varying(80)| |
+|:---|:---|:---|:---|    
+|code|Code|character(3)| |
+|valeur|Valeur|character varying(100)| |
+
 
 Particularité(s) à noter :
-* Une clé primaire existe sur le champ code
+* Une clé primaire existe sur le champ code 
 
 Valeurs possibles :
 
 |Code|Valeur|
 |:---|:---|
-|10|Nouveau dossier|
-|20|Suivi du dossier n°|
+|ZC|Secteur ouvert à la construction|
+|ZCa|Secteur réservé aux activités|
+|ZnC|Secteur non ouvert à la construction, sauf exceptions prévues par la loi|
+|RNU|Zone non couverte par la carte communale (soumise au Règlement National de l'Urbanisme|
 
 ---
 
-`lt_euep_cc_typebati` : Liste des types de bâtiments pour les contrôles de conformité assainissement
+`lt_nomproc` : Liste des valeurs de l'attribut Nom de la procédure de la donnée doc_urba
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|
-|code|Code interne des types de bâtiments|character(2)| |
-|valeur|Libellé des types de bâtiments|character varying(80)| |
+|:---|:---|:---|:---|    
+|code|Code|character(3)| |
+|valeur|Valeur|character varying(80)| |
+
 
 Particularité(s) à noter :
-* Une clé primaire existe sur le champ code
+* Une clé primaire existe sur le champ code 
 
 Valeurs possibles :
 
 |Code|Valeur|
 |:---|:---|
-|00|Non renseigné (cf formulaire PDF)|
-|10|Maison individuelle|
-|20|Appartement|
-|30|Local commercial|
-|40|Local agricole|
-|99|Autre|
+|RNU|Commune soumise au RNU|
+|E|Elaboration|
+|MC|Mise en compatibilité|
+|MJ|Mise à jour|
+|M|Modification de droit commun|
+|MS|Modification simplifiée|
+|R|Révision|
+|RS|Révision simplifiée|
+|A|Abrogation|
 
 ---
 
-`lt_euep_cc_typeres` : Liste des types de réseau raccordé au domaine public pour les contrôles de conformité assainissement
+`lt_typedoc` : Liste des valeurs de l'attribut typedoc de la donnée doc_urba
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|
-|code|Code interne des types de réseau|character(2)| |
-|valeur|Libellé des types de réseau|character varying(80)| |
+|:---|:---|:---|:---|    
+|code|Code|character(4)| |
+|valeur|Valeur|character varying(80)| |
+
 
 Particularité(s) à noter :
-* Une clé primaire existe sur le champ code
+* Une clé primaire existe sur le champ code 
 
 Valeurs possibles :
 
 |Code|Valeur|
 |:---|:---|
-|10|Séparatif|
-|20|Unitaire|
-|30|Sous vide|
-|ZZ|Sans objet|
+|RNU|Règlement national de l'urbanisme|
+|PLU|Plan local d'urbanisme|
+|PLUI|Plan local d'urbanisme intercommunal|
+|POS|Plan d'occupation des sols|
+|CC|Carte communale|
+|PSMV|Plan de sauvegarde et de mise en valeur|
 
 ---
 
-`lt_euep_doc` : Liste des types documents joints au dossier de contrôle de conformité assainissement
+`lt_typeinf` : Liste des valeurs de l''attribut typeinf de la donnée info_surf, info_lin et info_pct
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|
-|code|Code interne des types de documents|character(2)| |
-|valeur|Libellé des types de documents|character varying(80)| |
+|:---|:---|:---|:---|    
+|code|Code|character(2)| |
+|sous_code|Sous code|character varying(2)| |
+|valeur|Valeur|character varying(254)| |
+|ref_leg|Références législatives du code de l'urbanisme|character varying(80)| |
+|ref_reg|Références réglementaires du code de l'urbanisme|character varying(80)| |
+
 
 Particularité(s) à noter :
-* Une clé primaire existe sur le champ code
+* Une clé primaire existe sur le champ code 
+
+Valeurs possibles :
+
+|Code|Valeur|
+|:---|:---|:---|:---|:---|
+|01|00|Anciennement « Secteur sauvegardé » puis « Site patrimonial remarquable » supprimé car il correspond à une SUP|Abrogé|Abrogé|
+|02|00|Zone d'aménagement concerté|Livre III code de l'urbanisme|R151-52 8°|
+|03|00|Zone de préemption dans un espace naturel et sensible (Attention : information facultative non exigée par la loi)|L215-1 du code de l'urbanisme|Pas de référence pour annexion|
+|04|00|Périmètre de droit de préemption urbain||R151-52 7°|
+|04|01|Périmètre de droit de préemption urbain renforcé|||
+|05|00|Zone d'aménagement différé||R151-52 7°|
+|07|00|Périmètre de développement prioritaire économie d'énergie||R151-53 1°|
+|08|00|Périmètre forestier : interdiction ou réglementation des plantations (code rural et de la pêche maritime), plantations à réaliser et semis d'essence forestière||R151-53 2°|
+|09|00|Périmètre minier de concession pour l'exploitation ou le stockage||R151-53 3°|
+|10|00|Zone de recherche et d'exploitation de carrière||R151-53 4°|
+|11|00|Périmètre des zones délimitées - divisions foncières soumises à déclaration préalable||R151-52 4°|
+|12|00|Périmètre de sursis à statuer||R151-52 13°|
+|13|00|Secteur de programme d'aménagement d'ensemble||R151-52 9°|
+|14|00|Périmètre de voisinage d'infrastructure de transport terrestre||R151-53 5°|
+|15|00|les Zones Agricoles Protégées abrogées car traitées en SUP A9|Abrogé|Abrogé|
+|16|00|Site archéologique (Attention : information facultative non exigée par la loi)|L522-5 2e alinéa du code du patrimoine sans obligation pour le PLU||
+|17|00|Zone à risque d'exposition au plomb||R151-53 6°|
+|19|01|Zone d'assainissement collectif/non collectif, eaux usées/eaux pluviales, schéma de réseaux eau et assainissement, systèmes d'élimination des déchets||R151-53 8° (zone)|
+|19|02|Emplacements traitement eaux et déchets||R151-53 8° (emplacement)|
+|20|00|Règlement local de publicité|L581-14 code de l'environnement|R151-53 11°|
+|21|00|Projet de plan de prévention des risques|L562-2 code de l’environnement|R151-53 9°|
+|22|00|Protection des rives des plans d'eau en zone de montagne|L122-12||
+|23|00|Arrêté du préfet coordonnateur de massif||R151-52 6°|
+|25|00|Périmètre de protection des espaces agricoles et naturels périurbain||R151-52 3°|
+|26|00|Lotissement|Abrogé|Abrogé|
+|27|00|Plan d'exposition au bruit des aérodromes||R151-52 2°|
+|30|00|Périmètre projet urbain partenarial||R151-52 12°|
+|31|00|Périmètre patrimoniaux d'exclusion des matériaux et énergies renouvelables pris par délibération|L151-17 2°|R151-52 1°|
+|32|00|Secteur de taxe d'aménagement||R151-52 10°|
+|33|00|Droit de préemption commercial (Attention : information facultative non exigée par la loi)|L 214-1|Aucune base pour report en annexe PLU - R 214-1 et 2|
+|34|00|Périmètre d'opération d'intérêt national (Attention : information facultative non exigée par la loi)|L102-12|Aucune base pour report en annexe PLU – R102-3|
+|35|00|Périmètre de secteur affecté par un seuil minimal de densité||R151-52 11°|
+|36|00|Schémas d'aménagement de plage||R151-52 5°|
+|37|00|Bois ou forêts relevant du régime forestier||R151-53 7°|
+|38|00|Secteurs d'information sur les sols||R151-53 10°|
+|39|00|Périmètres de projets AFUP (dans lesquels les propriétaires fonciers sont incités à se regrouper en AFU de projet et les AFU de projet à mener leurs opérations de façon concertée)|L322-13|R151-52 14°|
+|99|00|Autre périmètre, secteur, plan, document, site, projet, espace|||
+|99|01|Autre relevant de la loi littoral|||
+|99|02|Autre relevant de la loi montagne|||
+
+
+---
+
+`lt_typepsc` : Liste des valeurs de l''attribut typepsc de la donnée prescription_surf, prescription_lin et prescription_pct
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|    
+|code|Code|character(2)| |
+|sous_code|Sous code|character varying(2)| |
+|valeur|Valeur|character varying(254)| |
+|ref_leg|Références législatives du code de l'urbanisme|character varying(80)| |
+|ref_reg|Références réglementaires du code de l'urbanisme|character varying(80)| |
+
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ code 
 
 Valeurs possibles :
 
 |Code|Valeur|
 |:---|:---|
-|00|Non renseigné|
-|10|Contrôle de conformité|
-|20|Photographies ou planche de photos|
-|30|Schéma de l'installation|
-|40|Demande de raccordement|
-|50|Diagniostic parties communes|
-|51|Diagniostic parties privatives|
-|99|Autres documents (à préciser ci-dessous)|
+|01|00|Espace boisé classé|L113-1|R151-31 1°|
+|01|01|Espace boisé classé à protéger ou conserver|L113-1|R151-31 1°|
+|01|02|Espace boisé classé à créer|L113-1|R151-31 1°|
+|01|03|Espace boisé classé significatif au titre de la loi littoral|L121-27||
+|02|00|Limitations de la constructibilité pour des raisons environnementales, de risques,d'intérêt général||R151-31 2° et R151-34 1°|
+|02|01|Secteur avec interdiction de constructibilité pour des raisons environnementales,de risques, d'intérêt général||R151-31 2°|
+|02|02|Secteur avec conditions spéciales de constructibilité pour des raisons environnementales, de risques, d'intérêt général||R151-34 1°|
+|03|00|Secteur avec disposition de reconstruction / démolition|L151-10|R151-34 3°|
+|03|01|Secteur dans lequel la reconstruction à l'identique d'un bâtiment détruit par un sinistre n'est pas autorisée||R161-7|
+|03|02|Interdiction de restauration de bâtiment dont il reste l'essentiel des murs porteurs|L111-23||
+|04|00|Périmètre issu des PDU sur obligation de stationnement|L151-47 dernier alinéa||
+|05|00|Emplacement réservé|L151-41 1° à 3°|R151-48 2°,R151-50 1°,R151-34 4°,R151-43 3°|
+|05|01|Emplacement réservé aux voies publiques|L151-41 1°|R151-48 2°|
+|05|02|Emplacement réservé aux ouvrages publics|L151-41 1°|R151-50 1°|
+|05|03|Emplacement réservé aux installations d'intérêt général|L151-41 2°|R151-34 4°|
+|05|04|Emplacement réservé aux espaces verts/continuités écologiques|L151-41 3°|R151-43 3°|
+|05|05|Emplacement réservé logement social/mixité sociale|L151-41 4°|R151-38 1°|
+|05|06|Servitude de localisation des voies, ouvrages publics, installations d'intérêt général et espaces verts en zone U ou AU|L151-41 dernier alinéa||
+|05|07|Secteur de projet en attente d'un projet d'aménagement global|L151-41 5°|R151-32|
+|06|06|Secteur à densité maximale pour les reconstructions ou aménagements de bâtiments existants|Abrogé|Abrogé|
+|07|00|Patrimoine bâti, paysager ou éléments de paysages à protéger pour des motifs d'ordre culturel, historique, architectural ou écologique|L151-19 et L151-23|R151-41 3° et R151-43 5°|
+|07|01|Patrimoine bâti à protéger pour des motifs d'ordre culturel, historique, architectural|L151-19|R151-41 3°|
+|07|02|Patrimoine paysager à protéger pour des motifs d'ordre culturel, historique, architectural|L151-19|R151-41 3°|
+|07|03|Patrimoine paysager correspondant à un espacer boisé à protéger pour des motifs d'ordre culturel, historique, architectural|L151-19|R151-41 3°|
+|07|04|Éléments de paysage, (sites et secteurs) à préserver pour des motifs d'ordre écologique|L151-23|R151-43 5°|
+|07|05|Éléments de paysage correspondant à un espace boisé, (sites et secteurs) à préserver pour des motifs d'ordre écologique|L151-23 al.1|R151-43 5°|
+|08|00|Terrain cultivé ou non bâti à protéger en zone urbaine|L151-23 al. 2|R151-43 6°|
+|13|00|Zone à aménager en vue de la pratique du ski|L151-38 al. 2|R151-48 3°|
+|14|00|Secteur de plan de masse||R151-40|
+|15|00|Règles d'implantation des constructions|L151-17 et L151-18 ?|R151-39 dernier alinéa|
+|15|01|Implantation des constructions par rapport aux voies et aux emprises publiques|L151-18||
+|15|02|Implantation des constructions par rapport aux limites séparatives latérales|L151-18||
+|15|03|Implantation des constructions par rapport aux limites des fonds de parcelles|L151-18 ?||
+|15|98|Implantation alternative des constructions|L151-17||
+|16|00|Constructions et installations nécessaires à des équipements collectifs|L151-11 1°||
+|16|01|Bâtiment susceptible de changer de destination|L151-11 2°||
+|16|02|Bâtiments d'habitation existants pouvant faire l'objet d’extensions ou d’annexes|L151-12||
+|16|03|Secteur de taille et de capacité d'accueil limitées (STECAL)|L151-13||
+|17|00|Secteur à programme de logements mixité sociale en zone U et AU|L151-15|R151-38 3°|
+|18|00|Secteur comportant des orientations d'aménagement et de programmation (OAP)|L151-6 et L151-7||
+|18|01|OAP de projet (sans règlement)|L151-6 et L151-7|R151-8|
+|18|02|OAP entrées de ville|L151-6 et L151-7 1°|R151-6|
+|18|03|OAP relatives à la réhabilitation, la restructuration, la mise en valeur ou l'aménagement|L.151-7 4°||
+|18|04|OAP d'adaptation des périmètres de transports collectifs|L151-7 6°||
+|18|05|OAP patrimoniales, architecturales et écologiques|L151-6 et L151-7|R151-7|
+|18|06|OAP relatives à l'habitat|L151-6 ou L151-46||
+|18|07|OAP comprenant des dispositions relatives à l'équipement commercial et artisanal|L151-6 2e alinéa ou L151-7 2°||
+|18|08|OAP relatives aux transports et aux déplacements|L151-6 ou L151-47||
+|19|00|Secteur protégé en raison de la richesse du sol et du sous-sol||R.151-34 2°|
+|20|00|Secteur à transfert de constructibilité en zone N|L151-25|R151-36|
+|22|00|Diversité commerciale à protéger ou à développer|L151-16|R151-37 4°|
+|22|01|Diversité commerciale à protéger|L151-16|R151-37 4°|
+|22|02|Diversité commerciale à développer|L151-16|R151-37 4°|
+|22|03|Linéaire commercial protégé|L151-16|R151-37 4°|
+|22|04|Linéaire commercial protégé renforcé|L151-16|R151-37 4°|
+|23|00|Secteur avec taille minimale des logements en zone U et AU|L151-14|R151-38 2°|
+|24|00|Voies, chemins, transport public à conserver et à créer|L151-38|R151-48 1°|
+|24|01|Voies de circulation à créer, modifier ou conserver|L151-38|R151-48 1°|
+|24|02|Voies de circulation à modifier|L151-38|R151-48 1°|
+|24|03|Voies de circulation à créer|L151-38|R151-48 1°|
+|24|04|Voies de circulation à conserver|L151-38|R151-48 1°|
+|25|00|Eléments de continuité écologique et trame verte et bleue|L151-23 al. 2|R151-43 4° et R151-43-8°|
+|26|00|Secteur de performance énergétique|L151-21|R151-42 1°|
+|26|01|Secteur de performance énergétique renforcé|L151-21|R151-42 2°|
+|27|00|Secteur d’aménagement numérique|L151-40|R151-50 2°|
+|28|00|Conditions de desserte|| R151-47 1° et 2°|
+|28|01|Conditions permettant une bonne desserte des terrains par les services publics de collecte des déchets||R151-47 2°|
+|29|00|Secteur avec densité minimale de construction||R151-39 2e alinéa|
+|29|01|Secteur avec densité minimale de construction à proximité des transports collectifs|L151-26||
+|30|00|Majoration des volumes constructibles||R151-37 2°|
+|30|01|Majoration des volumes constructibles pour l'habitation|L151-28 1°|R151-37 5°|
+|30|02|Majoration des volumes constructibles pour les programmes comportant des logements locatifs sociaux|L151-28 2°|R151-37 2°|
+|30|03|Majoration des volumes constructibles pour exemplarité énergétique ou environnementale|L151-28 3°|R151-42 3°|
+|30|04|Majoration des volumes constructibles pour les programmes comportant des logements intermédiaires|L151-28 4°|R151-37 7°|
+|31|00|Espaces remarquables du littoral|L121-23|R121-4 1° à 8°|
+|31|01|Dunes, landes côtières, plages et lidos, estrans, falaises et abords|L121-23|R121-4 1°|
+|31|02|Forêts et zones boisées proches du rivage de la mer et des plans d'eau intérieurs d'une superficie supérieure à 1 000 hectares|L121-23|R121-4 2°|
+|31|03|Ilots inhabités|L121-23|R121-4 3°|
+|31|04|Parties naturelles des estuaires, des rias ou abers et des caps|L121-23|R121-4 4°|
+|31|05|Marais, vasières, tourbières, plans d'eau, les zones humides et milieux temporairement immergés|L121-23|R121-4 5°|
+|31|06|Milieux abritant des concentrations naturelles d'espèces animales ou végétales|L121-23|R121-4 6°|
+|31|07|Parties naturelles des sites inscrits ou classés|L121-23|R121-4 7°|
+|31|08|Formations géologiques|L121-23|R121-4 8°|
+|32|00|Exclusion protection de plans d'eau de faible importance|L122-12|R122-2|
+|33|00|Secteur de dérogation aux protections des rives des plans d'eau en zone de montagne|L122-14 1°||
+|34|00|Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver|L122-9°||
+|35|00|Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver|L122-10||
+|36|00|Mixité des destinations ou sous-destinations||R151-37 1°|
+|37|00|Règles différenciées entre le rez-de-chaussée et les étages supérieurs des constructions||R151-37 3°|
+|37|01|Règles différenciées pour le rez-de-chaussée en raison des risques inondations||R151-42 4°|
+|37|02|Règles différenciées pour mixité sociale et fonctionnelle||R151-37 1° et 3°|
+|38|00|Emprise au sol||R151-39|
+|38|01|Emprise au sol minimale||R151-39 2e alinéa|
+|38|02|Emprise au sol maximale||R151-39 1er alinéa|
+|38|97|Emprise au sol règles qualitatives||R151-39 dernier alinéa|
+|38|98|Emprise au sol règles alternatives||R151-41 1°|
+|39|00|Hauteur||R151-39|
+|39|01|Hauteur minimale||R151-39 2e alinéa|
+|39|02|Hauteur maximale||R151-39 1er alinéa|
+|39|97|Hauteur règles qualitatives||R151-39 dernier alinéa|
+|39|98|Hauteur règles alternatives||R151-41 1°|
+|40|00|Volumétrie||R151-39|
+|40|01|Volumétrie minimale|||
+|40|02|Volumétrie maximale|||
+|40|97|Règles volumétriques qualitatives||R151-39 dernier alinéa|
+|40|98|Règles volumétriques alternatives||R151-41 1°|
+|41|00|Aspect extérieur|L151-18|R151-41 2°|
+|41|01|Aspect extérieur façades|L151-18|R151-41 2°|
+|41|02|Aspect extérieur toitures|L151-18|R151-41 2°|
+|41|03|Aspect extérieur clôtures|L151-18|R151-41 2°|
+|41|98|Aspect extérieur règles alternatives||R151-13|
+|42|00|Coefficient de biotope par surface|L151-22|R151-43 1°|
+|43|00|Réalisation d'espaces libres, plantations, aires de jeux et de loisir||R151-43 2° et 8°|
+|43|01|Réalisation d'espaces libres||R151-43 2°|
+|43|02|Réalisation d'aires de jeux et de loisirs||R151-43 2°|
+|43|03|Réglementation des plantations||R151-43 8°|
+|44|00|Stationnement|||
+|44|01|Stationnement minimal|L151-30 à L151-37||
+|44|02|Stationnement maximal|L151-30 à L151-37|R151-45 3°|
+|44|03|Caractéristiques et type de stationnement||R151-45 1°|
+|44|04|Minoration des règles de stationnement||R151-45 2°|
+|44|98|Stationnement règles alternatives||R151-13|
+|45|00|Zone d'aménagement concerté (surface de plancher, destination)|L151-27||
+|46|00|Constructibilité espace boisé antérieur au 20ème siècle|L151-20||
+|47|00|Desserte par les réseaux|L151-39|R151-49|
+|47|01|Réseaux publics d'eau|L151-39|R151-49|
+|47|02|Réseaux publics d'électricité|L151-39|R151-49|
+|47|03|Réseaux publics d'assainissement|L151-39|R151-49|
+|47|04|Conditions de réalisation d'un assainissement non collectif|L151-39|R151-49|
+|47|05|Infrastructures et réseaux de communications électroniques|L151-39|R151-49 3°|
+|48|00|Mesures pour limiter l'imperméabilisation des sols||R151-49 2°|
+|48|01|Installations nécessaires à la gestion des eaux pluviales et du ruissellement||R151-43 7° et R151-49 2°|
+|49|00|Opération d'ensemble imposée en zone AU||R151-20|
+|49|01|Urbanisation par opération d'ensemble||R151-20 2|
+|49|02|Urbanisation conditionnée à la réalisation des équipements internes à la zone||R151-20 2|
+|50|00|Interdiction types d'activités, destinations, sous-destinations|L151-9|R151-30|
+|51|00|Autorisation sous conditions types d'activités, destinations, sous-destinations|L151-9|R151-33|
+|99|00|Autre||R151-27 à R151-29|
+|99|01|Autre : affectation des sols et destination des constructions|L151-9 à L151-10|R151-30 à R151-36|
+|99|02|Autre : zones naturelles, agricoles ou forestières|L151-11 à L151-13|R151-17 à R151-26|
+|99|03|Autre : mixité sociale et fonctionnelle en zones urbaines ou à urbaniser|L151-14 à L151-16|R151-37 à R151-38|
+|99|04|Autre : qualité du cadre de vie|L151-17 à L151-25||
+|99|05|Autre : Qualité urbaine, architecturale, environnementale et paysagère||R151-41 à R151-42|
+|99|06|Autre : Traitement environnemental et paysager des espaces non bâtis et abords des constructions||R151-43|
+|99|07|Autre : densité|L151-26 à L151-29-1||
+|99|08|Autre : équipements, réseaux et emplacements réservés|L151-38 à L151-42|R151-47 à R151-50|
+|99|09|Autre : plan local d'urbanisme tenant lieu de programme local de l'habitat et de plan de déplacements urbains|L151-44 à L151-48|R151-54 à R151-55|
+|99|10|Autre : plan local d'urbanisme tenant lieu de programme de déplacements urbains||R151-54 à R151-55|
+
 
 ---
 
-`lt_euep_sup` : Liste des types de servitude avec une autre propriété
+`lt_typeref` : Liste des valeurs de l'attribut typeref de la donnée doc_urba
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|
-|code|Code interne des types de sevitudes|character(2)| |
-|valeur|Libellé des types de servitudes|character varying(80)| |
+|:---|:---|:---|:---|    
+|code|Code|character varying(2)| |
+|valeur|Valeur|character varying(80)| |
+
 
 Particularité(s) à noter :
-* Une clé primaire existe sur le champ code
+* Une clé primaire existe sur le champ code 
 
 Valeurs possibles :
 
 |Code|Valeur|
 |:---|:---|
-|00|Non renseigné (cf formulaire PDF)|
-|10|Eaux usées|
-|20|Eaux pluviales|
-|ZZ|Sans objet|
+|01|PCI|
+|02|BD Parcellaire|
+|03|RPCU|
+|04|Référentiel local|
+
+---
+
+`lt_typesect` : Liste des valeurs de l'attribut typesect de la donnée zone_urba
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|    
+|code|Code|character varying(2)| |
+|valeur|Valeur|character varying(100)| |
+
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ code 
+
+Valeurs possibles :
+
+|Code|Valeur|
+|:---|:---|
+|ZZ|Non concerné|
+|01|Secteur ouvert à la construction|
+|02|Secteur réservé aux activités|
+|03|Secteur non ouvert à la construction, sauf exceptions prévues par la loi|
+|99|Zone non couverte par la carte communale|
+
+`lt_typezone` : Liste des valeurs de l'attribut typezone de la donnée zone_urba
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|    
+|code|Code|character varying(3)| |
+|valeur|Valeur|character varying(80)| |
+
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ code 
+
+Valeurs possibles :
+
+|Code|Valeur|
+|:---|:---|
+|U|Urbaine|
+|AUc|A urbaniser|
+|AUs|A urbaniser bloquée|
+|A|Agricole|
+|N|Naturel et forestière|
+
+---
+
+## Traitement automatisé mis en place (Workflow de l'ETL FME)
+
 
 ## Export Open Data
 
