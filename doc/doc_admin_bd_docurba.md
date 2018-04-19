@@ -1044,7 +1044,7 @@ Particularité(s) à noter :
  
  Les classes d'objets applicatives pour l'application de Renseignements d'urbanisme pour le Grand Public seront intégrés plus tard (en cours de réalisation et de tests fonctionnels).
  
- **ATTENTION** : ces vues sont reformatées à chaque mise à jour de cadastre ou d'une document d'urbanisme dans un Workflow de l'ETL FME.
+ **ATTENTION** : ces vues sont reformatées à chaque mise à jour de cadastre ou d'un document d'urbanisme dans un Workflow de l'ETL FME.
  
 `xapps_an_vmr_p_information` : Vue matérialisée alphanumérique formatant une liste des parcelles avec les informations ponctuelles, surfaciques (hors DPU et ZAD), linénaires issues des documents d'urbanisme et d'autres informations jugées utiles issues d'autres données métiers (Natura 2000,ZICO, ZNIEFF, ...) impactant chaque parcelle. Cette vue est liée dans GEO pour récupération de ces informations dans la fiche de renseignements d'urbanisme (cf dossier GitHub correspondant à l'application).
 
@@ -1252,7 +1252,7 @@ Valeurs possibles :
 `lt_typepsc` : Liste des valeurs de l''attribut typepsc de la donnée prescription_surf, prescription_lin et prescription_pct
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
-|:---|:---|:---|:---|:---| 
+|:---|:---|:---|:---|
 |code|Code|character(2)| |
 |sous_code|Sous code|character varying(2)| |
 |valeur|Valeur|character varying(254)| |
@@ -1265,7 +1265,7 @@ Particularité(s) à noter :
 
 Valeurs possibles :
 
-|Code|Valeur|
+|Code|Sous code|Valeur|Référence législative|Référence réglementaire|
 |:---|:---|:---|:---|:---| 
 |01|00|Espace boisé classé|L113-1|R151-31 1°|
 |01|01|Espace boisé classé à protéger ou conserver|L113-1|R151-31 1°|
