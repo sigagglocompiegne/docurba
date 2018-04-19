@@ -31,7 +31,7 @@ Particularité(s) à noter :
 * Une clé primaire existe sur le champ insee
 ---
 
-   `an_doc_urba` : table issue du standard CNIG listant l'ensemble des procédures des documents d''urbanisme en projet, annulé ou ayant été approuvés
+   `an_doc_urba` : table issue du standard CNIG listant l'ensemble des procédures des documents d''urbanisme (y compris les communes en RNU)
    
 |Nom attribut | Définition | Type | Valeurs par défaut |
 |:---|:---|:---|:---|
