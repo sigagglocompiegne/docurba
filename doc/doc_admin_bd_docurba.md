@@ -20,7 +20,8 @@ La base de données des documents d'urbanisme s'appui sur des référentiels pr�
 |r_osm | geo_vm_osm_epci | donnée de référence géographique du découpage epci OSM | sélection par intersection de géométrie (geom) des communes dans son EPCI|
 |r_administratif | an_geo | donnée de référence alphanumérique des communes (Insee) | nom de la commune, jointure avec r_osm.geo_osm_commune sur insee pour une sélection via le code EPCI contenu dans la table an_geo|
 |r_osm | geo_v_osm_commune_apc | donnée de référence géographique du découpage communal OSM | nom de l'EPCI, jointure avec m_urbanisme_doc_cnig.an_ads_commune sur insee |
-|r_osm | geo_v_osm_commune_apc | donnée de référence géographique du découpage communal OSM | nom de l'EPCI, jointure avec m_urbanisme_doc_cnig.an_ads_commune sur insee |
+|PARCELLE | r_bg_edigeo | donnée de référence géographique des parcelles cadastrales | intersection avec les informations ponctuelles (geom) |
+
 
 ## Classes d'objets
 
