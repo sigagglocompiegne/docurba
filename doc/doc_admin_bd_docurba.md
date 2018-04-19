@@ -1490,9 +1490,8 @@ Valeurs possibles :
 Plusieurs Workflow ont été mis en place pour gérer à la fois l'intégration ou la mise à jour de nouvelles procédures d'urbanisme ainsi que la mise à jour de la partie applicative lors d'une nouvelle procédure, d'une mise à jour du cadastre, d'une servitude ou de la prise en compte d'une nouvelle information jugée utile non présente dans les documents d'urbanisme.
 
  ### Gestion des procédures
- 
- Une série de traitement a été mis en place pour gérer l'ensemble des cas généré par une procédure de mise à jour des données :
- - 
+
+Une série de traitement a été mis en place pour gérer l'ensemble des cas généré par une procédure de mise à jour des données :
 
 ## Export Open Data
 
