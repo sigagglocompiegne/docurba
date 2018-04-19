@@ -1,6 +1,6 @@
 ![picto](/doc/img/Logo_web-GeoCompiegnois.png)
 
-# Documentation d'administration de la base (en cours de rédaction) #
+# Documentation d'administration de la base #
 
 ## Principes
   * **généralité** :
@@ -1487,6 +1487,12 @@ Valeurs possibles :
 
 ## Traitement automatisé mis en place (Workflow de l'ETL FME)
 
+Plusieurs Workflow ont été mis en place pour gérer à la fois l'intégration ou la mise à jour de nouvelles procédures d'urbanisme ainsi que la mise à jour de la partie applicative lors d'une nouvelle procédure, d'une mise à jour du cadastre, d'une servitude ou de la prise en compte d'une nouvelle information jugée utile non présente dans les documents d'urbanisme.
+
+ ### Gestion des procédures
+ 
+ Une série de traitement a été mis en place pour gérer l'ensemble des cas généré par une procédure de mise à jour des données :
+ - 
 
 ## Export Open Data
 
@@ -1494,13 +1500,11 @@ Sans objet
 
 ---
 
-## Schéma fonctionnel
-
-### Modèle conceptuel simplifié
+## Modèle conceptuel simplifié
 
 ![mcd](../img/)
 
-### Schéma fonctionnel
+## Schéma fonctionnel
 
 ![schema_fonctionnel](../img/)
 
