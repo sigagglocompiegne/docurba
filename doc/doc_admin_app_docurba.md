@@ -120,13 +120,36 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 
    * particularité(s) : aucune
    
-## Table : `an_fisc_geo_taxe_amgt`
+## Table : `m_fiscalite.an_fisc_geo_taxe_amgt`
 
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
-|affiche_taux|x|x||Gestion de l'affichage du taux `Si taux=9999 alors Non renseigné sinon taux || %`|Fiche de renseignements d'urbanisme||
+|affiche_taux|x|x||Gestion de l'affichage du taux `Si taux=9999 alors Non renseigné sinon taux %`|Fiche de renseignements d'urbanisme||
 |affiche_url|x|x||Affiche le lien de l'arrêté municipal si il existe autrement rien|Fiche de renseignements d'urbanisme||
 |taux_num |x|x||Formate l'affichage numérique du taux pour intégration dela champ calculé affiche_taux|Fiche de renseignements d'urbanisme||
+
+   * filtres : aucun
+   * relations :
+
+|Géotables ou Tables| Champs de jointure | Type |
+|:---|:---|:---|
+| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 0 à 1 (égal) |
+
+   * particularité(s) : aucune
+   
+   ## Table : `xapps_an_vmr_parcelle_plu`
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+|datappro ||x|Date d'approbation||Fiche POS-PLU-CC||
+|destdomi_lib ||x|Destination dominante||Fiche POS-PLU-CC||
+|fermreco  ||x|Secteur fermé à la reconstruction (pour carte communale)||Fiche POS-PLU-CC||
+|l_observ ||x|Observation(s)||Fiche POS-PLU-CC||
+|l_surf_cal ||x|Surface calculée (en ha)||Fiche POS-PLU-CC||
+|libelle  ||x|Zonage||Fiche POS-PLU-CC||
+|libelong  ||x|Libellé||Fiche POS-PLU-CC||
+|type_zone  ||x|Type de zone||Fiche POS-PLU-CC||
+|urlfic   ||x|+ d'infos|Texte de remplacement dans GEO : Accès au règlement|Fiche POS-PLU-CC||
 
    * filtres : aucun
    * relations :
