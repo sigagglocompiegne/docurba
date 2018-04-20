@@ -13,4 +13,4 @@
 
 |Public|Métier|Accès restreint|
 |:-:|:-:|:---|
-||X|Accès réservé aux personnels des|
+||X|Accès réservé aux personnels des communes et des EPCI ayant les droits d'accès. 2 profils cohabitent, ceux qui ont accès à la consultation de la matrice cadastrale et ceux qui ne l'ont pas.|
