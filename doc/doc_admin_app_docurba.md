@@ -47,7 +47,18 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
-|datappro||x|Approbation|Formate la date du dernier en contrôle en dd/mm/yyyy||Fiche de renseignements d'urbanisme|
-|format_datappro|x|x||Formate la date du dernier en contrôle en dd/mm/yyyy (code sql)||champ calculé tableau_doc_vigueur pour test Fiche de renseignements d'urbanisme en HTML|
+|datappro||x|Approbation|Formate la date du dernier en contrôle en dd/mm/yyyy|Fiche de renseignements d'urbanisme||
+|format_datappro|x|x||Formate la date du dernier en contrôle en dd/mm/yyyy (code sql)|champ calculé tableau_doc_vigueur pour test Fiche de renseignements d'urbanisme en HTML||
 |l_version||x|Version||Fiche de renseignements d'urbanisme||
 |tableau_doc_vigueur|x|x|null|Formate un tableau HTML contenant les éléments de la procédure actuelle|Test Fiche de renseignements d'urbanisme en HTML||
+|titre_ac4 |x|x|null|Formatage du titre pour la SUP AC4|Fiche de renseignements d'urbanisme||
+|titre_doc_urba_valide_html  |x|x|null|Formatage du titre pour la partie sur la procédure actuelle|Fiche de renseignements d'urbanisme||
+|titre_dpu_html |x|x|null|Formatage du titre pour la partie sur les DPU|Fiche de renseignements d'urbanisme||
+|titre_info_utile_html |x|x|null|Formatage du titre pour la partie sur les informations jugées utiles|Fiche de renseignements d'urbanisme||
+|titre_liste_sup_com |x|x|null|Formatage du titre pour la partie sur la liste des SUP devant encore être intégrées à la commune|Fiche de renseignements d'urbanisme||
+|titre_prescription_html  |x|x|null|Formatage du titre pour la partie sur les prescriptions|Fiche de renseignements d'urbanisme||
+|titre_sup_html   |x|x|null|Formatage du titre pour la partie sur les SUP intégrées|Fiche de renseignements d'urbanisme||
+|titre_sup_impact   |x|x|null|Formatage du sous-titre pour la partie sur les SUP intégrées|Fiche de renseignements d'urbanisme||
+|titre_taxe_amgt   |x|x|null|Formatage du titre pour la partie sur la taxe d'aménagement|Fiche de renseignements d'urbanisme||
+|titre_zonage_html   |x|x|null||Utilisée pour les anciennes fiches de renseignements d'urbanisme||
+
