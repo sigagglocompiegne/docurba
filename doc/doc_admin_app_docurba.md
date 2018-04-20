@@ -356,3 +356,35 @@ Source : `x_apps_geo_vmr_p_zone_urba`
 (1) si liste de domaine
 
  * Fiches d'information active : Fiche détaillée POS-PLU-CC
+ 
+ ## Recherche : `Par type de zone PLU`
+
+Cette recherche permet à l'utilisateur de faire une recherche sur les types de zones d'une commune.
+
+  * Configuration :
+
+Source : `x_apps_geo_vmr_p_zone_urba`
+
+|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
+|:---|:-:|:-:|:-:|:-:|:-:|
+|Zonage|x|||||
+|libellé de voie|x|||||
+|libelon|x|||||
+|geom||||x||
+(la détection des doublons n'est pas activée ici)
+
+ * Filtres :
+
+|Groupe|Jointure|Filtres liés|
+|:---|:-:|:-:|
+|Groupe de filtres par défaut|`ET`|x|
+
+|Nom|Obligatoire|Attribut|Condition|Valeur|Champ d'affichage (1)|Champ de valeurs (1)|Champ de tri (1)|Ajout autorisé (1)|Particularités|
+|:---|:-:|:---|:---|:---|:---|:---|:---|:-:|:---|
+|Commune|x|insee|est égale à une valeur de liste de choix|Liste de domaine (Commune APC (sans filtre))|commune_m|insee|insee|||
+|Type de zonage|x|typezone|est égale à une valeur de liste de choix|Liste de domaine (Type de zone PLU)|typezone_lib|typezone|typezone|||
+
+(1) si liste de domaine
+
+ * Fiches d'information active : Fiche détaillée POS-PLU-CC
+ 
