@@ -137,7 +137,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 
    * particularité(s) : aucune
    
-   ## Table : `xapps_an_vmr_parcelle_plu`
+## Table : `xapps_an_vmr_parcelle_plu`
 
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
@@ -156,6 +156,22 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 
 |Géotables ou Tables| Champs de jointure | Type |
 |:---|:---|:---|
-| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 0 à 1 (égal) |
+| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 0 à n (égal) |
 
    * particularité(s) : aucune
+   
+   ## Table : `m_urbanisme_reg.an_sup_geo`
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+|l_url  ||x|+ d'infos|Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
+|ligne_aff   ||x|Libellé de la servitude||Fiche de renseignements d'urbanisme||
+
+   * filtres : aucun
+   * relations :
+
+|Géotables ou Tables| Champs de jointure | Type |
+|:---|:---|:---|
+| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 1 à n (égal) |
+
+   * particularité(s) : cette table est issue d'un traitement FME qui génère pour toutes les parcelles les SUP les impactant
