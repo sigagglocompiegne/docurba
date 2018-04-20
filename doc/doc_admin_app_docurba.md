@@ -211,3 +211,22 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 | r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 1 à n (égal) |
 
    * particularité(s) : cette table est issue d'un traitement FME qui génère pour toutes les parcelles les SUP les impactant
+
+# Les fonctionnalités
+
+Sont présentées ici uniquement les fonctionnalités spécifiques à l'application.
+
+## Recherche : `Toutes les recherches cadastrales`
+
+L'ensemble des recherches cadastrales ont été formatées et intégrées par l'éditeur via son module GeoCadastre.
+Seul le nom des certaines recherches a été modifié par l'ARC pour plus de compréhension des utilisateurs.
+
+  * Configuration :
+
+Source : `r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3`
+
+|Libellé d'origine|Nouveau libellé|
+|:---|:---|
+|Parcelles par adresse|Parcelles par adresse fiscale|
+|Parcelles par propriétaire|Parcelles par nom du propriétaire|
+|Parcelles par propriétairesde locaux|Parcelles par nom du propriétaire d'un local|
