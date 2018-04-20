@@ -212,6 +212,25 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 
    * particularité(s) : cette table est issue d'un traitement FME qui génère pour toutes les parcelles les SUP les impactant
 
+## Table : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - remarque)`
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+|affichage_result   |x|||Formatage de l'affichage du titre du résultat dans le menu du même nom|PPRi zonage (projet) - remarque||
+|affiche_info   |x|||Déclaré en HTML. Formatage en HTML du résultat de la recherche(observation, date de saisie, date de mise à jour,nom)|PPRi zonage (projet) - remarque||
+|date_maj   ||x|Date de mise à jour||PPRi zonage (projet) - remarque||
+|date_sai    ||x|Saisie le||PPRi zonage (projet) - remarque||
+|info_bulle    |x|||Déclaré en HTML. Formatage en HTML de l'affichage de l'info bulle au survol de la remarque|PPRi zonage (projet) - remarque||
+|message    |x|||Déclaré en HTML. Formatage en HTML d'un message d'aide affiché dans le résultat de la recherche|PPRi zonage (projet) - remarque||
+|nom    ||x|Annotée par||PPRi zonage (projet) - remarque||
+|observ     ||x|Commentaire||PPRi zonage (projet) - remarque||
+|type_rq      ||x|Type||PPRi zonage (projet) - remarque||
+|url_aide       |x|||Contient le lien de la fiche d'aide|PPRi zonage (projet) - remarque||
+
+   * filtres : aucun
+   * relations : aucune
+   * particularité(s) : aucune
+
 # Les fonctionnalités
 
 Sont présentées ici uniquement les fonctionnalités spécifiques à l'application.
@@ -230,3 +249,67 @@ Source : `r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3`
 |Parcelles par adresse|Parcelles par adresse fiscale|
 |Parcelles par propriétaire|Parcelles par nom du propriétaire|
 |Parcelles par propriétairesde locaux|Parcelles par nom du propriétaire d'un local|
+
+## Recherche : `Parcelle(s) sélectionnée(s)`
+
+Cette recherche permet à l'utilisateur de cliquer sur la carte et de remonter les informations de la parcelle et d'accéder soit à la fiche de renseignement d'urbanisme ou de la fiche parcelle détaillée (si les droits).
+
+  * Configuration :
+
+Source : `r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3`
+
+Les champs affichés par défaut par le module intégrateur de l'éditeur ont été conservés ici.
+
+|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
+|:---|:-:|:-:|:-:|:-:|:-:|
+|Bg Emplacement|x|||||
+|Bg Full Address|x|||||
+
+L'attribut de géométrie (geom) utilisé est celui de la couche `Parcelle V3 (r_bg_edigeo.PARCELLE)`.
+(la détection des doublons n'est pas activée ici)
+
+ * Filtres :
+
+|Groupe|Jointure|Filtres liés|
+|:---|:-:|:-:|
+
+Sans objet
+
+|Nom|Obligatoire|Attribut|Condition|Valeur|Champ d'affichage (1)|Champ de valeurs (1)|Champ de tri (1)|Ajout autorisé (1)|Particularités|
+|:---|:-:|:---|:---|:---|:---|:---|:---|:-:|:---|
+|SECU|x|ccocom|est égale à une valeur du contexte `ccocom`|||||Ce champ est lié au profil utilisateur et contient le ou les code(s) insee lui permettant d'accéder aux données du cadastre de la ou des commune(s) en question|
+
+(1) si liste de domaine
+
+ * Fiches d'information active : Renseignements d'urbanisme, Renseignements d'urbanisme (non DGFIP)
+ 
+ ## Recherche : `PPRi zonage (projet) - remarque`
+
+Cette recherche permet à l'utilisateur de cliquer sur la carte et de remonter les informations de la parcelle et d'accéder soit à la fiche de renseignement d'urbanisme ou de la fiche parcelle détaillée (si les droits).
+
+  * Configuration :
+
+Source : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - remarque)`
+
+|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
+|:---|:-:|:-:|:-:|:-:|:-:|
+|affiche_result|x|||||
+|message|x|||||
+
+(la détection des doublons n'est pas activée ici)
+
+ * Filtres :
+
+|Groupe|Jointure|Filtres liés|
+|:---|:-:|:-:|
+
+Sans objet
+
+|Nom|Obligatoire|Attribut|Condition|Valeur|Champ d'affichage (1)|Champ de valeurs (1)|Champ de tri (1)|Ajout autorisé (1)|Particularités|
+|:---|:-:|:---|:---|:---|:---|:---|:---|:-:|:---|
+
+Sans objet
+
+(1) si liste de domaine
+
+ * Fiches d'information active : PPRi zonage (projet) - remarque
