@@ -394,60 +394,10 @@ Source : `x_apps_geo_vmr_p_zone_urba`
 
 Cette recherche permet à l'utilisateur de faire une recherche guidée d'une adresse contrairement à la recherche globale par saisie libre.
 
-  * Configuration :
-
-Source : `xapps_geo_v_adresse`
-
-|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
-|:---|:-:|:-:|:-:|:-:|:-:|
-|affiche_result|x|||||
-|Adresse complète|x|||||
-|geom||||x||
-
-(la détection des doublons n'est pas activée ici)
-
- * Filtres :
-
-|Groupe|Jointure|Filtres liés|
-|:---|:-:|:-:|
-|Groupe de filtres par défaut|`ET`|x|
-
-|Nom|Obligatoire|Attribut|Condition|Valeur|Champ d'affichage (1)|Champ de valeurs (1)|Champ de tri (1)|Ajout autorisé (1)|Particularités|
-|:---|:-:|:---|:---|:---|:---|:---|:---|:-:|:---|
-|Adresse par commune|x|commune|Prédéfinis filtre à liste de choix||||||
-|Adresse par voie|x|id_voie|est égale à une valeur de liste de choix|Liste de domaine (Liste de voie)|affiche_voie|id_voie|mot_dir|||
-|Numéro complet de l'adresse||numero_complet|Prédéfinis filtre à liste de choix||||||
-
-(1) si liste de domaine
-
- * Fiches d'information active : Fiche adresse
+Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à voisualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
  
  ## Recherche : `Recherche avancée d'une voie`
 
 Cette recherche permet à l'utilisateur de faire une recherche guidée d'une voie contrairement à la recherche globale par saisie libre.
 
-  * Configuration :
-
-Source : `xapps_geo_v_voie`
-
-|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
-|:---|:-:|:-:|:-:|:-:|:-:|
-|Libellé de la voie|x|||||
-|geom||||x||
-
-(la détection des doublons n'est pas activée ici)
-
- * Filtres :
-
-|Groupe|Jointure|Filtres liés|
-|:---|:-:|:-:|
-|Groupe de filtres par défaut|`ET`|x|
-
-|Nom|Obligatoire|Attribut|Condition|Valeur|Champ d'affichage (1)|Champ de valeurs (1)|Champ de tri (1)|Ajout autorisé (1)|Particularités|
-|:---|:-:|:---|:---|:---|:---|:---|:---|:-:|:---|
-|Commune|x|commune|Prédéfinis filtre à liste de choix||||||
-|Voie|x|id_voie|est égale à une valeur de liste de choix|Liste de domaine (Liste de voie)|affiche_voie|id_voie|mot_dir|||
-
-(1) si liste de domaine
-
- * Fiches d'information active : Fiche d'information sur la voie
+Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à voisualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
