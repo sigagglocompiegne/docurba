@@ -35,15 +35,15 @@ Sans objet
 
 Sont décrites ici les Géotables et/ou Tables intégrées dans GEO pour les besoins de l'application. Les autres données servant d'habillage (pour la cartographie ou les recherches) sont listées dans les autres parties ci-après. Le tableau ci-dessous présente uniquement les changements (type de champ, formatage du résultat, ...) ou les ajouts (champs calculés, filtre, ...) non présents dans la donnée source. 
 
-## Géotable : `r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO`
+## Table : `r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO`
 
-Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC.
+Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC. Les relations forcées avec d'autres tables induites par cette intégration ne sont pas relatés dans cette documentation.
 
-## Géotable : `r_bg_majic.NBAT_10`
+## Table : `r_bg_majic.NBAT_10`
 
 Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC. Sur cette table est reliée l'ensemble des autres tables ou geotable issues de la base de données de l'ARC pour affichage dans la fiche de renseignements d'urbanisme.
 
-## Géotable : `an_v_docurba_valide`
+## Table : `an_v_docurba_valide`
 
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
@@ -62,8 +62,6 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |titre_taxe_amgt   |x|x|null|Formatage du titre pour la partie sur la taxe d'aménagement|Fiche de renseignements d'urbanisme||
 |titre_zonage_html   |x|x|null||Utilisée pour les anciennes fiches de renseignements d'urbanisme||
 
-
-
    * filtres : aucun
    * relations :
 
@@ -72,3 +70,69 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 | r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | CCOCOM = insee | 1 (égal) |
 
    * particularité(s) : les champs calculés permettant d'afficher les titres des différentes rubriques de la fiche de renseignements d'urbanisme ont été intégrés dans cette table, car c'est la seule a remonté toujours un enregistrement à chaque parcelle intérogée car elle appartient forcément à une commune avec ou sans procédure d'urbanisme en vigueur.
+   
+## Table : `xapps_an_vmr_p_information_dpu`
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+|beneficiaire||x|Bénéficiaire||Fiche de renseignements d'urbanisme||
+|date_ins||x|Instauré le||Fiche de renseignements d'urbanisme||
+|urlfic||x|+ d'infos|Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
+
+   * filtres : aucun
+   * relations :
+
+|Géotables ou Tables| Champs de jointure | Type |
+|:---|:---|:---|
+| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 0 à n (égal) |
+
+   * particularité(s) : aucune
+
+## Table : `xapps_an_vmr_p_information`
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+|libelle||x|Libellé||Fiche de renseignements d'urbanisme||
+|lien|x|x|+ d'infos|Affiche le lien du document si il existe autrement rien.Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
+
+   * filtres : aucun
+   * relations :
+
+|Géotables ou Tables| Champs de jointure | Type |
+|:---|:---|:---|
+| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 0 à n (égal) |
+
+   * particularité(s) : aucune
+   
+## Table : `xapps_an_vmr_p_prescription`
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+|libelle||x|Libellé||Fiche de renseignements d'urbanisme||
+|lien|x|x|+ d'infos|Affiche le lien du document si il existe autrement rien.Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
+
+   * filtres : aucun
+   * relations :
+
+|Géotables ou Tables| Champs de jointure | Type |
+|:---|:---|:---|
+| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 0 à n (égal) |
+
+   * particularité(s) : aucune
+   
+## Table : `an_fisc_geo_taxe_amgt`
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+|affiche_taux|x|x||Gestion de l'affichage du taux `Si taux=9999 alors Non renseigné sinon taux || %`|Fiche de renseignements d'urbanisme||
+|affiche_url|x|x||Affiche le lien de l'arrêté municipal si il existe autrement rien|Fiche de renseignements d'urbanisme||
+|taux_num |x|x||Formate l'affichage numérique du taux pour intégration dela champ calculé affiche_taux|Fiche de renseignements d'urbanisme||
+
+   * filtres : aucun
+   * relations :
+
+|Géotables ou Tables| Champs de jointure | Type |
+|:---|:---|:---|
+| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 0 à 1 (égal) |
+
+   * particularité(s) : aucune
