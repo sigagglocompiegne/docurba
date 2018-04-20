@@ -1529,9 +1529,9 @@ Sans objet
 
 ## Modèle conceptuel simplifié
 
-![mcd](../img/)
+![mcd](img/MCD.png)
 
 ## Schéma fonctionnel
 
-![schema_fonctionnel](../img/)
+![schema_fonctionnel](img/schema_fonctionnel_docurba.png)
 
