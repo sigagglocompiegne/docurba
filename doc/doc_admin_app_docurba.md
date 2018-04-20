@@ -212,7 +212,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 
    * particularité(s) : cette table est issue d'un traitement FME qui génère pour toutes les parcelles les SUP les impactant
 
-## Table : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - remarque)`
+## Geotable : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - remarque)`
 
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
@@ -229,6 +229,31 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 
    * filtres : aucun
    * relations : aucune
+   * particularité(s) : aucune
+   
+## Geotable : x_apps_geo_vmr_p_zone_urba
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+|datappro_date   |x|x|Date d'approbation|Formatage de l'affichage de la date en sql|Fiche POS-PLU-CC||
+|datvalid    ||x|Date de validité de l'objet|Formatage de la date en dd-mm-yyyy|Fiche POS-PLU-CC||
+|fermreco     ||x|Secteur fermé à la reconstruction (pour carte communale)|Formatage du booléen Vrai = Oui et Faux = Non|Fiche POS-PLU-CC||
+|gestion_libelle_long     |x|x|Libellé long| Formate (en sql) l'affichage du libellé long `si typesect=ZZ alors libelong sinon affiche typesect (décodé)`|Fiche POS-PLU-CC||
+|l_observ     ||x|Observation(s)| |Fiche POS-PLU-CC||
+|l_surf_cal      ||x|Surface calculée (ha)| |Fiche POS-PLU-CC||
+|libelle       ||x|Zonage| |Fiche POS-PLU-CC||
+|typezone        ||x|Type de zone| |Fiche POS-PLU-CC||
+|urlfic        ||x|Règlement. |Déclaré en lien. Texte de remplacement dans GEO : Accès au règlement| |Fiche POS-PLU-CC||
+
+   * filtres : aucun
+   * relations :
+   
+|Géotables ou Tables| Champs de jointure | Type |
+|:---|:---|:---|
+| commune - BG | insee = ccocom | 1 (égal) |
+| lt_typezone | typezone | 1 (égal) |
+| lt_destdomi | destdomi | 1 (égal) |
+   
    * particularité(s) : aucune
 
 # Les fonctionnalités
@@ -270,11 +295,6 @@ L'attribut de géométrie (geom) utilisé est celui de la couche `Parcelle V3 (r
 
  * Filtres :
 
-|Groupe|Jointure|Filtres liés|
-|:---|:-:|:-:|
-
-Sans objet
-
 |Nom|Obligatoire|Attribut|Condition|Valeur|Champ d'affichage (1)|Champ de valeurs (1)|Champ de tri (1)|Ajout autorisé (1)|Particularités|
 |:---|:-:|:---|:---|:---|:---|:---|:---|:-:|:---|
 |SECU|x|ccocom|est égale à une valeur du contexte `ccocom`|||||Ce champ est lié au profil utilisateur et contient le ou les code(s) insee lui permettant d'accéder aux données du cadastre de la ou des commune(s) en question|
@@ -300,16 +320,41 @@ Source : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - rem
 
  * Filtres :
 
-|Groupe|Jointure|Filtres liés|
-|:---|:-:|:-:|
-
-Sans objet
-
-|Nom|Obligatoire|Attribut|Condition|Valeur|Champ d'affichage (1)|Champ de valeurs (1)|Champ de tri (1)|Ajout autorisé (1)|Particularités|
-|:---|:-:|:---|:---|:---|:---|:---|:---|:-:|:---|
-
 Sans objet
 
 (1) si liste de domaine
 
  * Fiches d'information active : PPRi zonage (projet) - remarque
+
+## Recherche : `Par libellé de zone PLU`
+
+Cette recherche permet à l'utilisateur de faire une recherche sur les zonages d'une commune.
+
+  * Configuration :
+
+Source : `x_apps_geo_vmr_p_zone_urba`
+
+|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
+|:---|:-:|:-:|:-:|:-:|:-:|
+|Adresse|x|||||
+|affiche_controle|x|||||
+|affiche_blanc|x|||||
+|affiche_result|x|||||
+|geom||||x||
+(la détection des doublons n'est pas activée ici)
+
+ * Filtres :
+
+|Groupe|Jointure|Filtres liés|
+|:---|:-:|:-:|
+|Groupe de filtres par défaut|`ET`|x|
+
+|Nom|Obligatoire|Attribut|Condition|Valeur|Champ d'affichage (1)|Champ de valeurs (1)|Champ de tri (1)|Ajout autorisé (1)|Particularités|
+|:---|:-:|:---|:---|:---|:---|:---|:---|:-:|:---|
+|EUEP - C de C - Commune|x|commune|est égale à une valeur de liste de choix|Liste de domaine (EUEP - C de C - Commune)|commune|commune|commune|||
+|EUEP - C de C - Libellé voie|x|libvoie_c|est égale à une valeur de liste de choix|Liste de domaine (EUEP - C de C - Libellé de la voie)|affiche_result_adresse|libvoie_c|mot_dir|||
+|EUEP - C de C - Numéro voirie|x|numero_complet|est égale à une valeur de liste de choix|Liste de domaine (EUEP - C de C - Numéro de voirie|numero_complet|numero_complet|numero|||
+
+(1) si liste de domaine
+
+ * Fiches d'information active : Dossier de conformité AC
