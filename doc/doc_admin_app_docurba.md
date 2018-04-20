@@ -35,7 +35,7 @@ Sans objet
 
 Sont décrites ici les Géotables et/ou Tables intégrées dans GEO pour les besoins de l'application. Les autres données servant d'habillage (pour la cartographie ou les recherches) sont listées dans les autres parties ci-après. Le tableau ci-dessous présente uniquement les changements (type de champ, formatage du résultat, ...) ou les ajouts (champs calculés, filtre, ...) non présents dans la donnée source. 
 
-## Géotable : `r_bg_edigeo.PARCELLE`
+## Géotable : `r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO`
 
 Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC.
 
@@ -62,3 +62,13 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |titre_taxe_amgt   |x|x|null|Formatage du titre pour la partie sur la taxe d'aménagement|Fiche de renseignements d'urbanisme||
 |titre_zonage_html   |x|x|null||Utilisée pour les anciennes fiches de renseignements d'urbanisme||
 
+
+
+   * filtres : aucun
+   * relations :
+
+|Géotables ou Tables| Champs de jointure | Type |
+|:---|:---|:---|
+| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | CCOCOM = insee | 1 (égal) |
+
+   * particularité(s) : les champs calculés permettant d'afficher les titres des différentes rubriques de la fiche de renseignements d'urbanisme ont été intégrés dans cette table, car c'est la seule a remonté toujours un enregistrement à chaque parcelle intérogée car elle appartient forcément à une commune avec ou sans procédure d'urbanisme en vigueur.
