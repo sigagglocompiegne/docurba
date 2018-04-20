@@ -1038,6 +1038,8 @@ Particularité(s) à noter :
 
 `geo_v_urbreg_ads_commune` :   Vue géographique sur l'état de l'ADS par l'ARC sur les communes du Pays Compiégnois
 
+`geo_v_zone_urba_controle_geom` :   Vue géographique permettant de vérifier les géométries des zonages des communes par union des polygones (permet de vérifier s'il n'y a pas de trous ou de superpositions).
+
 ---
 
  ### classes d'objets applicatives sont classés dans le schéma x_apps :
