@@ -243,7 +243,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |l_surf_cal      ||x|Surface calculée (ha)| |Fiche POS-PLU-CC||
 |libelle       ||x|Zonage| |Fiche POS-PLU-CC||
 |typezone        ||x|Type de zone| |Fiche POS-PLU-CC||
-|urlfic        ||x|Règlement. |Déclaré en lien. Texte de remplacement dans GEO : Accès au règlement| |Fiche POS-PLU-CC||
+|urlfic        ||x|Règlement. |Déclaré en lien. Texte de remplacement dans GEO : Accès au règlement|Fiche POS-PLU-CC||
 
    * filtres : aucun
    * relations :
