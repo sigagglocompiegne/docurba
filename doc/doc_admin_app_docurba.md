@@ -35,8 +35,19 @@ Sans objet
 
 Sont décrites ici les Géotables et/ou Tables intégrées dans GEO pour les besoins de l'application. Les autres données servant d'habillage (pour la cartographie ou les recherches) sont listées dans les autres parties ci-après. Le tableau ci-dessous présente uniquement les changements (type de champ, formatage du résultat, ...) ou les ajouts (champs calculés, filtre, ...) non présents dans la donnée source. 
 
-## Géotable : `xapps_geo_v_euep_cc`
+## Géotable : `r_bg_edigeo.PARCELLE`
+
+Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC.
+
+## Géotable : `r_bg_majic.NBAT_10`
+
+Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC. Sur cette table est reliée l'ensemble des autres tables ou geotable issues de la base de données de l'ARC pour affichage dans la fiche de renseignements d'urbanisme.
+
+## Géotable : `an_v_docurba_valide`
 
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
-
+|datappro||x|Approbation|Formate la date du dernier en contrôle en dd/mm/yyyy||Fiche de renseignements d'urbanisme|
+|format_datappro|x|x||Formate la date du dernier en contrôle en dd/mm/yyyy (code sql)||champ calculé tableau_doc_vigueur pour test Fiche de renseignements d'urbanisme en HTML|
+|l_version||x|Version||Fiche de renseignements d'urbanisme||
+|tableau_doc_vigueur|x|x|null|Formate un tableau HTML contenant les éléments de la procédure actuelle|Test Fiche de renseignements d'urbanisme en HTML||
