@@ -14,3 +14,19 @@
 |Public|Métier|Accès restreint|
 |:-:|:-:|:---|
 ||X|Accès réservé aux personnels des communes et des EPCI ayant les droits d'accès. 2 profils cohabitent, ceux qui ont accès à la consultation de la matrice cadastrale et ceux qui ne l'ont pas.|
+
+# Droit par profil de connexion
+
+* **Prestataires**
+
+Sans Objet
+
+* **Personnes du service métier**
+
+|Fonctionnalités|Lecture|Ecriture|Précisions|
+|:---|:-:|:-:|:---|
+|Toutes||x|L'ensemble des fonctionnalités (recherches, cartographie, fiches d'informations, ...) sont accessibles par tous les utilisateurs connectés.|
+
+* **Autres profils**
+
+Sans objet
