@@ -420,4 +420,4 @@ Source : `xapps_geo_v_adresse`
 
 (1) si liste de domaine
 
- * Fiches d'information active : Fiche détaillée POS-PLU-CC
+ * Fiches d'information active : Fiche adresse
