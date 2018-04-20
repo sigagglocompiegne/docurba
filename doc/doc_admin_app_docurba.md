@@ -35,11 +35,11 @@ Sans objet
 
 Sont décrites ici les Géotables et/ou Tables intégrées dans GEO pour les besoins de l'application. Les autres données servant d'habillage (pour la cartographie ou les recherches) sont listées dans les autres parties ci-après. Le tableau ci-dessous présente uniquement les changements (type de champ, formatage du résultat, ...) ou les ajouts (champs calculés, filtre, ...) non présents dans la donnée source. 
 
-## Table : `r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO`
+## Table : `r_bg_edigeo.PARCELLE`
 
 Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC. Les relations forcées avec d'autres tables induites par cette intégration ne sont pas relatés dans cette documentation.
 
-## Table : `r_bg_majic.NBAT_10`
+## Table : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3 dans GEO`
 
 Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC. Sur cette table est reliée l'ensemble des autres tables ou geotable issues de la base de données de l'ARC pour affichage dans la fiche de renseignements d'urbanisme.
 
@@ -50,17 +50,17 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |datappro||x|Approbation|Formate la date du dernier en contrôle en dd/mm/yyyy|Fiche de renseignements d'urbanisme||
 |format_datappro|x|x||Formate la date du dernier en contrôle en dd/mm/yyyy (code sql)|champ calculé tableau_doc_vigueur pour test Fiche de renseignements d'urbanisme en HTML||
 |l_version||x|Version||Fiche de renseignements d'urbanisme||
-|tableau_doc_vigueur|x|x|null|Formate un tableau HTML contenant les éléments de la procédure actuelle|Test Fiche de renseignements d'urbanisme en HTML||
-|titre_ac4 |x|x|null|Formatage du titre pour la SUP AC4|Fiche de renseignements d'urbanisme||
-|titre_doc_urba_valide_html  |x|x|null|Formatage du titre pour la partie sur la procédure actuelle|Fiche de renseignements d'urbanisme||
-|titre_dpu_html |x|x|null|Formatage du titre pour la partie sur les DPU|Fiche de renseignements d'urbanisme||
-|titre_info_utile_html |x|x|null|Formatage du titre pour la partie sur les informations jugées utiles|Fiche de renseignements d'urbanisme||
-|titre_liste_sup_com |x|x|null|Formatage du titre pour la partie sur la liste des SUP devant encore être intégrées à la commune|Fiche de renseignements d'urbanisme||
-|titre_prescription_html  |x|x|null|Formatage du titre pour la partie sur les prescriptions|Fiche de renseignements d'urbanisme||
-|titre_sup_html   |x|x|null|Formatage du titre pour la partie sur les SUP intégrées|Fiche de renseignements d'urbanisme||
-|titre_sup_impact   |x|x|null|Formatage du sous-titre pour la partie sur les SUP intégrées|Fiche de renseignements d'urbanisme||
-|titre_taxe_amgt   |x|x|null|Formatage du titre pour la partie sur la taxe d'aménagement|Fiche de renseignements d'urbanisme||
-|titre_zonage_html   |x|x|null||Utilisée pour les anciennes fiches de renseignements d'urbanisme||
+|tableau_doc_vigueur|x|x|null|Déclaré en HTML. Formate un tableau HTML contenant les éléments de la procédure actuelle|Test Fiche de renseignements d'urbanisme en HTML||
+|titre_ac4 |x|x|null|Déclaré en HTML. Formatage du titre pour la SUP AC4|Fiche de renseignements d'urbanisme||
+|titre_doc_urba_valide_html  |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur la procédure actuelle|Fiche de renseignements d'urbanisme||
+|titre_dpu_html |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur les DPU|Fiche de renseignements d'urbanisme||
+|titre_info_utile_html |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur les informations jugées utiles|Fiche de renseignements d'urbanisme||
+|titre_liste_sup_com |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur la liste des SUP devant encore être intégrées à la commune|Fiche de renseignements d'urbanisme||
+|titre_prescription_html  |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur les prescriptions|Fiche de renseignements d'urbanisme||
+|titre_sup_html   |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur les SUP intégrées|Fiche de renseignements d'urbanisme||
+|titre_sup_impact   |x|x|null|Déclaré en HTML. Formatage du sous-titre pour la partie sur les SUP intégrées|Fiche de renseignements d'urbanisme||
+|titre_taxe_amgt   |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur la taxe d'aménagement|Fiche de renseignements d'urbanisme||
+|titre_zonage_html   |x|x|null||Déclaré en HTML. Utilisée pour les anciennes fiches de renseignements d'urbanisme||
 
    * filtres : aucun
    * relations :
@@ -77,7 +77,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |:---|:-:|:-:|:---|:---|:---|:---|
 |beneficiaire||x|Bénéficiaire||Fiche de renseignements d'urbanisme||
 |date_ins||x|Instauré le||Fiche de renseignements d'urbanisme||
-|urlfic||x|+ d'infos|Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
+|urlfic||x|+ d'infos|Déclaré en lien. Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
 
    * filtres : aucun
    * relations :
@@ -93,7 +93,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
 |libelle||x|Libellé||Fiche de renseignements d'urbanisme||
-|lien|x|x|+ d'infos|Affiche le lien du document si il existe autrement rien.Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
+|lien|x|x|+ d'infos|Déclaré en lien. Affiche le lien du document si il existe autrement rien.Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
 
    * filtres : aucun
    * relations :
@@ -109,7 +109,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
 |libelle||x|Libellé||Fiche de renseignements d'urbanisme||
-|lien|x|x|+ d'infos|Affiche le lien du document si il existe autrement rien.Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
+|lien|x|x|+ d'infos|Déclaré en lien. Affiche le lien du document si il existe autrement rien.Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
 
    * filtres : aucun
    * relations :
@@ -125,7 +125,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
 |affiche_taux|x|x||Gestion de l'affichage du taux `Si taux=9999 alors Non renseigné sinon taux %`|Fiche de renseignements d'urbanisme||
-|affiche_url|x|x||Affiche le lien de l'arrêté municipal si il existe autrement rien|Fiche de renseignements d'urbanisme||
+|affiche_url|x|x||Déclaré en lien. Affiche le lien de l'arrêté municipal si il existe autrement rien|Fiche de renseignements d'urbanisme||
 |taux_num |x|x||Formate l'affichage numérique du taux pour intégration dela champ calculé affiche_taux|Fiche de renseignements d'urbanisme||
 
    * filtres : aucun
@@ -149,7 +149,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |libelle  ||x|Zonage||Fiche POS-PLU-CC||
 |libelong  ||x|Libellé||Fiche POS-PLU-CC||
 |type_zone  ||x|Type de zone||Fiche POS-PLU-CC||
-|urlfic   ||x|+ d'infos|Texte de remplacement dans GEO : Accès au règlement|Fiche POS-PLU-CC||
+|urlfic   ||x|+ d'infos|Déclaré en lien. Texte de remplacement dans GEO : Accès au règlement|Fiche POS-PLU-CC||
 
    * filtres : aucun
    * relations :
@@ -160,12 +160,48 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 
    * particularité(s) : aucune
    
-   ## Table : `m_urbanisme_reg.an_sup_geo`
+## Table : `m_urbanisme_reg.an_sup_geo`
 
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
-|l_url  ||x|+ d'infos|Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
+|l_url  ||x|+ d'infos|Déclaré en lien. Texte de remplacement dans GEO : Document lié|Fiche de renseignements d'urbanisme||
 |ligne_aff   ||x|Libellé de la servitude||Fiche de renseignements d'urbanisme||
+
+   * filtres : aucun
+   * relations :
+
+|Géotables ou Tables| Champs de jointure | Type |
+|:---|:---|:---|
+| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 1 à n (égal) |
+
+   * particularité(s) : cette table est issue d'un traitement FME qui génère pour toutes les parcelles les SUP les impactant
+   
+## Table : `m_urbanisme_reg.an_sup_geo_commune_synthese`
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+|affiche_liste_sup_com  ||x||Supprime les caractères blancs à la fin de la chaîne de l'attribut ligne_aff (traitement sql)Fiche de renseignements d'urbanisme||
+
+   * filtres : aucun
+   * relations :
+
+|Géotables ou Tables| Champs de jointure | Type |
+|:---|:---|:---|
+| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 1 (égal) |
+
+   * particularité(s) : cette table est issue d'un traitement FME qui génère pour toutes les parcelles les SUP les impactant
+   
+## Table : `m_urbanisme_reg.an_sup_ac4_geo_protect`
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+|demol  ||x|Démoli depuis l'approbation de la ZPPAUP|Formatage du booléen Vrai = Oui et Faux = Non non validé|ZPPAUP de Compiègne - Mesure de protection||
+|message    ||x|Libellé||ZPPAUP de Compiègne - Mesure de protection||
+|nomplan     ||x|Plan de secteur|Déclaré en lien. Texte de remplacement dans GEO : Accès|ZPPAUP de Compiègne - Mesure de protection||
+|nomreg     ||x|Règlement|Déclaré en lien. Texte de remplacement dans GEO : Accès|ZPPAUP de Compiègne - Mesure de protection||
+|photos      ||x|Planche photo|Déclaré en lien. Texte de remplacement dans GEO : Accès|ZPPAUP de Compiègne - Mesure de protection||
+|protec       ||x|Objet||ZPPAUP de Compiègne - Mesure de protection||
+|typeprotec        ||x|Mesure||ZPPAUP de Compiègne - Mesure de protection||
 
    * filtres : aucun
    * relations :
