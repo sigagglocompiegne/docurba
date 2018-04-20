@@ -30,3 +30,13 @@ Sans Objet
 * **Autres profils**
 
 Sans objet
+
+# Les données
+
+Sont décrites ici les Géotables et/ou Tables intégrées dans GEO pour les besoins de l'application. Les autres données servant d'habillage (pour la cartographie ou les recherches) sont listées dans les autres parties ci-après. Le tableau ci-dessous présente uniquement les changements (type de champ, formatage du résultat, ...) ou les ajouts (champs calculés, filtre, ...) non présents dans la donnée source. 
+
+## Géotable : `xapps_geo_v_euep_cc`
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+
