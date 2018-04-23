@@ -667,4 +667,4 @@ Source : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - rem
 |:---|:---|:-:|:-:|:-:|:-:|:---|:---|:-:|:-:|:-:|:-:|:-:|:---|:---|:---|:---|:---|
 ||||x|||xapps_geo_vmr_adresse|Adresse|x||x|||||0 à 2000|Symbole réduit à 1 et 1% opacité (pour ne pas le voir sur lacarte)|Interactivité avec le champ infobulle (au passage sur l'adresse on affiche l'adresse complète)|
 
- 
+cc
