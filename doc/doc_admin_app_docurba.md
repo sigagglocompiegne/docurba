@@ -476,7 +476,7 @@ Source : `r_plan.geo_plan_refpoi (usage APC)`
 
 |Nom de la section|Attributs|Position label|Agencement attribut|Visibilité conditionnelle|Fichie liée|Ajout de données autorisé|
 |:---|:---|:---|:---|:---|:---|:---|
-|Etablissement|Nom|Par défaut|Vertical||INFORMATIONS / CONTACT||
+|Etablissement|poi_lib|Par défaut|Vertical||INFORMATIONS / CONTACT||
 
  * Saisie : aucune
 
@@ -496,11 +496,11 @@ Source : `r_plan.an_plan_refcontactpoi`
 
 |Nom de la section|Attributs|Position label|Agencement attribut|Visibilité conditionnelle|Fichie liée|Ajout de données autorisé|
 |:---|:---|:---|:---|:---|:---|:---|
-|Etablissement|Nom,Autre dénomination|Par défaut|Vertical||||
-|Adresse|Adresse|Par défaut|Vertical||||
-|Contact|Téléphone, Fax, EMail|Par défaut|Vertical||||
-|Lien(s) internet|Site internet, Lien n°1, Lien n°2|Par défaut|Vertical||||
-|Remarques|Observations|Par défaut|Vertical||||
+|Etablissement|poi_lib,poi_alias|Par défaut|Vertical||||
+|Adresse|adr_compl|Par défaut|Vertical||||
+|Contact|tel, fax, mail|Par défaut|Vertical||||
+|Lien(s) internet|site,url1,url2|Par défaut|Vertical||||
+|Remarques|observ|Par défaut|Vertical||||
 
  * Saisie : aucune
 
