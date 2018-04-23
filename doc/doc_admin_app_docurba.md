@@ -26,6 +26,7 @@ Sans Objet
 |Fonctionnalités|Lecture|Ecriture|Précisions|
 |:---|:-:|:-:|:---|
 |Toutes|x||L'ensemble des fonctionnalités (recherches, cartographie, fiches d'informations, ...) sont accessibles par tous les utilisateurs connectés.|
+|Modification géométrique - PPRi zonage (projet) - remarque|x|x|Cette fonctionnalité est uniquement visible par les utilisateurs inclus dans les groupes ADMIN et PPRI_EDIT|
 
 * **Autres profils**
 
@@ -229,7 +230,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 
    * filtres : aucun
    * relations : aucune
-   * particularité(s) : aucune
+   * particularité(s) : les droits de cette table sont limitées aux groupes ADMIN et PPRI_EDIT en lecture, écriture et Ajout-Supression 
    
 ## Geotable : x_apps_geo_vmr_p_zone_urba
 
@@ -401,3 +402,16 @@ Cette recherche a été créée pour l'application RVA. Le détail de celle-ci e
 Cette recherche permet à l'utilisateur de faire une recherche guidée d'une voie contrairement à la recherche globale par saisie libre.
 
 Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à voisualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
+
+## Modification géométrique : `PPRi (projet) - remarque`
+
+Cette recherche permet à l'utilisateur de saisir une remarque concernant le projet de nouveau PPRi (annotations provisoires).
+
+  * Configuration :
+  
+Source : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - remarque)`
+
+ * Filtres : aucun
+ * Accrochage : aucun
+ * Fiches d'information active : PPRi zonage (projet) - remarque
+ * Topologie : aucune
