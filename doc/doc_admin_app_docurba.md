@@ -506,3 +506,32 @@ Source : `r_plan.an_plan_refcontactpoi`
 
  * Modèle d'impression : aucun
  * Particularité : cette fiche est liée à la fiche équipement, et n'est accessaible qu'à partir de celle-ci 
+ 
+  ## Fiche d'information : `Fiche parcelle` et `Fiche local`
+
+Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
+
+Ces fiches sont liées au module GeoCadastre de l'éditeur et ne sont pas modifiable par l'ARC. 
+
+## Fiche d'information : `Fiche détaillée POS-PLU-CC`
+
+Source : `x_apps_geo_vmr_p_zone_urba`
+
+ * Statistique : aucune
+ 
+ * Représentation :
+ 
+|Mode d'ouverture|Taille|Agencement des sections|
+|:---|:---|:---|
+|dans le gabarit|530x650|Vertical|
+
+|Nom de la section|Attributs|Position label|Agencement attribut|Visibilité conditionnelle|Fichie liée|Ajout de données autorisé|
+|:---|:---|:---|:---|:---|:---|:---|
+|Caractéristiques de la zone|LIBELLE (commune-BG),libelle,gestion_libelle_long,typezone,destdomi_lib,fermreco,l_surf_cal,l_observ|Par défaut|Vertical||||
+|Validité du document|datappro_date|Par défaut|Vertical||||
+|Accès au réglement|urlfic|Par défaut|Vertical||||
+
+ * Saisie : aucune
+
+ * Modèle d'impression : Fiche standard
+
