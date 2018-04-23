@@ -1535,5 +1535,5 @@ Sans objet
 
 ## Schéma fonctionnel
 
-![schema_fonctionnel](img/schema_fonctionnel.png)
+![schema_fonctionnel](img/schema_fonctionnel_docurba.png)
 
