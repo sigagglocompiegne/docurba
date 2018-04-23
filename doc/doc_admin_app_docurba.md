@@ -262,20 +262,57 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 
 Sont présentées ici uniquement les fonctionnalités spécifiques à l'application.
 
-## Recherche : `Toutes les recherches cadastrales`
+## Recherche globale : `Recherche dans la Base Adresse Locale`
 
-L'ensemble des recherches cadastrales ont été formatées et intégrées par l'éditeur via son module GeoCadastre.
-Seul le nom des certaines recherches a été modifié par l'ARC pour plus de compréhension des utilisateurs.
+Cette recherche permet à l'utilisateur de faire une recherche libre sur une adresse.
+
+Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à visualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
+
+## Recherche globale : `Recherche dans la Base de Voie Locale`
+
+Cette recherche permet à l'utilisateur de faire une recherche libre sur le libellé d'une voie.
+
+Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à visualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
+
+## Recherche globale : `Localiser une commune de l'APC`
+
+Cette recherche permet à l'utilisateur de faire une recherche sur une commune du Pays Compiégnois.
 
   * Configuration :
 
-Source : `r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3`
+Source : `geo_v_osm_commune_apc (pour recherche)`
 
-|Libellé d'origine|Nouveau libellé|
-|:---|:---|
-|Parcelles par adresse|Parcelles par adresse fiscale|
-|Parcelles par propriétaire|Parcelles par nom du propriétaire|
-|Parcelles par propriétairesde locaux|Parcelles par nom du propriétaire d'un local|
+|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
+|:---|:-:|:-:|:-:|:-:|:-:|
+|Commune M|x|x|x|||
+|geom||||x||
+
+(Calcul des suggestions par "Contient la chaîne")
+(la détection des doublons n'est pas activée ici)
+
+ * Filtres : aucun
+
+ * Fiches d'information active : aucune
+ 
+## Recherche globale : `Localiser un équipement`
+
+Cette recherche permet à l'utilisateur de faire une recherche un équipement localisé dans une commune du Pays Compiégnois.
+
+  * Configuration :
+
+Source : `geo_plan_refpoi (usage APC)`
+
+|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
+|:---|:-:|:-:|:-:|:-:|:-:|
+|recherche_poi|x|x|x|||
+|geom||||x||
+
+(Calcul des suggestions par "Contient les mots entiers (Postgres Full-TextSearch)")
+(la détection des doublons n'est pas activée ici)
+
+ * Filtres : aucun
+
+ * Fiches d'information active : Fiche équipement
 
 ## Recherche (clic sur la carte) : `Parcelle(s) sélectionnée(s)`
 
@@ -305,7 +342,7 @@ L'attribut de géométrie (geom) utilisé est celui de la couche `Parcelle V3 (r
 
  * Fiches d'information active : Renseignements d'urbanisme, Renseignements d'urbanisme (non DGFIP)
  
- ## Recherche (clic sur la carte) : `PPRi zonage (projet) - remarque`
+## Recherche (clic sur la carte) : `PPRi zonage (projet) - remarque`
 
 Cette recherche permet à l'utilisateur de cliquer sur la carte et de remonter les informations de la parcelle et d'accéder soit à la fiche de renseignement d'urbanisme ou de la fiche parcelle détaillée (si les droits).
 
@@ -327,6 +364,21 @@ Sans objet
 (1) si liste de domaine
 
  * Fiches d'information active : PPRi zonage (projet) - remarque
+
+## Recherche : `Toutes les recherches cadastrales`
+
+L'ensemble des recherches cadastrales ont été formatées et intégrées par l'éditeur via son module GeoCadastre.
+Seul le nom des certaines recherches a été modifié par l'ARC pour plus de compréhension des utilisateurs.
+
+  * Configuration :
+
+Source : `r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3`
+
+|Libellé d'origine|Nouveau libellé|
+|:---|:---|
+|Parcelles par adresse|Parcelles par adresse fiscale|
+|Parcelles par propriétaire|Parcelles par nom du propriétaire|
+|Parcelles par propriétairesde locaux|Parcelles par nom du propriétaire d'un local|
 
 ## Recherche : `Par libellé de zone PLU`
 
@@ -404,57 +456,6 @@ Cette recherche permet à l'utilisateur de faire une recherche guidée d'une voi
 
 Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à voisualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
 
-## Recherche globale : `Recherche dans la Base Adresse Locale`
-
-Cette recherche permet à l'utilisateur de faire une recherche libre sur une adresse.
-
-Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à visualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
-
-## Recherche globale : `Recherche dans la Base de Voie Locale`
-
-Cette recherche permet à l'utilisateur de faire une recherche libre sur le libellé d'une voie.
-
-Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à visualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
-
-## Recherche globale : `Localiser une commune de l'APC`
-
-Cette recherche permet à l'utilisateur de faire une recherche sur une commune du Pays Compiégnois.
-
-  * Configuration :
-
-Source : `geo_v_osm_commune_apc (pour recherche)`
-
-|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
-|:---|:-:|:-:|:-:|:-:|:-:|
-|Commune M|x|x|x|||
-|geom||||x||
-
-(Calcul des suggestions par "Contient la chaîne")
-(la détection des doublons n'est pas activée ici)
-
- * Filtres : aucun
-
- * Fiches d'information active : aucune
- 
-## Recherche globale : `Localiser un équipement`
-
-Cette recherche permet à l'utilisateur de faire une recherche un équipement localisé dans une commune du Pays Compiégnois.
-
-  * Configuration :
-
-Source : `geo_plan_refpoi (usage APC)`
-
-|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
-|:---|:-:|:-:|:-:|:-:|:-:|
-|recherche_poi|x|x|x|||
-|geom||||x||
-
-(Calcul des suggestions par "Contient les mots entiers (Postgres Full-TextSearch)")
-(la détection des doublons n'est pas activée ici)
-
- * Filtres : aucun
-
- * Fiches d'information active : Fiche équipement
 
 ## Fiche d'information : `Fiche adresse`
 
