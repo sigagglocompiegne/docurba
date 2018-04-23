@@ -277,7 +277,7 @@ Source : `r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3`
 |Parcelles par propriétaire|Parcelles par nom du propriétaire|
 |Parcelles par propriétairesde locaux|Parcelles par nom du propriétaire d'un local|
 
-## Recherche : `Parcelle(s) sélectionnée(s)`
+## Recherche (clic sur la carte) : `Parcelle(s) sélectionnée(s)`
 
 Cette recherche permet à l'utilisateur de cliquer sur la carte et de remonter les informations de la parcelle et d'accéder soit à la fiche de renseignement d'urbanisme ou de la fiche parcelle détaillée (si les droits).
 
@@ -305,7 +305,7 @@ L'attribut de géométrie (geom) utilisé est celui de la couche `Parcelle V3 (r
 
  * Fiches d'information active : Renseignements d'urbanisme, Renseignements d'urbanisme (non DGFIP)
  
- ## Recherche : `PPRi zonage (projet) - remarque`
+ ## Recherche (clic sur la carte) : `PPRi zonage (projet) - remarque`
 
 Cette recherche permet à l'utilisateur de cliquer sur la carte et de remonter les informations de la parcelle et d'accéder soit à la fiche de renseignement d'urbanisme ou de la fiche parcelle détaillée (si les droits).
 
@@ -392,17 +392,29 @@ Source : `x_apps_geo_vmr_p_zone_urba`
 
  * Fiches d'information active : Fiche détaillée POS-PLU-CC
  
-## Recherche globale : `Recherche avancée d'une adresse`
+## Recherche : `Recherche avancée d'une adresse`
 
 Cette recherche permet à l'utilisateur de faire une recherche guidée d'une adresse contrairement à la recherche globale par saisie libre.
 
-Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à voisualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
+Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à visualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
  
- ## Recherche globale : `Recherche avancée d'une voie`
+ ## Recherche : `Recherche avancée d'une voie`
 
 Cette recherche permet à l'utilisateur de faire une recherche guidée d'une voie contrairement à la recherche globale par saisie libre.
 
 Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à voisualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
+
+## Recherche globale : `Recherche dans la Base Adresse Locale`
+
+Cette recherche permet à l'utilisateur de faire une recherche libre sur une adresse.
+
+Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à visualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
+
+## Recherche globale : `Recherche dans la Base de Voie Locale`
+
+Cette recherche permet à l'utilisateur de faire une recherche libre sur le libellé d'une voie.
+
+Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à visualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
 
 ## Recherche globale : `Localiser une commune de l'APC`
 
