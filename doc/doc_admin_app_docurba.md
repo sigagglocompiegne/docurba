@@ -560,7 +560,7 @@ Source : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - rem
 
  * Modèle d'impression : Fiche standard+carte
  
- ## Fiche d'information : `Renseignements d'urbanisme`
+## Fiche d'information : `Renseignements d'urbanisme`
 
 Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
 
@@ -600,3 +600,42 @@ Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
  * Modèle d'impression : Fiche standard
  * Particularité : le champ calculé tableau_proprio a été intégré en plus de l'éditeur. Ce champ doit-être recréer à chaque mise à jour du module GeoCadastre et de la création de la structure dans GEO si besoin (champ HTML <b>{BG_FULL_NAME} /st de ligne/
 {BG_FULL_ADDRESS}</b>) et renommé Le ou les propriétaire(s).
+
+## Fiche d'information : `Renseignements d'urbanisme (non DGFIP)`
+
+Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
+
+ * Statistique : aucune
+ 
+ * Représentation :
+ 
+|Mode d'ouverture|Taille|Agencement des sections|
+|:---|:---|:---|
+|dans le gabarit|600x650|Vertical|
+
+|Nom de la section|Attributs|Position label|Agencement attribut|Visibilité conditionnelle|Fichie liée|Ajout de données autorisé|
+|:---|:---|:---|:---|:---|:---|:---|
+|(vide)|affiche_commune|Masqué|Vertical||||
+|(vide)|titre_html|Masqué|Vertical||||
+|(vide)|section_parcelle|Masqué|Vertical||||
+|(vide)|titre_doc_urba_valide_html|Masqué|Vertical||||
+|(vide)|tableau_doc_vigueur|Masqué|Vertical||||
+|(vide)|libelle(xapps_an_vmr_parcelle_plu),libelong,urlfic (xapps_an_vmr_parcelle_plu)|Masqué|Vertical||Fiche POS-PLU-CC||
+|(vide)|titre_prescription_html|Masqué|Vertical||||
+|(vide)|libelle(xapps_an_vmr_p_prescription),lien(xapps_an_vmr_p_prescription)|Masqué|Vertical||||
+|(vide)|titre_dpu_html|Masqué|Vertical||||
+|(vide)|application,beneficiaire,date_ins,urlfic(xapps_an_vmr_p_information_dpu)|Masqué|Vertical||||
+|(vide)|titre_info_utile_html|Masqué|Vertical||||
+|(vide)|libelle(xapps_an_vmr_p_information),lien(xapps_an_vmr_p_information)|Masqué|Vertical||||
+|(vide)|titre_sup_html,titre_sup_impact|Masqué|Vertical||||
+|(vide)|ligne_aff(an_sup_geo),l_url(an_sup_geo)|Masqué|Vertical||||
+|(vide)|titre_ac4|Masqué|Vertical||||
+|(vide)|message,protec,typeprotec(an_sup_ac4_geo_protect)|Masqué|Vertical||||
+|(vide)|titre_liste_sup_com|Masqué|Vertical||||
+|(vide)|titre_taxe_amgt|Masqué|Vertical||||
+|(vide)|affiche_taux,affiche_url(an_fisc_geo_taxe_amgt)|Masqué|Vertical||||
+
+ * Saisie : aucune
+
+ * Modèle d'impression : Fiche standard
+ * Particularité : cette fiche est identique à la fiche "Renseignement d'urbanisme" sauf qu'elle n'affiche pas le nom des propriétaires et n'est accessible uniquement pour les profils non DGI à partir des applicatifs GEO.
