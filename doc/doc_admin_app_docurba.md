@@ -219,8 +219,9 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |:---|:-:|:-:|:---|:---|:---|:---|
 |affichage_result   |x|||Formatage de l'affichage du titre du résultat dans le menu du même nom|PPRi zonage (projet) - remarque||
 |affiche_info   |x|||Déclaré en HTML. Formatage en HTML du résultat de la recherche(observation, date de saisie, date de mise à jour,nom)|PPRi zonage (projet) - remarque||
-|date_maj   ||x|Date de mise à jour||PPRi zonage (projet) - remarque||
+|date_maj   ||x|Mise à jour le||PPRi zonage (projet) - remarque||
 |date_sai    ||x|Saisie le||PPRi zonage (projet) - remarque||
+|id_rq   ||x|N°||PPRi zonage (projet) - remarque||
 |info_bulle    |x|||Déclaré en HTML. Formatage en HTML de l'affichage de l'info bulle au survol de la remarque|PPRi zonage (projet) - remarque||
 |message    |x|||Déclaré en HTML. Formatage en HTML d'un message d'aide affiché dans le résultat de la recherche|PPRi zonage (projet) - remarque||
 |nom    ||x|Annotée par||PPRi zonage (projet) - remarque||
@@ -456,7 +457,7 @@ Source : `geo_plan_refpoi (usage APC)`
 
  * Fiches d'information active : Fiche équipement
 
- ## Fiche d'information : `Fiche adresse`
+## Fiche d'information : `Fiche adresse`
 
 Source : `xapps_geo_vmr_adresse`
 
@@ -482,7 +483,7 @@ Source : `r_plan.geo_plan_refpoi (usage APC)`
 
  * Modèle d'impression : aucun
  
- ## Fiche d'information : `Fiche détaillée POI`
+## Fiche d'information : `Fiche détaillée POI`
 
 Source : `r_plan.an_plan_refcontactpoi`
 
@@ -507,7 +508,7 @@ Source : `r_plan.an_plan_refcontactpoi`
  * Modèle d'impression : aucun
  * Particularité : cette fiche est liée à la fiche équipement, et n'est accessaible qu'à partir de celle-ci 
  
-  ## Fiche d'information : `Fiche parcelle` et `Fiche local`
+## Fiche d'information : `Fiche parcelle` et `Fiche local`
 
 Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
 
@@ -530,6 +531,50 @@ Source : `x_apps_geo_vmr_p_zone_urba`
 |Caractéristiques de la zone|LIBELLE (commune-BG),libelle,gestion_libelle_long,typezone,destdomi_lib,fermreco,l_surf_cal,l_observ|Par défaut|Vertical||||
 |Validité du document|datappro_date|Par défaut|Vertical||||
 |Accès au réglement|urlfic|Par défaut|Vertical||||
+
+ * Saisie : aucune
+
+ * Modèle d'impression : Fiche standard
+ 
+ ## Fiche d'information : `Fiche adresse` et `Fiche d'information sur la voie`
+
+Ces deux fiches sont issues de l'application RVA. Se référer au répertoire GitHub du même nom pour plus de précisions.
+
+## Fiche d'information : `PPRi zonage (projet) - remarque`
+
+Source : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - remarque)`
+
+ * Statistique : aucune
+ 
+ * Représentation :
+ 
+|Mode d'ouverture|Taille|Agencement des sections|
+|:---|:---|:---|
+|dans le gabarit|530x650|Vertical|
+
+|Nom de la section|Attributs|Position label|Agencement attribut|Visibilité conditionnelle|Fichie liée|Ajout de données autorisé|
+|:---|:---|:---|:---|:---|:---|:---|
+|Caractéristiques de l'annotation|id_rq,nom,tyep_rq,observ,date_sai,date_maj|Par défaut|Vertical||||
+
+ * Saisie : aucune
+
+ * Modèle d'impression : Fiche standard+carte
+ 
+ ## Fiche d'information : `Renseignements d'urbanisme`
+
+Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
+
+ * Statistique : aucune
+ 
+ * Représentation :
+ 
+|Mode d'ouverture|Taille|Agencement des sections|
+|:---|:---|:---|
+|dans le gabarit|600x650|Vertical|
+
+|Nom de la section|Attributs|Position label|Agencement attribut|Visibilité conditionnelle|Fichie liée|Ajout de données autorisé|
+|:---|:---|:---|:---|:---|:---|:---|
+|(vide)|affiche_commune|Masqué|Vertical||||
 
  * Saisie : aucune
 
