@@ -391,18 +391,6 @@ Source : `x_apps_geo_vmr_p_zone_urba`
 
  * Fiches d'information active : Fiche détaillée POS-PLU-CC
  
-## Recherche : `Recherche avancée d'une adresse`
-
-Cette recherche permet à l'utilisateur de faire une recherche guidée d'une adresse contrairement à la recherche globale par saisie libre.
-
-Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à voisualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
- 
- ## Recherche : `Recherche avancée d'une voie`
-
-Cette recherche permet à l'utilisateur de faire une recherche guidée d'une voie contrairement à la recherche globale par saisie libre.
-
-Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à voisualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
-
 ## Modification géométrique : `PPRi (projet) - remarque`
 
 Cette recherche permet à l'utilisateur de saisir une remarque concernant le projet de nouveau PPRi (annotations provisoires).
@@ -414,4 +402,107 @@ Source : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - rem
  * Filtres : aucun
  * Accrochage : aucun
  * Fiches d'information active : PPRi zonage (projet) - remarque
- * Topologie : aucune
+ * Topologie : aucune 
+
+## Recherche globale : `Recherche avancée d'une adresse`
+
+Cette recherche permet à l'utilisateur de faire une recherche guidée d'une adresse contrairement à la recherche globale par saisie libre.
+
+Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à voisualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
+ 
+ ## Recherche globale : `Recherche avancée d'une voie`
+
+Cette recherche permet à l'utilisateur de faire une recherche guidée d'une voie contrairement à la recherche globale par saisie libre.
+
+Cette recherche a été créée pour l'application RVA. Le détail de celle-ci est donc à voisualiser dans le répertoire GitHub rva au niveau de la documentation applicative.
+
+## Recherche globale : `Localiser une commune de l'APC`
+
+Cette recherche permet à l'utilisateur de faire une recherche sur une commune du Pays Compiégnois.
+
+  * Configuration :
+
+Source : `geo_v_osm_commune_apc (pour recherche)`
+
+|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
+|:---|:-:|:-:|:-:|:-:|:-:|
+|Commune M|x|x|x|||
+|geom||||x||
+
+(Calcul des suggestions par "Contient la chaîne")
+(la détection des doublons n'est pas activée ici)
+
+ * Filtres : aucun
+
+ * Fiches d'information active : aucune
+ 
+## Recherche globale : `Localiser un équipement`
+
+Cette recherche permet à l'utilisateur de faire une recherche un équipement localisé dans une commune du Pays Compiégnois.
+
+  * Configuration :
+
+Source : `geo_plan_refpoi (usage APC)`
+
+|Attribut|Afficher|Rechercher|Suggestion|Attribut de géométrie|Tri des résultats|
+|:---|:-:|:-:|:-:|:-:|:-:|
+|recherche_poi|x|x|x|||
+|geom||||x||
+
+(Calcul des suggestions par "Contient les mots entiers (Postgres Full-TextSearch)")
+(la détection des doublons n'est pas activée ici)
+
+ * Filtres : aucun
+
+ * Fiches d'information active : Fiche équipement
+
+ ## Fiche d'information : `Fiche adresse`
+
+Source : `xapps_geo_vmr_adresse`
+
+Cette fiche est issus de l'application RVA. Consultez le répertoire rva sur GitHub pour plus de précisions.
+
+## Fiche d'information : `Fiche équipement`
+
+Source : `r_plan.geo_plan_refpoi (usage APC)`
+
+ * Statistique : aucune
+ 
+ * Représentation :
+ 
+|Mode d'ouverture|Taille|Agencement des sections|
+|:---|:---|:---|
+|dans le gabarit|530x650|Vertical|
+
+|Nom de la section|Attributs|Position label|Agencement attribut|Visibilité conditionnelle|Fichie liée|Ajout de données autorisé|
+|:---|:---|:---|:---|:---|:---|:---|
+|Etablissement|Nom|Par défaut|Vertical||INFORMATIONS / CONTACT||
+
+ * Saisie : aucune
+
+ * Modèle d'impression : aucun
+ 
+ ## Fiche d'information : `Fiche détaillée POI`
+
+Source : `r_plan.an_plan_refcontactpoi`
+
+ * Statistique : aucune
+ 
+ * Représentation :
+ 
+|Mode d'ouverture|Taille|Agencement des sections|
+|:---|:---|:---|
+|dans le gabarit|530x650|Vertical|
+
+|Nom de la section|Attributs|Position label|Agencement attribut|Visibilité conditionnelle|Fichie liée|Ajout de données autorisé|
+|:---|:---|:---|:---|:---|:---|:---|
+|Etablissement|Nom,Autre dénomination|Par défaut|Vertical||||
+|Adresse|Adresse|Par défaut|Vertical||||
+|Contact|Téléphone, Fax, EMail|Par défaut|Vertical||||
+|Lien(s) internet|Site internet, Lien n°1, Lien n°2|Par défaut|Vertical||||
+|Remarques|Observations|Par défaut|Vertical||||
+
+ * Saisie : aucune
+
+ * Modèle d'impression : aucun
+ * Particularité : cette fiche est liée à la fiche équipement, et n'est accessaible qu'à partir de celle-ci 
