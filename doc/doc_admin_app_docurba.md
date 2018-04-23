@@ -392,19 +392,6 @@ Source : `x_apps_geo_vmr_p_zone_urba`
 
  * Fiches d'information active : Fiche détaillée POS-PLU-CC
  
-## Modification géométrique : `PPRi (projet) - remarque`
-
-Cette recherche permet à l'utilisateur de saisir une remarque concernant le projet de nouveau PPRi (annotations provisoires).
-
-  * Configuration :
-  
-Source : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - remarque)`
-
- * Filtres : aucun
- * Accrochage : aucun
- * Fiches d'information active : PPRi zonage (projet) - remarque
- * Topologie : aucune 
-
 ## Recherche globale : `Recherche avancée d'une adresse`
 
 Cette recherche permet à l'utilisateur de faire une recherche guidée d'une adresse contrairement à la recherche globale par saisie libre.
@@ -639,3 +626,24 @@ Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
 
  * Modèle d'impression : Fiche standard
  * Particularité : cette fiche est identique à la fiche "Renseignement d'urbanisme" sauf qu'elle n'affiche pas le nom des propriétaires et n'est accessible uniquement pour les profils non DGI à partir des applicatifs GEO.
+
+## Analyse :
+
+Aucune
+
+## Statistique :
+
+Aucune
+
+## Modification géométrique : `PPRi (projet) - remarque`
+
+Cette recherche permet à l'utilisateur de saisir une remarque concernant le projet de nouveau PPRi (annotations provisoires).
+
+  * Configuration :
+  
+Source : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - remarque)`
+
+ * Filtres : aucun
+ * Accrochage : aucun
+ * Fiches d'information active : PPRi zonage (projet) - remarque
+ * Topologie : aucune 
