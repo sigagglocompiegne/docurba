@@ -257,7 +257,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
    
    ## Geotable : geo_p_zone_pau
 
-   * structure : aucune modification apr rapport à l'import
+   * structure : aucune modification par rapport à l'import
    * filtres :
    
  |Nom|Attribut| Au chargement | Type | Condition |Valeur|Description|
