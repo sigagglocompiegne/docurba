@@ -665,7 +665,7 @@ Source : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - rem
 
 |Groupe|Sous-groupe|Visible dans la légende|Visible au démarrage|Détails visibles|Déplié par défaut|Geotable|Renommée|Issue d'une autre carte|Visible dans la légende|Visible au démarrage|Déplié par défaut|Couche sélectionnable|Couche accrochable|Catégorisation|Seuil de visibilité|Symbologie|Autres|
 |:---|:---|:-:|:-:|:-:|:-:|:---|:---|:-:|:-:|:-:|:-:|:-:|:---|:---|:---|:---|:---|
-||||x|||xapps_geo_vmr_adresse|Adresse|x||x|||||0 à 2000|Symbole réduit à 1 et 1% opacité (pour ne pas le voir sur lacarte)|Interactivité avec le champ infobulle (au passage sur l'adresse on affiche l'adresse complète)|
+||||x|||xapps_geo_vmr_adresse|Adresse|x||x|||||0 à 2000|Symbole réduit à 8 et 1% opacité (pour ne pas le voir sur lacarte)|Interactivité avec le champ infobulle `{adresse} || '<br>' || CASE WHEN {diag_adr} <> 'Adresse conforme' THEN {diag_adr} ELSE '' END`|
 |Servitudes d'utilités publique||x||x||||||||||||||
 |Servitudes d'utilités publique|A4-Cours d'eau non domaniaux|x||x||geo_sup_a4_generateur_sup_l|Générateur||x|x||||||Ligne bleue||
 |Servitudes d'utilités publique|A4-Cours d'eau non domaniaux|x||x||geo_sup_a4_assiette_sup_s|Assiette||x|x||||||Contour vert pointillé||
@@ -745,3 +745,49 @@ WHEN {l_nature} is not null THEN 'Nature : ' || {l_nature} WHEN {l_valrecul} is 
 |Foncier||||||geo_v_fon_proprio_pu_pays|Propriété institutionnelle||x|x|x|||foncier_public_type||Une couleur par type||
 |Cadastre||||x||||||||||||||
 |Cadastre||||||r_bg_edigeo.PARCELLE (Parcelle V3)|Parcelle V3|||x|||x||0 à 8000è|Fond blanc 1% sans contour||
+
+# L'application
+
+* Généralités :
+
+|Gabarit|Thème|Modules spé|Impression|Résultats|
+|:---|:---|:---|:---|:---|
+|Pro|Thème GeoCompiegnois 1.0.7|Bandeaux HTML,StreetView,GeoCadastre,Google Analytics,Page de connexion perso|8 Modèles standards A4 et A3||
+
+* Particularité de certains modules :
+  * Module introduction : aucun.
+  * Module javacript : aucun
+  * Module Google Analytics : le n° ID est disponible sur le site de Google Analytics
+
+* Recherche globale :
+
+|Noms|Tri|Nb de sugggestion|Texte d'invite|
+|:---|:---|:---|:---|
+|Recherche dans la Base Adresse Locale,Recherche dans la Base de Voie locale, Localiser une commune de l'APC, Localiser un équipement|alpha|20|Rechercher une adresse, une voie, une commune, un équipement, ...|
+
+* Carte : `Cadastre V4`
+
+Comportement au clic : (dés)active uniquement l'item cliqué
+Liste des recherches : Parcelle(s) sélectionnée(s) (description : GeoCadastre V3), PPRi zonage (projet) - remarque
+
+* Fonds de plan :
+
+|Nom|Au démarrage|opacité|
+|:---|:---|:---|
+|Cadastre|x|100%|
+|Plan de ville||100%|
+|Carte IGN 25000||100%|
+|Photographie aérienne 2013|x|70%|
+
+* Fonctionnalités
+
+|Groupe|Nom|
+|:---|:---|
+|Recherche cadastrale (V3)||
+||Parcelles par référence|
+||Parcelles par adresse fiscale (V3)|
+||Parcelles par nom du propriétaire (V3) (non disponible pour l'application URBANISME)|
+||Parcelles multicritères (V3)|
+||Parcelles par nom du propriétaire d'un local (V3) (non disponible pour l'application URBANISME)|
+||Parcelles par surface (V3)|
+|Recherche zone PLU|Informations sur le prestataire|
