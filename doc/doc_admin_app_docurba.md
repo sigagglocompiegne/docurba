@@ -169,13 +169,10 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |ligne_aff   ||x|Libellé de la servitude||Fiche de renseignements d'urbanisme||
 
    * filtres : aucun
-   * relations :
 
-|Géotables ou Tables| Champs de jointure | Type |
-|:---|:---|:---|
-| r_bg_edigeo.PARCELLE (Parcelle (Alpha) V3 dans GEO | idu | 1 à n (égal) |
+   * relations : aucune
 
-   * particularité(s) : cette table est issue d'un traitement FME qui génère pour toutes les parcelles les SUP les impactant
+   * particularité(s) : aucune
    
 ## Table : `m_urbanisme_reg.an_sup_geo_commune_synthese`
 
@@ -257,6 +254,19 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 | lt_destdomi | destdomi | 1 (égal) |
    
    * particularité(s) : aucune
+   
+   ## Geotable : geo_p_zone_pau
+
+   * structure : aucune modification apr rapport à l'import
+   * filtres :
+   
+ |Nom|Attribut| Au chargement | Type | Condition |Valeur|Description|
+|:---|:---|:-:|:---:|:---:|:---|:---|
+|PAU_statut|l_statut|x|Alphanumérique|est égale à une valeur par défaut|true||
+   
+   * relations : aucune
+   
+   * particularité(s) : Si une commune passe de RNU à un PLU ou CC, les données PAU de cette commune doivnet être modifiée l_statut=false via QGIS
 
 # Les fonctionnalités
 
