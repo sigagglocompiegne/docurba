@@ -790,4 +790,11 @@ Liste des recherches : Parcelle(s) sélectionnée(s) (description : GeoCadastre 
 ||Parcelles multicritères (V3)|
 ||Parcelles par nom du propriétaire d'un local (V3) (non disponible pour l'application URBANISME)|
 ||Parcelles par surface (V3)|
-|Recherche zone PLU|Informations sur le prestataire|
+|Recherche zone PLU||
+||Par libellé de zone PLU|
+||Par type de zone PLU|
+|Recherche avancée d'une voie ou d'une adresse||
+||Recherche avancée d'une adresse|
+||Recherche avancée d'une voie|
+|Modification d'objets||
+||PPRi (projet) - remarque|
