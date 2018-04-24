@@ -752,7 +752,7 @@ WHEN {l_nature} is not null THEN 'Nature : ' || {l_nature} WHEN {l_valrecul} is 
 
 |Gabarit|Thème|Modules spé|Impression|Résultats|
 |:---|:---|:---|:---|:---|
-|Pro|Thème GeoCompiegnois 1.0.7|Bandeaux HTML,StreetView,GeoCadastre,Google Analytics,Page de connexion perso|8 Modèles standards A4 et A3||
+|Pro|Thème GeoCompiegnois 1.0.7|Bandeaux HTML,StreetView,GeoCadastre,Google Analytics,Page de connexion perso, coordonnées au survol|8 Modèles standards A4 et A3||
 
 * Particularité de certains modules :
   * Module introduction : aucun.
