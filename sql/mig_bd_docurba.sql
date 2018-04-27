@@ -5,6 +5,7 @@
 --		GB / Reste à la charge de chaque partenaire d'adapter ce script à sa situation
 -- 2018/04/19 : GB / Intégration dans la chaine de production des tables geo_p_zone_urba et an_ads_commune non compris dans le standard CNIG mais servant également à la gestion des données des docs d'urbanisme
 --                   initialisation du code et migration des données intégrées pour ces 2 tables
+-- 2018/04/27 : GB / Adaptation de la migration des données PSC et INFO suite validation de la grille de correspondance 2014-2017
 -- ############################################################################################## SCHEMA #########################################################################################################
 
 --
