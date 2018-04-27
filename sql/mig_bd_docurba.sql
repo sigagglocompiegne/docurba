@@ -3558,7 +3558,6 @@ CASE
 	WHEN typepsc = '11' THEN '15'
 	WHEN typepsc = '12' THEN '05' 
 	WHEN typepsc = '21' THEN '05'
-	WHEN typepsc = '99' and l_typepsc2 = '99-01' THEN '41'
 ELSE
 typepsc END  as typepsc,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -3598,7 +3597,6 @@ CASE
 	WHEN l_typepsc2 = '24-01' THEN '01'
 	WHEN typepsc = '25' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN typepsc = '99' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
-	WHEN l_typepsc2 = '99-01' THEN '03'
  END as stypepsc,
 nomfic,
 urlfic,
@@ -3715,7 +3713,6 @@ CASE
         WHEN typepsc = '11' and l_typepsc2 = '11-07' THEN '39'
 	WHEN typepsc = '11' and l_typepsc2 = '11-08' THEN '41'
   	WHEN typepsc = '21' THEN '05'
-	WHEN typepsc = '99' and l_typepsc2 = '99-01' THEN '41'
 ELSE
 typepsc END  as typepsc,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4204,7 +4201,6 @@ CASE
 	WHEN typepsc = '11' THEN '15'
 	WHEN typepsc = '12' THEN '05' 
 	WHEN typepsc = '21' THEN '05'
-	WHEN typepsc = '99' and l_typepsc2 = '99-01' THEN '41'
 ELSE
 typepsc END  as typepsc,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4250,7 +4246,6 @@ CASE
 	WHEN l_typepsc2 = '24-01' THEN '01'
 	WHEN typepsc = '25' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN typepsc = '99' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
-	WHEN l_typepsc2 = '99-01' THEN '03'
  END as stypepsc,
 nomfic,
 urlfic,
