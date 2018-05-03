@@ -3593,6 +3593,7 @@ CASE
 	WHEN typepsc = '16' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '01'
 	WHEN typepsc = '17' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN typepsc = '18' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN typepsc = '19' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN typepsc = '21' THEN '06'
 	WHEN l_typepsc2 = '24-01' THEN '01'
 	WHEN typepsc = '25' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
@@ -3664,6 +3665,7 @@ CASE
         WHEN l_typepsc2 = '11-02' THEN '01'
         WHEN l_typepsc2 = '11-07' THEN '00'
  	WHEN typepsc = '15' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+ 	WHEN typepsc = '19' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
         WHEN l_typepsc2 = '21-02' THEN '06'
         WHEN l_typepsc2 = '21-01' THEN '06'
  	WHEN l_typepsc2 = '24-01' THEN '01'
@@ -3727,6 +3729,7 @@ CASE
         WHEN typepsc = '07' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
         WHEN l_typepsc2 = '11-07' THEN '00'
  	WHEN typepsc = '16' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '01'
+ 	WHEN typepsc = '19' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
         WHEN l_typepsc2 = '21-03' THEN '06'
    	WHEN typepsc = '99' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
  END as stypepsc,
@@ -4239,6 +4242,7 @@ CASE
 	WHEN typepsc = '16' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '01'
 	WHEN typepsc = '17' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN typepsc = '18' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+ 	WHEN typepsc = '19' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN typepsc = '21' THEN '06'
         WHEN l_typepsc2 = '21-02' THEN '06'
         WHEN l_typepsc2 = '21-01' THEN '06'
@@ -4276,7 +4280,7 @@ CREATE SEQUENCE m_urbanisme_doc_cnig2017.geo_a_prescription_surf_gid_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
-  START 7156
+  START 7189
   CACHE 1;
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_a_prescription_surf_gid_seq
   OWNER TO postgres;
@@ -4325,6 +4329,7 @@ CASE
         WHEN l_typepsc2 = '11-02' THEN '01'
         WHEN l_typepsc2 = '11-07' THEN '00'
  	WHEN typepsc = '15' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+ 	WHEN typepsc = '19' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
         WHEN l_typepsc2 = '21-02' THEN '06'
         WHEN l_typepsc2 = '21-01' THEN '06'
 	WHEN l_typepsc2 = '21-03' THEN '06'
@@ -4387,6 +4392,7 @@ CASE
         WHEN typepsc = '07' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
         WHEN l_typepsc2 = '11-07' THEN '00'
  	WHEN typepsc = '16' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '01'
+ 	WHEN typepsc = '19' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN typepsc = '21' THEN '06'
         WHEN l_typepsc2 = '21-03' THEN '06'
    	WHEN typepsc = '99' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
@@ -4875,6 +4881,7 @@ CASE
 	WHEN typepsc = '16' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '01'
 	WHEN typepsc = '17' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN typepsc = '18' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+ 	WHEN typepsc = '19' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN typepsc = '21' THEN '06'
         WHEN l_typepsc2 = '21-01' THEN '06'
 	WHEN l_typepsc2 = '24-01' THEN '01'
@@ -4942,6 +4949,7 @@ CASE
         WHEN l_typepsc2 = '11-02' THEN '01'
         WHEN l_typepsc2 = '11-07' THEN '00'
  	WHEN typepsc = '15' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+ 	WHEN typepsc = '19' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
         WHEN l_typepsc2 = '21-02' THEN '06'
         WHEN l_typepsc2 = '21-01' THEN '06'
  	WHEN l_typepsc2 = '24-01' THEN '01'
@@ -5001,6 +5009,7 @@ CASE
         WHEN typepsc = '07' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
         WHEN l_typepsc2 = '11-07' THEN '00'
  	WHEN typepsc = '16' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '01'
+ 	WHEN typepsc = '19' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
         WHEN l_typepsc2 = '21-03' THEN '06'
    	WHEN typepsc = '99' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
  END as stypepsc,
