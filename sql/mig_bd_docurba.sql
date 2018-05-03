@@ -7176,6 +7176,7 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 -- afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
 -- 
 -- Materialized View: x_apps.xapps_an_vmr_p_prescription
+
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription;
 -- 
 -- CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription AS 
@@ -7191,6 +7192,8 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 -- 			CASE WHEN length(geo_p_prescription_pct.l_nature) <> 0 THEN chr(10) || 'Nature : ' || geo_p_prescription_pct.l_nature ELSE '' END
 -- 			||
 -- 			CASE WHEN  length(geo_p_prescription_pct.l_surf_txt) <> 0 THEN chr(10) || 'Surface : ' || geo_p_prescription_pct.l_surf_txt ELSE ''  END
+-- 			||
+-- 			CASE WHEN  length(geo_p_prescription_pct.l_gen) <> 0 THEN chr(10) || 'Générateur du recul : ' || geo_p_prescription_pct.l_gen ELSE ''  END
 -- 			||
 -- 			CASE WHEN  length(geo_p_prescription_pct.l_valrecul) <> 0 THEN chr(10) || 'Valeur du recul : ' || geo_p_prescription_pct.l_valrecul ELSE ''  END
 -- 			||
@@ -7211,6 +7214,8 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 -- 			CASE WHEN length(geo_p_prescription_lin.l_nature) <> 0 THEN chr(10) || 'Nature : ' || geo_p_prescription_lin.l_nature ELSE '' END
 -- 			||
 -- 			CASE WHEN  length(geo_p_prescription_lin.l_surf_txt) <> 0 THEN chr(10) || 'Surface : ' || geo_p_prescription_lin.l_surf_txt ELSE ''  END
+-- 			||
+-- 			CASE WHEN  length(geo_p_prescription_lin.l_gen) <> 0 THEN chr(10) || 'Générateur du recul : ' || geo_p_prescription_lin.l_gen ELSE ''  END
 -- 			||
 -- 			CASE WHEN  length(geo_p_prescription_lin.l_valrecul) <> 0 THEN chr(10) || 'Valeur du recul : ' || geo_p_prescription_lin.l_valrecul ELSE ''  END
 -- 			||
@@ -7233,6 +7238,12 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 -- 			CASE WHEN length(geo_p_prescription_surf.l_nature) <> 0 THEN chr(10) || 'Nature : ' || geo_p_prescription_surf.l_nature ELSE '' END
 -- 			||
 -- 			CASE WHEN  length(geo_p_prescription_surf.l_surf_txt) <> 0 THEN chr(10) || 'Surface : ' || geo_p_prescription_surf.l_surf_txt ELSE ''  END
+-- 			||
+-- 			CASE WHEN  length(geo_p_prescription_surf.l_gen) <> 0 THEN chr(10) || 'Générateur du recul : ' || geo_p_prescription_surf.l_gen ELSE ''  END
+-- 			||
+-- 			CASE WHEN  length(geo_p_prescription_surf.l_valrecul) <> 0 THEN chr(10) || 'Valeur du recul : ' || geo_p_prescription_surf.l_valrecul ELSE ''  END
+-- 			||
+-- 			CASE WHEN  length(geo_p_prescription_surf.l_typrecul) <> 0 THEN chr(10) || 'Type du recul : ' || geo_p_prescription_surf.l_typrecul ELSE ''  END
 -- 			as libelle,
 --                     geo_p_prescription_surf.urlfic
 --                    FROM r_bg_edigeo."PARCELLE",
@@ -7292,6 +7303,7 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 --   ON x_apps.xapps_an_vmr_p_prescription
 --   USING btree
 --   (idu COLLATE pg_catalog."default");
+
 
 -- Materialized View: x_apps.x_apps_an_vmr_parcelle_plu
 -- DROP MATERIALIZED VIEW IF EXISTS x_apps.x_apps_an_vmr_fichegeo_ruplu2_gdpublic;
