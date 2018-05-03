@@ -6793,6 +6793,7 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 -- 
 
 
+
 -- Materialized View: x_apps.x_apps_an_vmr_p_information
 -- 
 -- DROP MATERIALIZED VIEW IF EXISTS x_apps.x_apps_an_vmr_p_information;
@@ -6801,30 +6802,55 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 --  WITH r_p AS (
 --          WITH r_pct AS (
 --                  SELECT "PARCELLE"."IDU" AS idu,
---                         CASE
---                             WHEN geo_p_info_pct.l_valrecul IS NOT NULL THEN (((lt_typeinf.valeur::text || chr(10)) || 'Valeur du recul : '::text) || geo_p_info_pct.l_valrecul::text)::character varying
---                             ELSE CASE WHEN geo_p_info_pct.typeinf = '99' THEN lt_typeinf.valeur || ' : ' || geo_p_info_pct.libelle ELSE lt_typeinf.valeur END
---                         END AS libelle,
+-- 			geo_p_info_pct.libelle 
+-- 			|| 
+-- 			CASE WHEN length(geo_p_info_pct.l_nom) <> 0 THEN 'Nom : ' || geo_p_info_pct.l_nom ELSE '' END 
+-- 			||	
+--                         CASE WHEN length(geo_p_info_pct.l_dateins) <> 0 THEN chr(10) || 'Instauré(e) le : ' || to_date(geo_p_info_pct.l_dateins,'DD-MM-YYYY') ELSE '' END
+-- 			||
+-- 			CASE WHEN  length(geo_p_info_pct.l_gen) <> 0 THEN chr(10) || 'Générateur du recul : ' || geo_p_info_pct.l_gen ELSE ''  END
+-- 			||
+-- 			CASE WHEN  length(geo_p_info_pct.l_valrecul) <> 0 THEN chr(10) || 'Valeur du recul : ' || geo_p_info_pct.l_valrecul ELSE ''  END
+-- 			||
+-- 			CASE WHEN  length(geo_p_info_pct.l_typrecul) <> 0 THEN chr(10) || 'Type du recul : ' || geo_p_info_pct.l_typrecul ELSE ''  END
+-- 			as libelle,
+--                        
 --                     geo_p_info_pct.urlfic
 --                    FROM r_bg_edigeo."PARCELLE",
 --                     m_urbanisme_doc.geo_p_info_pct, m_urbanisme_doc_cnig2017.lt_typeinf
 --                   WHERE geo_p_info_pct.typeinf || geo_p_info_pct.stypeinf = lt_typeinf.code || lt_typeinf.sous_code and st_intersects("PARCELLE"."GEOM", geo_p_info_pct.geom)
 --                 ), r_lin AS (
 --                  SELECT "PARCELLE"."IDU" AS idu,
---                         CASE
---                             WHEN geo_p_info_lin.l_valrecul IS NOT NULL THEN (((lt_typeinf.valeur::text || chr(10)) || 'Valeur du recul : '::text) || geo_p_info_lin.l_valrecul::text)::character varying
---                             ELSE CASE WHEN geo_p_info_lin.typeinf = '99' THEN lt_typeinf.valeur || ' : ' || geo_p_info_lin.libelle ELSE lt_typeinf.valeur END
---                         END AS libelle,
+-- 			geo_p_info_lin.libelle 
+-- 			|| 
+-- 			CASE WHEN length(geo_p_info_lin.l_nom) <> 0 THEN 'Nom : ' || geo_p_info_lin.l_nom ELSE '' END 
+-- 			||	
+--                         CASE WHEN length(geo_p_info_lin.l_dateins) <> 0 THEN chr(10) || 'Instauré(e) le : ' || to_date(geo_p_info_lin.l_dateins,'DD-MM-YYYY') ELSE '' END
+-- 			||
+-- 			CASE WHEN  length(geo_p_info_lin.l_gen) <> 0 THEN chr(10) || 'Générateur du recul : ' || geo_p_info_lin.l_gen ELSE ''  END
+-- 			||
+-- 			CASE WHEN  length(geo_p_info_lin.l_valrecul) <> 0 THEN chr(10) || 'Valeur du recul : ' || geo_p_info_lin.l_valrecul ELSE ''  END
+-- 			||
+-- 			CASE WHEN  length(geo_p_info_lin.l_typrecul) <> 0 THEN chr(10) || 'Type du recul : ' || geo_p_info_lin.l_typrecul ELSE ''  END
+-- 			as libelle,
 --                     geo_p_info_lin.urlfic
 --                    FROM r_bg_edigeo."PARCELLE",
 --                     m_urbanisme_doc.geo_p_info_lin, m_urbanisme_doc_cnig2017.lt_typeinf
 --                   WHERE geo_p_info_lin.typeinf || geo_p_info_lin.stypeinf = lt_typeinf.code || lt_typeinf.sous_code and st_intersects("PARCELLE"."GEOM", geo_p_info_lin.geom)
 --                 ), r_surf AS (
 --                  SELECT "PARCELLE"."IDU" AS idu,
---                         CASE
---                             WHEN geo_p_info_surf.l_valrecul IS NOT NULL THEN (((lt_typeinf.valeur::text || chr(10)) || 'Valeur du recul : '::text) || geo_p_info_surf.l_valrecul::text)::character varying
--- 			ELSE CASE WHEN geo_p_info_surf.typeinf = '99' THEN lt_typeinf.valeur || ' : ' || geo_p_info_surf.libelle ELSE lt_typeinf.valeur END
---                         END AS libelle,
+-- 			geo_p_info_surf.libelle 
+-- 			|| 
+-- 			CASE WHEN length(geo_p_info_surf.l_nom) <> 0 THEN 'Nom : ' || geo_p_info_surf.l_nom ELSE '' END 
+-- 			||	
+--                         CASE WHEN length(geo_p_info_surf.l_dateins) <> 0 THEN chr(10) || 'Instauré(e) le : ' || to_date(geo_p_info_surf.l_dateins,'DD-MM-YYYY') ELSE '' END
+-- 			||
+-- 			CASE WHEN  length(geo_p_info_surf.l_gen) <> 0 THEN chr(10) || 'Générateur du recul : ' || geo_p_info_surf.l_gen ELSE ''  END
+-- 			||
+-- 			CASE WHEN  length(geo_p_info_surf.l_valrecul) <> 0 THEN chr(10) || 'Valeur du recul : ' || geo_p_info_surf.l_valrecul ELSE ''  END
+-- 			||
+-- 			CASE WHEN  length(geo_p_info_surf.l_typrecul) <> 0 THEN chr(10) || 'Type du recul : ' || geo_p_info_surf.l_typrecul ELSE ''  END
+-- 			as libelle,
 --                     geo_p_info_surf.urlfic
 --                    FROM r_bg_edigeo."PARCELLE",
 --                     m_urbanisme_doc.geo_p_info_surf, m_urbanisme_doc_cnig2017.lt_typeinf
@@ -7110,15 +7136,16 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 -- COMMENT ON MATERIALIZED VIEW x_apps.x_apps_an_vmr_p_information
 --   IS E'Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (fiche d''information de GEO).
 -- ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\Ressources\\4-Partage\\3-Procedures\\FME\\prod\\URB\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
-
+-- 
 -- Index: m_urbanisme_doc_cnig2017.idx_an_vmr_p_information_idu
-
+-- 
 -- DROP INDEX m_urbanisme_doc_cnig2017.idx_an_vmr_p_information_idu;
-
+-- 
 -- CREATE INDEX idx_an_vmr_p_information_idu
 --   ON m_urbanisme_doc_cnig2017.an_vmr_p_information
 --   USING btree
 --   (idu COLLATE pg_catalog."default");
+
 
 
 -- Materialized View: m_urbanisme_doc_cnig2017.an_vmr_p_information_dpu
