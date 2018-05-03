@@ -3446,11 +3446,11 @@ COMMENT ON VIEW m_urbanisme_doc.an_v_docurba_valide
   IS 'Liste des documents d''urbanisme valide sur les communes du Pays Compiégnois';
 
 
--- Materialized View: m_urbanisme_doc.an_vmr_fichegeo_ruplu1_gdpublic
+-- Materialized View: x_apps.xapps_an_vmr_fichegeo_ruplu1_gdpublic
 
-DROP MATERIALIZED VIEW IF EXISTS m_urbanisme_doc.an_vmr_fichegeo_ruplu1_gdpublic;
+DROP MATERIALIZED VIEW IF EXISTS x_apps.xapps_an_vmr_fichegeo_ruplu1_gdpublic;
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu1_gdpublic AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu1_gdpublic AS 
  WITH req_par AS (
          SELECT "substring"(parcelle.parcelle, 5, 15) AS idu,
             '60'::text || "substring"(parcelle.parcelle, 8, 15) AS parcelle,
@@ -3480,20 +3480,20 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu1_gdpublic AS
      LEFT JOIN req_plu ON req_par.insee = req_plu.insee
 WITH DATA;
 
-ALTER TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu1_gdpublic
+ALTER TABLE x_apps.xapps_an_vmr_fichegeo_ruplu1_gdpublic
   OWNER TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu1_gdpublic TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu1_gdpublic TO groupe_sig;
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu1_gdpublic
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu1_gdpublic TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu1_gdpublic TO groupe_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu1_gdpublic
   IS 'Vue matérialisée contenant les informations du type de document d''urbanisme pré-formatés pour la constitution de la fiche d''information Renseignements d''urbanisme Version imprimable dans GEO Gd Public';
 
 
 
--- Materialized View: m_urbanisme_doc.an_vmr_fichegeo_ruplu21_gdpublic
+-- Materialized View: x_apps.xapps_an_vmr_fichegeo_ruplu21_gdpublic
 
-DROP MATERIALIZED VIEW IF EXISTS m_urbanisme_doc.an_vmr_fichegeo_ruplu21_gdpublic;
+DROP MATERIALIZED VIEW IF EXISTS x_apps.xapps_an_vmr_fichegeo_ruplu21_gdpublic;
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu21_gdpublic AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu21_gdpublic AS 
  WITH req_par AS (
          SELECT "substring"(parcelle.parcelle, 5, 15) AS idu,
             '60'::text || "substring"(parcelle.parcelle, 8, 15) AS parcelle,
@@ -3522,18 +3522,18 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu21_gdpublic AS
      LEFT JOIN req_zac ON req_par.parcelle = req_zac.idu::text
 WITH DATA;
 
-ALTER TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu21_gdpublic
+ALTER TABLE x_apps.xapps_an_vmr_fichegeo_ruplu21_gdpublic
   OWNER TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu21_gdpublic TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu21_gdpublic TO groupe_sig;
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu21_gdpublic
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu21_gdpublic TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu21_gdpublic TO groupe_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu21_gdpublic
   IS 'Vue matérialisée contenant les informations de zonages pour les ZAC pré-formatés pour la constitution de la fiche d''information Renseignements d''urbanisme Version imprimable dans GEO Gd Public';
 
--- Materialized View: m_urbanisme_doc.an_vmr_fichegeo_ruplu3_gdpublic
+-- Materialized View: x_apps.xapps_an_vmr_fichegeo_ruplu3_gdpublic
 
-DROP MATERIALIZED VIEW IF EXISTS m_urbanisme_doc.an_vmr_fichegeo_ruplu3_gdpublic;
+DROP MATERIALIZED VIEW IF EXISTS x_apps.xapps_an_vmr_fichegeo_ruplu3_gdpublic;
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu3_gdpublic AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu3_gdpublic AS 
  WITH req_par AS (
          SELECT "substring"(parcelle.parcelle, 5, 15) AS idu,
             '60'::text || "substring"(parcelle.parcelle, 8, 15) AS parcelle,
@@ -3560,18 +3560,18 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu3_gdpublic AS
      LEFT JOIN req_ac1 ON req_ac1.idu::text = req_par.parcelle
 WITH DATA;
 
-ALTER TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu3_gdpublic
+ALTER TABLE x_apps.an_vmr_fichegeo_ruplu3_gdpublic
   OWNER TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu3_gdpublic TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu3_gdpublic TO groupe_sig;
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu3_gdpublic
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu3_gdpublic TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu3_gdpublic TO groupe_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu3_gdpublic
   IS 'Vue matérialisée contenant les informations de présence d''un ou plusieurs MH sur la parcelle pour la constitution de la fiche d''information Renseignements d''urbanisme Version imprimable dans GEO Gd Public';
 
--- Materialized View: m_urbanisme_doc.an_vmr_fichegeo_ruplu4_gdpublic
+-- Materialized View: x_apps.xapps_an_vmr_fichegeo_ruplu4_gdpublic
 
-DROP MATERIALIZED VIEW IF EXISTS m_urbanisme_doc.an_vmr_fichegeo_ruplu4_gdpublic;
+DROP MATERIALIZED VIEW IF EXISTS x_apps.xapps_an_vmr_fichegeo_ruplu4_gdpublic;
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu4_gdpublic AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu4_gdpublic AS 
  WITH req_par AS (
          SELECT "substring"(parcelle.parcelle, 5, 15) AS idu,
             '60'::text || "substring"(parcelle.parcelle, 8, 15) AS parcelle,
@@ -3599,19 +3599,19 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu4_gdpublic AS
      LEFT JOIN req_ac4 ON req_ac4.idu::text = req_par.parcelle
 WITH DATA;
 
-ALTER TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu4_gdpublic
+ALTER TABLE x_apps.an_vmr_fichegeo_ruplu4_gdpublic
   OWNER TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu4_gdpublic TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu4_gdpublic TO groupe_sig;
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu4_gdpublic
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu4_gdpublic TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu4_gdpublic TO groupe_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu4_gdpublic
   IS 'Vue matérialisée contenant les informations de présence d''une ZPPAUP sur la parcelle pour la constitution de la fiche d''information Renseignements d''urbanisme Version imprimable dans GEO Gd Public';
 
 
--- Materialized View: m_urbanisme_doc.an_vmr_fichegeo_ruplu5_gdpublic
+-- Materialized View: x_apps.xapps_an_vmr_fichegeo_ruplu5_gdpublic
 
-DROP MATERIALIZED VIEW IF EXISTS m_urbanisme_doc.an_vmr_fichegeo_ruplu5_gdpublic;
+DROP MATERIALIZED VIEW IF EXISTS x_apps.xapps_an_vmr_fichegeo_ruplu5_gdpublic;
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu5_gdpublic AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu5_gdpublic AS 
  WITH req_par AS (
          SELECT "substring"(parcelle.parcelle, 5, 15) AS idu,
             '60'::text || "substring"(parcelle.parcelle, 8, 15) AS parcelle,
@@ -3635,20 +3635,20 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu5_gdpublic AS
      LEFT JOIN req_ppri ON req_ppri.idu::text = req_par.parcelle
 WITH DATA;
 
-ALTER TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu5_gdpublic
+ALTER TABLE x_apps.xapps_an_vmr_fichegeo_ruplu5_gdpublic
   OWNER TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu5_gdpublic TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu5_gdpublic TO groupe_sig;
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu5_gdpublic
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu5_gdpublic TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu5_gdpublic TO groupe_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu5_gdpublic
   IS 'Vue matérialisée contenant les informations de présence de l''aléa inondation (ppri projet) sur la parcelle pour la constitution de la fiche d''information Renseignements d''urbanisme Version imprimable dans GEO Gd Public';
 
 
 
--- Materialized View: m_urbanisme_doc.an_vmr_p_information
+-- Materialized View: x_apps.xapps_an_vmr_p_information
 
-DROP MATERIALIZED VIEW IF EXISTS m_urbanisme_doc.an_vmr_p_information;
+DROP MATERIALIZED VIEW IF EXISTS x_apps.xapps_an_vmr_p_information;
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_p_information AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS 
  WITH r_p AS (
          WITH r_pct AS (
                  SELECT "PARCELLE"."IDU" AS idu,
@@ -3954,29 +3954,29 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_p_information AS
    FROM r_p
 WITH DATA;
 
-ALTER TABLE m_urbanisme_doc.an_vmr_p_information
+ALTER TABLE x_apps.xapps_an_vmr_p_information
   OWNER TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_p_information TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_p_information TO groupe_sig;
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.an_vmr_p_information
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO groupe_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information
   IS E'Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (fiche d''information de GEO).
 ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\Ressources\\4-Partage\\3-Procedures\\FME\\prod\\URB\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
 
--- Index: m_urbanisme_doc.idx_an_vmr_p_information_idu
+-- Index: x_apps.idx_an_vmr_p_information_idu
 
--- DROP INDEX m_urbanisme_doc.idx_an_vmr_p_information_idu;
+-- DROP INDEX x_apps.idx_an_vmr_p_information_idu;
 
 CREATE INDEX idx_an_vmr_p_information_idu
-  ON m_urbanisme_doc.an_vmr_p_information
+  ON x_apps.an_vmr_p_information
   USING btree
   (idu COLLATE pg_catalog."default");
 
 
--- Materialized View: m_urbanisme_doc.an_vmr_p_information_dpu
+-- Materialized View: x_apps.xapps_an_vmr_p_information_dpu
 
-DROP MATERIALIZED VIEW IF EXISTS m_urbanisme_doc.an_vmr_p_information_dpu;
+DROP MATERIALIZED VIEW IF EXISTS x_apps.xapps_an_vmr_p_information_dpu;
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_p_information_dpu AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu AS 
  WITH r_p AS (
          WITH r_surf AS (
                  SELECT "PARCELLE"."IDU" AS idu,
@@ -4017,34 +4017,34 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_p_information_dpu AS
    FROM r_p
 WITH DATA;
 
-ALTER TABLE m_urbanisme_doc.an_vmr_p_information_dpu
+ALTER TABLE x_apps.xapps_an_vmr_p_information_dpu
   OWNER TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_p_information_dpu TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_p_information_dpu TO groupe_sig;
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.an_vmr_p_information_dpu
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_dpu TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_dpu TO groupe_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu
   IS 'Vue matérialisée formatant les données les données des DPU pour la fiche de renseignements d''urbanisme (fiche d''information de GEO).
 ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) 
 afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
 
 
--- Materialized View: m_urbanisme_doc.an_vmr_p_prescription
+-- Materialized View: x_apps.xapps_an_vmr_p_prescription
 
-DROP MATERIALIZED VIEW IF EXISTS m_urbanisme_doc.an_vmr_p_prescription;
+-- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription;
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_p_prescription AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription AS 
  WITH r_p AS (
          WITH r_pct AS (
                  SELECT "PARCELLE"."IDU" AS idu,
                         CASE
-                            WHEN geo_p_prescription_pct.l_nature IS NOT NULL THEN (((lt_typepsc.valeur::text || chr(10)) || 'Nature : '::text) || geo_p_prescription_pct.l_nature::text)::character varying
-                            ELSE lt_typepsc.valeur
+                            WHEN geo_p_prescription_pct.l_nature IS NOT NULL THEN (((geo_p_prescription_pct.libelle::text || chr(10)) || 'Nature : '::text) || geo_p_prescription_pct.l_nature::text)::character varying
+                            ELSE geo_p_prescription_pct.libelle
                         END AS libelle,
                     geo_p_prescription_pct.urlfic
                    FROM r_bg_edigeo."PARCELLE",
-                    m_urbanisme_doc.geo_p_prescription_pct, m_urbanisme_doc.lt_typepsc
-                  WHERE geo_p_prescription_pct.typepsc || geo_p_prescription_pct.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and st_intersects("PARCELLE"."GEOM", geo_p_prescription_pct.geom)
-                ), 
-	 SELECT "PARCELLE"."IDU" AS idu,
+                    m_urbanisme_doc.geo_p_prescription_pct
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_pct.geom)
+                ), r_lin AS (
+                 SELECT "PARCELLE"."IDU" AS idu,
                         CASE WHEN geo_p_prescription_lin.typepsc = '05' THEN geo_p_prescription_lin.libelle || ' n°' || l_numero ELSE
                         CASE
                             WHEN geo_p_prescription_lin.l_valrecul IS NOT NULL THEN (((geo_p_prescription_lin.libelle::text || chr(10)) || 'Valeur du recul : '::text) || geo_p_prescription_lin.l_valrecul::text)::character varying
@@ -4065,7 +4065,7 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_p_prescription AS
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_prescription_surf
                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1)
-	)
+                )
          SELECT p."IDU" AS idu,
                 CASE
                     WHEN r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL THEN 'Aucune'::text
@@ -4103,30 +4103,30 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_p_prescription AS
    FROM r_p
 WITH DATA;
 
-ALTER TABLE m_urbanisme_doc.an_vmr_p_prescription
+ALTER TABLE x_apps.xapps_an_vmr_p_prescription
   OWNER TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_p_prescription TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_p_prescription TO groupe_sig;
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.an_vmr_p_prescription
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_prescription TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_prescription TO groupe_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription
   IS E'Vue matérialisée formatant les données les données des prescriptions pour la fiche de renseignements d''urbanisme (fiche d''information de GEO).
 ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\Ressources\\4-Partage\\3-Procedures\\FME\\prod\\URB\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
 
--- Index: m_urbanisme_doc.idx_an_vmr_p_prescription_idu
+-- Index: x_apps.idx_an_vmr_p_prescription_idu
 
--- DROP INDEX m_urbanisme_doc.idx_an_vmr_p_prescription_idu;
+-- DROP INDEX x_apps.idx_an_vmr_p_prescription_idu;
 
 CREATE INDEX idx_an_vmr_p_prescription_idu
-  ON m_urbanisme_doc.an_vmr_p_prescription
+  ON x_apps.xapps_an_vmr_p_prescription
   USING btree
   (idu COLLATE pg_catalog."default");
 
 
 
--- Materialized View: m_urbanisme_doc.an_vmr_parcelle_plu
-DROP MATERIALIZED VIEW IF EXISTS m_urbanisme_doc.an_vmr_fichegeo_ruplu2_gdpublic;
-DROP MATERIALIZED VIEW IF EXISTS m_urbanisme_doc.an_vmr_parcelle_plu;
+-- Materialized View: x_apps.xapps_an_vmr_parcelle_plu
+DROP MATERIALIZED VIEW IF EXISTS x_apps.xapps_an_vmr_fichegeo_ruplu2_gdpublic;
+DROP MATERIALIZED VIEW IF EXISTS x_apps.xapps_an_vmr_parcelle_plu;
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_parcelle_plu AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_plu AS 
  WITH req_par AS (
          SELECT geo_parcelle.geo_parcelle,
             geo_parcelle.annee,
@@ -4205,28 +4205,28 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_parcelle_plu AS
   GROUP BY '60'::text || req_par.idu, '60'::text || "substring"(req_par.idu, 1, 3), req_plu.insee, req_plu.commune, req_plu.libelle, req_plu.libelong, req_plu.type_zone, req_plu.destdomi_lib, req_plu.fermreco, req_plu.l_observ, req_plu.datappro, req_plu.urlfic
 WITH DATA;
 
-ALTER TABLE m_urbanisme_doc.an_vmr_parcelle_plu
+ALTER TABLE x_apps.xapps_an_vmr_parcelle_plu
   OWNER TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_parcelle_plu TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_parcelle_plu TO groupe_sig;
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.an_vmr_parcelle_plu
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_parcelle_plu TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_parcelle_plu TO groupe_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_plu
   IS E'Vue matérialisée contenant les informations pré-formatés pour la constitution de la fiche d''information Renseignements d''urbanisme y compris version imprimable dans GEO.
 Cette vue permet de récupérer pour chaque parcelle les informations du PLU et traiter les pbs liés aux zones entre commune et les zonages se touchant.
 ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\Ressources\\4-Partage\\3-Procedures\\FME\\prod\\URB\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
 
--- Index: m_urbanisme_doc.idx_an_vmr_parcelle_plu_idu
+-- Index: x_apps.idx_an_vmr_parcelle_plu_idu
 
--- DROP INDEX m_urbanisme_doc.idx_an_vmr_parcelle_plu_idu;
+-- DROP INDEX x_apps.idx_an_vmr_parcelle_plu_idu;
 
 CREATE INDEX idx_an_vmr_parcelle_plu_idu
-  ON m_urbanisme_doc.an_vmr_parcelle_plu
+  ON x_apps.xapps_an_vmr_parcelle_plu
   USING btree
   (idu COLLATE pg_catalog."default");
 
 
 -- Materialized View: m_urbanisme_doc.an_vmr_fichegeo_ruplu2_gdpublic
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu2_gdpublic AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu2_gdpublic AS 
  WITH req_par AS (
          SELECT "substring"(parcelle.parcelle, 5, 15) AS idu,
             '60'::text || "substring"(parcelle.parcelle, 8, 15) AS parcelle,
@@ -4258,11 +4258,11 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu2_gdpublic AS
      LEFT JOIN req_plu ON req_par.insee = req_plu.insee
 WITH DATA;
 
-ALTER TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu2_gdpublic
+ALTER TABLE x_apps.an_vmr_fichegeo_ruplu2_gdpublic
   OWNER TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu2_gdpublic TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.an_vmr_fichegeo_ruplu2_gdpublic TO groupe_sig;
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.an_vmr_fichegeo_ruplu2_gdpublic
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu2_gdpublic TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_fichegeo_ruplu2_gdpublic TO groupe_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_fichegeo_ruplu2_gdpublic
   IS 'Vue matérialisée contenant les informations de zonages pré-formatés pour la constitution de la fiche d''information Renseignements d''urbanisme Version imprimable dans GEO Gd Public';
 
 
@@ -4650,11 +4650,11 @@ COMMENT ON VIEW m_urbanisme_doc.geo_v_urbreg_ads_commune
   IS 'Vue géographique sur l''état de l''ADS par l''ARC sur les communes du pays compiégnois';
 
 
--- Materialized View: m_urbanisme_doc.geo_vmr_p_zone_urba
+-- Materialized View: x_apps.xapps_geo_vmr_p_zone_urba
 
-DROP MATERIALIZED VIEW IF EXISTS m_urbanisme_doc.geo_vmr_p_zone_urba;
+DROP MATERIALIZED VIEW IF EXISTS x_apps.xapps_geo_vmr_p_zone_urba;
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc.geo_vmr_p_zone_urba AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_geo_vmr_p_zone_urba AS 
  SELECT geo_p_zone_urba.idzone,
     geo_p_zone_urba.libelle,
     geo_p_zone_urba.libelong,
@@ -4670,14 +4670,14 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.geo_vmr_p_zone_urba AS
     right(geo_p_zone_urba.idurba,8) as datappro,
     geo_p_zone_urba.datvalid,
     st_multi(geo_p_zone_urba.geom)::geometry(MultiPolygon,2154) AS geom
-   FROM m_urbanisme_doc.geo_p_zone_urba
+   FROM x_apps.xapps_geo_p_zone_urba
 WITH DATA;
 
-ALTER TABLE m_urbanisme_doc.geo_vmr_p_zone_urba
+ALTER TABLE x_apps.xapps_geo_vmr_p_zone_urba
   OWNER TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.geo_vmr_p_zone_urba TO postgres;
-GRANT ALL ON TABLE m_urbanisme_doc.geo_vmr_p_zone_urba TO groupe_sig;
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.geo_vmr_p_zone_urba
+GRANT ALL ON TABLE x_apps.xapps_geo_vmr_p_zone_urba TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_geo_vmr_p_zone_urba TO groupe_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_geo_vmr_p_zone_urba
   IS 'Vue matérialisée des zones du PLU servant dans les recherches par zonage ou type dans GEO.';
 
 
