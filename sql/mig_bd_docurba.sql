@@ -3648,6 +3648,7 @@ typepsc END  as typepsc,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- migration des sous-codes de spécifications qui ont évolué (ATTENTION : a adapté ici par chaque organisme selon ces données)
 CASE
+        WHEN typepsc = '05' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN l_typepsc2 = '05-03' THEN '00'
 	WHEN l_typepsc2 = '05-05' THEN '01'
  	WHEN l_typepsc2 = '07-05' THEN '01'
@@ -4314,7 +4315,7 @@ typepsc END  as typepsc,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- même principe de migration que la table geo_p_prescription_lin
 CASE
-
+        WHEN typepsc = '05' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
  	WHEN l_typepsc2 = '07-05' THEN '01'
  	WHEN l_typepsc2 = '07-02' THEN '01'
  	WHEN l_typepsc2 = '07-03' THEN '00'
@@ -4934,6 +4935,7 @@ typepsc END  as typepsc,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Même principe que geo_p_prescription_lin
 CASE
+        WHEN typepsc = '05' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN l_typepsc2 = '05-05' THEN '01'
  	WHEN l_typepsc2 = '07-05' THEN '01'
  	WHEN l_typepsc2 = '07-02' THEN '01'
