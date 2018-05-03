@@ -7165,42 +7165,44 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 -- afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
 -- 
 
--- Materialized View: x_apps.x_apps_an_vmr_p_prescription
+-- -- Materialized View: x_apps.xapps_an_vmr_p_prescription
 -- 
--- DROP MATERIALIZED VIEW IF EXISTS x_apps.x_apps_an_vmr_p_prescription;
+-- -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription;
 -- 
--- CREATE MATERIALIZED VIEW x_apps.x_apps_an_vmr_p_prescription AS 
+-- CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription AS 
 --  WITH r_p AS (
 --          WITH r_pct AS (
 --                  SELECT "PARCELLE"."IDU" AS idu,
 --                         CASE
---                             WHEN geo_p_prescription_pct.l_nature IS NOT NULL THEN (((lt_typepsc.valeur::text || chr(10)) || 'Nature : '::text) || geo_p_prescription_pct.l_nature::text)::character varying
---                             ELSE CASE WHEN geo_p_prescription_pct.typepsc = '99' THEN lt_typepsc.valeur || ' : ' || geo_p_prescription_pct.libelle ELSE lt_typepsc.valeur END
+--                             WHEN geo_p_prescription_pct.l_nature IS NOT NULL THEN (((geo_p_prescription_pct.libelle::text || chr(10)) || 'Nature : '::text) || geo_p_prescription_pct.l_nature::text)::character varying
+--                             ELSE geo_p_prescription_pct.libelle
 --                         END AS libelle,
 --                     geo_p_prescription_pct.urlfic
 --                    FROM r_bg_edigeo."PARCELLE",
---                     m_urbanisme_doc.geo_p_prescription_pct, m_urbanisme_doc_cnig2017.lt_typepsc
---                   WHERE geo_p_prescription_pct.typepsc || geo_p_prescription_pct.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and st_intersects("PARCELLE"."GEOM", geo_p_prescription_pct.geom)
+--                     m_urbanisme_doc.geo_p_prescription_pct
+--                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_pct.geom)
 --                 ), r_lin AS (
 --                  SELECT "PARCELLE"."IDU" AS idu,
+--                         CASE WHEN geo_p_prescription_lin.typepsc = '05' THEN geo_p_prescription_lin.libelle || ' n°' || l_numero ELSE
 --                         CASE
---                             WHEN geo_p_prescription_lin.l_valrecul IS NOT NULL THEN (((lt_typepsc.valeur::text || chr(10)) || 'Valeur du recul : '::text) || geo_p_prescription_lin.l_valrecul::text)::character varying
---                             ELSE CASE WHEN geo_p_prescription_lin.typepsc = '99' THEN lt_typepsc.valeur || ' : ' || geo_p_prescription_lin.libelle ELSE lt_typepsc.valeur END
---                         END AS libelle,
+--                             WHEN geo_p_prescription_lin.l_valrecul IS NOT NULL THEN (((geo_p_prescription_lin.libelle::text || chr(10)) || 'Valeur du recul : '::text) || geo_p_prescription_lin.l_valrecul::text)::character varying
+--                             ELSE geo_p_prescription_lin.libelle
+--                         END END AS libelle,
 --                     geo_p_prescription_lin.urlfic
 --                    FROM r_bg_edigeo."PARCELLE",
---                     m_urbanisme_doc.geo_p_prescription_lin, m_urbanisme_doc_cnig2017.lt_typepsc
---                   WHERE geo_p_prescription_lin.typepsc || geo_p_prescription_lin.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and st_intersects("PARCELLE"."GEOM", geo_p_prescription_lin.geom)
+--                     m_urbanisme_doc.geo_p_prescription_lin
+--                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_lin.geom) 
 --                 ), r_surf AS (
 --                  SELECT "PARCELLE"."IDU" AS idu,
+--                         CASE WHEN geo_p_prescription_surf.typepsc = '05' THEN geo_p_prescription_surf.libelle || ' n°' || l_numero ELSE
 --                         CASE
---                             WHEN geo_p_prescription_surf.l_nature IS NOT NULL THEN (((lt_typepsc.valeur::text || chr(10)) || 'Nature : '::text) || geo_p_prescription_surf.l_nature::text)::character varying
---                             ELSE CASE WHEN geo_p_prescription_surf.typepsc = '99' THEN lt_typepsc.valeur || ' : ' || geo_p_prescription_surf.libelle ELSE lt_typepsc.valeur END
---                         END AS libelle,
+--                             WHEN geo_p_prescription_surf.l_nature IS NOT NULL or geo_p_prescription_surf.l_nature <> '' THEN (((geo_p_prescription_surf.libelle::text || chr(10)) || 'Nature : '::text) || geo_p_prescription_surf.l_nature::text)::character varying
+--                             ELSE geo_p_prescription_surf.libelle
+--                         END END AS libelle,
 --                     geo_p_prescription_surf.urlfic
 --                    FROM r_bg_edigeo."PARCELLE",
---                     m_urbanisme_doc.geo_p_prescription_surf, m_urbanisme_doc_cnig2017.lt_typepsc
---                   WHERE geo_p_prescription_surf.typepsc || geo_p_prescription_surf.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1)
+--                     m_urbanisme_doc.geo_p_prescription_surf
+--                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1)
 --                 )
 --          SELECT p."IDU" AS idu,
 --                 CASE
@@ -7239,23 +7241,22 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 --    FROM r_p
 -- WITH DATA;
 -- 
--- ALTER TABLE x_apps.x_apps_an_vmr_p_prescription
+-- ALTER TABLE x_apps.xapps_an_vmr_p_prescription
 --   OWNER TO postgres;
--- GRANT ALL ON TABLE x_apps.x_apps_an_vmr_p_prescription TO postgres;
--- GRANT ALL ON TABLE x_apps.x_apps_an_vmr_p_prescription TO groupe_sig;
--- COMMENT ON MATERIALIZED VIEW x_apps.x_apps_an_vmr_p_prescription
+-- GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_prescription TO postgres;
+-- GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_prescription TO groupe_sig;
+-- COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription
 --   IS E'Vue matérialisée formatant les données les données des prescriptions pour la fiche de renseignements d''urbanisme (fiche d''information de GEO).
 -- ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\Ressources\\4-Partage\\3-Procedures\\FME\\prod\\URB\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
-
--- Index: m_urbanisme_doc_cnig2017.idx_an_vmr_p_prescription_idu
-
--- DROP INDEX m_urbanisme_doc_cnig2017.idx_an_vmr_p_prescription_idu;
-
+-- 
+-- -- Index: x_apps.idx_an_vmr_p_prescription_idu
+-- 
+-- -- DROP INDEX x_apps.idx_an_vmr_p_prescription_idu;
+-- 
 -- CREATE INDEX idx_an_vmr_p_prescription_idu
---   ON m_urbanisme_doc_cnig2017.an_vmr_p_prescription
+--   ON x_apps.xapps_an_vmr_p_prescription
 --   USING btree
 --   (idu COLLATE pg_catalog."default");
-
 
 
 -- Materialized View: x_apps.x_apps_an_vmr_parcelle_plu
