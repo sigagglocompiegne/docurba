@@ -4043,27 +4043,29 @@ CREATE MATERIALIZED VIEW m_urbanisme_doc.an_vmr_p_prescription AS
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_prescription_pct, m_urbanisme_doc.lt_typepsc
                   WHERE geo_p_prescription_pct.typepsc || geo_p_prescription_pct.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and st_intersects("PARCELLE"."GEOM", geo_p_prescription_pct.geom)
-                ), r_lin AS (
-                 SELECT "PARCELLE"."IDU" AS idu,
+                ), 
+	 SELECT "PARCELLE"."IDU" AS idu,
+                        CASE WHEN geo_p_prescription_lin.typepsc = '05' THEN geo_p_prescription_lin.libelle || ' n°' || l_numero ELSE
                         CASE
-                            WHEN geo_p_prescription_lin.l_valrecul IS NOT NULL THEN (((lt_typepsc.valeur::text || chr(10)) || 'Valeur du recul : '::text) || geo_p_prescription_lin.l_valrecul::text)::character varying
-                            ELSE lt_typepsc.valeur
-                        END AS libelle,
+                            WHEN geo_p_prescription_lin.l_valrecul IS NOT NULL THEN (((geo_p_prescription_lin.libelle::text || chr(10)) || 'Valeur du recul : '::text) || geo_p_prescription_lin.l_valrecul::text)::character varying
+                            ELSE geo_p_prescription_lin.libelle
+                        END END AS libelle,
                     geo_p_prescription_lin.urlfic
                    FROM r_bg_edigeo."PARCELLE",
-                    m_urbanisme_doc.geo_p_prescription_lin, m_urbanisme_doc.lt_typepsc
-                  WHERE geo_p_prescription_lin.typepsc || geo_p_prescription_lin.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and st_intersects("PARCELLE"."GEOM", geo_p_prescription_lin.geom)
+                    m_urbanisme_doc.geo_p_prescription_lin
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_lin.geom) 
                 ), r_surf AS (
                  SELECT "PARCELLE"."IDU" AS idu,
+                        CASE WHEN geo_p_prescription_surf.typepsc = '05' THEN geo_p_prescription_surf.libelle || ' n°' || l_numero ELSE
                         CASE
-                            WHEN geo_p_prescription_surf.l_nature IS NOT NULL THEN (((lt_typepsc.valeur::text || chr(10)) || 'Nature : '::text) || geo_p_prescription_surf.l_nature::text)::character varying
-                            ELSE lt_typepsc.valeur
-                        END AS libelle,
+                            WHEN geo_p_prescription_surf.l_nature IS NOT NULL or geo_p_prescription_surf.l_nature <> '' THEN (((geo_p_prescription_surf.libelle::text || chr(10)) || 'Nature : '::text) || geo_p_prescription_surf.l_nature::text)::character varying
+                            ELSE geo_p_prescription_surf.libelle
+                        END END AS libelle,
                     geo_p_prescription_surf.urlfic
                    FROM r_bg_edigeo."PARCELLE",
-                    m_urbanisme_doc.geo_p_prescription_surf, m_urbanisme_doc.lt_typepsc
-                  WHERE geo_p_prescription_surf.typepsc || geo_p_prescription_surf.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1)
-                )
+                    m_urbanisme_doc.geo_p_prescription_surf
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1)
+	)
          SELECT p."IDU" AS idu,
                 CASE
                     WHEN r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL THEN 'Aucune'::text
