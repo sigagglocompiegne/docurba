@@ -7175,8 +7175,8 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 --  SELECT row_number() OVER () AS gid,
 --     r_p.idu,
 --         CASE
---             WHEN r_p.l_nom IS NULL OR r_p.l_nom::text = ''::text THEN 'La parcelle n''est pas concernée'::character varying
---             ELSE r_p.l_nom
+--            WHEN r_p.l_nom IS NULL OR r_p.l_nom::text = ''::text THEN 'La parcelle n''est pas concernée'::character varying
+--            ELSE 'Zone urbaine, zone d''urbanisation future et/ou périmètre de protection rapprochée du prélèvement d''eau'::character varying
 --         END AS application,
 --         CASE
 --             WHEN r_p.l_bnfcr IS NULL OR r_p.l_bnfcr::text = ''::text THEN ''::character varying
