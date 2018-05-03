@@ -4026,7 +4026,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu AS
     r_p.idu,
         CASE
             WHEN r_p.l_nom IS NULL OR r_p.l_nom::text = ''::text THEN 'La parcelle n''est pas concernée'::character varying
-            ELSE 'Zone urbaine, zone d''urbanisation future, périmètre de protection rapprochée du prélèvement d''eau'::character varying
+            ELSE 'Zone urbaine, zone d''urbanisation future et/ou périmètre de protection rapprochée du prélèvement d''eau'::character varying
         END AS application,
         CASE
             WHEN r_p.l_bnfcr IS NULL OR r_p.l_bnfcr::text = ''::text THEN 'Aucun'::character varying
