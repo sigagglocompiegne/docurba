@@ -7147,12 +7147,11 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 --   (idu COLLATE pg_catalog."default");
 
 
+-- Materialized View: x_apps.xapps_an_vmr_p_information_dpu
 
--- Materialized View: m_urbanisme_doc_cnig2017.an_vmr_p_information_dpu
+-- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu;
 -- 
--- DROP MATERIALIZED VIEW IF EXISTS x_apps.x_apps_an_vmr_p_information_dpu;
--- 
--- CREATE MATERIALIZED VIEW x_apps.x_apps_an_vmr_p_information_dpu AS 
+-- CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu AS 
 --  WITH r_p AS (
 --          WITH r_surf AS (
 --                  SELECT "PARCELLE"."IDU" AS idu,
@@ -7175,33 +7174,35 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 --  SELECT row_number() OVER () AS gid,
 --     r_p.idu,
 --         CASE
---            WHEN r_p.l_nom IS NULL OR r_p.l_nom::text = ''::text THEN 'La parcelle n''est pas concernée'::character varying
---            ELSE 'Zone urbaine, zone d''urbanisation future et/ou périmètre de protection rapprochée du prélèvement d''eau'::character varying
+--             WHEN length(r_p.l_nom::text) = 0 THEN 'La parcelle n''est pas concernée'::character varying
+--             ELSE 'Zone urbaine, zone d''urbanisation future et/ou périmètre de protection rapprochée du prélèvement d''eau'::character varying
 --         END AS application,
 --         CASE
---             WHEN r_p.l_bnfcr IS NULL OR r_p.l_bnfcr::text = ''::text THEN ''::character varying
+--             WHEN length(r_p.l_bnfcr::text) = 0 THEN 'Non renseigné'::character varying
 --             ELSE r_p.l_bnfcr
 --         END AS beneficiaire,
 --         CASE
---             WHEN r_p.l_dateins IS NULL OR r_p.l_dateins = ''::bpchar THEN NULL::text
+--             WHEN length(r_p.l_dateins) = 0 THEN NULL::text
 --             ELSE to_char(to_date(r_p.l_dateins::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text)
 --         END AS date_ins,
 --         CASE
---             WHEN r_p.urlfic IS NULL OR r_p.urlfic::text = ''::text THEN NULL::character varying
+--             WHEN length(r_p.urlfic::text) = 0 THEN NULL::character varying
 --             ELSE r_p.urlfic
 --         END AS urlfic
 --    FROM r_p
 -- WITH DATA;
 -- 
--- ALTER TABLE x_apps.an_vmr_p_information_dpu
+-- ALTER TABLE x_apps.xapps_an_vmr_p_information_dpu
 --   OWNER TO postgres;
--- GRANT ALL ON TABLE x_apps.x_apps_an_vmr_p_information_dpu TO postgres;
--- GRANT ALL ON TABLE x_apps.x_apps_an_vmr_p_information_dpu TO groupe_sig;
--- COMMENT ON MATERIALIZED VIEW x_apps.x_apps_an_vmr_p_information_dpu
---   IS 'Vue matérialisée formatant les données les données des DPU pour la fiche de renseignements d''urbanisme (fiche d''information de GEO).
--- ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) 
--- afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
--- 
+-- GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_dpu TO postgres;
+-- GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_dpu TO groupe_sig;
+-- COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu
+--   IS E'Vue matérialisée formatant les données les données des DPU pour la fiche de renseignements d''''urbanisme (fiche d''''information de GEO).
+-- ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\\\\\\\Ressources\\\\\\\\4-Partage\\\\\\\\3-Procedures\\\\\\\\FME\\\\prod\\\\\\\\URB\\\\\\\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) 
+-- afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
+
+
+
 -- Materialized View: x_apps.xapps_an_vmr_p_prescription
 
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription;
