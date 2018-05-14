@@ -7174,21 +7174,12 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 --  SELECT row_number() OVER () AS gid,
 --     r_p.idu,
 --         CASE
---             WHEN length(r_p.l_nom::text) = 0 THEN 'La parcelle n''est pas concernée'::character varying
+--             WHEN length(r_p.l_nom::text) = 0 or r_p.l_nom::text = '' or r_p.l_nom::text is null THEN 'La parcelle n''est pas concernée'::character varying
 --             ELSE 'Zone urbaine, zone d''urbanisation future et/ou périmètre de protection rapprochée du prélèvement d''eau'::character varying
 --         END AS application,
---         CASE
---             WHEN length(r_p.l_bnfcr::text) = 0 THEN 'Non renseigné'::character varying
---             ELSE r_p.l_bnfcr
---         END AS beneficiaire,
---         CASE
---             WHEN length(r_p.l_dateins) = 0 THEN NULL::text
---             ELSE to_char(to_date(r_p.l_dateins::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text)
---         END AS date_ins,
---         CASE
---             WHEN length(r_p.urlfic::text) = 0 THEN NULL::character varying
---             ELSE r_p.urlfic
---         END AS urlfic
+--           r_p.l_bnfcr AS beneficiaire,
+--           to_char(to_date(r_p.l_dateins::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text) AS date_ins,
+--        r_p.urlfic AS urlfic
 --    FROM r_p
 -- WITH DATA;
 -- 
