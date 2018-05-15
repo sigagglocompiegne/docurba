@@ -3574,6 +3574,7 @@ CASE
 	WHEN typepsc = '25' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
 	WHEN l_typepsc2 = '05-05' THEN '01'
 	WHEN l_typepsc2 = '07-08' THEN '02'
+	WHEN l_typepsc2 = '07-09' THEN '04'
 	WHEN l_typepsc2 = '07-04' THEN '03'
 	WHEN l_typepsc2 = '07-05' THEN '01'
 	WHEN l_typepsc2 = '07-07' THEN '01'
@@ -3723,6 +3724,7 @@ typepsc END  as typepsc,
 CASE
  	WHEN l_typepsc2 = '07-01' THEN '02'
  	WHEN l_typepsc2 = '07-08' THEN '02'
+ 	WHEN l_typepsc2 = '07-09' THEN '04'
    	WHEN l_typepsc2 = '07-05' THEN '01'
    	WHEN l_typepsc2 = '07-02' THEN '01'
    	WHEN l_typepsc2 = '07-11' THEN '04'
