@@ -1549,7 +1549,7 @@ Aucun projet QGIS a été réalisé pour la gestion interne des données.
        
 ## Export Open Data
 
-Sans objet
+Les données liées aux documents d'urbanisme font l'objet d'un export automatique au standard CNIG en vigueur dans la procédure d'intégration des données (se référer à cette partie ci plus haut pour plus de précisions). Ces données peuvent être téléchargées via les fiches de métadonnées.
 
 ---
 
