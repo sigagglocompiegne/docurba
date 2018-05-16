@@ -1540,7 +1540,12 @@ Ce traitement fait appel à des traitements secondaires et intègre une série d
    Ce traitement fait appel à des traitements secondaires et refraichit en fin de processus l'ensemble des vues matérialisées des traitements PLU en base de données :
        - `\bloc\01_INFO_JUGEE_UTILE_hors_plu.fmw` : génère des tables spécifiques aux informations dans la base de données qui sont liées à la vue matérialisée `x_apps.xapps_an_vmr_p_information` . Dans le cas d'une nouvelle information à traiter, elle doit-être intégrée dans ce WorkFlow et lancé individuellement.
        - `\bloc\02_TAUX_FISCALITE_GEO.fmw` : génère la table `m_fiscalite.an_fisc_geo_taxe_amgt` formatant les données de la taxe d'aménagement par commune ou infra-communal dans la base de données et qui est liée dans GEO.
-       
+
+---
+
+## Projet QGIS pour la gestion
+
+Aucun projet QGIS a été réalisé pour la gestion interne des données.
        
 ## Export Open Data
 
