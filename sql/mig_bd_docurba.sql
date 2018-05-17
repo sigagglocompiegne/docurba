@@ -1213,7 +1213,7 @@ CREATE TABLE m_urbanisme_doc_cnig2017.geo_p_prescription_surf
   l_typrecul character varying(80), -- Type de recul
   l_observ character varying(254), -- Observations
   geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
-  geom1 geometry(MultiPolygon,2154), -- Géométrie de l''objet avec un buffer de -0.5 pour calcul de la vue an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l''insertion, mise à jour du champ geom
+  geom1 geometry(MultiPolygon,2154), -- Géométrie de l''objet avec un buffer de -0.5 pour calcul de la vue xapps_an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l''insertion, mise à jour du champ geom
   CONSTRAINT geo_p_prescription_surf_pkey PRIMARY KEY (idpsc)
 )
 WITH (
@@ -1279,6 +1279,7 @@ CREATE TABLE m_urbanisme_doc_cnig2017.geo_p_prescription_lin
   l_typrecul character varying(80), -- Type de recul
   l_observ character varying(254), -- Observations
   geom geometry(Multilinestring,2154), -- Géométrie de l'objet
+  geom1 geometry(MultiPolygon,2154), -- Géométrie de l''objet avec un buffer de -0.01 pour calcul de la vue xapps_an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l''insertion, mise à jour du champ geom
   CONSTRAINT geo_p_prescription_lin_pkey PRIMARY KEY (idpsc)
 )
 WITH (
@@ -1313,7 +1314,7 @@ COMMENT ON COLUMN m_urbanisme_doc_cnig2017.geo_p_prescription_lin.l_insee IS 'Co
 COMMENT ON COLUMN m_urbanisme_doc_cnig2017.geo_p_prescription_lin.idurba IS 'Identifiant du document d''urbanisme';
 COMMENT ON COLUMN m_urbanisme_doc_cnig2017.geo_p_prescription_lin.datvalid IS 'Date de validation (aaaammjj)';
 COMMENT ON COLUMN m_urbanisme_doc_cnig2017.geo_p_prescription_lin.geom IS 'Géométrie de l''objet';
-
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017.geo_p_prescription_lin.geom1 IS 'Géométrie de l'objet avec un buffer de -0.5 pour calcul de la vue an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l'insertion, mise à jour du champ geom';
 
 -- ########################################################################### geo_p_prescription_pct #######################################################
 
@@ -3631,7 +3632,7 @@ FROM m_urbanisme_doc.geo_p_prescription_surf;
 -- cette grille en fonction des cas supplémentaires présents dans ces données
 -- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO m_urbanisme_doc_cnig2017.geo_p_prescription_lin (idpsc,libelle,txt,typepsc,stypepsc,nomfic,urlfic,idurba,datvalid,l_insee,l_nom,l_nature,l_bnfcr,l_numero,l_surf_txt,l_gen,l_valrecul,l_typrecul,l_observ,geom)
+INSERT INTO m_urbanisme_doc_cnig2017.geo_p_prescription_lin (idpsc,libelle,txt,typepsc,stypepsc,nomfic,urlfic,idurba,datvalid,l_insee,l_nom,l_nature,l_bnfcr,l_numero,l_surf_txt,l_gen,l_valrecul,l_typrecul,l_observ,geom,geom1)
 SELECT 
 idpsc,
 libelle,
@@ -3693,7 +3694,8 @@ l_gen,
 l_valrecul,
 l_typrecul,
 l_observ,
-geom
+geom,
+geom1
 FROM m_urbanisme_doc.geo_p_prescription_lin ;
 
 
@@ -6016,6 +6018,34 @@ CREATE TRIGGER update_geom
   FOR EACH ROW
   EXECUTE PROCEDURE m_urbanisme_doc_cnig2017.m_geom1_information_surf();
 
+-- Function: m_urbanisme_doc.m_geom1_prescription_surf()
+
+-- DROP FUNCTION m_urbanisme_doc.m_geom1_prescription_surf();
+
+CREATE OR REPLACE FUNCTION m_urbanisme_doc.m_geom1_prescription_lin()
+  RETURNS trigger AS
+$BODY$BEGIN
+
+ UPDATE m_urbanisme_doc.geo_p_prescription_lin SET geom1 = st_multi(st_buffer(geom,0.01));
+
+
+RETURN NEW;
+END;$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION m_urbanisme_doc.m_geom1_prescription_lin()
+  OWNER TO postgres;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO public;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO postgres;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO groupe_sig;
+
+
+CREATE TRIGGER t_t1_update_geom
+  AFTER INSERT OR UPDATE OF geom
+  ON m_urbanisme_doc.geo_p_prescription_lin
+  FOR EACH ROW
+  EXECUTE PROCEDURE m_urbanisme_doc.m_geom1_prescription_lin();
+
 
 -- ####################################################### FONCTION TRIGGER - m_l_surf_cal_ha ##################################################
 
@@ -7247,7 +7277,7 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 -- 
 --                    FROM r_bg_edigeo."PARCELLE",
 --                     m_urbanisme_doc.geo_p_prescription_lin
---                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_lin.geom)
+--                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_lin.geom1) AND geo_p_prescription_lin.l_insee::text = "left"("PARCELLE"."IDU"::text, 5)
 --                 ), r_surf AS (
 --                  SELECT "PARCELLE"."IDU" AS idu,
 -- 			geo_p_prescription_surf.libelle 
@@ -7269,7 +7299,7 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide
 --                     geo_p_prescription_surf.urlfic
 --                    FROM r_bg_edigeo."PARCELLE",
 --                     m_urbanisme_doc.geo_p_prescription_surf
---                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1)
+--                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.l_insee::text = "left"("PARCELLE"."IDU"::text, 5)
 --                 )
 --          SELECT p."IDU" AS idu,
 --                 CASE
