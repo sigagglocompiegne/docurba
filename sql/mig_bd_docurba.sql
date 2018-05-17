@@ -6018,33 +6018,33 @@ CREATE TRIGGER update_geom
   FOR EACH ROW
   EXECUTE PROCEDURE m_urbanisme_doc_cnig2017.m_geom1_information_surf();
 
--- Function: m_urbanisme_doc.m_geom1_prescription_surf()
+-- Function: m_urbanisme_doc_cnig2017.m_geom1_prescription_surf()
 
--- DROP FUNCTION m_urbanisme_doc.m_geom1_prescription_surf();
+-- DROP FUNCTION m_urbanisme_doc_cnig2017.m_geom1_prescription_surf();
 
-CREATE OR REPLACE FUNCTION m_urbanisme_doc.m_geom1_prescription_lin()
+CREATE OR REPLACE FUNCTION m_urbanisme_doc_cnig2017.m_geom1_prescription_lin()
   RETURNS trigger AS
 $BODY$BEGIN
 
- UPDATE m_urbanisme_doc.geo_p_prescription_lin SET geom1 = st_multi(st_buffer(geom,0.01));
+ UPDATE m_urbanisme_doc_cnig2017.geo_p_prescription_lin SET geom1 = st_multi(st_buffer(geom,0.01));
 
 
 RETURN NEW;
 END;$BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION m_urbanisme_doc.m_geom1_prescription_lin()
+ALTER FUNCTION m_urbanisme_doc_cnig2017.m_geom1_prescription_lin()
   OWNER TO postgres;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO public;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO postgres;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO groupe_sig;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc_cnig2017.m_geom1_prescription_lin() TO public;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc_cnig2017.m_geom1_prescription_lin() TO postgres;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc_cnig2017.m_geom1_prescription_lin() TO groupe_sig;
 
 
 CREATE TRIGGER t_t1_update_geom
   AFTER INSERT OR UPDATE OF geom
-  ON m_urbanisme_doc.geo_p_prescription_lin
+  ON m_urbanisme_doc_cnig2017.geo_p_prescription_lin
   FOR EACH ROW
-  EXECUTE PROCEDURE m_urbanisme_doc.m_geom1_prescription_lin();
+  EXECUTE PROCEDURE m_urbanisme_doc_cnig2017.m_geom1_prescription_lin();
 
 
 -- ####################################################### FONCTION TRIGGER - m_l_surf_cal_ha ##################################################
