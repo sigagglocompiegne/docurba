@@ -1314,7 +1314,7 @@ COMMENT ON COLUMN m_urbanisme_doc_cnig2017.geo_p_prescription_lin.l_insee IS 'Co
 COMMENT ON COLUMN m_urbanisme_doc_cnig2017.geo_p_prescription_lin.idurba IS 'Identifiant du document d''urbanisme';
 COMMENT ON COLUMN m_urbanisme_doc_cnig2017.geo_p_prescription_lin.datvalid IS 'Date de validation (aaaammjj)';
 COMMENT ON COLUMN m_urbanisme_doc_cnig2017.geo_p_prescription_lin.geom IS 'Géométrie de l''objet';
-COMMENT ON COLUMN m_urbanisme_doc_cnig2017.geo_p_prescription_lin.geom1 IS 'Géométrie de l'objet avec un buffer de -0.5 pour calcul de la vue an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l'insertion, mise à jour du champ geom';
+COMMENT ON COLUMN m_urbanisme_doc_cnig2017.geo_p_prescription_lin.geom1 IS 'Géométrie de l''objet avec un buffer de -0.5 pour calcul de la vue an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l''insertion, mise à jour du champ geom';
 
 -- ########################################################################### geo_p_prescription_pct #######################################################
 
