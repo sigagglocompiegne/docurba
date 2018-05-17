@@ -963,6 +963,7 @@ CREATE TABLE m_urbanisme_doc.geo_p_prescription_surf
   l_typrecul character varying(80), -- Type de recul
   l_observ character varying(254), -- Observations
   geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
+  geom1 geometry(MultiPolygon,2154), -- Géométrie de l'objet avec un buffer de -0.5 pour calcul de la vue an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l'insertion, mise à jour du champ geom
   CONSTRAINT geo_p_prescription_surf_pkey PRIMARY KEY (idpsc)
 )
 WITH (
@@ -994,7 +995,38 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_surf.l_insee IS 'Code INSEE
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_surf.idurba IS 'Identifiant du document d''urbanisme';
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_surf.datvalid IS 'Date de validation (aaaammjj)';
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_surf.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_surf.geom1 IS 'Géométrie de l'objet avec un buffer de -0.5 pour calcul de la vue an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l'insertion, mise à jour du champ geom';
 
+-- Function: m_urbanisme_doc.m_geom1_prescription_surf()
+
+-- DROP FUNCTION m_urbanisme_doc.m_geom1_prescription_surf();
+
+CREATE OR REPLACE FUNCTION m_urbanisme_doc.m_geom1_prescription_surf()
+  RETURNS trigger AS
+$BODY$BEGIN
+
+ UPDATE m_urbanisme_doc.geo_p_prescription_surf SET geom1 = st_multi(st_buffer(geom,-0.5));
+
+
+RETURN NEW;
+END;$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION m_urbanisme_doc.m_geom1_prescription_surf()
+  OWNER TO postgres;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_surf() TO public;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_surf() TO postgres;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_surf() TO groupe_sig;
+
+-- Trigger: t_t1_update_geom on m_urbanisme_doc.geo_p_prescription_surf
+
+-- DROP TRIGGER t_t1_update_geom ON m_urbanisme_doc.geo_p_prescription_surf;
+
+CREATE TRIGGER t_t1_update_geom
+  AFTER INSERT OR UPDATE OF geom
+  ON m_urbanisme_doc.geo_p_prescription_surf
+  FOR EACH ROW
+  EXECUTE PROCEDURE m_urbanisme_doc.m_geom1_prescription_surf();
 
 -- ########################################################################### geo_p_prescription_lin #######################################################
 
@@ -1024,6 +1056,7 @@ CREATE TABLE m_urbanisme_doc.geo_p_prescription_lin
   l_typrecul character varying(80), -- Type de recul
   l_observ character varying(254), -- Observations
   geom geometry(Multilinestring,2154), -- Géométrie de l'objet
+  geom1 geometry(MultiPolygon,2154), -- Géométrie de l'objet avec un buffer de -0.01 pour calcul de la vue xapps_an_vmr_prescription pour GEO. Champ mis à jour en automatique par un trigger à l'insertion, mise à jour du champ geom
   CONSTRAINT geo_p_prescription_lin_pkey PRIMARY KEY (idpsc)
 )
 WITH (
@@ -1055,7 +1088,36 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_lin.l_insee IS 'Code INSEE'
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_lin.idurba IS 'Identifiant du document d''urbanisme';
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_lin.datvalid IS 'Date de validation (aaaammjj)';
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_lin.geom IS 'Géométrie de l''objet';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_lin.geom1 IS 'Géométrie de l'objet avec un buffer de -0.01 pour calcul de la vue xapps_an_vmr_prescription pour GEO.
+Champ mis à jour en automatique par un trigger à l'insertion, mise à jour du champ geom';
 
+-- Function: m_urbanisme_doc.m_geom1_prescription_surf()
+
+-- DROP FUNCTION m_urbanisme_doc.m_geom1_prescription_surf();
+
+CREATE OR REPLACE FUNCTION m_urbanisme_doc.m_geom1_prescription_lin()
+  RETURNS trigger AS
+$BODY$BEGIN
+
+ UPDATE m_urbanisme_doc.geo_p_prescription_lin SET geom1 = st_multi(st_buffer(geom,0.01));
+
+RETURN NEW;
+END;$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION m_urbanisme_doc.m_geom1_prescription_lin()
+  OWNER TO postgres;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO public;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO postgres;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO groupe_sig;
+
+
+CREATE TRIGGER t_t1_update_geom
+  AFTER INSERT OR UPDATE OF geom
+  ON m_urbanisme_doc.geo_p_prescription_lin
+  FOR EACH ROW
+  EXECUTE PROCEDURE m_urbanisme_doc.m_geom1_prescription_lin();
+  
 
 -- ########################################################################### geo_p_prescription_pct #######################################################
 
@@ -4043,81 +4105,117 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu
 ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\\\\\\\Ressources\\\\\\\\4-Partage\\\\\\\\3-Procedures\\\\\\\\FME\\\\prod\\\\\\\\URB\\\\\\\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) 
 afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
 
-
 -- Materialized View: x_apps.xapps_an_vmr_p_prescription
 
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription;
--- 
+
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription AS 
  WITH r_p AS (
          WITH r_pct AS (
                  SELECT "PARCELLE"."IDU" AS idu,
-			geo_p_prescription_pct.libelle 
-			|| 
-			CASE WHEN length(geo_p_prescription_pct.l_numero) <> 0 THEN ' n°' || geo_p_prescription_pct.l_numero ELSE '' END 
-			||	
-                        CASE WHEN length(geo_p_prescription_pct.l_nom) <> 0 THEN chr(10) || 'Nom : ' || geo_p_prescription_pct.l_nom ELSE '' END
-			||
-			CASE WHEN length(geo_p_prescription_pct.l_nature) <> 0 THEN chr(10) || 'Nature : ' || geo_p_prescription_pct.l_nature ELSE '' END
-			||
-			CASE WHEN  length(geo_p_prescription_pct.l_surf_txt) <> 0 THEN chr(10) || 'Surface : ' || geo_p_prescription_pct.l_surf_txt ELSE ''  END
-			||
-			CASE WHEN  length(geo_p_prescription_pct.l_gen) <> 0 THEN chr(10) || 'Générateur du recul : ' || geo_p_prescription_pct.l_gen ELSE ''  END
-			||
-			CASE WHEN  length(geo_p_prescription_pct.l_valrecul) <> 0 THEN chr(10) || 'Valeur du recul : ' || geo_p_prescription_pct.l_valrecul ELSE ''  END
-			||
-			CASE WHEN  length(geo_p_prescription_pct.l_typrecul) <> 0 THEN chr(10) || 'Type du recul : ' || geo_p_prescription_pct.l_typrecul ELSE ''  END
-			as libelle,
+                    ((((((geo_p_prescription_pct.libelle::text ||
+                        CASE
+                            WHEN length(geo_p_prescription_pct.l_numero::text) <> 0 THEN ' n°'::text || geo_p_prescription_pct.l_numero::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_pct.l_nom::text) <> 0 THEN (chr(10) || 'Nom : '::text) || geo_p_prescription_pct.l_nom::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_pct.l_nature::text) <> 0 THEN (chr(10) || 'Nature : '::text) || geo_p_prescription_pct.l_nature::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_pct.l_surf_txt::text) <> 0 THEN (chr(10) || 'Surface : '::text) || geo_p_prescription_pct.l_surf_txt::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_pct.l_gen::text) <> 0 THEN (chr(10) || 'Générateur du recul : '::text) || geo_p_prescription_pct.l_gen::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_pct.l_valrecul::text) <> 0 THEN (chr(10) || 'Valeur du recul : '::text) || geo_p_prescription_pct.l_valrecul::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_pct.l_typrecul::text) <> 0 THEN (chr(10) || 'Type du recul : '::text) || geo_p_prescription_pct.l_typrecul::text
+                            ELSE ''::text
+                        END AS libelle,
                     geo_p_prescription_pct.urlfic
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_prescription_pct
                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_pct.geom)
                 ), r_lin AS (
                  SELECT "PARCELLE"."IDU" AS idu,
-			geo_p_prescription_lin.libelle 
-			|| 
-			CASE WHEN length(geo_p_prescription_lin.l_numero) <> 0 THEN ' n°' || geo_p_prescription_lin.l_numero ELSE '' END 
-			||	
-                        CASE WHEN length(geo_p_prescription_lin.l_nom) <> 0 THEN chr(10) || 'Nom : ' || geo_p_prescription_lin.l_nom ELSE '' END
-			||
-			CASE WHEN length(geo_p_prescription_lin.l_nature) <> 0 THEN chr(10) || 'Nature : ' || geo_p_prescription_lin.l_nature ELSE '' END
-			||
-			CASE WHEN  length(geo_p_prescription_lin.l_surf_txt) <> 0 THEN chr(10) || 'Surface : ' || geo_p_prescription_lin.l_surf_txt ELSE ''  END
-			||
-			CASE WHEN  length(geo_p_prescription_lin.l_gen) <> 0 THEN chr(10) || 'Générateur du recul : ' || geo_p_prescription_lin.l_gen ELSE ''  END
-			||
-			CASE WHEN  length(geo_p_prescription_lin.l_valrecul) <> 0 THEN chr(10) || 'Valeur du recul : ' || geo_p_prescription_lin.l_valrecul ELSE ''  END
-			||
-			CASE WHEN  length(geo_p_prescription_lin.l_typrecul) <> 0 THEN chr(10) || 'Type du recul : ' || geo_p_prescription_lin.l_typrecul ELSE ''  END
-			as libelle,
-
-                 geo_p_prescription_lin.urlfic
-
+                    ((((((geo_p_prescription_lin.libelle::text ||
+                        CASE
+                            WHEN length(geo_p_prescription_lin.l_numero::text) <> 0 THEN ' n°'::text || geo_p_prescription_lin.l_numero::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_lin.l_nom::text) <> 0 THEN (chr(10) || 'Nom : '::text) || geo_p_prescription_lin.l_nom::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_lin.l_nature::text) <> 0 THEN (chr(10) || 'Nature : '::text) || geo_p_prescription_lin.l_nature::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_lin.l_surf_txt::text) <> 0 THEN (chr(10) || 'Surface : '::text) || geo_p_prescription_lin.l_surf_txt::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_lin.l_gen::text) <> 0 THEN (chr(10) || 'Générateur du recul : '::text) || geo_p_prescription_lin.l_gen::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_lin.l_valrecul::text) <> 0 THEN (chr(10) || 'Valeur du recul : '::text) || geo_p_prescription_lin.l_valrecul::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_lin.l_typrecul::text) <> 0 THEN (chr(10) || 'Type du recul : '::text) || geo_p_prescription_lin.l_typrecul::text
+                            ELSE ''::text
+                        END AS libelle,
+                    geo_p_prescription_lin.urlfic
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_prescription_lin
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_lin.geom)
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_lin.geom1) AND geo_p_prescription_lin.insee::text = "left"("PARCELLE"."IDU"::text, 5)
                 ), r_surf AS (
                  SELECT "PARCELLE"."IDU" AS idu,
-			geo_p_prescription_surf.libelle 
-			|| 
-			CASE WHEN length(geo_p_prescription_surf.l_numero) <> 0 THEN ' n°' || geo_p_prescription_surf.l_numero ELSE '' END 
-			||	
-                        CASE WHEN length(geo_p_prescription_surf.l_nom) <> 0 THEN chr(10) || 'Nom : ' || geo_p_prescription_surf.l_nom ELSE '' END
-			||
-			CASE WHEN length(geo_p_prescription_surf.l_nature) <> 0 THEN chr(10) || 'Nature : ' || geo_p_prescription_surf.l_nature ELSE '' END
-			||
-			CASE WHEN  length(geo_p_prescription_surf.l_surf_txt) <> 0 THEN chr(10) || 'Surface : ' || geo_p_prescription_surf.l_surf_txt ELSE ''  END
-			||
-			CASE WHEN  length(geo_p_prescription_surf.l_gen) <> 0 THEN chr(10) || 'Générateur du recul : ' || geo_p_prescription_surf.l_gen ELSE ''  END
-			||
-			CASE WHEN  length(geo_p_prescription_surf.l_valrecul) <> 0 THEN chr(10) || 'Valeur du recul : ' || geo_p_prescription_surf.l_valrecul ELSE ''  END
-			||
-			CASE WHEN  length(geo_p_prescription_surf.l_typrecul) <> 0 THEN chr(10) || 'Type du recul : ' || geo_p_prescription_surf.l_typrecul ELSE ''  END
-			as libelle,
+                    ((((((geo_p_prescription_surf.libelle::text ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_numero::text) <> 0 THEN ' n°'::text || geo_p_prescription_surf.l_numero::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_nom::text) <> 0 THEN (chr(10) || 'Nom : '::text) || geo_p_prescription_surf.l_nom::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_nature::text) <> 0 THEN (chr(10) || 'Nature : '::text) || geo_p_prescription_surf.l_nature::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_surf_txt::text) <> 0 THEN (chr(10) || 'Surface : '::text) || geo_p_prescription_surf.l_surf_txt::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_gen::text) <> 0 THEN (chr(10) || 'Générateur du recul : '::text) || geo_p_prescription_surf.l_gen::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_valrecul::text) <> 0 THEN (chr(10) || 'Valeur du recul : '::text) || geo_p_prescription_surf.l_valrecul::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_typrecul::text) <> 0 THEN (chr(10) || 'Type du recul : '::text) || geo_p_prescription_surf.l_typrecul::text
+                            ELSE ''::text
+                        END AS libelle,
                     geo_p_prescription_surf.urlfic
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_prescription_surf
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1)
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.insee::text = "left"("PARCELLE"."IDU"::text, 5)
                 )
          SELECT p."IDU" AS idu,
                 CASE
@@ -4172,6 +4270,7 @@ CREATE INDEX idx_an_vmr_p_prescription_idu
   ON x_apps.xapps_an_vmr_p_prescription
   USING btree
   (idu COLLATE pg_catalog."default");
+
 
 
 -- Materialized View: x_apps.xapps_an_vmr_parcelle_plu
