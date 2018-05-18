@@ -1099,7 +1099,7 @@ CREATE OR REPLACE FUNCTION m_urbanisme_doc.m_geom1_prescription_lin()
   RETURNS trigger AS
 $BODY$BEGIN
 
- UPDATE m_urbanisme_doc.geo_p_prescription_lin SET geom1 = st_multi(st_buffer(geom,0.01));
+ UPDATE m_urbanisme_doc.geo_p_prescription_lin SET geom1 = st_multi(st_buffer(geom,0.01,'endcap=flat join=round'));
 
 RETURN NEW;
 END;$BODY$
