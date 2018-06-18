@@ -16,6 +16,8 @@
 
 BEGIN;
 
+
+
 -- COMMENT GB : ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Création d'un schéma pour tester le script d'import et vérifier les données
 -- Mettre en commentaire pour la mise en production, le rennomage des tables s'effectue à la fin de ce script (qui seront à décommenter pour la mise en production)
@@ -5117,13 +5119,14 @@ FROM m_urbanisme_doc.geo_p_habillage_txt WHERE insee='60647';
 
 -- Sequence: m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq
 
--- DROP SEQUENCE m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq;
+
+-- DROP SEQUENCE IF EXISTS m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq;
 
 CREATE SEQUENCE m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
-  START 8572
+  START 8573
   CACHE 1;
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq
   OWNER TO postgres;
