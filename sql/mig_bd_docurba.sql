@@ -3527,7 +3527,7 @@ SELECT
 '60647_PLU_20180517_2' as idurba,
 'PLU' as typedoc,
 '03' as etat,
-'M' as nomproc,
+'MS' as nomproc,
 1 AS l_nomprocn,
 '20180517' as datappro,
 null as datefin,
@@ -4248,6 +4248,36 @@ geom,
 gid
 FROM m_urbanisme_doc.geo_a_zone_urba;
 
+--insertion procédure élaboration de Trosly-Breuil même jour que la modification simplifiée n°1
+INSERT INTO m_urbanisme_doc_cnig2017.geo_a_zone_urba (idzone,libelle,libelong,typezone,nomfic,urlfic,idurba,datvalid,typesect,fermreco,l_destdomi,l_insee,l_surf_cal,l_observ,geom,gid)
+SELECT 
+idzone,
+libelle,
+libelong,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- migration du champ typezone
+CASE
+	WHEN (typezone = 'Nh' or typezone='Nd') THEN 'N'
+	WHEN typezone = 'Ah' THEN 'A'
+ELSE
+	typezone
+END as typezone,
+nomfic,
+replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_1') as urlfic,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- recomposition du champ idurba
+'60647_PLU_20180517_1' as idurba,
+'20180517',
+typesect,
+CASE WHEN fermreco = false THEN 'non'::character varying ELSE 'oui'::character varying END fermreco,
+destdomi,
+insee,
+l_surf_cal,
+l_observ,
+geom,
+nextval('m_urbanisme_doc.geo_a_zone_urba_gid_seq'::regclass)
+FROM m_urbanisme_doc.geo_p_zone_urba WHERE insee='60647';
+
 
 -- Sequence: m_urbanisme_doc_cnig2017.geo_a_zone_urba_gid_seq
 -- DROP SEQUENCE m_urbanisme_doc_cnig2017.geo_a_zone_urba_gid_seq;
@@ -4256,7 +4286,7 @@ CREATE SEQUENCE m_urbanisme_doc_cnig2017.geo_a_zone_urba_gid_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
-  START 4434
+  START 4811
   CACHE 1;
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_a_zone_urba
   OWNER TO postgres;
@@ -4355,6 +4385,86 @@ geom,
 gid
 FROM m_urbanisme_doc.geo_a_prescription_surf;
 
+-- insertion de l'élaboration du PLU de Trosly approuvée le même jour que la modification simplifiée n°1
+INSERT INTO m_urbanisme_doc_cnig2017.geo_a_prescription_surf (idpsc,libelle,txt,typepsc,stypepsc,nomfic,urlfic,idurba,datvalid,l_insee,l_nom,l_nature,l_bnfcr,l_numero,l_surf_txt,l_gen,l_valrecul,l_typrecul,l_observ,geom,gid)
+SELECT 
+idpsc,
+libelle,
+txt,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- même principe de migration que la table geo_p_prescription _surf
+CASE
+	WHEN typepsc = '09' THEN '05'
+	WHEN typepsc = '11' THEN '15'
+	WHEN typepsc = '12' THEN '05' 
+	WHEN typepsc = '21' THEN '05'
+ELSE
+typepsc END  as typepsc,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- même principe de migration que la table geo_p_prescription _surf
+CASE
+	WHEN l_typepsc2 = '01-03' THEN '00'
+	WHEN typepsc = '01' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN typepsc = '02' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN l_typepsc2 = '05-02' THEN '01'
+	WHEN l_typepsc2 = '05-06' THEN '04'
+	WHEN l_typepsc2 = '05-03' THEN '00'
+	WHEN l_typepsc2 = '05-01' THEN '04'
+	WHEN l_typepsc2 = '05-04' THEN '01'
+        WHEN typepsc = '05' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN typepsc = '25' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN l_typepsc2 = '05-05' THEN '01'
+	WHEN l_typepsc2 = '07-08' THEN '02'
+	WHEN l_typepsc2 = '07-04' THEN '03'
+	WHEN l_typepsc2 = '07-03' THEN '00'
+	WHEN l_typepsc2 = '07-10' THEN '00'
+	WHEN l_typepsc2 = '07-01' THEN '02'
+	WHEN l_typepsc2 = '07-05' THEN '01'
+	WHEN l_typepsc2 = '07-07' THEN '01'
+	WHEN l_typepsc2 = '07-02' THEN '01'
+        WHEN typepsc = '07' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+        WHEN typepsc = '08' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+        WHEN typepsc = '09' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '05'
+        WHEN l_typepsc2 = '11-05' THEN '00'
+        WHEN l_typepsc2 = '11-06' THEN '00'
+        WHEN l_typepsc2 = '11-07' THEN '00'
+        WHEN l_typepsc2 = '11-04' THEN '00'
+        WHEN l_typepsc2 = '11-01' THEN '01'
+        WHEN typepsc = '12' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '07'
+	WHEN typepsc = '14' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN typepsc = '15' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '01'
+	WHEN typepsc = '16' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '01'
+	WHEN typepsc = '17' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN typepsc = '18' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+ 	WHEN typepsc = '19' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN typepsc = '21' THEN '06'
+        WHEN l_typepsc2 = '21-02' THEN '06'
+        WHEN l_typepsc2 = '21-01' THEN '06'
+	WHEN l_typepsc2 = '21-03' THEN '06'
+	WHEN l_typepsc2 = '24-01' THEN '01'
+	WHEN typepsc = '25' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN typepsc = '99' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+ END as stypepsc,
+nomfic,
+replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_1') as urlfic,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- recomposition de l'idurba
+'60647_PLU_20180517_1' as idurba,
+'20180517',
+insee,
+l_nom,
+l_nature,
+l_bnfcr,
+l_numero,
+l_surf_txt,
+l_gen,
+l_valrecul,
+l_typrecul,
+l_observ,
+geom,
+nextval('m_urbanisme_doc.geo_a_prescription_surf_gid_seq'::regclass)
+FROM m_urbanisme_doc.geo_p_prescription_surf WHERE insee='60647';
+
 
 -- Sequence: m_urbanisme_doc_cnig2017.geo_a_prescription_surf_gid_seq
 
@@ -4364,7 +4474,7 @@ CREATE SEQUENCE m_urbanisme_doc_cnig2017.geo_a_prescription_surf_gid_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
-  START 7565
+  START 7586
   CACHE 1;
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_a_prescription_surf_gid_seq
   OWNER TO postgres;
@@ -4379,6 +4489,7 @@ ALTER TABLE m_urbanisme_doc_cnig2017.geo_a_prescription_surf ALTER COLUMN gid SE
 -- Migration des anciens vers les nouveaux codes et sous-code des prescriptions (ATTENTION : la grille de correspondance intégrée ici correspond au cas présent dans les données de l'ARC. Chaque organisme doit adapté
 -- cette grille en fonction des cas supplémentaires présents dans ces données
 -- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 INSERT INTO m_urbanisme_doc_cnig2017.geo_a_prescription_lin (idpsc,libelle,txt,typepsc,stypepsc,nomfic,urlfic,idurba,datvalid,l_insee,l_nom,l_nature,l_bnfcr,l_numero,l_surf_txt,l_gen,l_valrecul,l_typrecul,l_observ,geom)
 SELECT 
@@ -4399,6 +4510,8 @@ typepsc END  as typepsc,
 -- même principe de migration que la table geo_p_prescription_lin
 CASE
         WHEN typepsc = '05' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN l_typepsc2 = '05-05' THEN '01'
+	WHEN l_typepsc2 = '05-04' THEN '01'
  	WHEN l_typepsc2 = '07-05' THEN '01'
  	WHEN l_typepsc2 = '07-02' THEN '01'
  	WHEN l_typepsc2 = '07-03' THEN '00'
@@ -4442,6 +4555,72 @@ l_observ,
 geom
 FROM m_urbanisme_doc.geo_a_prescription_lin;
 
+
+-- insertion de l'élaboration du PLU de Trosly approuvée le même jour que la modification simplifiée n°1
+
+INSERT INTO m_urbanisme_doc_cnig2017.geo_a_prescription_lin (idpsc,libelle,txt,typepsc,stypepsc,nomfic,urlfic,idurba,datvalid,l_insee,l_nom,l_nature,l_bnfcr,l_numero,l_surf_txt,l_gen,l_valrecul,l_typrecul,l_observ,geom)
+SELECT 
+idpsc,
+libelle,
+txt,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- même principe de migration que la table geo_p_prescription_lin
+CASE
+	WHEN typepsc = '11' and l_typepsc2 <> '11-07' and l_typepsc2 <> '11-08' THEN '15'
+        WHEN typepsc = '11' and l_typepsc2 = '11-07' THEN '39'
+	WHEN typepsc = '11' and l_typepsc2 = '11-08' THEN '41'
+ 	WHEN typepsc = '21' THEN '05'
+	WHEN typepsc = '99' and l_typepsc2 = '99-01' THEN '41'
+ELSE
+typepsc END  as typepsc,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- même principe de migration que la table geo_p_prescription_lin
+CASE
+        WHEN typepsc = '05' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+	WHEN l_typepsc2 = '05-05' THEN '01'
+	WHEN l_typepsc2 = '05-04' THEN '01'
+ 	WHEN l_typepsc2 = '07-05' THEN '01'
+ 	WHEN l_typepsc2 = '07-02' THEN '01'
+ 	WHEN l_typepsc2 = '07-03' THEN '00'
+ 	WHEN l_typepsc2 = '07-10' THEN '00'
+ 	WHEN l_typepsc2 = '07-11' THEN '04'
+        WHEN typepsc = '07' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+        WHEN l_typepsc2 = '11-05' THEN '00'
+        WHEN l_typepsc2 = '11-01' THEN '01'
+        WHEN l_typepsc2 = '11-08' THEN '00'
+        WHEN l_typepsc2 = '11-09' THEN '00'
+        WHEN l_typepsc2 = '11-03' THEN '03'
+        WHEN l_typepsc2 = '11-02' THEN '01'
+        WHEN l_typepsc2 = '11-07' THEN '00'
+ 	WHEN typepsc = '15' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+ 	WHEN typepsc = '19' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+        WHEN l_typepsc2 = '21-02' THEN '06'
+        WHEN l_typepsc2 = '21-01' THEN '06'
+	WHEN l_typepsc2 = '21-03' THEN '06'
+ 	WHEN l_typepsc2 = '24-01' THEN '01'
+ 	WHEN typepsc = '25' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+ 	WHEN typepsc = '99' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
+ 	WHEN l_typepsc2 = '99-02' THEN '00'
+ 	WHEN l_typepsc2 = '99-01' THEN '03'
+ END as stypepsc,
+nomfic,
+replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_1') as urlfic,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- recomposition de l'idurba
+'60647_PLU_20180517_1' as idurba,
+'20180517',
+insee,
+l_nom,
+l_nature,
+l_bnfcr,
+l_numero,
+l_surf_txt,
+l_gen,
+l_valrecul,
+l_typrecul,
+l_observ,
+geom
+FROM m_urbanisme_doc.geo_p_prescription_lin WHERE insee='60647';
 
 -- COMMENT GB : --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Migration de la table geo_a_prescription_pct
@@ -4559,6 +4738,54 @@ FROM m_urbanisme_doc.geo_a_info_surf
 -- non intégration des informations qui sont basculées en prescription
 WHERE typeinf <> '06' and typeinf <> '18';
 
+-- insertion de l'élaboration du PLU de Trosly approuvée le même jour que la modification simplifiée n°1
+INSERT INTO m_urbanisme_doc_cnig2017.geo_a_info_surf (idinf,libelle,txt,typeinf,stypeinf,nomfic,urlfic,idurba,datvalid,l_insee,l_nom,l_dateins,l_bnfcr,l_datdlg,l_gen,l_valrecul,l_typrecul,l_observ,geom,gid)
+SELECT 
+idinf,
+libelle,
+txt,
+typeinf,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- même principe de migration que la table geo_p_info_surf
+CASE
+	WHEN typeinf = '04' THEN '00'
+        WHEN typeinf = '02' and (l_typeinf2 ='' or l_typeinf2 is null) THEN '00'
+        WHEN typeinf = '03' and (l_typeinf2 ='' or l_typeinf2 is null) THEN '00'
+	WHEN typeinf = '05' and (l_typeinf2 ='' or l_typeinf2 is null) THEN '00'
+	WHEN typeinf = '08' and (l_typeinf2 ='' or l_typeinf2 is null) THEN '00'
+	WHEN typeinf = '10' and (l_typeinf2 ='' or l_typeinf2 is null) THEN '00'
+	WHEN typeinf = '14' and (l_typeinf2 ='' or l_typeinf2 is null) THEN '00'
+	WHEN typeinf = '16' and (l_typeinf2 ='' or l_typeinf2 is null) THEN '00'
+	WHEN l_typeinf2 = '16-02' THEN '00'
+	WHEN l_typeinf2 = '16-03' THEN '00'
+	WHEN typeinf = '19' and (l_typeinf2 ='' or l_typeinf2 is null) THEN '01'
+	WHEN l_typeinf2 = '19-04' THEN '02'
+	WHEN l_typeinf2 = '19-09' THEN '01'
+	WHEN l_typeinf2 = '19-08' THEN '01'
+	WHEN typeinf = '99' and (l_typeinf2 ='' or l_typeinf2 is null) THEN '00'
+	WHEN l_typeinf2 = '99-01' THEN '00'
+ END as stypeinf,
+nomfic,
+replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_1') as urlfic,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- recomposition de l'idurba
+'60647_PLU_20180517_1' as idurba,
+'20180517',
+insee,
+l_nom,
+l_dateins,
+l_bnfcr,
+l_datdlg,
+l_gen, 
+l_valrecul, 
+l_typrecul, 
+l_observ,
+geom,
+nextval('m_urbanisme_doc.geo_a_info_surf_gid_seq'::regclass)
+FROM m_urbanisme_doc.geo_p_info_surf WHERE insee='60647';
+
+
+
 
 -- Sequence: m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq
 
@@ -4568,7 +4795,7 @@ CREATE SEQUENCE m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
-  START 686
+  START 782
   CACHE 1;
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq
   OWNER TO postgres;
@@ -4859,6 +5086,35 @@ gid
 FROM m_urbanisme_doc.geo_a_habillage_txt;
 
 
+-- insertion de l'élaboration de Trolsy approuvée le même jour que la modification simplifiée n°1
+INSERT INTO m_urbanisme_doc_cnig2017.geo_a_habillage_txt (idhab,natecr,txt,police,taille,style,couleur,angle,idurba,l_insee,l_couleur,geom,gid)
+SELECT 
+idhab,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- cas particulier à l'ARC pour la gestion du champ natecr à la migration
+CASE
+WHEN natecr='PRESCRIPTION_LIN-11' THEN 'PRESCRIPTION_LIN-15'
+WHEN natecr='PRESCRIPTION_LIN-21' THEN 'PRESCRIPTION_LIN-05'
+WHEN natecr='PRESCRIPTION_SURF-11' THEN 'PRESCRIPTION_SURF-15'
+WHEN natecr='PRESCRIPTION_SURF-21' THEN 'PRESCRIPTION_SURF-05'
+ELSE natecr END as natecr,
+txt,
+police,
+taille,
+style,
+''::character varying(11) as couleur,
+angle,
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- recomposition de l'idurba
+'60647_PLU_20180517_1' as idurba,
+insee,
+''::character varying(7) as l_couleur,
+geom,
+nextval('m_urbanisme_doc.geo_a_habillage_txt_gid_seq'::regclass)
+FROM m_urbanisme_doc.geo_p_habillage_txt WHERE insee='60647';
+
+
+
 -- Sequence: m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq
 
 -- DROP SEQUENCE m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq;
@@ -4867,7 +5123,7 @@ CREATE SEQUENCE m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
-  START 7817
+  START 8572
   CACHE 1;
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq
   OWNER TO postgres;
