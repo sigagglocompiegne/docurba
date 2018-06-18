@@ -3586,10 +3586,13 @@ ELSE
 	typezone
 END as typezone,
 nomfic,
-urlfic,
+CASE WHEN insee='60647' THEN replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_2')
+ELSE urlfic END as urlfic,
+
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition du champ idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_zone_urba.insee || geo_p_zone_urba.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee ='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_zone_urba.insee || geo_p_zone_urba.datappro ) || '_' || datappro END as idurba,
 datvalid,
 typesect,
 CASE WHEN fermreco = false THEN 'non'::character varying ELSE 'oui'::character varying END fermreco,
@@ -3665,10 +3668,12 @@ CASE
 	WHEN typepsc = '99' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
  END as stypepsc,
 nomfic,
-urlfic,
+CASE WHEN insee='60647' THEN replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_2') ELSE urlfic END as urlfic,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition du champ idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_prescription_surf.insee || geo_p_prescription_surf.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_prescription_surf.insee || geo_p_prescription_surf.datappro ) || '_' || datappro 
+END as idurba,
 datvalid,
 insee,
 l_nom,
@@ -3742,10 +3747,11 @@ CASE
 
  END as stypepsc,
 nomfic,
-urlfic,
+CASE WHEN insee='60647' THEN replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_2') ELSE urlfic END as urlfic,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition du champ idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_prescription_lin.insee || geo_p_prescription_lin.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_prescription_lin.insee || geo_p_prescription_lin.datappro ) || '_' || datappro END as idurba,
 datvalid,
 insee,
 l_nom,
@@ -3802,10 +3808,11 @@ CASE
    	WHEN typepsc = '99' and (l_typepsc2 ='' or l_typepsc2 is null) THEN '00'
  END as stypepsc,
 nomfic,
-urlfic,
+CASE WHEN insee='60647' THEN replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_2') ELSE urlfic END as urlfic,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition du champ idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_prescription_pct.insee || geo_p_prescription_pct.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_prescription_pct.insee || geo_p_prescription_pct.datappro ) || '_' || datappro END as idurba,
 datvalid,
 insee,
 l_nom,
@@ -3860,10 +3867,11 @@ CASE
 	WHEN l_typeinf2 = '99-01' THEN '00'
  END as stypeinf,
 nomfic,
-urlfic,
+CASE WHEN insee='60647' THEN replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_2') ELSE urlfic END as urlfic,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition du champ idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_info_surf.insee || geo_p_info_surf.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_info_surf.insee || geo_p_info_surf.datappro ) || '_' || datappro END as idurba,
 datvalid,
 insee,
 l_nom,
@@ -3911,10 +3919,11 @@ txt,
 '03'::character varying as typepsc,
 '00'::character varying as stypepsc,
 nomfic,
-urlfic,
+CASE WHEN insee='60647' THEN replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_2') ELSE urlfic END as urlfic,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition de l'idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_info_surf.insee || geo_p_info_surf.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_info_surf.insee || geo_p_info_surf.datappro ) || '_' || datappro END as idurba,
 datvalid,
 insee,
 l_nom,
@@ -3960,10 +3969,11 @@ txt,
 '31'::character varying as typepsc,
 '05'::character varying as stypepsc,
 nomfic,
-urlfic,
+CASE WHEN insee='60647' THEN replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_2') ELSE urlfic END as urlfic,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition de l'idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_info_surf.insee || geo_p_info_surf.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_info_surf.insee || geo_p_info_surf.datappro ) || '_' || datappro END as idurba,
 datvalid,
 insee,
 l_nom,
@@ -4011,10 +4021,11 @@ CASE
 	WHEN l_typeinf2 = '99-05' THEN '00'
  END as stypeinf,
 nomfic,
-urlfic,
+CASE WHEN insee='60647' THEN replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_2') ELSE urlfic END as urlfic,
 -- recomposition du champ idurba
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_info_lin.insee || geo_p_info_lin.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_info_lin.insee || geo_p_info_lin.datappro ) || '_' || datappro END as idurba,
 datvalid,
 insee,
 l_nom,
@@ -4057,10 +4068,11 @@ CASE
  	WHEN typeinf = '99' and (l_typeinf2 ='' or l_typeinf2 is null) THEN '00'
  END as stypeinf,
 nomfic,
-urlfic,
+CASE WHEN insee='60647' THEN replace(urlfic,'60647_PLU_20180517','60647_PLU_20180517_2') ELSE urlfic END as urlfic,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition du champ idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_info_pct.insee || geo_p_info_pct.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_info_pct.insee || geo_p_info_pct.datappro ) || '_' || datappro END as idurba,
 datvalid,
 insee,
 l_nom,
@@ -4094,7 +4106,8 @@ nattrac,
 ''::character varying(11) as couleur,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition du champ idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_habillage_surf.insee || geo_p_habillage_surf.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_habillage_surf.insee || geo_p_habillage_surf.datappro ) || '_' || datappro END as idurba,
 insee,
 ''::character varying(7) as l_couleur,
 geom
@@ -4126,7 +4139,8 @@ ELSE nattrac END as nattrac,
 ''::character varying(11) as couleur,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition du champ idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_habillage_lin.insee || geo_p_habillage_lin.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_habillage_lin.insee || geo_p_habillage_lin.datappro ) || '_' || datappro END as idurba,
 insee,
 ''::character varying(7) as l_couleur,
 geom
@@ -4151,7 +4165,8 @@ nattrac,
 ''::character varying(11) as couleur,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition du champ idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_habillage_pct.insee || geo_p_habillage_pct.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_habillage_pct.insee || geo_p_habillage_pct.datappro ) || '_' || datappro END as idurba,
 insee,
 ''::character varying(7) as l_couleur,
 geom
@@ -4187,7 +4202,8 @@ style,
 ''::character varying(11) as couleur,
 angle,
 -- recomposition du champ idurba
-insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_habillage_txt.insee || geo_p_habillage_txt.datappro ) || '_' || datappro as idurba,
+CASE WHEN insee='60647' THEN '60647_PLU_20180517_2' ELSE
+insee || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where left(a.idurba,5) || a.datappro = geo_p_habillage_txt.insee || geo_p_habillage_txt.datappro ) || '_' || datappro END as idurba,
 insee,
 ''::character varying(7) as l_couleur,
 geom
