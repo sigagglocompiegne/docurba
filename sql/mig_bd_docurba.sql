@@ -3484,7 +3484,70 @@ l_moa_dmat,
 l_moe_dmat,
 l_observ,
 l_parent
-FROM m_urbanisme_doc.an_doc_urba;
+FROM m_urbanisme_doc.an_doc_urba
+WHERE idurba <> '6064720180517';
+
+
+-- gestion de l'insertion de l'idurba de Trosly-Breuil (2 procédures approuvées le même jour)
+-- procédure d'élaboration
+INSERT INTO m_urbanisme_doc_cnig2017.an_doc_urba (idurba,typedoc,etat,nomproc,l_nomprocn,datappro,datefin,siren,nomreg,urlreg,nomplan,urlplan,urlpe,siteweb,typeref,dateref,l_moa_proc,l_moe_proc,l_moa_dmat,l_moe_dmat,l_observ,l_parent) 
+SELECT
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- recomposition du champ idurba
+'60647_PLU_20180517_1' as idurba,
+'PLU' as typedoc,
+'05' as etat,
+'E' as nomproc,
+null AS l_nomprocn,
+'20180517',
+'20180517',
+siren,
+'60647_reglement_20180517.pdf' as nomreg,
+null as urlreg,
+null as nomplan,
+null as urlplan,
+'http://geo.compiegnois.fr/documents/metiers/urba/docurba/60647_PLU_20180517_1.zip' as urlpe,
+null as siteweb,
+'01' as typeref,
+'20170101' AS dateref,
+'Commune de Trosly-Breuil' as l_moa_proc,
+'MT Projets' as l_moe_proc,
+'Agglomération de la Région de Compiègne' as l_moa_dmat,
+'Agglomération de la Région de Compiègne' as l_moe_dmat,
+null as l_observ,
+2 as l_parent
+FROM m_urbanisme_doc.an_doc_urba
+WHERE idurba = '6064720180517';
+
+-- procédure de modiciation n°1
+INSERT INTO m_urbanisme_doc_cnig2017.an_doc_urba (idurba,typedoc,etat,nomproc,l_nomprocn,datappro,datefin,siren,nomreg,urlreg,nomplan,urlplan,urlpe,siteweb,typeref,dateref,l_moa_proc,l_moe_proc,l_moa_dmat,l_moe_dmat,l_observ,l_parent) 
+SELECT
+-- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- recomposition du champ idurba
+'60647_PLU_20180517_2' as idurba,
+'PLU' as typedoc,
+'03' as etat,
+'M' as nomproc,
+1 AS l_nomprocn,
+'20180517' as datappro,
+null as datefin,
+null as siren,
+'60647_reglement_20180517.pdf' as nomreg,
+null as urlreg,
+null as nomplan,
+null as urlplan,
+'http://geo.compiegnois.fr/documents/metiers/urba/docurba/60647_PLU_20180517_2.zip' as urlpe,
+null as siteweb,
+'01' as typeref,
+'20170101' AS dateref,
+'Commune de Trosly-Breuil' as l_moa_proc,
+'MT Projets' as l_moe_proc,
+'Agglomération de la Région de Compiègne' as l_moa_dmat,
+'Agglomération de la Région de Compiègne' as l_moe_dmat,
+null as l_observ,
+2 as l_parent
+FROM m_urbanisme_doc.an_doc_urba
+WHERE idurba = '6064720180517';
 
 
 -- COMMENT GB : ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4285,7 +4348,7 @@ CREATE SEQUENCE m_urbanisme_doc_cnig2017.geo_a_prescription_surf_gid_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
-  START 7189
+  START 7565
   CACHE 1;
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_a_prescription_surf_gid_seq
   OWNER TO postgres;
