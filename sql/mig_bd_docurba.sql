@@ -6346,6 +6346,7 @@ CREATE OR REPLACE FUNCTION m_urbanisme_doc_cnig2017.m_geom1_information_surf()
 $BODY$BEGIN
 
  UPDATE m_urbanisme_doc_cnig2017.geo_p_info_surf SET geom1 = st_multi(st_buffer(geom,-0.5));
+ UPDATE m_urbanisme_doc_cnig2017.geo_p_info_surf SET geom1 = st_multi(st_buffer(geom,-1.5)) where typeinf || stypeinf='0400';
 
 
 RETURN NEW;
