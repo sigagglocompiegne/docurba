@@ -3289,8 +3289,8 @@ CREATE OR REPLACE FUNCTION m_urbanisme_doc.m_geom1_information_surf()
   RETURNS trigger AS
 $BODY$BEGIN
 
- UPDATE m_urbanisme_doc.geo_p_info_surf SET geom1 = st_multi(st_buffer(geom,-0.5));
-
+ UPDATE m_urbanisme_doc.geo_p_info_surf SET geom1 = st_multi(st_buffer(geom,-0.5)); 
+ UPDATE m_urbanisme_doc.geo_p_info_surf SET geom1 = st_multi(st_buffer(geom,-1.5)) where typeinf || stypeinf='0400';
 
 RETURN NEW;
 END;$BODY$
@@ -4161,7 +4161,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_plu AS
                 END AS type_zone,
             geo_p_zone_urba.l_observ,
             geo_p_zone_urba.datappro,
-            st_buffer(geo_p_zone_urba.geom, (-1)::double precision) AS geom1
+            st_buffer(geo_p_zone_urba.geom, (-1.5)::double precision) AS geom1
            FROM m_urbanisme_doc.geo_p_zone_urba,
             m_urbanisme_doc.lt_destdomi,
             m_urbanisme_doc.an_doc_urba,
