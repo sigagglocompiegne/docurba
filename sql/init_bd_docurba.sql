@@ -3522,23 +3522,23 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                  SELECT "PARCELLE"."IDU" AS idu,
                     ((((geo_p_info_pct.libelle::text ||
                         CASE
-                            WHEN length(geo_p_info_pct.l_nom::text) <> 0 THEN 'Nom : '::text || geo_p_info_pct.l_nom::text
+                            WHEN length(geo_p_info_pct.l_nom::text) <> 0 THEN ' Nom : '::text || geo_p_info_pct.l_nom::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_pct.l_dateins) <> 0 THEN (chr(10) || 'Instauré(e) le : '::text) || to_date(geo_p_info_pct.l_dateins::text, 'DD-MM-YYYY'::text)
+                            WHEN length(geo_p_info_pct.l_dateins) <> 0 THEN (chr(10) || ' Instauré(e) le : '::text) || to_char(to_date(geo_p_info_pct.l_dateins::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD/MM/YYYY'::text)::character varying
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_pct.l_gen::text) <> 0 THEN (chr(10) || 'Générateur du recul : '::text) || geo_p_info_pct.l_gen::text
+                            WHEN length(geo_p_info_pct.l_gen::text) <> 0 THEN (chr(10) || ' Générateur du recul : '::text) || geo_p_info_pct.l_gen::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_pct.l_valrecul::text) <> 0 THEN (chr(10) || 'Valeur du recul : '::text) || geo_p_info_pct.l_valrecul::text
+                            WHEN length(geo_p_info_pct.l_valrecul::text) <> 0 THEN (chr(10) || ' Valeur du recul : '::text) || geo_p_info_pct.l_valrecul::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_pct.l_typrecul::text) <> 0 THEN (chr(10) || 'Type du recul : '::text) || geo_p_info_pct.l_typrecul::text
+                            WHEN length(geo_p_info_pct.l_typrecul::text) <> 0 THEN (chr(10) || ' Type du recul : '::text) || geo_p_info_pct.l_typrecul::text
                             ELSE ''::text
                         END AS libelle,
                     geo_p_info_pct.urlfic
@@ -3549,23 +3549,23 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                  SELECT "PARCELLE"."IDU" AS idu,
                     ((((geo_p_info_lin.libelle::text ||
                         CASE
-                            WHEN length(geo_p_info_lin.l_nom::text) <> 0 THEN 'Nom : '::text || geo_p_info_lin.l_nom::text
+                            WHEN length(geo_p_info_lin.l_nom::text) <> 0 THEN ' Nom : '::text || geo_p_info_lin.l_nom::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_lin.l_dateins) <> 0 THEN (chr(10) || 'Instauré(e) le : '::text) || to_date(geo_p_info_lin.l_dateins::text, 'DD-MM-YYYY'::text)
+                            WHEN length(geo_p_info_lin.l_dateins) <> 0 THEN (chr(10) || ' Instauré(e) le : '::text) || to_char(to_date(geo_p_info_lin.l_dateins::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD/MM/YYYY'::text)::character varying
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_lin.l_gen::text) <> 0 THEN (chr(10) || 'Générateur du recul : '::text) || geo_p_info_lin.l_gen::text
+                            WHEN length(geo_p_info_lin.l_gen::text) <> 0 THEN (chr(10) || ' Générateur du recul : '::text) || geo_p_info_lin.l_gen::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_lin.l_valrecul::text) <> 0 THEN (chr(10) || 'Valeur du recul : '::text) || geo_p_info_lin.l_valrecul::text
+                            WHEN length(geo_p_info_lin.l_valrecul::text) <> 0 THEN (chr(10) || ' Valeur du recul : '::text) || geo_p_info_lin.l_valrecul::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_lin.l_typrecul::text) <> 0 THEN (chr(10) || 'Type du recul : '::text) || geo_p_info_lin.l_typrecul::text
+                            WHEN length(geo_p_info_lin.l_typrecul::text) <> 0 THEN (chr(10) || ' Type du recul : '::text) || geo_p_info_lin.l_typrecul::text
                             ELSE ''::text
                         END AS libelle,
                     geo_p_info_lin.urlfic
@@ -3576,23 +3576,23 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                  SELECT "PARCELLE"."IDU" AS idu,
                     ((((geo_p_info_surf.libelle::text ||
                         CASE
-                            WHEN length(geo_p_info_surf.l_nom::text) <> 0 THEN 'Nom : '::text || geo_p_info_surf.l_nom::text
+                            WHEN length(geo_p_info_surf.l_nom::text) <> 0 THEN ' Nom : '::text || geo_p_info_surf.l_nom::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_surf.l_dateins) <> 0 THEN (chr(10) || 'Instauré(e) le : '::text) || to_date(geo_p_info_surf.l_dateins::text, 'DD-MM-YYYY'::text)
+                            WHEN length(geo_p_info_surf.l_dateins) <> 0 THEN (chr(10) || ' Instauré(e) le : '::text) || to_char(to_date(geo_p_info_surf.l_dateins::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD/MM/YYYY'::text)::character varying
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_surf.l_gen::text) <> 0 THEN (chr(10) || 'Générateur du recul : '::text) || geo_p_info_surf.l_gen::text
+                            WHEN length(geo_p_info_surf.l_gen::text) <> 0 THEN (chr(10) || ' Générateur du recul : '::text) || geo_p_info_surf.l_gen::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_surf.l_valrecul::text) <> 0 THEN (chr(10) || 'Valeur du recul : '::text) || geo_p_info_surf.l_valrecul::text
+                            WHEN length(geo_p_info_surf.l_valrecul::text) <> 0 THEN (chr(10) || ' Valeur du recul : '::text) || geo_p_info_surf.l_valrecul::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_surf.l_typrecul::text) <> 0 THEN (chr(10) || 'Type du recul : '::text) || geo_p_info_surf.l_typrecul::text
+                            WHEN length(geo_p_info_surf.l_typrecul::text) <> 0 THEN (chr(10) || ' Type du recul : '::text) || geo_p_info_surf.l_typrecul::text
                             ELSE ''::text
                         END AS libelle,
                     geo_p_info_surf.urlfic
@@ -3889,6 +3889,7 @@ CREATE INDEX idx_an_vmr_p_information_idu
   ON x_apps.xapps_an_vmr_p_information
   USING btree
   (idu COLLATE pg_catalog."default");
+
 
 
 -- Materialized View: x_apps.xapps_an_vmr_p_information_dpu
