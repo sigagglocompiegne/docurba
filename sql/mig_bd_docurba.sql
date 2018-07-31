@@ -3565,12 +3565,8 @@ WHERE idurba = '6064720180517';
 -- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO m_urbanisme_doc_cnig2017.an_doc_urba_com (idurba,insee) 
-SELECT
--- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- recomposition du champ idurba
-left(idurba,5) || '_' || (select typedoc from m_urbanisme_doc.an_doc_urba a where a.idurba = an_doc_urba_com.idurba) || '_' || right(idurba,8) as idurba,
-insee
-FROM m_urbanisme_doc.an_doc_urba_com;
+SELECT idurba,left(idurba,5) from m_urbanisme_doc_cnig2017.an_doc_urba where etat='03' and typedoc <> 'RNU';
+
 
 
 -- COMMENT GB : ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
