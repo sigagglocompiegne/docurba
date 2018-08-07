@@ -22,7 +22,16 @@ DROP SCHEMA IF EXISTS m_urbanisme_doc;
 CREATE SCHEMA m_urbanisme_doc
   AUTHORIZATION sig_create;
 
-GRANT ALL ON SCHEMA m_urbanisme_doc TO postgres;
+GRANT USAGE ON SCHEMA m_urbanisme_doc TO edit_sig;
+GRANT ALL ON SCHEMA m_urbanisme_doc TO create_sig;
+GRANT USAGE ON SCHEMA m_urbanisme_doc TO read_sig;
+ALTER DEFAULT PRIVILEGES IN SCHEMA m_urbanisme_doc
+GRANT ALL ON TABLES TO create_sig;
+ALTER DEFAULT PRIVILEGES IN SCHEMA m_urbanisme_doc
+GRANT INSERT, SELECT, UPDATE, DELETE ON TABLES TO edit_sig;
+ALTER DEFAULT PRIVILEGES IN SCHEMA m_urbanisme_doc
+GRANT SELECT ON TABLES TO read_sig;
+
 COMMENT ON SCHEMA m_urbanisme_doc
   IS 'Schéma contenant les données métiers relatives aux documents d''urbanisme pour le modèle CNIG2017';
 
