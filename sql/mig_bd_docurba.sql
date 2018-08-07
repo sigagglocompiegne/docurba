@@ -4806,7 +4806,7 @@ CREATE SEQUENCE m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq
 ALTER SEQUENCE m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq
     OWNER TO sig_create;
 GRANT ALL ON SEQUENCE m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq TO create_sig;
-GRANT ALL ON SEQUENCE m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq TO PUBLIC
+GRANT ALL ON SEQUENCE m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq TO PUBLIC;
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_a_info_surf ALTER COLUMN gid SET DEFAULT nextval('m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq'::regclass);
 
@@ -5137,7 +5137,7 @@ CREATE SEQUENCE m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq
 ALTER SEQUENCE m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq
     OWNER TO sig_create;
 GRANT ALL ON SEQUENCE m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq TO create_sig;
-GRANT ALL ON SEQUENCE m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq TO PUBLIC
+GRANT ALL ON SEQUENCE m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq TO PUBLIC;
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_a_habillage_txt ALTER COLUMN gid SET DEFAULT nextval('m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq'::regclass);
 
