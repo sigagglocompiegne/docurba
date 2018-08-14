@@ -5155,7 +5155,7 @@ AS
                 )
          SELECT p."IDU" AS idu,
                 CASE
-                    WHEN r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL THEN '<font size=2>Aucune prescription a porter à connaissance sur ce terrain.</font>'::text
+                    WHEN r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL THEN '<font size=2>Aucune prescription à porter à connaissance sur ce terrain.</font>'::text
                     ELSE NULL::text
                 END AS libelle
            FROM r_bg_edigeo."PARCELLE" p
