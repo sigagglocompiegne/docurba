@@ -5756,176 +5756,390 @@ FROM m_urbanisme_doc.geo_t_habillage_txt;
 
 -- PRESCRIPTION (production)
 -- SURFACIQUE
+UPDATE m_urbanisme_doc_cnig2017.geo_p_prescription_surf set nomfic = 
+CASE
+WHEN nomfic like '%_05_%' THEN replace(nomfic,'_05_', '_' || typepsc || '_' || '00' || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_05_%' THEN replace(urlfic,'_05_', '_' || typepsc || '_' || '00' || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_p_prescription_surf set nomfic = 
 UPDATE m_urbanisme_doc_cnig2017.geo_a_prescription_surf set nomfic = 
 CASE
+WHEN nomfic like '%_07_%' THEN replace(nomfic,'_07_', '_' || typepsc || '_' || '01' || '_')
+ELSE
+nomfic
 WHEN nomfic is not null THEN l_insee || '_prescription_surf_' || typepsc || '_' || stypepsc || '_' || right(idurba,8) ELSE
 null
 END,
 urlfic = 
 CASE
+WHEN urlfic like '%_07_%' THEN replace(urlfic,'_07_', '_' || typepsc || '_' || '01' || '_')
 WHEN urlfic is not null THEN 'http://geo.compiegnois.fr/documents/metiers/urba/docurba/' || idurba || '/Pieces_ecrites/3_Reglement/' || l_insee || '_prescription_surf_' || typepsc || '_' || stypepsc || '_' || right(idurba,8)
 ELSE
+urlfic
 null
 END;
-
-
 -- LINEAIRE
 UPDATE m_urbanisme_doc_cnig2017.geo_p_prescription_lin set nomfic = 
 CASE
+WHEN nomfic like '%_24_%' THEN replace(nomfic,'_24_', '_' || typepsc || '_' || stypepsc || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_24_%' THEN replace(urlfic,'_24_', '_' || typepsc || '_' || stypepsc || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_p_prescription_lin set nomfic = 
+CASE
+WHEN nomfic like '%_11_%' THEN replace(nomfic,'_11_', '_' || typepsc || '_' || stypepsc || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_11_%' THEN replace(urlfic,'_11_', '_' || typepsc || '_' || stypepsc || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_p_prescription_lin set nomfic = 
+CASE
+WHEN nomfic like '%_07_%' THEN replace(nomfic,'_07_', '_' || typepsc || '_' || '01' || '_')
+ELSE
+nomfic
 WHEN nomfic is not null THEN l_insee || '_prescription_lin_' || typepsc || '_' || stypepsc || '_' || right(idurba,8) ELSE
 null
 END,
 urlfic = 
 CASE
+WHEN urlfic like '%_07_%' THEN replace(urlfic,'_07_', '_' || typepsc || '_' || '01' || '_')
 WHEN urlfic is not null THEN 'http://geo.compiegnois.fr/documents/metiers/urba/docurba/' || idurba || '/Pieces_ecrites/3_Reglement/' || l_insee || '_prescription_lin_' || typepsc || '_' || stypepsc || '_' || right(idurba,8)
 ELSE
+urlfic
 null
 END;
-
-
 -- PONCTUELLE
 UPDATE m_urbanisme_doc_cnig2017.geo_p_prescription_pct set nomfic = 
 CASE
+WHEN nomfic like '%_07_%' THEN replace(nomfic,'_07_', '_' || typepsc || '_' || stypepsc || '_')
+ELSE
+nomfic
 WHEN nomfic is not null THEN l_insee || '_prescription_pct_' || typepsc || '_' || stypepsc || '_' || right(idurba,8) ELSE
 null
 END,
 urlfic = 
 CASE
+WHEN urlfic like '%_07_%' THEN replace(urlfic,'_07_', '_' || typepsc || '_' || stypepsc || '_')
 WHEN urlfic is not null THEN 'http://geo.compiegnois.fr/documents/metiers/urba/docurba/' || idurba || '/Pieces_ecrites/3_Reglement/' || l_insee || '_prescription_pct_' || typepsc || '_' || stypepsc || '_' || right(idurba,8)
 ELSE
+urlfic
 null
 END;
-
 -- PRESCRIPTION (test)
 -- SURFACIQUE
 UPDATE m_urbanisme_doc_cnig2017.geo_t_prescription_surf set nomfic = 
 CASE
+WHEN nomfic like '%_05_%' THEN replace(nomfic,'_05_', '_' || typepsc || '_' || '00' || '_')
+ELSE
+nomfic
 WHEN nomfic is not null THEN l_insee || '_prescription_surf_' || typepsc || '_' || stypepsc || '_' || right(idurba,8) ELSE
 null
 END,
 urlfic = 
 CASE
+WHEN urlfic like '%_05_%' THEN replace(urlfic,'_05_', '_' || typepsc || '_' || '00' || '_')
 WHEN urlfic is not null THEN 'http://geo.compiegnois.fr/documents/metiers/urba/docurba/' || idurba || '/Pieces_ecrites/3_Reglement/' || l_insee || '_prescription_surf_' || typepsc || '_' || stypepsc || '_' || right(idurba,8)
 ELSE
+urlfic
 null
 END;
 -- LINEAIRE
 -- (pas de cas à l'ARC)
-
 -- PONCTUELLE
 UPDATE m_urbanisme_doc_cnig2017.geo_t_prescription_pct set nomfic = 
 CASE
+WHEN nomfic like '%_07_%' THEN replace(nomfic,'_07_', '_' || typepsc || '_' || '01' || '_')
+ELSE
+nomfic
 WHEN nomfic is not null THEN l_insee || '_prescription_pct_' || typepsc || '_' || stypepsc || '_' || right(idurba,8) ELSE
 null
 END,
 urlfic = 
 CASE
+WHEN urlfic like '%_07_%' THEN replace(urlfic,'_07_', '_' || typepsc || '_' || '01' || '_')
 WHEN urlfic is not null THEN 'http://geo.compiegnois.fr/documents/metiers/urba/docurba/' || idurba || '/Pieces_ecrites/3_Reglement/' || l_insee || '_prescription_pct_' || typepsc || '_' || stypepsc || '_' || right(idurba,8)
 ELSE
+urlfic
 null
 END;
-
 -- PRESCRIPTION (archive)
 -- SURFACIQUE
 				   
 					   
 UPDATE m_urbanisme_doc_cnig2017.geo_a_prescription_surf set nomfic = 
 CASE
+WHEN nomfic like '%_05_%' THEN replace(nomfic,'_05_', '_' || typepsc || '_' || '00' || '_')
+ELSE
+nomfic
 WHEN nomfic is not null THEN l_insee || '_prescription_surf_' || typepsc || '_' || stypepsc || '_' || right(idurba,8) ELSE
 null
 END,
 urlfic = 
 CASE
+WHEN urlfic like '%_05_%' THEN replace(urlfic,'_05_', '_' || typepsc || '_' || '00' || '_')
 WHEN urlfic is not null THEN 'http://geo.compiegnois.fr/documents/metiers/urba/docurba/' || idurba || '/Pieces_ecrites/3_Reglement/' || l_insee || '_prescription_surf_' || typepsc || '_' || stypepsc || '_' || right(idurba,8)
 ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_a_prescription_surf set nomfic = 
+CASE
+WHEN nomfic like '%_14_%' THEN replace(nomfic,'_14_', '_' || typepsc || '_' || stypepsc || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_14_%' THEN replace(urlfic,'_14_', '_' || typepsc || '_' || stypepsc || '_')
+ELSE
+urlfic
 null
 END;
-
-
+-- LINEAIRE
 UPDATE m_urbanisme_doc_cnig2017.geo_a_prescription_lin set nomfic = 
 CASE
+WHEN nomfic like '%_11_%' THEN replace(nomfic,'_11_', '_' || typepsc || '_' || stypepsc || '_')
+ELSE
+nomfic
 WHEN nomfic is not null THEN l_insee || '_prescription_lin_' || typepsc || '_' || stypepsc || '_' || right(idurba,8) ELSE
 null
 END,
 urlfic = 
 CASE
+WHEN urlfic like '%_11_%' THEN replace(urlfic,'_11_', '_' || typepsc || '_' || stypepsc || '_')
 WHEN urlfic is not null THEN 'http://geo.compiegnois.fr/documents/metiers/urba/docurba/' || idurba || '/Pieces_ecrites/3_Reglement/' || l_insee || '_prescription_lin_' || typepsc || '_' || stypepsc || '_' || right(idurba,8)
 ELSE
+urlfic
 null
 END;
-
 -- PONCTUELLE
--- pas de cas à l'arc
-
-
+-- (pas de cas à l'arc)
 -- INFORMATION (production)
 -- SURFACIQUE
 					   
 UPDATE m_urbanisme_doc_cnig2017.geo_p_info_surf set nomfic = 
 CASE
+WHEN nomfic like '%_02_%' THEN replace(nomfic,'_02_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_02_%' THEN replace(urlfic,'_02_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_p_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_04_%' THEN replace(nomfic,'_04_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_04_%' THEN replace(urlfic,'_04_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_p_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_05_%' THEN replace(nomfic,'_05_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_05_%' THEN replace(urlfic,'_05_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_p_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_14_%' THEN replace(nomfic,'_14_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_14_%' THEN replace(urlfic,'_14_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_p_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_19_%' THEN replace(nomfic,'_19_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_19_%' THEN replace(urlfic,'_19_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_p_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_99_%' THEN replace(nomfic,'_99_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
 WHEN nomfic is not null THEN l_insee || '_info_surf_' || typeinf || '_' || stypeinf || '_' || right(idurba,8) ELSE
 null
 END,
 urlfic = 
 CASE
+WHEN urlfic like '%_99_%' THEN replace(urlfic,'_99_', '_' || typeinf || '_' || stypeinf || '_')
 WHEN urlfic is not null THEN 'http://geo.compiegnois.fr/documents/metiers/urba/docurba/' || idurba || '/Pieces_ecrites/4_Annexes/' || l_insee || '_info_surf_' || typeinf || '_' || stypeinf || '_' || right(idurba,8)
 ELSE
+urlfic
+END;
 null
-END
-WHERE nomfic <> 'reglement_ZI_Armancourt_20001002.pdf' and nomfic <> 'reglement_ZAC_Prairie_19990706.pdf' and 
-nomfic <> 'reglement_ZAC_Jaux-Venette_19860725.pdf' AND
-nomfic <> 'reglement_ZAC_Camp_du_Roy_19960126.pdf' AND nomfic <> 'reglement_ZAC_Jaux-Venette_19860725.pdf'  
-;
+END;
 					   
 -- LINEAIRE
 -- pas de cas à l'arc
 
--- PONCTUELLE
--- pas de cas à l'arc
-
--- INFORMATION (test)
 -- SURFACIQUE
 UPDATE m_urbanisme_doc_cnig2017.geo_t_info_surf set nomfic = 
 CASE
+WHEN nomfic like '%_04_%' THEN replace(nomfic,'_04_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
 WHEN nomfic is not null THEN l_insee || '_info_surf_' || typeinf || '_' || stypeinf || '_' || right(idurba,8) ELSE
 null
 END,
 urlfic = 
 CASE
+WHEN urlfic like '%_04_%' THEN replace(urlfic,'_04_', '_' || typeinf || '_' || stypeinf || '_')
 WHEN urlfic is not null THEN 'http://geo.compiegnois.fr/documents/metiers/urba/docurba/' || idurba || '/Pieces_ecrites/4_Annexes/' || l_insee || '_info_surf_' || typeinf || '_' || stypeinf || '_' || right(idurba,8)
 ELSE
+urlfic
+END;
 null
-END
-WHERE nomfic <> 'reglement_ZI_Armancourt_20001002.pdf' and nomfic <> 'reglement_ZAC_Prairie_19990706.pdf'
-AND nomfic <> 'reglement_ZAC_Jaux-Venette_19860725.pdf' and nomfic <> 'reglement_ZAC_Camp_du_Roy_19960126.pdf'
-AND nomfic <> 'reglement_ZAC_Jaux-Venette_19860725.pdf';					   
-
+END;					   
 -- LINEAIRE
 -- (pas de cas à l'ARC)
 
--- PONCTUELLE
--- pas de cas à l'arc
-
--- INFORMATION (archive)
 -- SURFACIQUE
 UPDATE m_urbanisme_doc_cnig2017.geo_a_info_surf set nomfic = 
 CASE
+WHEN nomfic like '%_02_%' THEN replace(nomfic,'_02_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_02_%' THEN replace(urlfic,'_02_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_a_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_04_%' THEN replace(nomfic,'_04_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_04_%' THEN replace(urlfic,'_04_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_a_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_05_%' THEN replace(nomfic,'_05_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
 WHEN nomfic is not null THEN l_insee || '_info_surf_' || typeinf || '_' || stypeinf || '_' || right(idurba,8) ELSE
 null
 END,
 urlfic = 
 CASE
+WHEN urlfic like '%_05_%' THEN replace(urlfic,'_05_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_a_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_10_%' THEN replace(nomfic,'_10_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_10_%' THEN replace(urlfic,'_10_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_a_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_14_%' THEN replace(nomfic,'_14_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_14_%' THEN replace(urlfic,'_14_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_a_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_16_%' THEN replace(nomfic,'_16_', '_' || typeinf || '_' || stypeinf || '_')
 WHEN urlfic is not null THEN 'http://geo.compiegnois.fr/documents/metiers/urba/docurba/' || idurba || '/Pieces_ecrites/4_Annexes/' || l_insee || '_info_surf_' || typeinf || '_' || stypeinf || '_' || right(idurba,8)
 ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_16_%' THEN replace(urlfic,'_16_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_a_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_19_%' THEN replace(nomfic,'_19_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_19_%' THEN replace(urlfic,'_19_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
+UPDATE m_urbanisme_doc_cnig2017.geo_a_info_surf set nomfic = 
+CASE
+WHEN nomfic like '%_99_%' THEN replace(nomfic,'_99_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_99_%' THEN replace(urlfic,'_99_', '_' || typeinf || '_' || stypeinf || '_')
+ELSE
+urlfic
+END;
 null
-END
-WHERE nomfic <> 'reglement_ZI_Armancourt_20001002.pdf' and nomfic <> 'reglement_ZAC_Prairie_19990706.pdf'
-AND nomfic <> 'reglement_ZAC_Jaux-Venette_19860725.pdf' and nomfic <> 'reglement_ZAC_Camp_du_Roy_19960126.pdf'
-AND nomfic <> 'reglement_ZAC_Jaux-Venette_19860725.pdf';
--- LINEAIRE
--- pas de cas à l'arc
+END;
 
--- PONCTUELLE
+-- LINEAIRE
 -- pas de cas à l'arc
 
 
