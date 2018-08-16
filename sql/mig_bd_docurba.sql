@@ -9,6 +9,7 @@
 -- 2018/07/25 : GB / Intégration du champ optionnel l_meta dans le script de migration et adaptation des sous-types dans les migrations suites aux dernières procédures intégrées
 -- 2018/08/07 : GB / Ajout des vues matérialisées Grand Public pour l'application de consultation des documents d'urbanisme
 --                 / Ajout des nouveaux profils de connexion et leur privilège suite à la modification des rôles dans la base de l'ARC
+-- 2018/08/16 : GB / Correction bug de migration sur la réécriture des noms de fichiers (suite test intégration GeoPortail)
 
 -- ############################################################################################## SCHEMA #########################################################################################################
 
