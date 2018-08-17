@@ -5783,6 +5783,20 @@ WHEN urlfic like '%_07_%' THEN replace(urlfic,'_07_', '_' || typepsc || '_' || '
 ELSE
 urlfic
 END;
+					   
+-- gestion des infos passant en prescription
+UPDATE m_urbanisme_doc_cnig2017.geo_p_prescription_surf set nomfic = 
+CASE
+WHEN nomfic = '60125_info_surf_06_20170707.pdf' THEN '60125_prescription_surf_03_00_20170707.pdf'
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN nomfic = '60125_info_surf_06_20170707.pdf' THEN replace(urlfic,'60125_info_surf_06_20170707.pdf', '60125_prescription_surf_03_00_20170707.pdf')
+ELSE
+urlfic
+END;
 
 -- LINEAIRE
 UPDATE m_urbanisme_doc_cnig2017.geo_p_prescription_lin set nomfic = 
@@ -5912,9 +5926,33 @@ WHEN urlfic like '%_11_%' THEN replace(urlfic,'_11_', '_' || typepsc || '_' || s
 ELSE
 urlfic
 END;
+					   
+UPDATE m_urbanisme_doc_cnig2017.geo_a_prescription_lin set nomfic = 
+CASE
+WHEN nomfic like '%_05_%' THEN replace(nomfic,'_05_', '_' || typepsc || '_' || '00' || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_05_%' THEN replace(urlfic,'_05_', '_' || typepsc || '_' || '00' || '_')
+ELSE
+urlfic
+END;
 
 -- PONCTUELLE
--- (pas de cas à l'arc)
+UPDATE m_urbanisme_doc_cnig2017.geo_a_prescription_pct set nomfic = 
+CASE
+WHEN nomfic like '%_07_%' THEN replace(nomfic,'_07_', '_' || typepsc || '_' || '00' || '_')
+ELSE
+nomfic
+END,
+urlfic = 
+CASE
+WHEN urlfic like '%_07_%' THEN replace(urlfic,'_07_', '_' || typepsc || '_' || '00' || '_')
+ELSE
+urlfic
+END;
 
 -- INFORMATION (production)
 -- SURFACIQUE
@@ -5999,6 +6037,7 @@ ELSE
 urlfic
 END;
 					   
+				   
 UPDATE m_urbanisme_doc_cnig2017.geo_p_info_surf set nomfic = 
 CASE
 WHEN nomfic like '%_99_%' THEN replace(nomfic,'_99_', '_' || typeinf || '_' || stypeinf || '_')
@@ -6137,6 +6176,19 @@ ELSE
 urlfic
 END;
 
+UPDATE m_urbanisme_doc_cnig2017.geo_a_info_surf set nomfic = 
+CASE
+WHEN nomfic = '60125_info_surf_19_01_19_01_20170323.pdf' THEN '60125_info_surf_19_01_20170323.pdf'
+ELSE
+nomfic
+END,
+urlfic =
+CASE
+WHEN urlfic like '%60125_info_surf_19_01_19_01_20170323.pdf' 
+THEN replace(urlfic,'60125_info_surf_19_01_19_01_20170323.pdf', '60125_info_surf_19_01_20170323.pdf')
+ELSE
+urlfic
+END;
 
 -- LINEAIRE
 -- pas de cas à l'arc
