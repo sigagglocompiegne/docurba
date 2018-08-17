@@ -5982,8 +5982,23 @@ CASE
 WHEN urlfic like '%_19_%' THEN replace(urlfic,'_19_', '_' || typeinf || '_' || stypeinf || '_')
 ELSE
 urlfic
+END			   
+;
+					   
+UPDATE m_urbanisme_doc_cnig2017.geo_p_info_surf set nomfic = 
+CASE
+WHEN nomfic = '60125_info_surf_19_01_19_01_20170707.pdf' THEN '60125_info_surf_19_01_20170707.pdf'
+ELSE
+nomfic
+END,
+urlfic =
+CASE
+WHEN urlfic like '%60125_info_surf_19_01_19_01_20170707.pdf' 
+THEN replace(urlfic,'60125_info_surf_19_01_19_01_20170707.pdf', '60125_info_surf_19_01_20170707.pdf')
+ELSE
+urlfic
 END;
-
+					   
 UPDATE m_urbanisme_doc_cnig2017.geo_p_info_surf set nomfic = 
 CASE
 WHEN nomfic like '%_99_%' THEN replace(nomfic,'_99_', '_' || typeinf || '_' || stypeinf || '_')
