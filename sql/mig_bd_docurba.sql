@@ -7075,6 +7075,66 @@ COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_p_habillage_lin_arc
   IS 'Vue géographique des habillages linéaires PLU filtrée sur les communes de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l''application PLU Interactif';
 
 
+-- View: m_urbanisme_doc_cnig2017.geo_v_p_habillage_surf_arc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_p_habillage_surf_arc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_p_habillage_surf_arc AS 
+ SELECT geo_p_habillage_surf.idhab,
+    geo_p_habillage_surf.nattrac,
+    geo_p_habillage_surf.couleur,
+    geo_p_habillage_surf.idurba,
+    geo_p_habillage_surf.l_insee,
+    right(geo_p_habillage_surf.idurba,8) as l_datappro,
+    geo_p_habillage_surf.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_surf
+  WHERE geo_p_habillage_surf.l_insee::text = '60023'::text OR geo_p_habillage_surf.l_insee::text = '60070'::text OR geo_p_habillage_surf.l_insee::text = '60151'::text OR geo_p_habillage_surf.l_insee::text = '60156'::text 
+  OR geo_p_habillage_surf.l_insee::text = '60159'::text OR geo_p_habillage_surf.l_insee::text = '60323'::text OR geo_p_habillage_surf.l_insee::text = '60325'::text OR geo_p_habillage_surf.l_insee::text = '60326'::text 
+  OR geo_p_habillage_surf.l_insee::text = '60337'::text OR geo_p_habillage_surf.l_insee::text = '60338'::text OR geo_p_habillage_surf.l_insee::text = '60382'::text OR geo_p_habillage_surf.l_insee::text = '60402'::text 
+  OR geo_p_habillage_surf.l_insee::text = '60579'::text OR geo_p_habillage_surf.l_insee::text = '60597'::text OR geo_p_habillage_surf.l_insee::text = '60665'::text OR geo_p_habillage_surf.l_insee::text = '60674'::text 
+  OR geo_p_habillage_surf.l_insee::text = '60067'::text OR geo_p_habillage_surf.l_insee::text = '60068'::text OR geo_p_habillage_surf.l_insee::text = '60447'::text OR geo_p_habillage_surf.l_insee::text = '60578'::text 
+  OR geo_p_habillage_surf.l_insee::text = '60600'::text OR geo_p_habillage_surf.l_insee::text = '60667'::text;
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_p_habillage_surf_arc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_p_habillage_surf_arc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_p_habillage_surf_arc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_p_habillage_surf_arc TO edit_sig;
+										       
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_p_habillage_surf_arc
+  IS 'Vue géographique des habillages surfaciques PLU filtrée sur les communes de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l''application PLU Interactif';
+
+										       
+-- View: m_urbanisme_doc_cnig2017.geo_v_p_habillage_pct_arc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_p_habillage_pct_arc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_p_habillage_pct_arc AS 
+ SELECT geo_p_habillage_pct.idhab,
+    geo_p_habillage_pct.nattrac,
+    geo_p_habillage_pct.couleur,
+    geo_p_habillage_pct.idurba,
+    geo_p_habillage_pct.l_insee,
+    right(geo_p_habillage_pct.idurba,8) as l_datappro,
+    geo_p_habillage_pct.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_pct
+  WHERE geo_p_habillage_pct.l_insee::text = '60023'::text OR geo_p_habillage_pct.l_insee::text = '60070'::text OR geo_p_habillage_pct.l_insee::text = '60151'::text OR geo_p_habillage_pct.l_insee::text = '60156'::text 
+  OR geo_p_habillage_pct.l_insee::text = '60159'::text OR geo_p_habillage_pct.l_insee::text = '60323'::text OR geo_p_habillage_pct.l_insee::text = '60325'::text OR geo_p_habillage_pct.l_insee::text = '60326'::text 
+  OR geo_p_habillage_pct.l_insee::text = '60337'::text OR geo_p_habillage_pct.l_insee::text = '60338'::text OR geo_p_habillage_pct.l_insee::text = '60382'::text OR geo_p_habillage_pct.l_insee::text = '60402'::text 
+  OR geo_p_habillage_pct.l_insee::text = '60579'::text OR geo_p_habillage_pct.l_insee::text = '60597'::text OR geo_p_habillage_pct.l_insee::text = '60665'::text OR geo_p_habillage_pct.l_insee::text = '60674'::text 
+  OR geo_p_habillage_pct.l_insee::text = '60067'::text OR geo_p_habillage_pct.l_insee::text = '60068'::text OR geo_p_habillage_pct.l_insee::text = '60447'::text OR geo_p_habillage_pct.l_insee::text = '60578'::text 
+  OR geo_p_habillage_pct.l_insee::text = '60600'::text OR geo_p_habillage_pct.l_insee::text = '60667'::text;
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_p_habillage_pct_arc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_p_habillage_pct_arc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_p_habillage_pct_arc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_p_habillage_pct_arc TO edit_sig;
+										       
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_p_habillage_surf_arc
+  IS 'Vue géographique des habillages ponctuels PLU filtrée sur les communes de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée notamment dans l''application PLU Interactif';
+
+										       
 -- View: m_urbanisme_doc_cnig2017.geo_v_p_habillage_txt_arc
 
 DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_p_habillage_txt_arc;
@@ -7485,13 +7545,62 @@ CREATE INDEX geo_p_zone_urba_geom_idx
   USING gist
   (geom);
 
-										       
-										       -- ####################################################################################################################################################
+-- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
 -- ###                                                   VUES ETUDE PLUi (spécifiques ARC)                                                           ###
 -- ###                                                                                                                                              ###
 -- ####################################################################################################################################################
 
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc AS 
+ SELECT geo_p_habillage_surf.idhab,
+    geo_p_habillage_surf.nattrac,
+    geo_p_habillage_surf.couleur,
+    geo_p_habillage_surf.idurba,
+    geo_p_habillage_surf.l_insee,
+    right(geo_p_habillage_surf.idurba,8) as l_datappro,
+    geo_p_habillage_surf.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_surf
+  WHERE idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc TO edit_sig;
+										       
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc
+  IS 'Vue géographique des habillages surfaciques PLUi de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+										       
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc AS 
+ SELECT geo_p_habillage_pct.idhab,
+    geo_p_habillage_pct.nattrac,
+    geo_p_habillage_pct.couleur,
+    geo_p_habillage_pct.idurba,
+    geo_p_habillage_pct.l_insee,
+    right(geo_p_habillage_pct.idurba,8) as l_datappro,
+    geo_p_habillage_pct.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_pct
+  WHERE idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc TO edit_sig;
+										       
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc
+  IS 'Vue géographique des habillages ponctuels PLUi de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+										       
 -- View: m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc
 
 DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc;
