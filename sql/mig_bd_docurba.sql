@@ -3422,7 +3422,7 @@ INSERT INTO m_urbanisme_doc_cnig2017.an_doc_urba (idurba,typedoc,etat,nomproc,l_
 SELECT
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- recomposition du champ idurba
-left(idurba,5) || '_' || typedoc || '_' || CASE WHEN (datappro is not null or datappro <> '' ) THEN right(datappro,8) ELSE '999999' END as idurba,
+left(idurba,5) || '_' || typedoc || '_' || CASE WHEN (datappro is not null or datappro <> '' ) THEN right(datappro,8) ELSE '99999999' END as idurba,
 typedoc,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- gestion de l'état 09:caduc 
