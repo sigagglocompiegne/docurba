@@ -4914,6 +4914,58 @@ CREATE INDEX idx_geo_vmr_p_zone_urba_typezone
 -- ###                                                                                                                                              ###
 -- ####################################################################################################################################################
 
+
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc AS 
+ SELECT geo_p_habillage_surf.idhab,
+    geo_p_habillage_surf.nattrac,
+    geo_p_habillage_surf.couleur,
+    geo_p_habillage_surf.idurba,
+    geo_p_habillage_surf.l_insee,
+    right(geo_p_habillage_surf.idurba,8) as l_datappro,
+    geo_p_habillage_surf.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_surf
+  WHERE idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc TO edit_sig;
+										       
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc
+  IS 'Vue géographique des habillages surfaciques PLUi de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+										       
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc AS 
+ SELECT geo_p_habillage_pct.idhab,
+    geo_p_habillage_pct.nattrac,
+    geo_p_habillage_pct.couleur,
+    geo_p_habillage_pct.idurba,
+    geo_p_habillage_pct.l_insee,
+    right(geo_p_habillage_pct.idurba,8) as l_datappro,
+    geo_p_habillage_pct.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_pct
+  WHERE idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc TO edit_sig;
+										       
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc
+  IS 'Vue géographique des habillages ponctuels PLUi de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+
+										  
 -- View: m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc
 
 DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc;
