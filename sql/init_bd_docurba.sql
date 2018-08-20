@@ -11,7 +11,6 @@
 -- 2018/07/25 : GB / Ajout du champ optionnel l_meta et ajout des vues matérialisées ARC pour les applications websig grands publics
 -- 2018/08/07 : GB / Ajout des vues matérialisées Grand Public pour l'application de consultation des documents d'urbanisme
 --                 / Ajout des nouveaux profils de connexion et leur privilège suite à la modification des rôles dans la base de l'ARC
--- 2018/08/17 : GB / Correctif sur la migration des noms de fichiers
 -- 2018/08/20 : GB / Intégration des vues pour traiter les données du PLUi et modification des vues applicatives filtrées sur l'ARC pour respecter la structure CNIG2017
 
 -- ####################################################################################################################################################
