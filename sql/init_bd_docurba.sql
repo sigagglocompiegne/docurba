@@ -4397,8 +4397,9 @@ DROP VIEW IF EXISTS m_urbanisme_doc.geo_v_p_habillage_lin_arc;
 CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_habillage_lin_arc AS 
  SELECT geo_p_habillage_lin.idhab,
     geo_p_habillage_lin.nattrac,
-    geo_p_habillage_lin.l_insee as insee,
-    right(geo_p_habillage_lin.idurba,8) as datappro,
+    geo_p_habillage_lin.idurba,
+    geo_p_habillage_lin.l_insee,
+    right(geo_p_habillage_lin.idurba,8) as l_datappro,
     geo_p_habillage_lin.geom
    FROM m_urbanisme_doc.geo_p_habillage_lin
   WHERE geo_p_habillage_lin.l_insee::text = '60023'::text OR geo_p_habillage_lin.l_insee::text = '60070'::text OR geo_p_habillage_lin.l_insee::text = '60151'::text OR geo_p_habillage_lin.l_insee::text = '60156'::text 
@@ -4431,9 +4432,10 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_habillage_txt_arc AS
     geo_p_habillage_txt.style,
     geo_p_habillage_txt.angle,
     geo_p_habillage_txt.couleur,
+    geo_p_habillage_txt.idurba,
     geo_p_habillage_txt.l_couleur,
-    geo_p_habillage_txt.l_insee as insee,
-    right(geo_p_habillage_txt.idurba,8) as datappro,
+    geo_p_habillage_txt.l_insee,
+    right(geo_p_habillage_txt.idurba,8) as l_datappro,
     geo_p_habillage_txt.geom
    FROM m_urbanisme_doc.geo_p_habillage_txt
   WHERE geo_p_habillage_txt.l_insee::text = '60023'::text OR geo_p_habillage_txt.l_insee::text = '60070'::text OR geo_p_habillage_txt.l_insee::text = '60151'::text OR geo_p_habillage_txt.l_insee::text = '60156'::text 
@@ -4462,7 +4464,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_info_pct_arc AS
     lt_typeinf.valeur as libelle,
     geo_p_info_pct.txt,
     geo_p_info_pct.typeinf,
-    geo_p_info_pct.stypeinf as l_typeinf2,
+    geo_p_info_pct.stypeinf,
+    geo_p_info_pct.idurba,
     geo_p_info_pct.l_nom,
     geo_p_info_pct.l_dateins,
     geo_p_info_pct.l_bnfcr,
@@ -4473,8 +4476,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_info_pct_arc AS
     geo_p_info_pct.l_observ,
     geo_p_info_pct.nomfic,
     geo_p_info_pct.urlfic,
-    geo_p_info_pct.l_insee as insee,
-    right(geo_p_info_pct.idurba,8) as datappro,
+    geo_p_info_pct.l_insee,
+    right(geo_p_info_pct.idurba,8) as l_datappro,
     geo_p_info_pct.datvalid,
     geo_p_info_pct.geom
    FROM m_urbanisme_doc.geo_p_info_pct, m_urbanisme_doc.lt_typeinf
@@ -4504,7 +4507,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_info_lin_arc AS
     lt_typeinf.valeur as libelle,
     geo_p_info_lin.txt,
     geo_p_info_lin.typeinf,
-    geo_p_info_lin.stypeinf as l_typeinf2,
+    geo_p_info_lin.stypeinf,
+    geo_p_info_lin.idurba,
     geo_p_info_lin.l_nom,
     geo_p_info_lin.l_dateins,
     geo_p_info_lin.l_bnfcr,
@@ -4515,8 +4519,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_info_lin_arc AS
     geo_p_info_lin.l_observ,
     geo_p_info_lin.nomfic,
     geo_p_info_lin.urlfic,
-    geo_p_info_lin.l_insee as insee,
-    right(geo_p_info_lin.idurba,8) as datappro,
+    geo_p_info_lin.l_insee,
+    right(geo_p_info_lin.idurba,8) as l_datappro,
     geo_p_info_lin.datvalid,
     geo_p_info_lin.geom
    FROM m_urbanisme_doc.geo_p_info_lin, m_urbanisme_doc.lt_typeinf
@@ -4546,7 +4550,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_info_surf_arc AS
     lt_typeinf.valeur as libelle,
     geo_p_info_surf.txt,
     geo_p_info_surf.typeinf,
-    geo_p_info_surf.stypeinf as l_typeinf2,
+    geo_p_info_surf.stypeinf,
+    geo_p_info_surf.idurba,
     geo_p_info_surf.l_nom,
     geo_p_info_surf.l_dateins,
     geo_p_info_surf.l_bnfcr,
@@ -4557,8 +4562,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_info_surf_arc AS
     geo_p_info_surf.l_observ,
     geo_p_info_surf.nomfic,
     geo_p_info_surf.urlfic,
-    geo_p_info_surf.l_insee as insee,
-    right(geo_p_info_surf.idurba,8) as datappro,
+    geo_p_info_surf.l_insee,
+    right(geo_p_info_surf.idurba,8) as l_datappro,
     geo_p_info_surf.datvalid,
     geo_p_info_surf.geom
    FROM m_urbanisme_doc.geo_p_info_surf, m_urbanisme_doc.lt_typeinf
@@ -4587,7 +4592,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_prescription_lin_arc AS
     lt_typepsc.valeur as libelle,
     geo_p_prescription_lin.txt,
     geo_p_prescription_lin.typepsc,
-    geo_p_prescription_lin.stypepsc as l_typepsc2,
+    geo_p_prescription_lin.stypepsc,
+    geo_p_prescription_lin.idurba,
     geo_p_prescription_lin.l_nom,
     geo_p_prescription_lin.l_nature,
     geo_p_prescription_lin.l_bnfcr,
@@ -4599,8 +4605,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_prescription_lin_arc AS
     geo_p_prescription_lin.l_observ,
     geo_p_prescription_lin.nomfic,
     geo_p_prescription_lin.urlfic,
-    geo_p_prescription_lin.l_insee as insee,
-    right(geo_p_prescription_lin.idurba,8) as datappro,
+    geo_p_prescription_lin.l_insee,
+    right(geo_p_prescription_lin.idurba,8) as l_datappro,
     geo_p_prescription_lin.datvalid,
     geo_p_prescription_lin.geom
    FROM m_urbanisme_doc.geo_p_prescription_lin, m_urbanisme_doc.lt_typepsc
@@ -4630,7 +4636,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_prescription_pct_arc AS
     lt_typepsc.valeur as libelle,
     geo_p_prescription_pct.txt,
     geo_p_prescription_pct.typepsc,
-    geo_p_prescription_pct.stypepsc as l_typepsc2,
+    geo_p_prescription_pct.stypepsc,
+    geo_p_prescription_pct.idurba,
     geo_p_prescription_pct.l_nom,
     geo_p_prescription_pct.l_nature,
     geo_p_prescription_pct.l_bnfcr,
@@ -4642,8 +4649,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_prescription_pct_arc AS
     geo_p_prescription_pct.l_observ,
     geo_p_prescription_pct.nomfic,
     geo_p_prescription_pct.urlfic,
-    geo_p_prescription_pct.l_insee as insee,
-    right(geo_p_prescription_pct.idurba,8) as datappro,
+    geo_p_prescription_pct.l_insee,
+    right(geo_p_prescription_pct.idurba,8) as l_datappro,
     geo_p_prescription_pct.datvalid,
     geo_p_prescription_pct.geom
    FROM m_urbanisme_doc.geo_p_prescription_pct, m_urbanisme_doc.lt_typepsc
@@ -4673,7 +4680,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_prescription_surf_arc AS
     lt_typepsc.valeur as libelle,
     geo_p_prescription_surf.txt,
     geo_p_prescription_surf.typepsc,
-    geo_p_prescription_surf.stypepsc as l_typepsc2,
+    geo_p_prescription_surf.stypepsc,
+    geo_p_prescription_surf.idurba,
     geo_p_prescription_surf.l_nom,
     geo_p_prescription_surf.l_nature,
     geo_p_prescription_surf.l_bnfcr,
@@ -4685,8 +4693,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_prescription_surf_arc AS
     geo_p_prescription_surf.l_observ,
     geo_p_prescription_surf.nomfic,
     geo_p_prescription_surf.urlfic,
-    geo_p_prescription_surf.l_insee as insee,
-    right(geo_p_prescription_surf.idurba,8) as datappro,
+    geo_p_prescription_surf.l_insee,
+    right(geo_p_prescription_surf.idurba,8) as l_datappro,
     geo_p_prescription_surf.datvalid,
     geo_p_prescription_surf.geom
    FROM m_urbanisme_doc.geo_p_prescription_surf, m_urbanisme_doc.lt_typepsc
@@ -4716,13 +4724,14 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_zone_urba_arc AS
     geo_p_zone_urba.libelle,
     geo_p_zone_urba.libelong,
     geo_p_zone_urba.typezone,
-    geo_p_zone_urba.l_destdomi as destdomi,
+    geo_p_zone_urba.idurba,
+    geo_p_zone_urba.l_destdomi,
     geo_p_zone_urba.l_surf_cal,
     geo_p_zone_urba.l_observ,
     geo_p_zone_urba.nomfic,
     geo_p_zone_urba.urlfic,
-    geo_p_zone_urba.l_insee as insee,
-    right(geo_p_zone_urba.idurba,8) as datappro,
+    geo_p_zone_urba.l_insee,
+    right(geo_p_zone_urba.idurba,8) as l_datappro,
     geo_p_zone_urba.datvalid,
     geo_p_zone_urba.geom,
     geo_p_zone_urba.typesect,
@@ -4838,6 +4847,328 @@ CREATE INDEX idx_geo_vmr_p_zone_urba_typezone
   USING btree
   (typezone COLLATE pg_catalog."default");
 
+-- ####################################################################################################################################################
+-- ###                                                                                                                                              ###
+-- ###                                                   VUES ETUDE PLUi (spécifiques ARC)                                                           ###
+-- ###                                                                                                                                              ###
+-- ####################################################################################################################################################
+
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc AS 
+ SELECT geo_p_habillage_lin.idhab,
+    geo_p_habillage_lin.nattrac,
+	geo_p_habillage_lin.idurba,
+    geo_p_habillage_lin.l_insee,
+    right(geo_p_habillage_lin.idurba,8) as l_datappro,
+    geo_p_habillage_lin.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_lin
+  WHERE idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc TO edit_sig;
+										  
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc
+  IS 'Vue géographique des habillages linéaires en mode test du PLUi de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_habillage_txt_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_habillage_txt_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_txt_pluiarc AS 
+ SELECT geo_p_habillage_txt.idhab,
+    geo_p_habillage_txt.natecr,
+    geo_p_habillage_txt.txt,
+    geo_p_habillage_txt.police,
+    geo_p_habillage_txt.taille,
+    geo_p_habillage_txt.style,
+    geo_p_habillage_txt.angle,
+    geo_p_habillage_txt.couleur,
+	geo_p_habillage_txt.idurba,
+    geo_p_habillage_txt.l_couleur,
+    geo_p_habillage_txt.l_insee,
+    right(geo_p_habillage_txt.idurba,8) as l_datappro,
+    geo_p_habillage_txt.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_habillage_txt
+  WHERE idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_txt_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_txt_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_txt_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_txt_pluiarc TO edit_sig;
+										  
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_txt_pluiarc
+  IS 'Vue géographique des habillages textuels en mode test du PLUi pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_info_pct_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_info_pct_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_info_pct_pluiarc AS 
+ SELECT geo_p_info_pct.idinf,
+    lt_typeinf.valeur as libelle,
+    geo_p_info_pct.txt,
+    geo_p_info_pct.typeinf,
+    geo_p_info_pct.stypeinf,
+	geo_p_info_pct.idurba,
+    geo_p_info_pct.l_nom,
+    geo_p_info_pct.l_dateins,
+    geo_p_info_pct.l_bnfcr,
+    geo_p_info_pct.l_datdlg,
+    geo_p_info_pct.l_gen,
+    geo_p_info_pct.l_valrecul,
+    geo_p_info_pct.l_typrecul,
+    geo_p_info_pct.l_observ,
+    geo_p_info_pct.nomfic,
+    geo_p_info_pct.urlfic,
+    geo_p_info_pct.l_insee,
+    right(geo_p_info_pct.idurba,8) as l_datappro,
+    geo_p_info_pct.datvalid,
+    geo_p_info_pct.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_info_pct, m_urbanisme_doc_cnig2017.lt_typeinf
+  WHERE geo_p_info_pct.typeinf || geo_p_info_pct.stypeinf = lt_typeinf.code || lt_typeinf.sous_code AND idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_pct_pluiarc
+OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_pct_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_pct_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_pct_pluiarc TO edit_sig;
+										  
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_info_pct_pluiarc
+  IS 'Vue géographique des informations ponctuelles en mode test du PLUi de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_info_lin_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_info_lin_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_info_lin_pluiarc AS 
+ SELECT geo_p_info_lin.idinf,
+    lt_typeinf.valeur as libelle,
+    geo_p_info_lin.txt,
+    geo_p_info_lin.typeinf,
+    geo_p_info_lin.stypeinf,
+	geo_p_info_lin.idurba,
+    geo_p_info_lin.l_nom,
+    geo_p_info_lin.l_dateins,
+    geo_p_info_lin.l_bnfcr,
+    geo_p_info_lin.l_datdlg,
+    geo_p_info_lin.l_gen,
+    geo_p_info_lin.l_valrecul,
+    geo_p_info_lin.l_typrecul,
+    geo_p_info_lin.l_observ,
+    geo_p_info_lin.nomfic,
+    geo_p_info_lin.urlfic,
+    geo_p_info_lin.l_insee,
+    right(geo_p_info_lin.idurba,8) as l_datappro,
+    geo_p_info_lin.datvalid,
+    geo_p_info_lin.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_info_lin, m_urbanisme_doc_cnig2017.lt_typeinf
+  WHERE geo_p_info_lin.typeinf || geo_p_info_lin.stypeinf = lt_typeinf.code || lt_typeinf.sous_code and idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_lin_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_lin_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_lin_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_lin_pluiarc TO edit_sig;
+										  
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_info_lin_pluiarc
+  IS 'Vue géographique des informations linéaires mode test du PLUi de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_info_surf_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_info_surf_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_info_surf_pluiarc AS 
+ SELECT geo_p_info_surf.idinf,
+    lt_typeinf.valeur as libelle,
+    geo_p_info_surf.txt,
+    geo_p_info_surf.typeinf,
+    geo_p_info_surf.stypeinf,
+	geo_p_info_surf.idurba,
+    geo_p_info_surf.l_nom,
+    geo_p_info_surf.l_dateins,
+    geo_p_info_surf.l_bnfcr,
+    geo_p_info_surf.l_datdlg,
+    geo_p_info_surf.l_gen,
+    geo_p_info_surf.l_valrecul,
+    geo_p_info_surf.l_typrecul,
+    geo_p_info_surf.l_observ,
+    geo_p_info_surf.nomfic,
+    geo_p_info_surf.urlfic,
+    geo_p_info_surf.l_insee,
+    right(geo_p_info_surf.idurba,8) as l_datappro,
+    geo_p_info_surf.datvalid,
+    geo_p_info_surf.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_info_surf, m_urbanisme_doc_cnig2017.lt_typeinf
+  WHERE geo_p_info_surf.typeinf || geo_p_info_surf.stypeinf = lt_typeinf.code || lt_typeinf.sous_code and idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_surf_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_surf_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_surf_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_surf_pluiarc TO edit_sig;
+										  
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_info_surf_pluiarc
+  IS 'Vue géographique des informations surfaciques en mode test du PLUi de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_prescription_lin_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_prescription_lin_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_prescription_lin_pluiarc AS 
+ SELECT geo_p_prescription_lin.idpsc,
+    lt_typepsc.valeur as libelle,
+    geo_p_prescription_lin.txt,
+    geo_p_prescription_lin.typepsc,
+    geo_p_prescription_lin.stypepsc,
+	geo_p_prescription_lin.idurba,
+    geo_p_prescription_lin.l_nom,
+    geo_p_prescription_lin.l_nature,
+    geo_p_prescription_lin.l_bnfcr,
+    geo_p_prescription_lin.l_numero,
+    geo_p_prescription_lin.l_surf_txt,
+    geo_p_prescription_lin.l_gen,
+    geo_p_prescription_lin.l_valrecul,
+    geo_p_prescription_lin.l_typrecul,
+    geo_p_prescription_lin.l_observ,
+    geo_p_prescription_lin.nomfic,
+    geo_p_prescription_lin.urlfic,
+    geo_p_prescription_lin.l_insee,
+    right(geo_p_prescription_lin.idurba,8) as l_datappro,
+    geo_p_prescription_lin.datvalid,
+    geo_p_prescription_lin.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_prescription_lin, m_urbanisme_doc_cnig2017.lt_typepsc
+  WHERE  geo_p_prescription_lin.typepsc || geo_p_prescription_lin.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_lin_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_lin_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_lin_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_lin_pluiarc TO edit_sig;
+										  
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_prescription_lin_pluiarc
+  IS 'Vue géographique des prescriptions linéaires en mode test du PLUi l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_prescription_pct_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_prescription_pct_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_prescription_pct_pluiarc AS 
+ SELECT geo_p_prescription_pct.idpsc,
+    lt_typepsc.valeur as libelle,
+    geo_p_prescription_pct.txt,
+    geo_p_prescription_pct.typepsc,
+    geo_p_prescription_pct.stypepsc,
+	geo_p_prescription_pct.idurba,
+    geo_p_prescription_pct.l_nom,
+    geo_p_prescription_pct.l_nature,
+    geo_p_prescription_pct.l_bnfcr,
+    geo_p_prescription_pct.l_numero,
+    geo_p_prescription_pct.l_surf_txt,
+    geo_p_prescription_pct.l_gen,
+    geo_p_prescription_pct.l_valrecul,
+    geo_p_prescription_pct.l_typrecul,
+    geo_p_prescription_pct.l_observ,
+    geo_p_prescription_pct.nomfic,
+    geo_p_prescription_pct.urlfic,
+    geo_p_prescription_pct.l_insee,
+    right(geo_p_prescription_pct.idurba,8) as l_datappro,
+    geo_p_prescription_pct.datvalid,
+    geo_p_prescription_pct.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_prescription_pct, m_urbanisme_doc_cnig2017.lt_typepsc
+  WHERE geo_p_prescription_pct.typepsc || geo_p_prescription_pct.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_pct_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_pct_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_pct_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_pct_pluiarc TO edit_sig;
+										  
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_prescription_pct_pluiarc
+  IS 'Vue géographique des prescriptions ponctuelles en mode test du PLUide l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_prescription_surf_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_prescription_surf_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_prescription_surf_pluiarc AS 
+ SELECT geo_p_prescription_surf.idpsc,
+    lt_typepsc.valeur as libelle,
+    geo_p_prescription_surf.txt,
+    geo_p_prescription_surf.typepsc,
+    geo_p_prescription_surf.stypepsc,
+	geo_p_prescription_surf.idurba,
+    geo_p_prescription_surf.l_nom,
+    geo_p_prescription_surf.l_nature,
+    geo_p_prescription_surf.l_bnfcr,
+    geo_p_prescription_surf.l_numero,
+    geo_p_prescription_surf.l_surf_txt,
+    geo_p_prescription_surf.l_gen,
+    geo_p_prescription_surf.l_valrecul,
+    geo_p_prescription_surf.l_typrecul,
+    geo_p_prescription_surf.l_observ,
+    geo_p_prescription_surf.nomfic,
+    geo_p_prescription_surf.urlfic,
+    geo_p_prescription_surf.l_insee,
+    right(geo_p_prescription_surf.idurba,8) as l_datappro,
+    geo_p_prescription_surf.datvalid,
+    geo_p_prescription_surf.geom
+   FROM m_urbanisme_doc_cnig2017.geo_p_prescription_surf, m_urbanisme_doc_cnig2017.lt_typepsc
+  WHERE geo_p_prescription_surf.typepsc || geo_p_prescription_surf.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_surf_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_surf_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_surf_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_surf_pluiarc TO edit_sig;
+										  
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_prescription_surf_pluiarc
+  IS 'Vue géographique des prescriptions surfaciques en mode test du PLUi de l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
+
+
+-- View: m_urbanisme_doc_cnig2017.geo_v_t_zone_urba_pluiarc
+
+DROP VIEW IF EXISTS m_urbanisme_doc_cnig2017.geo_v_t_zone_urba_pluiarc;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_zone_urba_pluiarc AS 
+ SELECT geo_p_zone_urba.idzone,
+    geo_p_zone_urba.libelle,
+    geo_p_zone_urba.libelong,
+    geo_p_zone_urba.typezone,
+	geo_p_zone_urba.idurba,
+    geo_p_zone_urba.l_destdomi,
+    geo_p_zone_urba.l_surf_cal,
+    geo_p_zone_urba.l_observ,
+    geo_p_zone_urba.nomfic,
+    geo_p_zone_urba.urlfic,
+    geo_p_zone_urba.l_insee,
+    right(geo_p_zone_urba.idurba,8) as l_datappro,
+    geo_p_zone_urba.datvalid,
+    geo_p_zone_urba.geom,
+    geo_p_zone_urba.typesect,
+    geo_p_zone_urba.fermreco
+   FROM m_urbanisme_doc_cnig2017.geo_p_zone_urba
+  WHERE idurba = '200067965_PLUI_99999999';
+
+ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_zone_urba_pluiarc
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_zone_urba_pluiarc TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_zone_urba_pluiarc TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc_cnig2017.geo_v_t_zone_urba_pluiarc TO edit_sig;
+										  
+COMMENT ON VIEW m_urbanisme_doc_cnig2017.geo_v_t_zone_urba_pluiarc
+  IS 'Vue géographique des zonages PLUi en mode test sur l''ARC pour la création du flux GeoServer DocUrba_ARC utilisée dans l''application PLUi';
 
 
 -- ####################################################################################################################################################
