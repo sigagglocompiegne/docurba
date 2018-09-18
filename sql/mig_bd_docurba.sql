@@ -7564,7 +7564,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc A
     right(geo_t_habillage_surf.idurba,8) as l_datappro,
     geo_t_habillage_surf.geom
    FROM m_urbanisme_doc_cnig2017.geo_t_habillage_surf
-  WHERE idurba = '200067965_PLUI_99999999';
+  WHERE idurba = '200067965_PLUI_00000000';
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_surf_pluiarc
   OWNER TO sig_create;
@@ -7589,7 +7589,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc AS
     right(geo_t_habillage_pct.idurba,8) as l_datappro,
     geo_t_habillage_pct.geom
    FROM m_urbanisme_doc_cnig2017.geo_t_habillage_pct
-  WHERE idurba = '200067965_PLUI_99999999';
+  WHERE idurba = '200067965_PLUI_00000000';
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_pct_pluiarc
   OWNER TO sig_create;
@@ -7613,7 +7613,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc AS
     right(geo_t_habillage_lin.idurba,8) as l_datappro,
     geo_t_habillage_lin.geom
    FROM m_urbanisme_doc_cnig2017.geo_t_habillage_lin
-  WHERE idurba = '200067965_PLUI_99999999';
+  WHERE idurba = '200067965_PLUI_00000000';
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_lin_pluiarc
   OWNER TO sig_create;
@@ -7644,7 +7644,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_habillage_txt_pluiarc AS
     right(geo_t_habillage_txt.idurba,8) as l_datappro,
     geo_t_habillage_txt.geom
    FROM m_urbanisme_doc_cnig2017.geo_t_habillage_txt
-  WHERE idurba = '200067965_PLUI_99999999';
+  WHERE idurba = '200067965_PLUI_00000000';
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_habillage_txt_pluiarc
   OWNER TO sig_create;
@@ -7682,7 +7682,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_info_pct_pluiarc AS
     geo_t_info_pct.datvalid,
     geo_t_info_pct.geom
    FROM m_urbanisme_doc_cnig2017.geo_t_info_pct, m_urbanisme_doc_cnig2017.lt_typeinf
-  WHERE geo_t_info_pct.typeinf || geo_t_info_pct.stypeinf = lt_typeinf.code || lt_typeinf.sous_code AND idurba = '200067965_PLUI_99999999';
+  WHERE geo_t_info_pct.typeinf || geo_t_info_pct.stypeinf = lt_typeinf.code || lt_typeinf.sous_code AND idurba = '200067965_PLUI_00000000';
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_pct_pluiarc
 OWNER TO sig_create;
@@ -7719,7 +7719,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_info_lin_pluiarc AS
     geo_t_info_lin.datvalid,
     geo_t_info_lin.geom
    FROM m_urbanisme_doc_cnig2017.geo_t_info_lin, m_urbanisme_doc_cnig2017.lt_typeinf
-  WHERE geo_t_info_lin.typeinf || geo_t_info_lin.stypeinf = lt_typeinf.code || lt_typeinf.sous_code and idurba = '200067965_PLUI_99999999';
+  WHERE geo_t_info_lin.typeinf || geo_t_info_lin.stypeinf = lt_typeinf.code || lt_typeinf.sous_code 
+and idurba = '200067965_PLUI_00000000';
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_lin_pluiarc
   OWNER TO sig_create;
@@ -7757,7 +7758,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_info_surf_pluiarc AS
     geo_t_info_surf.datvalid,
     geo_t_info_surf.geom
    FROM m_urbanisme_doc_cnig2017.geo_t_info_surf, m_urbanisme_doc_cnig2017.lt_typeinf
-  WHERE geo_t_info_surf.typeinf || geo_t_info_surf.stypeinf = lt_typeinf.code || lt_typeinf.sous_code and idurba = '200067965_PLUI_99999999';
+  WHERE geo_t_info_surf.typeinf || geo_t_info_surf.stypeinf = lt_typeinf.code || lt_typeinf.sous_code 
+and idurba = '200067965_PLUI_00000000';
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_info_surf_pluiarc
   OWNER TO sig_create;
@@ -7795,7 +7797,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_prescription_lin_pluiarc
     geo_t_prescription_lin.datvalid,
     geo_t_prescription_lin.geom
    FROM m_urbanisme_doc_cnig2017.geo_t_prescription_lin, m_urbanisme_doc_cnig2017.lt_typepsc
-  WHERE  geo_t_prescription_lin.typepsc || geo_t_prescription_lin.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and idurba = '200067965_PLUI_99999999';
+  WHERE  geo_t_prescription_lin.typepsc || geo_t_prescription_lin.stypepsc = lt_typepsc.code || lt_typepsc.sous_code 
+and idurba = '200067965_PLUI_00000000';
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_lin_pluiarc
   OWNER TO sig_create;
@@ -7834,7 +7837,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_prescription_pct_pluiarc
     geo_t_prescription_pct.datvalid,
     geo_t_prescription_pct.geom
    FROM m_urbanisme_doc_cnig2017.geo_t_prescription_pct, m_urbanisme_doc_cnig2017.lt_typepsc
-  WHERE geo_t_prescription_pct.typepsc || geo_t_prescription_pct.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and idurba = '200067965_PLUI_99999999';
+  WHERE geo_t_prescription_pct.typepsc || geo_t_prescription_pct.stypepsc = lt_typepsc.code || lt_typepsc.sous_code 
+  and idurba = '200067965_PLUI_00000000';
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_pct_pluiarc
   OWNER TO sig_create;
@@ -7873,7 +7877,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_prescription_surf_pluiar
     geo_t_prescription_surf.datvalid,
     geo_t_prescription_surf.geom
    FROM m_urbanisme_doc_cnig2017.geo_t_prescription_surf, m_urbanisme_doc_cnig2017.lt_typepsc
-  WHERE geo_t_prescription_surf.typepsc || geo_t_prescription_surf.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and idurba = '200067965_PLUI_99999999';
+  WHERE geo_t_prescription_surf.typepsc || geo_t_prescription_surf.stypepsc = lt_typepsc.code || lt_typepsc.sous_code
+  and idurba = '200067965_PLUI_00000000';
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_prescription_surf_pluiarc
   OWNER TO sig_create;
@@ -7907,7 +7912,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.geo_v_t_zone_urba_pluiarc AS
     geo_t_zone_urba.typesect,
     geo_t_zone_urba.fermreco
    FROM m_urbanisme_doc_cnig2017.geo_t_zone_urba
-  WHERE idurba = '200067965_PLUI_99999999';
+  WHERE idurba = '200067965_PLUI_00000000';
 
 ALTER TABLE m_urbanisme_doc_cnig2017.geo_v_t_zone_urba_pluiarc
   OWNER TO sig_create;
