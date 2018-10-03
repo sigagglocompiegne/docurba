@@ -10,6 +10,10 @@
  * **résumé fonctionnel** :
  le fonctionnement de la base de données répond à la norme CNIG à la fois sur les attributs et les primitives géographiques (se référer au standard http://cnig.gouv.fr/?page_id=2732). Le système de versionnement repose sur une partie production (qui contient l'ensemble des procédures en vigueur), une partie archive (qui contient l'ensemble des procédures annulée,remplacée,abrogée,...) et une partie test (qui contient l'ensemble des documents en cours de création ou de modification). Le basculement des données entre les diverses parties s'effectuent via des Workflow de l'ETL FME.
 
+## Schéma fonctionnel
+
+![schema_fonctionnel](img/schema_fonctionnel_docurba.png)
+
 ## Dépendances (non critiques)
 
 La base de données des documents d'urbanisme s'appui sur des référentiels préexistants uniquement pour les vues applicatives constituant autant de dépendances nécessaires pour l'implémentatation des vues de cette base. Il n'y a donc pas de dépendances critiques pour la gestion des données des documents d'urbanisme.
@@ -1557,7 +1561,5 @@ Les données liées aux documents d'urbanisme font l'objet d'un export automatiq
 
 ![mcd](img/MCD.png)
 
-## Schéma fonctionnel
 
-![schema_fonctionnel](img/schema_fonctionnel_docurba.png)
 
