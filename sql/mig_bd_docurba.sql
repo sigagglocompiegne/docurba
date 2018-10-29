@@ -11,6 +11,7 @@
 --                 / Ajout des nouveaux profils de connexion et leur privilège suite à la modification des rôles dans la base de l'ARC
 -- 2018/08/16 : GB / Correction bug de migration sur la réécriture des noms de fichiers (suite test intégration GeoPortail)
 -- 2018/08/20 : GB / Intégration des vues applicatives PLUi de l'ARC
+-- 2018/10/29 : GB / Intégration des modifications mineures du standard v2017b (ajout du code 98-00 comme information)
 
 -- ############################################################################################## SCHEMA #########################################################################################################
 
