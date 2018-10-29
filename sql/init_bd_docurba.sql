@@ -5449,7 +5449,7 @@ CREATE INDEX idx_an_vmr_p_prescription_idu
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_plu;
 
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_plu AS 
- WITH req_par AS (
+   WITH req_par AS (
          SELECT geo_parcelle.geo_parcelle,
             geo_parcelle.annee,
             geo_parcelle.object_rid,
@@ -5484,11 +5484,11 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_plu AS
                     END
                 END AS libelong,
             geo_p_zone_urba.urlfic,
-            lt_destdomi.destdomi_lib,
+            lt_destdomi.valeur,
             geo_p_zone_urba.l_surf_cal,
                 CASE
-                    WHEN geo_p_zone_urba.fermreco = true THEN 'Oui'::text
-                    WHEN geo_p_zone_urba.fermreco = false THEN 'Non'::text
+                    WHEN geo_p_zone_urba.fermreco = 'oui' THEN 'Oui'::text
+                    WHEN geo_p_zone_urba.fermreco = 'non' THEN 'Non'::text
                     ELSE NULL::text
                 END AS fermreco,
                 CASE
@@ -5497,13 +5497,16 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_plu AS
                     ELSE NULL::character varying
                 END AS type_zone,
             geo_p_zone_urba.l_observ,
-            --geo_p_zone_urba.datappro,
+            CASE WHEN length(geo_p_zone_urba.idurba) > 18 
+		THEN to_char(substring(geo_p_zone_urba.idurba FROM 11 FOR 8)::timestamp without time zone, 'DD/MM/YYYY'::text)
+		ELSE to_char(right(geo_p_zone_urba.idurba,8)::timestamp without time zone, 'DD/MM/YYYY'::text) END as datappro
+		,
             st_buffer(geo_p_zone_urba.geom, (-1.5)::double precision) AS geom1
            FROM m_urbanisme_doc.geo_p_zone_urba,
             m_urbanisme_doc.lt_destdomi,
             m_urbanisme_doc.an_doc_urba,
             r_osm.geo_osm_commune
-          WHERE geo_osm_commune.insee::text = geo_p_zone_urba.l_insee::text AND geo_p_zone_urba.idurba::text = an_doc_urba.idurba AND an_doc_urba.etat = '03'::bpchar AND geo_p_zone_urba.l_destdomi::bpchar = lt_destdomi.destdomi
+          WHERE geo_osm_commune.insee::text = geo_p_zone_urba.l_insee::text AND geo_p_zone_urba.idurba::text = an_doc_urba.idurba AND an_doc_urba.etat = '03'::bpchar AND geo_p_zone_urba.l_destdomi::bpchar = lt_destdomi.code
         )
  SELECT row_number() OVER () AS id,
     now() AS datextract,
@@ -5514,17 +5517,17 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_plu AS
     req_plu.libelle,
     req_plu.libelong,
     req_plu.type_zone,
-    req_plu.destdomi_lib,
+    req_plu.valeur as destdomi_lib,
     req_plu.fermreco,
     sum(req_plu.l_surf_cal) AS l_surf_cal,
     req_plu.l_observ,
-    right(to_char(req_plu.idurba::timestamp without time zone, 'DD/MM/YYYY'::text),8) AS datappro,
+    req_plu.datappro,
     req_plu.urlfic
    FROM req_par,
     req_plu
   WHERE st_intersects(req_par.geom, req_plu.geom1) AND ('60'::text || "substring"(req_par.idu, 1, 3)) = req_plu.l_insee::text
-  GROUP BY '60'::text || req_par.idu, '60'::text || "substring"(req_par.idu, 1, 3), req_plu.insee, req_plu.commune, req_plu.libelle, req_plu.libelong, req_plu.type_zone, req_plu.destdomi_lib, req_plu.fermreco, req_plu.l_observ, req_plu.datappro, req_plu.urlfic
-WITH DATA;
+  GROUP BY '60'::text || req_par.idu, '60'::text || "substring"(req_par.idu, 1, 3), req_plu.l_insee, req_plu.commune, req_plu.libelle, req_plu.libelong, req_plu.type_zone, req_plu.valeur, req_plu.fermreco, req_plu.l_observ, req_plu.datappro, req_plu.urlfic
+ WITH DATA;
 
 ALTER TABLE x_apps.xapps_an_vmr_parcelle_plu
   OWNER TO sig_create;
