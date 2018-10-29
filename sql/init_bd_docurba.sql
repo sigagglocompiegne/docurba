@@ -4842,6 +4842,13 @@ COMMENT ON VIEW m_urbanisme_doc.geo_v_urbreg_ads_commune
   IS 'Vue géographique sur l''état de l''ADS par l''ARC sur les communes du pays compiégnois';
 
 
+-- ####################################################################################################################################################
+-- ###                                                                                                                                              ###
+-- ###                                                   VUES APPLICATIVES (spécifiques ARC)                                                           ###
+-- ###                                                                                                                                              ###
+-- ####################################################################################################################################################
+
+										  
 -- Materialized View: x_apps.xapps_geo_vmr_p_zone_urba
 
 DROP MATERIALIZED VIEW x_apps.xapps_geo_vmr_p_zone_urba;
@@ -4851,15 +4858,17 @@ CREATE MATERIALIZED VIEW x_apps.xapps_geo_vmr_p_zone_urba AS
     geo_p_zone_urba.libelle,
     geo_p_zone_urba.libelong,
     geo_p_zone_urba.typezone,
-    geo_p_zone_urba.destdomi,
+    geo_p_zone_urba.l_destdomi as destdomi,
     geo_p_zone_urba.typesect,
     geo_p_zone_urba.fermreco,
     geo_p_zone_urba.l_surf_cal,
     geo_p_zone_urba.l_observ,
     geo_p_zone_urba.nomfic,
     geo_p_zone_urba.urlfic,
-    geo_p_zone_urba.insee,
-    geo_p_zone_urba.datappro,
+    geo_p_zone_urba.l_nomfic as l_nomfic,
+    geo_p_zone_urba.l_urlfic as l_urlfic,
+    geo_p_zone_urba.l_insee as insee,
+    --geo_p_zone_urba.datappro,
     geo_p_zone_urba.datvalid,
     st_multi(geo_p_zone_urba.geom)::geometry(MultiPolygon,2154) AS geom
    FROM m_urbanisme_doc.geo_p_zone_urba
