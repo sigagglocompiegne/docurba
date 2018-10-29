@@ -640,6 +640,7 @@ INSERT INTO m_urbanisme_doc_cnig2017.lt_typeinf(
 	('37','00','Bois ou forêts relevant du régime forestier',null,'R151-53 7°'),
 	('38','00','Secteurs d''information sur les sols',null,'R151-53 10°'),
 	('39','00','Périmètres de projets AFUP (dans lesquels les propriétaires fonciers sont incités à se regrouper en AFU de projet et les AFU de projet à mener leurs opérations de façon concertée)','L322-13','R151-52 14°'),
+	('98','00','Périmètre d''annulation partielle',null,null),
 	('99','00','Autre périmètre, secteur, plan, document, site, projet, espace',null,null),
 	('99','01','Autre relevant de la loi littoral',null,null),
 	('99','02','Autre relevant de la loi montagne',null,null);
@@ -3575,7 +3576,7 @@ SELECT idurba,left(idurba,5) from m_urbanisme_doc_cnig2017.an_doc_urba where eta
 
 INSERT INTO m_urbanisme_doc_cnig2017.geo_p_zone_urba (idzone,libelle,libelong,typezone,nomfic,urlfic,idurba,datvalid,typesect,fermreco,l_destdomi,l_insee,l_surf_cal,l_observ,geom)
 SELECT 
-idzone,
+replace(idzone,'Z0','ZO') as idzone,
 libelle,
 libelong,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4224,7 +4225,7 @@ FROM m_urbanisme_doc.geo_p_habillage_txt;
 
 INSERT INTO m_urbanisme_doc_cnig2017.geo_a_zone_urba (idzone,libelle,libelong,typezone,nomfic,urlfic,idurba,datvalid,typesect,fermreco,l_destdomi,l_insee,l_surf_cal,l_observ,geom,gid)
 SELECT 
-idzone,
+replace(idzone,'Z0','ZO') as idzone,
 libelle,
 libelong,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -5153,7 +5154,7 @@ ALTER TABLE m_urbanisme_doc_cnig2017.geo_a_habillage_txt ALTER COLUMN gid SET DE
 
 INSERT INTO m_urbanisme_doc_cnig2017.geo_t_zone_urba (idzone,libelle,libelong,typezone,nomfic,urlfic,idurba,datvalid,typesect,fermreco,l_destdomi,l_insee,l_surf_cal,l_observ,geom)
 SELECT 
-idzone,
+replace(idzone,'Z0','ZO') as idzone,
 libelle,
 libelong,
 -- COMMENT GB : -------------------------------------------------------------------------------------------------------------------------------------------------------------------
