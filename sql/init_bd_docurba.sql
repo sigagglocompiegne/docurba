@@ -4853,7 +4853,7 @@ COMMENT ON VIEW m_urbanisme_doc.geo_v_urbreg_ads_commune
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information;
 
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS 
- WITH r_p AS (
+WITH r_p AS (
          WITH r_pct AS (
                  SELECT "PARCELLE"."IDU" AS idu,
                     ((((geo_p_info_pct.libelle::text ||
@@ -5552,7 +5552,7 @@ CREATE INDEX idx_an_vmr_parcelle_plu_idu
 										  
 -- Materialized View: x_apps.xapps_geo_vmr_p_zone_urba
 
-DROP MATERIALIZED VIEW x_apps.xapps_geo_vmr_p_zone_urba;
+--DROP MATERIALIZED VIEW x_apps.xapps_geo_vmr_p_zone_urba;
 
 CREATE MATERIALIZED VIEW x_apps.xapps_geo_vmr_p_zone_urba AS 
  SELECT geo_p_zone_urba.idzone,
@@ -5569,7 +5569,9 @@ CREATE MATERIALIZED VIEW x_apps.xapps_geo_vmr_p_zone_urba AS
     geo_p_zone_urba.l_nomfic as l_nomfic,
     geo_p_zone_urba.l_urlfic as l_urlfic,
     geo_p_zone_urba.l_insee as insee,
-    --geo_p_zone_urba.datappro,
+     CASE WHEN length(geo_p_zone_urba.idurba) > 18 
+		THEN to_char(substring(geo_p_zone_urba.idurba FROM 11 FOR 8)::timestamp without time zone, 'DD/MM/YYYY'::text)
+		ELSE to_char(right(geo_p_zone_urba.idurba,8)::timestamp without time zone, 'DD/MM/YYYY'::text) END as datappro,
     geo_p_zone_urba.datvalid,
     st_multi(geo_p_zone_urba.geom)::geometry(MultiPolygon,2154) AS geom
    FROM m_urbanisme_doc.geo_p_zone_urba
@@ -5577,9 +5579,9 @@ WITH DATA;
 
 ALTER TABLE x_apps.xapps_geo_vmr_p_zone_urba
   OWNER TO sig_create;
-GRANT ALL ON TABLE m_urbanisme_doc.xapps_geo_vmr_p_zone_urba TO sig_create;
-GRANT SELECT ON TABLE m_urbanisme_doc.xapps_geo_vmr_p_zone_urba TO read_sig;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc.xapps_geo_vmr_p_zone_urba TO edit_sig;
+GRANT ALL ON TABLE x_apps.xapps_geo_vmr_p_zone_urba TO sig_create;
+GRANT SELECT ON TABLE x_apps.xapps_geo_vmr_p_zone_urba TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps.xapps_geo_vmr_p_zone_urba TO edit_sig;
 										  
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_geo_vmr_p_zone_urba
   IS 'Vue matérialisée des zones du PLU servant dans les recherches par zonage ou type dans GEO.';
