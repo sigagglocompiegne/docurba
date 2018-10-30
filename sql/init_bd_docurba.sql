@@ -5282,7 +5282,7 @@ afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de 
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription AS 
   WITH r_p AS (
          WITH r_pct AS (
-                 SELECT "PARCELLE"."IDU" AS idu,
+                 SELECT DISTINCT "PARCELLE"."IDU" AS idu,
                     ((((((geo_p_prescription_pct.libelle::text ||
                         CASE
                             WHEN length(geo_p_prescription_pct.l_numero::text) <> 0 THEN ' n°'::text || geo_p_prescription_pct.l_numero::text
@@ -5317,7 +5317,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription AS
                     m_urbanisme_doc.geo_p_prescription_pct
                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_pct.geom)
                 ), r_lin AS (
-                 SELECT "PARCELLE"."IDU" AS idu,
+                 SELECT DISTINCT "PARCELLE"."IDU" AS idu,
                     ((((((geo_p_prescription_lin.libelle::text ||
                         CASE
                             WHEN length(geo_p_prescription_lin.l_numero::text) <> 0 THEN ' n°'::text || geo_p_prescription_lin.l_numero::text
@@ -5352,7 +5352,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription AS
                     m_urbanisme_doc.geo_p_prescription_lin
                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_lin.geom1) AND geo_p_prescription_lin.l_insee::text = "left"("PARCELLE"."IDU"::text, 5)
                 ), r_surf AS (
-                 SELECT "PARCELLE"."IDU" AS idu,
+                 SELECT DISTINCT "PARCELLE"."IDU" AS idu,
                     ((((((geo_p_prescription_surf.libelle::text ||
                         CASE
                             WHEN length(geo_p_prescription_surf.l_numero::text) <> 0 THEN ' n°'::text || geo_p_prescription_surf.l_numero::text
