@@ -6999,7 +6999,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc_cnig2017.an_v_docurba_valide AS
     an_doc_urba.typedoc,
     to_date(an_doc_urba.datappro::text, 'YYYYMMDD'::text) AS datappro,
     lt_nomproc.valeur ||
-    CASE WHEN an_doc_urba.l_nomprocn is null THEN '' ELSE ' n° ' || an_doc_urba.l_nomprocn END as procedure
+    CASE WHEN an_doc_urba.l_nomprocn is null THEN '' ELSE ' n° ' || an_doc_urba.l_nomprocn END as l_version
    FROM m_urbanisme_doc_cnig2017.an_doc_urba, m_urbanisme_doc_cnig2017.lt_nomproc 
   WHERE an_doc_urba.nomproc=lt_nomproc.code AND an_doc_urba.etat = '03'::bpchar
   ORDER BY "substring"(an_doc_urba.idurba::text, 1, 5);
