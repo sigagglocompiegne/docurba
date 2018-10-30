@@ -8002,7 +8002,19 @@ update m_urbanisme_doc_cnig2017.geo_t_habillage_txt set l_couleur=null where l_c
 update m_urbanisme_doc_cnig2017.geo_t_habillage_surf set l_couleur=null where l_couleur='';
 update m_urbanisme_doc_cnig2017.geo_t_habillage_pct set l_couleur=null where l_couleur='';
 
+										       
+-- modification de l'url des documents des prescriptions passant de 4_Annexes à 3_Reglement
+update m_urbanisme_doc_cnig2017.geo_p_prescription_pct set urlfic=replace(urlfic,'04_Annexes','03_Reglement');
+update m_urbanisme_doc_cnig2017.geo_p_prescription_lin set urlfic=replace(urlfic,'04_Annexes','03_Reglement');
+update m_urbanisme_doc_cnig2017.geo_p_prescription_surf set urlfic=replace(urlfic,'04_Annexes','03_Reglement');
 
+update m_urbanisme_doc_cnig2017.geo_t_prescription_pct set urlfic=replace(urlfic,'04_Annexes','03_Reglement');
+update m_urbanisme_doc_cnig2017.geo_t_prescription_lin set urlfic=replace(urlfic,'04_Annexes','03_Reglement');
+update m_urbanisme_doc_cnig2017.geo_t_prescription_surf set urlfic=replace(urlfic,'04_Annexes','03_Reglement');
+										       
+update m_urbanisme_doc_cnig2017.geo_a_prescription_pct set urlfic=replace(urlfic,'04_Annexes','03_Reglement');
+update m_urbanisme_doc_cnig2017.geo_a_prescription_lin set urlfic=replace(urlfic,'04_Annexes','03_Reglement');
+update m_urbanisme_doc_cnig2017.geo_a_prescription_surf set urlfic=replace(urlfic,'04_Annexes','03_Reglement'); 
 -- COMMENT GB : --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- FIN DE LA TRANSACTION : si tu s'est bien passé, l'ensemble des requêtes sont écrites en base, si non  message d'erreur pour indiquer le problème mais rien ne s'est exécutée en base. ATTENTION : pour relancer
 -- le script il faut faire un rollback (bouton en haut à droite à côté du ? pour les intégration via la fenêtre SQL de PGAdmin)
