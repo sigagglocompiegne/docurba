@@ -7,4 +7,4 @@ Ensemble des éléments constituant la mise en oeuvre de la base de données des
 - [script de migration des données cnig2014>cnig2017 avec conservation des champs optionnels cnig2014](sql/mig_bd_docurba.sql) 
 - [Documentation d'administration de la base](doc/doc_admin_bd_docurba.md)
 - [Documentation d'administration de l'application](doc/doc_admin_app_docurba.md)
-- [Fichiers de style SLD](slq/sld_bd_docurba.md)
+- [Fichiers de style SLD](sld/sld_bd_docurba.md)
