@@ -50,7 +50,13 @@
       <se:VendorOption name="spaceAround">10</se:VendorOption>
       <se:VendorOption name="autoWrap">85</se:VendorOption>
       <se:VendorOption name="group">yes</se:VendorOption>    -->
-    </se:TextSymbolizer>
+         <se:Halo>
+           <se:Radius>1</se:Radius>
+           <se:Fill>
+             <se:SvgParameter name="fill">#FFFFFF</se:SvgParameter>
+           </se:Fill>
+        </se:Halo> 
+      </se:TextSymbolizer>
     </se:Rule>
 
 
