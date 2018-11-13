@@ -106,9 +106,9 @@
                 
         
         <se:Rule>
-          <se:Name>Urbanisé (habitat)</se:Name>
+          <se:Name>UrbanisÃ© (habitat)</se:Name>
           <se:Description>
-            <se:Title>Urbanisé (habitat)</se:Title>
+            <se:Title>UrbanisÃ© (habitat)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -134,9 +134,9 @@
         
         
         <se:Rule>
-          <se:Name>Urbanisé (habitat)</se:Name>
+          <se:Name>UrbanisÃ© (habitat)</se:Name>
           <se:Description>
-            <se:Title>Urbanisé (habitat)</se:Title>
+            <se:Title>UrbanisÃ© (habitat)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -167,9 +167,9 @@
         
         
         <se:Rule>
-          <se:Name>Urbanisé (activité)</se:Name>
+          <se:Name>UrbanisÃ© (activitÃ©)</se:Name>
           <se:Description>
-            <se:Title>Urbanisé (activité)</se:Title>
+            <se:Title>UrbanisÃ© (activitÃ©)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -195,9 +195,9 @@
         
         
         <se:Rule>
-          <se:Name>Urbanisé (activité)</se:Name>
+          <se:Name>UrbanisÃ© (activitÃ©)</se:Name>
           <se:Description>
-            <se:Title>Urbanisé (activité)</se:Title>
+            <se:Title>UrbanisÃ© (activitÃ©)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -228,9 +228,9 @@
         
         
         <se:Rule>
-          <se:Name>Urbanisé (mixte)</se:Name>
+          <se:Name>UrbanisÃ© (mixte)</se:Name>
           <se:Description>
-            <se:Title>Urbanisé (mixte)</se:Title>
+            <se:Title>UrbanisÃ© (mixte)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -256,9 +256,9 @@
         
         
         <se:Rule>
-          <se:Name>Urbanisé (mixte)</se:Name>
+          <se:Name>UrbanisÃ© (mixte)</se:Name>
           <se:Description>
-            <se:Title>Urbanisé (mixte)</se:Title>
+            <se:Title>UrbanisÃ© (mixte)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -289,9 +289,9 @@
         
         
         <se:Rule>
-          <se:Name>Urbanisé (équipements)</se:Name>
+          <se:Name>UrbanisÃ© (Ã©quipements)</se:Name>
           <se:Description>
-            <se:Title>Urbanisé (équipements)</se:Title>
+            <se:Title>UrbanisÃ© (Ã©quipements)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -323,9 +323,9 @@
         
         
         <se:Rule>
-          <se:Name>Urbanisé (équipements)</se:Name>
+          <se:Name>UrbanisÃ© (Ã©quipements)</se:Name>
           <se:Description>
-            <se:Title>Urbanisé (équipements)</se:Title>
+            <se:Title>UrbanisÃ© (Ã©quipements)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -362,9 +362,9 @@
         
         
         <se:Rule>
-          <se:Name>Urbanisé (autre)</se:Name>
+          <se:Name>UrbanisÃ© (autre)</se:Name>
           <se:Description>
-            <se:Title>Urbanisé (autre)</se:Title>
+            <se:Title>UrbanisÃ© (autre)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -390,9 +390,9 @@
         
         
         <se:Rule>
-          <se:Name>Urbanisé (autre)</se:Name>
+          <se:Name>UrbanisÃ© (autre)</se:Name>
           <se:Description>
-            <se:Title>Urbanisé (autre)</se:Title>
+            <se:Title>UrbanisÃ© (autre)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -515,9 +515,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>A urbaniser alternatif (activité)</se:Name>
+          <se:Name>A urbaniser alternatif (activitÃ©)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser alternatif (activité)</se:Title>
+            <se:Title>A urbaniser alternatif (activitÃ©)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -564,9 +564,9 @@
         
                 
         <se:Rule>
-          <se:Name>A urbaniser alternatif (activité)</se:Name>
+          <se:Name>A urbaniser alternatif (activitÃ©)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser alternatif (activité)</se:Title>
+            <se:Title>A urbaniser alternatif (activitÃ©)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -700,9 +700,9 @@
 
         
         <se:Rule>
-          <se:Name>A urbaniser alternatif (équipement)</se:Name>
+          <se:Name>A urbaniser alternatif (Ã©quipement)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser alternatif (équipement)</se:Title>
+            <se:Title>A urbaniser alternatif (Ã©quipement)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -755,9 +755,9 @@
         
                 
         <se:Rule>
-          <se:Name>A urbaniser alternatif (équipement)</se:Name>
+          <se:Name>A urbaniser alternatif (Ã©quipement)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser alternatif (équipement)</se:Title>
+            <se:Title>A urbaniser alternatif (Ã©quipement)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -805,9 +805,9 @@
         
         
         <se:Rule>
-          <se:Name>A urbaniser bloqué (habitat)</se:Name>
+          <se:Name>A urbaniser bloquÃ© (habitat)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser bloqué (habitat)</se:Title>
+            <se:Title>A urbaniser bloquÃ© (habitat)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -854,9 +854,9 @@
         
                 
         <se:Rule>
-          <se:Name>A urbaniser bloqué (habitat)</se:Name>
+          <se:Name>A urbaniser bloquÃ© (habitat)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser bloqué (habitat)</se:Title>
+            <se:Title>A urbaniser bloquÃ© (habitat)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -898,9 +898,9 @@
     
         
         <se:Rule>
-          <se:Name>A urbaniser bloqué (activité)</se:Name>
+          <se:Name>A urbaniser bloquÃ© (activitÃ©)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser bloqué (activité)</se:Title>
+            <se:Title>A urbaniser bloquÃ© (activitÃ©)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -947,9 +947,9 @@
         
                
         <se:Rule>
-          <se:Name>A urbaniser bloqué (activité)</se:Name>
+          <se:Name>A urbaniser bloquÃ© (activitÃ©)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser bloqué (activité)</se:Title>
+            <se:Title>A urbaniser bloquÃ© (activitÃ©)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -991,9 +991,9 @@
         
         
         <se:Rule>
-          <se:Name>A urbaniser bloqué (mixte)</se:Name>
+          <se:Name>A urbaniser bloquÃ© (mixte)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser bloqué (mixte)</se:Title>
+            <se:Title>A urbaniser bloquÃ© (mixte)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -1040,9 +1040,9 @@
         
                
         <se:Rule>
-          <se:Name>A urbaniser bloqué (mixte)</se:Name>
+          <se:Name>A urbaniser bloquÃ© (mixte)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser bloqué (mixte)</se:Title>
+            <se:Title>A urbaniser bloquÃ© (mixte)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -1084,9 +1084,9 @@
 
         
         <se:Rule>
-          <se:Name>A urbaniser bloqué (équipement)</se:Name>
+          <se:Name>A urbaniser bloquÃ© (Ã©quipement)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser bloqué (équipement)</se:Title>
+            <se:Title>A urbaniser bloquÃ© (Ã©quipement)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -1139,9 +1139,9 @@
         
                 
         <se:Rule>
-          <se:Name>A urbaniser bloqué (équipement)</se:Name>
+          <se:Name>A urbaniser bloquÃ© (Ã©quipement)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser bloqué (équipement)</se:Title>
+            <se:Title>A urbaniser bloquÃ© (Ã©quipement)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -1189,9 +1189,9 @@
         
 
         <se:Rule>
-          <se:Name>A urbaniser (non déterminé)</se:Name>
+          <se:Name>A urbaniser (non dÃ©terminÃ©)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser (non déterminé)</se:Title>
+            <se:Title>A urbaniser (non dÃ©terminÃ©)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -1244,9 +1244,9 @@
         
                
         <se:Rule>
-          <se:Name>A urbaniser (non déterminé)</se:Name>
+          <se:Name>A urbaniser (non dÃ©terminÃ©)</se:Name>
           <se:Description>
-            <se:Title>A urbaniser (non déterminé)</se:Title>
+            <se:Title>A urbaniser (non dÃ©terminÃ©)</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -1292,6 +1292,54 @@
           </se:PolygonSymbolizer>
         </se:Rule>
         
+         <se:Rule>
+          <se:Name>RNU (carte communale)</se:Name>
+           <se:Description>
+            <se:Title>RNU (carte communale)</se:Title>
+           </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typesect</ogc:PropertyName>
+                <ogc:Literal>99</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:MinScaleDenominator>25001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000000</se:MaxScaleDenominator>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#e6e6e6</se:SvgParameter>
+              <se:SvgParameter name="fill-opacity">0.40</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        
+        
+        <se:Rule>
+          <se:Name>RNU (carte communale)</se:Name>
+          <se:Description>
+            <se:Title>RNU (carte communale)</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typesect</ogc:PropertyName>
+                <ogc:Literal>99</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+           <se:MinScaleDenominator>5001</se:MinScaleDenominator>
+           <se:MaxScaleDenominator>25000</se:MaxScaleDenominator>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#e6e6e6</se:SvgParameter>
+              <se:SvgParameter name="fill-opacity">0.40</se:SvgParameter>
+            </se:Fill>
+            <se:Stroke>
+              <se:SvgParameter name="stroke">#646464</se:SvgParameter>
+              <se:SvgParameter name="stroke-width">0.46</se:SvgParameter>
+              <se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>
+            </se:Stroke>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        
         
          <se:Rule>
           <se:Name>zone</se:Name>
@@ -1313,9 +1361,9 @@
                       
         
         <se:Rule>
-          <se:Name>étiquette libelle zone</se:Name>
+          <se:Name>Ã©tiquette libelle zone</se:Name>
           <se:Description>
-            <se:Title>étiquette libelle zone</se:Title>
+            <se:Title>Ã©tiquette libelle zone</se:Title>
           </se:Description>
           <se:MinScaleDenominator>5001</se:MinScaleDenominator>
           <se:MaxScaleDenominator>25000</se:MaxScaleDenominator>
