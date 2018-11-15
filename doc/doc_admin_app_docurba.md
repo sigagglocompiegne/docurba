@@ -2,6 +2,19 @@
 
 # Documentation d'administration de l'application #
 
+* Statut
+  - [ ] à rédiger
+  - [ ] en cours de rédaction
+  - [ ] relecture
+  - [x] finaliser
+  - [ ] révision
+  
+* Historique des versions
+
+|Date | Auteur | Description
+|:---|:---|:---|
+|01/02/2018|Grégory Bodet|version initiale|
+
 # Généralité
 
 |Représentation| Nom de l'application |Résumé|
