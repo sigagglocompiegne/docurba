@@ -9,9 +9,9 @@
 <!-- #####  PSC 01  ##### --> 
 
         <se:Rule>
-          <se:Name>Espace boisé classé</se:Name>
+          <se:Name>Espace boisÃ© classÃ©</se:Name>
           <se:Description>
-            <se:Title>Espace boisé classé</se:Title>
+            <se:Title>Espace boisÃ© classÃ©</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -41,9 +41,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Espace boisé classé</se:Name>
+          <se:Name>Espace boisÃ© classÃ©</se:Name>
           <se:Description>
-            <se:Title>Espace boisé classé</se:Title>
+            <se:Title>Espace boisÃ© classÃ©</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -76,9 +76,9 @@
 <!-- #####  PSC 02  ##### --> 
 
         <se:Rule>
-          <se:Name>Limitations de la constructibilité pour des raisons environnementales, de risques, d'intérêt général</se:Name>
+          <se:Name>Limitations de la constructibilitÃ© pour des raisons environnementales, de risques, d'intÃ©rÃªt gÃ©nÃ©ral</se:Name>
           <se:Description>
-            <se:Title>Limitations de la constructibilité pour des raisons environnementales, de risques, d'intérêt général</se:Title>
+            <se:Title>Limitations de la constructibilitÃ© pour des raisons environnementales, de risques, d'intÃ©rÃªt gÃ©nÃ©ral</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -126,9 +126,9 @@
  <!-- #####  PSC 03  ##### -->        
         
         <se:Rule>
-          <se:Name>Secteur avec disposition de reconstruction / démolition</se:Name>
+          <se:Name>Secteur avec disposition de reconstruction / dÃ©molition</se:Name>
           <se:Description>
-            <se:Title>Secteur avec disposition de reconstruction / démolition</se:Title>
+            <se:Title>Secteur avec disposition de reconstruction / dÃ©molition</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -151,9 +151,9 @@
 <!-- #####  PSC 05_01  ##### --> 
 
         <se:Rule>
-         <se:Name>Emplacement réservé aux voies publiques</se:Name>
+         <se:Name>Emplacement rÃ©servÃ© aux voies publiques</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé aux voies publiques</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© aux voies publiques</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -193,9 +193,9 @@
         </se:Rule>
         
         <se:Rule>
-         <se:Name>Emplacement réservé aux voies publiques</se:Name>
+         <se:Name>Emplacement rÃ©servÃ© aux voies publiques</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé aux voies publiques</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© aux voies publiques</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -238,9 +238,9 @@
 <!-- #####  PSC 05_02-03  ##### --> 
 
         <se:Rule>
-         <se:Name>Emplacement réservé aux ouvrages publics et installations d'intérêt général</se:Name>
+         <se:Name>Emplacement rÃ©servÃ© aux ouvrages publics et installations d'intÃ©rÃªt gÃ©nÃ©ral</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé aux ouvrages publics et installations d'intérêt général</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© aux ouvrages publics et installations d'intÃ©rÃªt gÃ©nÃ©ral</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -286,9 +286,9 @@
         </se:Rule>
         
         <se:Rule>
-         <se:Name>Emplacement réservé aux ouvrages publics et installations d'intérêt général</se:Name>
+         <se:Name>Emplacement rÃ©servÃ© aux ouvrages publics et installations d'intÃ©rÃªt gÃ©nÃ©ral</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé aux ouvrages publics et installations d'intérêt général</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© aux ouvrages publics et installations d'intÃ©rÃªt gÃ©nÃ©ral</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -337,9 +337,9 @@
 <!-- #####  PSC 05_04  ##### --> 
 
         <se:Rule>
-         <se:Name>Emplacement réservé aux espaces verts / continuités écologiques</se:Name>
+         <se:Name>Emplacement rÃ©servÃ© aux espaces verts / continuitÃ©s Ã©cologiques</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé aux espaces verts / continuités écologiques</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© aux espaces verts / continuitÃ©s Ã©cologiques</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -379,9 +379,9 @@
         </se:Rule>
         
         <se:Rule>
-         <se:Name>Emplacement réservé aux espaces verts / continuités écologiques</se:Name>
+         <se:Name>Emplacement rÃ©servÃ© aux espaces verts / continuitÃ©s Ã©cologiques</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé aux espaces verts / continuités écologiques</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© aux espaces verts / continuitÃ©s Ã©cologiques</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -424,9 +424,9 @@
 <!-- #####  PSC 05_05  ##### --> 
 
         <se:Rule>
-         <se:Name>Emplacement réservé logement social</se:Name>
+         <se:Name>Emplacement rÃ©servÃ© logement social</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé logement social</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© logement social</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -466,9 +466,9 @@
         </se:Rule>
         
         <se:Rule>
-         <se:Name>Emplacement réservé logement social</se:Name>
+         <se:Name>Emplacement rÃ©servÃ© logement social</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé logement social</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© logement social</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -511,9 +511,9 @@
 <!-- #####  PSC 05_00-06-07  ##### --> 
 
         <se:Rule>
-         <se:Name>Emplacement réservé sans objet / Servitude de localisation des voies, ouvrages publics, installations d'intérêt général et espaces verts en zone U ou AU / Secteur de projet en attente d'un projet d'aménagement global</se:Name>
+         <se:Name>Emplacement rÃ©servÃ© sans objet / Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U ou AU / Secteur de projet en attente d'un projet d'amÃ©nagement global</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé sans objet / Servitude de localisation des voies, ouvrages publics, installations d'intérêt général et espaces verts en zone U ou AU / Secteur de projet en attente d'un projet d'aménagement global</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© sans objet / Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U ou AU / Secteur de projet en attente d'un projet d'amÃ©nagement global</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -563,9 +563,9 @@
         </se:Rule>
         
         <se:Rule>
-         <se:Name>Emplacement réservé sans objet / Servitude de localisation des voies, ouvrages publics, installations d'intérêt général et espaces verts en zone U ou AU / Secteur de projet en attente d'un projet d'aménagement global</se:Name>
+         <se:Name>Emplacement rÃ©servÃ© sans objet / Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U ou AU / Secteur de projet en attente d'un projet d'amÃ©nagement global</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé sans objet / Servitude de localisation des voies, ouvrages publics, installations d'intérêt général et espaces verts en zone U ou AU / Secteur de projet en attente d'un projet d'aménagement global</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© sans objet / Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U ou AU / Secteur de projet en attente d'un projet d'amÃ©nagement global</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -618,9 +618,9 @@
 <!-- #####  PSC 07_00-02-03-04-05  ##### --> 
 
         <se:Rule>
-          <se:Name>Patrimoine paysager à protéger</se:Name>
+          <se:Name>Patrimoine paysager Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine paysager à protéger</se:Title>
+            <se:Title>Patrimoine paysager Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -674,9 +674,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Patrimoine paysager à protéger</se:Name>
+          <se:Name>Patrimoine paysager Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine paysager à protéger</se:Title>
+            <se:Title>Patrimoine paysager Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -733,9 +733,9 @@
 <!-- #####  PSC 07_01  ##### --> 
 
         <se:Rule>
-          <se:Name>Patrimoine bâti à protéger</se:Name>
+          <se:Name>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine bâti à protéger</se:Title>
+            <se:Title>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -771,9 +771,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Patrimoine bâti à protéger</se:Name>
+          <se:Name>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine bâti à protéger</se:Title>
+            <se:Title>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -812,9 +812,9 @@
 <!-- #####  PSC 08  ##### --> 
 
         <se:Rule>
-          <se:Name>Terrain cultivé à protéger en zone urbaine</se:Name>
+          <se:Name>Terrain cultivÃ© Ã  protÃ©ger en zone urbaine</se:Name>
           <se:Description>
-            <se:Title>Terrain cultivé à protéger en zone urbaine</se:Title>
+            <se:Title>Terrain cultivÃ© Ã  protÃ©ger en zone urbaine</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -844,9 +844,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Terrain cultivé à protéger en zone urbaine</se:Name>
+          <se:Name>Terrain cultivÃ© Ã  protÃ©ger en zone urbaine</se:Name>
           <se:Description>
-            <se:Title>Terrain cultivé à protéger en zone urbaine</se:Title>
+            <se:Title>Terrain cultivÃ© Ã  protÃ©ger en zone urbaine</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -879,9 +879,9 @@
 <!-- #####  PSC 15_00  ##### -->        
         
         <se:Rule>
-          <se:Name>Règles d'implantation des constructions</se:Name>
+          <se:Name>RÃ¨gles d'implantation des constructions</se:Name>
           <se:Description>
-            <se:Title>Règles d'implantation des constructions</se:Title>
+            <se:Title>RÃ¨gles d'implantation des constructions</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -907,9 +907,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Règles d'implantation des constructions</se:Name>
+          <se:Name>RÃ¨gles d'implantation des constructions</se:Name>
           <se:Description>
-            <se:Title>Règles d'implantation des constructions</se:Title>
+            <se:Title>RÃ¨gles d'implantation des constructions</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -938,9 +938,9 @@
 <!-- #####  PSC 15_01-03  ##### -->        
         
         <se:Rule>
-          <se:Name>Règles d'implantation des constructions</se:Name>
+          <se:Name>RÃ¨gles d'implantation des constructions</se:Name>
           <se:Description>
-            <se:Title>Règles d'implantation des constructions</se:Title>
+            <se:Title>RÃ¨gles d'implantation des constructions</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -972,9 +972,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Règles d'implantation des constructions</se:Name>
+          <se:Name>RÃ¨gles d'implantation des constructions</se:Name>
           <se:Description>
-            <se:Title>Règles d'implantation des constructions</se:Title>
+            <se:Title>RÃ¨gles d'implantation des constructions</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -1009,9 +1009,9 @@
 <!-- #####  PSC 16_01  ##### --> 
 
         <se:Rule>
-         <se:Name>Bâtiment susceptible de changer de destination</se:Name>
+         <se:Name>BÃ¢timent susceptible de changer de destination</se:Name>
           <se:Description>
-            <se:Title>Bâtiment susceptible de changer de destination</se:Title>
+            <se:Title>BÃ¢timent susceptible de changer de destination</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -1054,9 +1054,9 @@
  <!-- #####  PSC 17  ##### -->        
         
         <se:Rule>
-          <se:Name>Secteur à programme de logements mixité sociale en zone U et AU</se:Name>
+          <se:Name>Secteur Ã  programme de logements mixitÃ© sociale en zone U et AU</se:Name>
           <se:Description>
-            <se:Title>Secteur à programme de logements mixité sociale en zone U et AU</se:Title>
+            <se:Title>Secteur Ã  programme de logements mixitÃ© sociale en zone U et AU</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -1076,9 +1076,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Secteur à programme de logements mixité sociale en zone U et AU</se:Name>
+          <se:Name>Secteur Ã  programme de logements mixitÃ© sociale en zone U et AU</se:Name>
           <se:Description>
-            <se:Title>Secteur à programme de logements mixité sociale en zone U et AU</se:Title>
+            <se:Title>Secteur Ã  programme de logements mixitÃ© sociale en zone U et AU</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -1101,9 +1101,9 @@
 <!-- #####  PSC 18  ##### --> 
 
         <se:Rule>
-          <se:Name>Orientations d'Aménagement et de Programmation</se:Name>
+          <se:Name>Orientations d'AmÃ©nagement et de Programmation</se:Name>
           <se:Description>
-            <se:Title>Orientations d'Aménagement et de Programmation</se:Title>
+            <se:Title>Orientations d'AmÃ©nagement et de Programmation</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -1152,9 +1152,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Orientations d'Aménagement et de Programmation</se:Name>
+          <se:Name>Orientations d'AmÃ©nagement et de Programmation</se:Name>
           <se:Description>
-            <se:Title>Orientations d'Aménagement et de Programmation</se:Title>
+            <se:Title>Orientations d'AmÃ©nagement et de Programmation</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -1206,9 +1206,9 @@
 <!-- #####  PSC 19  ##### --> 
 
         <se:Rule>
-          <se:Name>Secteur protégé en raison de la richesse du sol et du sous-sol</se:Name>
+          <se:Name>Secteur protÃ©gÃ© en raison de la richesse du sol et du sous-sol</se:Name>
           <se:Description>
-            <se:Title>Secteur protégé en raison de la richesse du sol et du sous-sol</se:Title>
+            <se:Title>Secteur protÃ©gÃ© en raison de la richesse du sol et du sous-sol</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -1241,9 +1241,9 @@
 <!-- #####  PSC 24  ##### --> 
 
         <se:Rule>
-          <se:Name>Voies de circulation à créer, modifier ou conserver</se:Name>
+          <se:Name>Voies de circulation Ã  crÃ©er, modifier ou conserver</se:Name>
           <se:Description>
-            <se:Title>Voies de circulation à créer, modifier ou conserver</se:Title>
+            <se:Title>Voies de circulation Ã  crÃ©er, modifier ou conserver</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -1273,9 +1273,9 @@
         </se:Rule>
         
  <!--       <se:Rule>
-          <se:Name>Voies de circulation à créer, modifier ou conserver</se:Name>
+          <se:Name>Voies de circulation Ã  crÃ©er, modifier ou conserver</se:Name>
           <se:Description>
-            <se:Title>Voies de circulation à créer, modifier ou conserver</se:Title>
+            <se:Title>Voies de circulation Ã  crÃ©er, modifier ou conserver</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -1308,9 +1308,9 @@
 <!-- #####  PSC 25  ##### --> 
 
         <se:Rule>
-          <se:Name>Eléments de continuité écologique et trame verte et bleue</se:Name>
+          <se:Name>ElÃ©ments de continuitÃ© Ã©cologique et trame verte et bleue</se:Name>
           <se:Description>
-            <se:Title>Eléments de continuité écologique et trame verte et bleue</se:Title>
+            <se:Title>ElÃ©ments de continuitÃ© Ã©cologique et trame verte et bleue</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -1340,9 +1340,9 @@
         </se:Rule>
         
 <!--     <se:Rule>
-          <se:Name>Eléments de continuité écologique et trame verte et bleue</se:Name>
+          <se:Name>ElÃ©ments de continuitÃ© Ã©cologique et trame verte et bleue</se:Name>
           <se:Description>
-            <se:Title>Eléments de continuité écologique et trame verte et bleue</se:Title>
+            <se:Title>ElÃ©ments de continuitÃ© Ã©cologique et trame verte et bleue</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -1375,9 +1375,9 @@
 <!-- #####  PSC 31  ##### --> 
 
         <se:Rule>
-          <se:Name>Marais, vasières, tourbières, plans d'eau, les zones humides et milieux temporairement immergés</se:Name>
+          <se:Name>Marais, vasiÃ¨res, tourbiÃ¨res, plans d'eau, les zones humides et milieux temporairement immergÃ©s</se:Name>
           <se:Description>
-            <se:Title>Marais, vasières, tourbières, plans d'eau, les zones humides et milieux temporairement immergés</se:Title>
+            <se:Title>Marais, vasiÃ¨res, tourbiÃ¨res, plans d'eau, les zones humides et milieux temporairement immergÃ©s</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -1404,7 +1404,74 @@
               <se:SvgParameter name="stroke-width">0.15</se:SvgParameter>
             </se:Stroke>
           </se:PolygonSymbolizer>
-        </se:Rule>  
+        </se:Rule>
+        
+        
+<!-- #####  PSC 43  ##### --> 
+
+        <se:Rule>
+          <se:Name>RÃ©alisation d'espaces libres, plantations, aires de jeux et de loisir</se:Name>
+          <se:Description>
+            <se:Title>RÃ©alisation d'espaces libres, plantations, aires de jeux et de loisir</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>43</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:GraphicFill>
+                <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_43_v2.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>6.5</se:Size>
+                </se:Graphic>
+              </se:GraphicFill>
+            </se:Fill>
+            <se:Stroke>
+              <se:SvgParameter name="stroke">#087f00</se:SvgParameter>
+              <se:SvgParameter name="stroke-width">0.15</se:SvgParameter>
+            </se:Stroke>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        
+        <se:Rule>
+          <se:Name>RÃ©alisation d'espaces libres, plantations, aires de jeux et de loisir</se:Name>
+          <se:Description>
+            <se:Title>RÃ©alisation d'espaces libres, plantations, aires de jeux et de loisir</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>43</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:PolygonSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
+            <se:Fill>
+              <se:GraphicFill>
+                <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_43_v2.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>1.4</se:Size>
+                </se:Graphic>
+              </se:GraphicFill>
+            </se:Fill>
+            <se:Stroke>
+              <se:SvgParameter name="stroke">#087f00</se:SvgParameter>
+              <se:SvgParameter name="stroke-width">0.15</se:SvgParameter>
+            </se:Stroke>
+          </se:PolygonSymbolizer>
+        </se:Rule>     
 
 
 <!-- #####  PSC 99  ##### --> 
@@ -1504,12 +1571,12 @@
         </se:Rule>
 
 
-<!-- #####  PSC 02_risque inondation modéré  ##### -->        
+<!-- #####  PSC 02_risque inondation modÃ©rÃ©  ##### -->        
         
         <se:Rule>
-          <se:Name>Risque Inondation : Zone bleue : Risque modéré à important</se:Name>
+          <se:Name>Risque Inondation : Zone bleue : Risque modÃ©rÃ© Ã  important</se:Name>
           <se:Description>
-            <se:Title>Risque Inondation : Zone bleue : Risque modéré à important</se:Title>
+            <se:Title>Risque Inondation : Zone bleue : Risque modÃ©rÃ© Ã  important</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -1519,7 +1586,7 @@
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>libelle</ogc:PropertyName>
-                <ogc:Literal>Risque Inondation : Zone bleue : Risque modéré à important</ogc:Literal>
+                <ogc:Literal>Risque Inondation : Zone bleue : Risque modÃ©rÃ© Ã  important</ogc:Literal>
               </ogc:PropertyIsEqualTo>
             </ogc:And>
           </ogc:Filter>
@@ -1537,9 +1604,9 @@
 <!-- #####  PSC 02_risque inondation nul  ##### -->
         
         <se:Rule>
-          <se:Name>Risque Inondation : Zone blanche : Risque nul à modéré</se:Name>
+          <se:Name>Risque Inondation : Zone blanche : Risque nul Ã  modÃ©rÃ©</se:Name>
           <se:Description>
-            <se:Title>Risque Inondation : Zone blanche : Risque nul à modéré</se:Title>
+            <se:Title>Risque Inondation : Zone blanche : Risque nul Ã  modÃ©rÃ©</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -1549,7 +1616,7 @@
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>libelle</ogc:PropertyName>
-                <ogc:Literal>Risque Inondation : Zone blanche : Risque nul à modéré</ogc:Literal>
+                <ogc:Literal>Risque Inondation : Zone blanche : Risque nul Ã  modÃ©rÃ©</ogc:Literal>
               </ogc:PropertyIsEqualTo>
             </ogc:And>
           </ogc:Filter>
