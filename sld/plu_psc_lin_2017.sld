@@ -10,9 +10,9 @@
 <!-- #####  PSC 05_01  ##### --> 
           
         <se:Rule>
-          <se:Name>Emplacement r‚serv‚ aux voies publiques</se:Name>
+          <se:Name>Emplacement rÃ©servÃ© aux voies publiques</se:Name>
           <se:Description>
-            <se:Title>Emplacement r‚serv‚ aux voies publiques</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© aux voies publiques</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -47,9 +47,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Emplacement r‚serv‚ aux voies publiques</se:Name>
+          <se:Name>Emplacement rÃ©servÃ© aux voies publiques</se:Name>
           <se:Description>
-            <se:Title>Emplacement r‚serv‚ aux voies publiques</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© aux voies publiques</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -87,9 +87,9 @@
 <!-- #####  PSC 05_04  ##### --> 
           
         <se:Rule>
-          <se:Name>Emplacement r‚serv‚ aux espaces verts / continuit‚s ‚cologiques</se:Name>
+          <se:Name>Emplacement rÃ©servÃ© aux espaces verts / continuitÃ©s Ã©cologiques</se:Name>
           <se:Description>
-            <se:Title>Emplacement r‚serv‚ aux espaces verts / continuit‚s ‚cologiques</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© aux espaces verts / continuitÃ©s Ã©cologiques</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -124,9 +124,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Emplacement r‚serv‚ aux espaces verts / continuit‚s ‚cologiques</se:Name>
+          <se:Name>Emplacement rÃ©servÃ© aux espaces verts / continuitÃ©s Ã©cologiques</se:Name>
           <se:Description>
-            <se:Title>Emplacement r‚serv‚ aux espaces verts / continuit‚s ‚cologiques</se:Title>
+            <se:Title>Emplacement rÃ©servÃ© aux espaces verts / continuitÃ©s Ã©cologiques</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -164,9 +164,9 @@
 <!-- #####  PSC 05_06  ##### --> 
           
         <se:Rule>
-          <se:Name>Servitude de localisation des voies, ouvrages publics, installations d'int‚rˆt g‚n‚ral et espaces verts en zone U et AU</se:Name>
+          <se:Name>Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U et AU</se:Name>
           <se:Description>
-            <se:Title>Servitude de localisation des voies, ouvrages publics, installations d'int‚rˆt g‚n‚ral et espaces verts en zone U et AU</se:Title>
+            <se:Title>Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U et AU</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -201,9 +201,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Servitude de localisation des voies, ouvrages publics, installations d'int‚rˆt g‚n‚ral et espaces verts en zone U et AU</se:Name>
+          <se:Name>Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U et AU</se:Name>
           <se:Description>
-            <se:Title>Servitude de localisation des voies, ouvrages publics, installations d'int‚rˆt g‚n‚ral et espaces verts en zone U et AU</se:Title>
+            <se:Title>Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U et AU</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -241,9 +241,9 @@
 <!-- #####  PSC 07_00-02-03-05  ##### --> 
           
         <se:Rule>
-          <se:Name>Patrimoine paysager ou ‚l‚ments de paysage … prot‚ger</se:Name>
+          <se:Name>Patrimoine paysager ou Ã©lÃ©ments de paysage Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine paysager ou ‚l‚ments de paysage … prot‚ger</se:Title>
+            <se:Title>Patrimoine paysager ou Ã©lÃ©ments de paysage Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -289,9 +289,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Patrimoine paysager ou ‚l‚ments de paysage … prot‚ger</se:Name>
+          <se:Name>Patrimoine paysager ou Ã©lÃ©ments de paysage Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine paysager ou ‚l‚ments de paysage … prot‚ger</se:Title>
+            <se:Title>Patrimoine paysager ou Ã©lÃ©ments de paysage Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -340,9 +340,9 @@
 <!-- #####  PSC 07_01  ##### --> 
           
         <se:Rule>
-          <se:Name>Patrimoine bƒti … prot‚ger</se:Name>
+          <se:Name>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine bƒti … prot‚ger</se:Title>
+            <se:Title>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -374,9 +374,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Patrimoine bƒti … prot‚ger</se:Name>
+          <se:Name>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine bƒti … prot‚ger</se:Title>
+            <se:Title>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -411,9 +411,9 @@
 <!-- #####  PSC 07_04  ##### --> 
           
         <se:Rule>
-          <se:Name>El‚ments de paysages (sites et secteurs) … pr‚server</se:Name>
+          <se:Name>ElÃ©ments de paysages (sites et secteurs) Ã  prÃ©server</se:Name>
           <se:Description>
-            <se:Title>El‚ments de paysages (sites et secteurs) … pr‚server</se:Title>
+            <se:Title>ElÃ©ments de paysages (sites et secteurs) Ã  prÃ©server</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -494,9 +494,9 @@
 <!-- #####  PSC 15_00  ##### -->        
         
         <se:Rule>
-          <se:Name>RŠgles d'implantation des constructions</se:Name>
+          <se:Name>RÃ¨gles d'implantation des constructions</se:Name>
           <se:Description>
-            <se:Title>RŠgles d'implantation des constructions</se:Title>
+            <se:Title>RÃ¨gles d'implantation des constructions</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -522,9 +522,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>RŠgles d'implantation des constructions</se:Name>
+          <se:Name>RÃ¨gles d'implantation des constructions</se:Name>
           <se:Description>
-            <se:Title>RŠgles d'implantation des constructions</se:Title>
+            <se:Title>RÃ¨gles d'implantation des constructions</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -553,9 +553,9 @@
 <!-- #####  PSC 15_01-03  ##### -->        
         
         <se:Rule>
-          <se:Name>RŠgles d'implantation des constructions</se:Name>
+          <se:Name>RÃ¨gles d'implantation des constructions</se:Name>
           <se:Description>
-            <se:Title>RŠgles d'implantation des constructions</se:Title>
+            <se:Title>RÃ¨gles d'implantation des constructions</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -587,9 +587,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>RŠgles d'implantation des constructions</se:Name>
+          <se:Name>RÃ¨gles d'implantation des constructions</se:Name>
           <se:Description>
-            <se:Title>RŠgles d'implantation des constructions</se:Title>
+            <se:Title>RÃ¨gles d'implantation des constructions</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -624,9 +624,9 @@
 <!-- #####  PSC 24  ##### --> 
 
         <se:Rule>
-          <se:Name>Voies de circulation … cr‚er, modifier ou conserver</se:Name>
+          <se:Name>Voies de circulation Ã  crÃ©er, modifier ou conserver</se:Name>
           <se:Description>
-            <se:Title>Voies de circulation … cr‚er, modifier ou conserver</se:Title>
+            <se:Title>Voies de circulation Ã  crÃ©er, modifier ou conserver</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -652,9 +652,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Voies de circulation … cr‚er, modifier ou conserver</se:Name>
+          <se:Name>Voies de circulation Ã  crÃ©er, modifier ou conserver</se:Name>
           <se:Description>
-            <se:Title>Voies de circulation … cr‚er, modifier ou conserver</se:Title>
+            <se:Title>Voies de circulation Ã  crÃ©er, modifier ou conserver</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -683,9 +683,9 @@
 <!-- #####  PSC 25  ##### --> 
 
         <se:Rule>
-          <se:Name>El‚ments de continuit‚ ‚cologique et trame verte et bleue</se:Name>
+          <se:Name>ElÃ©ments de continuitÃ© Ã©cologique et trame verte et bleue</se:Name>
           <se:Description>
-            <se:Title>El‚ments de continuit‚ ‚cologique et trame verte et bleue</se:Title>
+            <se:Title>ElÃ©ments de continuitÃ© Ã©cologique et trame verte et bleue</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -711,9 +711,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>El‚ments de continuit‚ ‚cologique et trame verte et bleue</se:Name>
+          <se:Name>ElÃ©ments de continuitÃ© Ã©cologique et trame verte et bleue</se:Name>
           <se:Description>
-            <se:Title>El‚ments de continuit‚ ‚cologique et trame verte et bleue</se:Title>
+            <se:Title>ElÃ©ments de continuitÃ© Ã©cologique et trame verte et bleue</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -827,9 +827,9 @@
 <!-- #####  PSC 41  ##### --> 
 
         <se:Rule>
-          <se:Name>Aspect ext‚rieur des fa‡ades, toitures et cl“tures</se:Name>
+          <se:Name>Aspect extÃ©rieur des faÃ§ades, toitures et clÃ´tures</se:Name>
           <se:Description>
-            <se:Title>Aspect ext‚rieur des fa‡ades, toitures et cl“tures</se:Title>
+            <se:Title>Aspect extÃ©rieur des faÃ§ades, toitures et clÃ´tures</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -855,9 +855,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Aspect ext‚rieur des fa‡ades, toitures et cl“tures</se:Name>
+          <se:Name>Aspect extÃ©rieur des faÃ§ades, toitures et clÃ´tures</se:Name>
           <se:Description>
-            <se:Title>Aspect ext‚rieur des fa‡ades, toitures et cl“tures</se:Title>
+            <se:Title>Aspect extÃ©rieur des faÃ§ades, toitures et clÃ´tures</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -873,6 +873,65 @@
                 <se:Graphic>
                   <se:ExternalGraphic>
                      <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_16_41.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>1.5</se:Size>
+                </se:Graphic>
+              </se:GraphicStroke>
+            </se:Stroke>
+          </se:LineSymbolizer>
+        </se:Rule>
+        
+        
+<!-- #####  PSC 43  ##### --> 
+
+        <se:Rule>
+          <se:Name>RÃ©alisation d'espaces libres, plantations, aires de jeux et de loisir</se:Name>
+          <se:Description>
+            <se:Title>RÃ©alisation d'espaces libres, plantations, aires de jeux et de loisir</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>43</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
+          <se:LineSymbolizer>
+            <se:Stroke>
+              <se:GraphicStroke>
+                <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_43_v2.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>7</se:Size>
+                </se:Graphic>
+              </se:GraphicStroke>
+            </se:Stroke>
+          </se:LineSymbolizer>
+        </se:Rule>
+        
+        <se:Rule>
+          <se:Name>RÃ©alisation d'espaces libres, plantations, aires de jeux et de loisir</se:Name>
+          <se:Description>
+            <se:Title>RÃ©alisation d'espaces libres, plantations, aires de jeux et de loisir</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>43</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:LineSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
+            <se:Stroke>
+              <se:GraphicStroke>
+                <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_43_v2.svg"/>
                      <se:Format>image/svg+xml</se:Format>
                   </se:ExternalGraphic>
                   <se:Size>1.5</se:Size>
