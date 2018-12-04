@@ -372,10 +372,16 @@
                 <ogc:PropertyName>typezone</ogc:PropertyName>
                 <ogc:Literal>U</ogc:Literal>
               </ogc:PropertyIsEqualTo>
+             </ogc:Or>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>l_destdomi</ogc:PropertyName>
                 <ogc:Literal>99</ogc:Literal>
               </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>l_destdomi</ogc:PropertyName>
+                <ogc:Literal>00</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+             </ogc:Or>
             </ogc:And>
           </ogc:Filter>
           <se:MinScaleDenominator>25001</se:MinScaleDenominator>
@@ -400,10 +406,16 @@
                 <ogc:PropertyName>typezone</ogc:PropertyName>
                 <ogc:Literal>U</ogc:Literal>
               </ogc:PropertyIsEqualTo>
+             <ogc:Or>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>l_destdomi</ogc:PropertyName>
                 <ogc:Literal>99</ogc:Literal>
               </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>l_destdomi</ogc:PropertyName>
+                <ogc:Literal>00</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+             </ogc:Or>
             </ogc:And>
           </ogc:Filter>
           <se:MinScaleDenominator>5001</se:MinScaleDenominator>
