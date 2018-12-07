@@ -372,7 +372,7 @@
                 <ogc:PropertyName>typezone</ogc:PropertyName>
                 <ogc:Literal>U</ogc:Literal>
               </ogc:PropertyIsEqualTo>
-             </ogc:Or>
+             <ogc:Or>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>l_destdomi</ogc:PropertyName>
                 <ogc:Literal>99</ogc:Literal>
