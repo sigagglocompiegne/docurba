@@ -10,9 +10,9 @@
 <!-- #####  INF 02  ##### -->        
         
         <se:Rule>
-          <se:Name>Zone d'aménagement concerté</se:Name>
+          <se:Name>Zone d'amÃ©nagement concertÃ©</se:Name>
           <se:Description>
-            <se:Title>Zone d'aménagement concerté</se:Title>
+            <se:Title>Zone d'amÃ©nagement concertÃ©</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -32,9 +32,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Zone d'aménagement concerté</se:Name>
+          <se:Name>Zone d'amÃ©nagement concertÃ©</se:Name>
           <se:Description>
-            <se:Title>Zone d'aménagement concerté</se:Title>
+            <se:Title>Zone d'amÃ©nagement concertÃ©</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -57,9 +57,9 @@
 <!-- #####  INF 03  ##### -->        
         
         <se:Rule>
-          <se:Name>Zone de préemption dans un espace naturel et sensible</se:Name>
+          <se:Name>Zone de prÃ©emption dans un espace naturel et sensible</se:Name>
           <se:Description>
-            <se:Title>Zone de préemption dans un espace naturel et sensible</se:Title>
+            <se:Title>Zone de prÃ©emption dans un espace naturel et sensible</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -80,9 +80,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Zone de préemption dans un espace naturel et sensible</se:Name>
+          <se:Name>Zone de prÃ©emption dans un espace naturel et sensible</se:Name>
           <se:Description>
-            <se:Title>Zone de préemption dans un espace naturel et sensible</se:Title>
+            <se:Title>Zone de prÃ©emption dans un espace naturel et sensible</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -106,9 +106,9 @@
 <!-- #####  INF 04  ##### -->        
         
         <se:Rule>
-          <se:Name>Périmètre de droit de préemption urbain</se:Name>
+          <se:Name>PÃ©rimÃ¨tre de droit de prÃ©emption urbain</se:Name>
           <se:Description>
-            <se:Title>Périmètre de droit de préemption urbain</se:Title>
+            <se:Title>PÃ©rimÃ¨tre de droit de prÃ©emption urbain</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -147,9 +147,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Périmètre de droit de préemption urbain</se:Name>
+          <se:Name>PÃ©rimÃ¨tre de droit de prÃ©emption urbain</se:Name>
           <se:Description>
-            <se:Title>Périmètre de droit de préemption urbain</se:Title>
+            <se:Title>PÃ©rimÃ¨tre de droit de prÃ©emption urbain</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -191,9 +191,9 @@
 <!-- #####  INF 05  ##### -->        
        
         <se:Rule>
-          <se:Name>Zone d'aménagement différé</se:Name>
+          <se:Name>Zone d'amÃ©nagement diffÃ©rÃ©</se:Name>
           <se:Description>
-            <se:Title>Zone d'aménagement différé</se:Title>
+            <se:Title>Zone d'amÃ©nagement diffÃ©rÃ©</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -213,9 +213,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Zone d'aménagement différé</se:Name>
+          <se:Name>Zone d'amÃ©nagement diffÃ©rÃ©</se:Name>
           <se:Description>
-            <se:Title>Zone d'aménagement différé</se:Title>
+            <se:Title>Zone d'amÃ©nagement diffÃ©rÃ©</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -238,9 +238,9 @@
 <!-- #####  INF 14  ##### -->        
         
         <se:Rule>
-          <se:Name>Périmètre de voisinage de transport terrestre</se:Name>
+          <se:Name>PÃ©rimÃ¨tre de voisinage de transport terrestre</se:Name>
           <se:Description>
-            <se:Title>Périmètre de voisinage de transport terrestre</se:Title>
+            <se:Title>PÃ©rimÃ¨tre de voisinage de transport terrestre</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -276,9 +276,9 @@
 <!-- #####  INF 16  ##### --> 
 
         <se:Rule>
-          <se:Name>Site archéologique</se:Name>
+          <se:Name>Site archÃ©ologique</se:Name>
           <se:Description>
-            <se:Title>Site archéologique</se:Title>
+            <se:Title>Site archÃ©ologique</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:PropertyIsEqualTo>
@@ -311,9 +311,9 @@
 <!-- #####  INF 19  ##### -->        
         
         <se:Rule>
-          <se:Name>Zone d'assainissement collectif/non collectif, eaux usées/eaux pluviales, schéma de réseaux eau et assainissement, systèmes d'élimination des déchets, emplacements traitements eaux et déchets</se:Name>
+          <se:Name>Zone d'assainissement collectif/non collectif, eaux usÃ©es/eaux pluviales, schÃ©ma de rÃ©seaux eau et assainissement, systÃ¨mes d'Ã©limination des dÃ©chets, emplacements traitements eaux et dÃ©chets</se:Name>
           <se:Description>
-            <se:Title>Zone d'assainissement collectif/non collectif, eaux usées/eaux pluviales, schéma de réseaux eau et assainissement, systèmes d'élimination des déchets, emplacements traitements eaux et déchets</se:Title>
+            <se:Title>Zone d'assainissement collectif/non collectif, eaux usÃ©es/eaux pluviales, schÃ©ma de rÃ©seaux eau et assainissement, systÃ¨mes d'Ã©limination des dÃ©chets, emplacements traitements eaux et dÃ©chets</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -333,9 +333,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Zone d'assainissement collectif/non collectif, eaux usées/eaux pluviales, schéma de réseaux eau et assainissement, systèmes d'élimination des déchets, emplacements traitements eaux et déchets</se:Name>
+          <se:Name>Zone d'assainissement collectif/non collectif, eaux usÃ©es/eaux pluviales, schÃ©ma de rÃ©seaux eau et assainissement, systÃ¨mes d'Ã©limination des dÃ©chets, emplacements traitements eaux et dÃ©chets</se:Name>
           <se:Description>
-            <se:Title>Zone d'assainissement collectif/non collectif, eaux usées/eaux pluviales, schéma de réseaux eau et assainissement, systèmes d'élimination des déchets, emplacements traitements eaux et déchets</se:Title>
+            <se:Title>Zone d'assainissement collectif/non collectif, eaux usÃ©es/eaux pluviales, schÃ©ma de rÃ©seaux eau et assainissement, systÃ¨mes d'Ã©limination des dÃ©chets, emplacements traitements eaux et dÃ©chets</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
@@ -355,12 +355,12 @@
         </se:Rule>                
 
 
-<!-- #####  INF 99 forêt domaniale  ##### -->        
+<!-- #####  INF 99 PÃ©rimÃ¨tre de forÃªt domaniale  ##### -->        
         
         <se:Rule>
-          <se:Name>Périmètre de forêt domaniale</se:Name>
+          <se:Name>PÃ©rimÃ¨tre de forÃªt domaniale</se:Name>
           <se:Description>
-            <se:Title>Périmètre de forêt domaniale</se:Title>
+            <se:Title>PÃ©rimÃ¨tre de forÃªt domaniale</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -371,11 +371,11 @@
               <ogc:Or>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Forêt domaniale</ogc:Literal>
+                  <ogc:Literal>ForÃªt domaniale</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Périmètre de forêt domaniale</ogc:Literal>
+                  <ogc:Literal>PÃ©rimÃ¨tre de forÃªt domaniale</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
               </ogc:Or>
             </ogc:And>   
@@ -392,9 +392,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Périmètre de forêt domaniale</se:Name>
+          <se:Name>PÃ©rimÃ¨tre de forÃªt domaniale</se:Name>
           <se:Description>
-            <se:Title>Périmètre de forêt domaniale</se:Title>
+            <se:Title>PÃ©rimÃ¨tre de forÃªt domaniale</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -405,11 +405,11 @@
               <ogc:Or>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Forêt domaniale</ogc:Literal>
+                  <ogc:Literal>ForÃªt domaniale</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Périmètre de forêt domaniale</ogc:Literal>
+                  <ogc:Literal>PÃ©rimÃ¨tre de forÃªt domaniale</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
               </ogc:Or>
             </ogc:And>   
@@ -426,12 +426,12 @@
         </se:Rule>
 
 
-<!-- #####  INF 99 installations classées - zones de protection  ##### -->        
+<!-- #####  INF 99 Installations classÃ©es - zones de protection  ##### -->        
         
         <se:Rule>
-          <se:Name>Installations classées - zones de protection</se:Name>
+          <se:Name>Installations classÃ©es - zones de protection</se:Name>
           <se:Description>
-            <se:Title>Installations classées - zones de protection</se:Title>
+            <se:Title>Installations classÃ©es - zones de protection</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -442,15 +442,15 @@
               <ogc:Or>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Zone de protection des installations classées</ogc:Literal>
+                  <ogc:Literal>Zone de protection des installations classÃ©es</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Installations classées - Zones de protections</ogc:Literal>
+                  <ogc:Literal>Installations classÃ©es - Zones de protections</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Périmètre de protection des installations classées</ogc:Literal>
+                  <ogc:Literal>PÃ©rimÃ¨tre de protection des installations classÃ©es</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
               </ogc:Or>
             </ogc:And>  
@@ -467,9 +467,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Installations classées - zones de protection</se:Name>
+          <se:Name>Installations classÃ©es - zones de protection</se:Name>
           <se:Description>
-            <se:Title>Installations classées - zones de protection</se:Title>
+            <se:Title>Installations classÃ©es - zones de protection</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -480,15 +480,15 @@
               <ogc:Or>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Zone de protection des installations classées</ogc:Literal>
+                  <ogc:Literal>Zone de protection des installations classÃ©es</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Installations classées - Zones de protections</ogc:Literal>
+                  <ogc:Literal>Installations classÃ©es - Zones de protections</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Périmètre de protection des installations classées</ogc:Literal>
+                  <ogc:Literal>PÃ©rimÃ¨tre de protection des installations classÃ©es</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
               </ogc:Or>
             </ogc:And>  
@@ -503,6 +503,67 @@
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>
+        
+        
+<!-- #####  INF 99 Autre pÃ©rimÃ¨tre, secteur, plan, document, site, projet, espace ##### -->        
+        
+        <se:Rule>
+          <se:Name>Autre pÃ©rimÃ¨tre, secteur, plan, document, site, projet, espace</se:Name>
+          <se:Description>
+            <se:Title>Autre pÃ©rimÃ¨tre, secteur, plan, document, site, projet, espace</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typeinf</ogc:PropertyName>
+                <ogc:Literal>99</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>libelle</ogc:PropertyName>
+                  <ogc:Literal>Autre pÃ©rimÃ¨tre, secteur, plan, document, site, projet, espace</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+            </ogc:And> 
+          </ogc:Filter>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
+          <se:PolygonSymbolizer>
+            <se:Stroke>
+              <se:SvgParameter name="stroke">#b2b2b2</se:SvgParameter>
+              <se:SvgParameter name="stroke-width">1.5</se:SvgParameter>
+              <se:SvgParameter name="stroke-linecap">round</se:SvgParameter>
+              <se:SvgParameter name="stroke-dasharray">0.5 2.5</se:SvgParameter>
+            </se:Stroke>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        
+        <se:Rule>
+          <se:Name>Autre pÃ©rimÃ¨tre, secteur, plan, document, site, projet, espace</se:Name>
+          <se:Description>
+            <se:Title>Autre pÃ©rimÃ¨tre, secteur, plan, document, site, projet, espace</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typeinf</ogc:PropertyName>
+                <ogc:Literal>99</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>libelle</ogc:PropertyName>
+                  <ogc:Literal>Autre pÃ©rimÃ¨tre, secteur, plan, document, site, projet, espace</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+            </ogc:And> 
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:PolygonSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
+            <se:Stroke>
+              <se:SvgParameter name="stroke">#b2b2b2</se:SvgParameter>
+              <se:SvgParameter name="stroke-width">0.5</se:SvgParameter>
+              <se:SvgParameter name="stroke-linecap">round</se:SvgParameter>
+              <se:SvgParameter name="stroke-dasharray">0.1 1</se:SvgParameter>
+            </se:Stroke>
+          </se:PolygonSymbolizer>
+        </se:Rule>        
         
         
       </se:FeatureTypeStyle>
