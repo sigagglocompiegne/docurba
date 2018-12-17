@@ -459,7 +459,7 @@
            <ogc:And>   
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>taille</ogc:PropertyName>
-                <ogc:Literal>10</ogc:Literal>
+                <ogc:Literal>9</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>style</ogc:PropertyName>
@@ -516,7 +516,7 @@
            <ogc:And>   
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>taille</ogc:PropertyName>
-                <ogc:Literal>10</ogc:Literal>
+                <ogc:Literal>9</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>style</ogc:PropertyName>
