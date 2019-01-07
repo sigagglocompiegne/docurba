@@ -81,21 +81,15 @@
             <se:Title>Limitations de la constructibilité pour des raisons environnementales, de risques, d'intérêt général</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
-            <ogc:And>
+             <ogc:And>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>typepsc</ogc:PropertyName>
                 <ogc:Literal>02</ogc:Literal>
               </ogc:PropertyIsEqualTo>
-              <ogc:Or>
-                <ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Risque d'affaissement de terrain</ogc:Literal>
-                </ogc:PropertyIsEqualTo>
-                <ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>libelle</ogc:PropertyName>
-                  <ogc:Literal>Zone de protection risque sanitaire</ogc:Literal>
-                </ogc:PropertyIsEqualTo>
-              </ogc:Or>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                <ogc:Literal>00</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
             </ogc:And>
           </ogc:Filter>
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
@@ -1555,6 +1549,10 @@
                 <ogc:Literal>02</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                <ogc:Literal>02</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>libelle</ogc:PropertyName>
                 <ogc:Literal>Risque Inondation : Zone rouge : Risque important</ogc:Literal>
               </ogc:PropertyIsEqualTo>
@@ -1585,6 +1583,10 @@
                 <ogc:Literal>02</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                <ogc:Literal>02</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>libelle</ogc:PropertyName>
                 <ogc:Literal>Risque Inondation : Zone bleue : Risque modéré à important</ogc:Literal>
               </ogc:PropertyIsEqualTo>
@@ -1612,6 +1614,10 @@
             <ogc:And>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>02</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>stypepsc</ogc:PropertyName>
                 <ogc:Literal>02</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
