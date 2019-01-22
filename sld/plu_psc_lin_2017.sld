@@ -550,7 +550,7 @@
         </se:Rule>
                 
 
-<!-- #####  PSC 15_01-03  ##### -->        
+<!-- #####  PSC 15_01-02-03  ##### -->        
         
         <se:Rule>
           <se:Name>Règles d'implantation des constructions</se:Name>
@@ -567,6 +567,10 @@
                 <ogc:PropertyIsEqualTo>
                    <ogc:PropertyName>stypepsc</ogc:PropertyName>
                   <ogc:Literal>01</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                   <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>02</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
                 <ogc:PropertyIsEqualTo>
                    <ogc:PropertyName>stypepsc</ogc:PropertyName>
@@ -601,6 +605,10 @@
                 <ogc:PropertyIsEqualTo>
                    <ogc:PropertyName>stypepsc</ogc:PropertyName>
                   <ogc:Literal>01</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                   <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>02</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
                 <ogc:PropertyIsEqualTo>
                    <ogc:PropertyName>stypepsc</ogc:PropertyName>
