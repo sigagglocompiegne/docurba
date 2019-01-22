@@ -76,9 +76,9 @@
 <!-- #####  PSC 02  ##### --> 
 
         <se:Rule>
-          <se:Name>Secteur avec interdiction de constructibilité pour des raisons environnementales, de risques, d'intérêt général</se:Name>
+          <se:Name>Limitations / interdiction de constructibilité pour des raisons environnementales, de risques, d'intérêt général</se:Name>
           <se:Description>
-            <se:Title>Secteur avec interdiction de constructibilité pour des raisons environnementales, de risques, d'intérêt général</se:Title>
+            <se:Title>Limitations / interdiction de constructibilité pour des raisons environnementales, de risques, d'intérêt général</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -86,10 +86,16 @@
                 <ogc:PropertyName>typepsc</ogc:PropertyName>
                 <ogc:Literal>02</ogc:Literal>
               </ogc:PropertyIsEqualTo>
+             <ogc:Or>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                <ogc:Literal>00</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>stypepsc</ogc:PropertyName>
                 <ogc:Literal>01</ogc:Literal>
               </ogc:PropertyIsEqualTo>
+             </ogc:Or>
             </ogc:And>
           </ogc:Filter>
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
