@@ -13,6 +13,7 @@
 --                 / Ajout des nouveaux profils de connexion et leur privilège suite à la modification des rôles dans la base de l'ARC
 -- 2018/08/20 : GB / Intégration des vues pour traiter les données du PLUi et modification des vues applicatives filtrées sur l'ARC pour respecter la structure CNIG2017
 -- 2018/10/29 : GB / Intégration des modifications mineures du standard v2017b (ajout du code 98-00 comme information)
+-- 2019/03/11 : GB / Mise à jour vue applicative des informations (ajout des ZAC non saisies dans les données info des PLU)
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -4853,7 +4854,7 @@ COMMENT ON VIEW m_urbanisme_doc.geo_v_urbreg_ads_commune
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information;
 
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS 
-WITH r_p AS (
+ WITH r_p AS (
          WITH r_pct AS (
                  SELECT "PARCELLE"."IDU" AS idu,
                     ((((geo_p_info_pct.libelle::text ||
@@ -5039,11 +5040,11 @@ WITH r_p AS (
                   WHERE p."IDU"::text = a.idu::text
                 ), r_inv_patri AS (
                  SELECT "PARCELLE"."IDU" AS idu,
-                    ('Inventaire des éléments du patrimoine bâti vernaculaire'::text || ' - '::text) || geo_inv_patrimoine_pct.l_descript::text AS libelle,
-                    geo_inv_patrimoine_pct.urlfic
+                    ('Inventaire des éléments du patrimoine bâti vernaculaire'::text || ' - '::text) || "OLD_geo_inv_patrimoine_pct".l_descript::text AS libelle,
+                    "OLD_geo_inv_patrimoine_pct".urlfic
                    FROM r_bg_edigeo."PARCELLE",
-                    m_urbanisme_reg.geo_inv_patrimoine_pct
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_inv_patrimoine_pct.geom2)
+                    m_urbanisme_reg."OLD_geo_inv_patrimoine_pct"
+                  WHERE st_intersects("PARCELLE"."GEOM", "OLD_geo_inv_patrimoine_pct".geom2)
                 ), r_zass AS (
                  SELECT p."IDU" AS idu,
                     'Zonage d''assainissement : '::text || z.zone::text AS libelle,
@@ -5059,16 +5060,18 @@ WITH r_p AS (
                     m_urbanisme_reg.geo_rlp_zonage z
                   WHERE st_intersects(p."GEOM", z.geom1)
                 ), r_proc AS (
-                 SELECT p."IDU" AS idu,
+                 SELECT DISTINCT p."IDU" AS idu,
                         CASE
-                            WHEN z.date_crea::text IS NULL OR z.date_crea::text = ''::text THEN 'Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.proced_lib::text
-                            ELSE (('Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.proced_lib::text) || ', créée le '::text) || to_char(to_date(z.date_crea::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text)
+                            WHEN (z.date_crea::text IS NULL OR z.date_crea::text = ''::text) AND z.z_proced::text <> '10'::text THEN 'Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.proced_lib::text
+                            WHEN z.z_proced::text = '10'::text AND (z.idsite::text = '60382ad'::text OR z.idsite::text = '60156aa'::text OR z.idsite::text = '60151ha'::text OR z.idsite::text = '60159ag'::text OR z.idsite::text = '60159ha'::text OR z.idsite::text = '60159aa'::text OR z.idsite::text = '60159af'::text OR z.idsite::text = '60159aa'::text) THEN 'Zone d''aménagement concerté : '::text || z.l_ope_nom::text
+                            WHEN (z.date_crea::text IS NOT NULL OR z.date_crea::text <> ''::text) AND z.z_proced::text <> '10'::text THEN (('Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.proced_lib::text) || ', créée le '::text) || to_char(to_date(z.date_crea::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text)
+                            ELSE ''::text
                         END AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     x_apps.xapps_geo_vmr_proc z,
                     m_urbanisme_reg.lt_proced zl
-                  WHERE z.z_proced::text = zl.z_proced::text AND z.z_proced::text <> '10'::text AND st_intersects(p."GEOM", z.geom1)
+                  WHERE z.z_proced::text = zl.z_proced::text AND st_intersects(p."GEOM", z.geom1)
                 )
          SELECT p."IDU" AS idu,
                 CASE
@@ -5213,8 +5216,8 @@ ALTER TABLE x_apps.xapps_an_vmr_p_information
   OWNER TO sig_create;
 GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO sig_create;
 GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO create_sig;
-GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information TO read_sig;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps.xapps_an_vmr_p_information TO edit_sig;
+GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information TO read_sig;
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information
   IS E'Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (fiche d''information de GEO).
 ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\Ressources\\4-Partage\\3-Procedures\\FME\\prod\\URB\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
@@ -5227,6 +5230,8 @@ CREATE INDEX idx_an_vmr_p_information_idu
   ON x_apps.xapps_an_vmr_p_information
   USING btree
   (idu COLLATE pg_catalog."default");
+
+
 
 -- Materialized View: x_apps.xapps_an_vmr_p_information_dpu
 
