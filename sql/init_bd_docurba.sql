@@ -4908,7 +4908,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                     geo_p_info_lin.urlfic
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_info_lin
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_info_lin.geom)
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_info_lin.geom) AND upper(geo_p_info_lin.libelle::text) !~~ upper('%talweg%'::text) AND upper(geo_p_info_lin.libelle::text) !~~ upper('%crête%'::text) AND upper(geo_p_info_lin.libelle::text) !~~ upper('%ligne d''eau%'::text)
                 ), r_surf AS (
                  SELECT "PARCELLE"."IDU" AS idu,
                     ((((geo_p_info_surf.libelle::text ||
@@ -4939,23 +4939,23 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                 ), r_natura2000_zps AS (
                  SELECT p."IDU" AS idu,
                         CASE
-                            WHEN zps.ztiquette IS NOT NULL THEN (('Site Natura2000 : '::text || zps.ztiquette::text) || chr(10)) || 'Remarque : les données présentées sont issues des modifications demandées (en 2010) et transmises (en 2013) à l''Union Européenne pour validation (en attente d''un retour)'::text
+                            WHEN zps.nom IS NOT NULL THEN (('Site Natura2000 : '::text || zps.nom::text) || chr(10)) || 'Remarque : les données présentées sont issues des données DREAL de janvier 2016'::text
                             ELSE NULL::text
                         END AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_environnement.an_env_n2000_zps_m2010_geo zps
-                  WHERE p."IDU"::text = zps.idu::text
+                    m_environnement.geo_env_n2000_zps_zinf_s_r22 zps
+                  WHERE st_intersects(p."GEOM", zps.geom)
                 ), r_natura2000_sic AS (
-                 SELECT "PARCELLE"."IDU" AS idu,
+                 SELECT p."IDU" AS idu,
                         CASE
-                            WHEN geo_env_n2000_sic_m2010.nom_site IS NOT NULL THEN (('Site Natura2000 : SIC : '::text || geo_env_n2000_sic_m2010.nom_site::text) || chr(10)) || 'Remarque : les données présentées sont issues des modifications demandées (en 2010) et transmises (en 2013) à l''Union Européenne pour validation (en attente d''un retour)'::text
+                            WHEN zsc.nom IS NOT NULL THEN (('Site Natura2000 : ZCS : '::text || zsc.nom::text) || chr(10)) || 'Remarque : les données présentées sont issues des données DREAL de janvier 2016'::text
                             ELSE NULL::text
                         END AS libelle,
                     ''::text AS urlfic
-                   FROM r_bg_edigeo."PARCELLE",
-                    m_environnement.geo_env_n2000_sic_m2010
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_env_n2000_sic_m2010.geom)
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_environnement.geo_env_n2000_zsc_zinf_s_r22 zsc
+                  WHERE st_intersects(p."GEOM", zsc.geom)
                 ), r_smoa AS (
                  SELECT p."IDU" AS idu,
                         CASE
@@ -5072,6 +5072,13 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                     x_apps.xapps_geo_vmr_proc z,
                     m_urbanisme_reg.lt_proced zl
                   WHERE z.z_proced::text = zl.z_proced::text AND st_intersects(p."GEOM", z.geom1)
+                ), r_dup AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'Périmètre de la DUP du Canal Seine Nord-Europe'::text AS libelle,
+                    ''::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_amenagement.geo_csne_dup d
+                  WHERE st_intersects(p."GEOM", d.geom)
                 )
          SELECT p."IDU" AS idu,
                 CASE
@@ -5103,7 +5110,8 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
              LEFT JOIN r_zass ON p."IDU"::text = r_zass.idu::text
              LEFT JOIN r_rlp ON p."IDU"::text = r_rlp.idu::text
              LEFT JOIN r_proc ON p."IDU"::text = r_proc.idu::text
-          WHERE r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL AND r_natura2000_zps.libelle IS NULL AND r_natura2000_sic.libelle IS NULL AND r_smoa.libelle IS NULL AND r_sageba_zh.libelle IS NULL AND r_zico.libelle IS NULL AND r_znieff1.libelle IS NULL AND r_znieff2.libelle IS NULL AND r_zdh.libelle IS NULL AND r_apb.libelle IS NULL AND r_bgf.libelle IS NULL AND r_ens.libelle IS NULL AND r_argile_moyenfort.libelle IS NULL AND r_argile_faible.libelle IS NULL AND r_inv_patri.libelle IS NULL AND r_zass.libelle IS NULL AND r_rlp.libelle IS NULL AND r_proc.libelle IS NULL
+             LEFT JOIN r_dup ON p."IDU"::text = r_dup.idu::text
+          WHERE r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL AND r_natura2000_zps.libelle IS NULL AND r_natura2000_sic.libelle IS NULL AND r_smoa.libelle IS NULL AND r_sageba_zh.libelle IS NULL AND r_zico.libelle IS NULL AND r_znieff1.libelle IS NULL AND r_znieff2.libelle IS NULL AND r_zdh.libelle IS NULL AND r_apb.libelle IS NULL AND r_bgf.libelle IS NULL AND r_ens.libelle IS NULL AND r_argile_moyenfort.libelle IS NULL AND r_argile_faible.libelle IS NULL AND r_inv_patri.libelle IS NULL AND r_zass.libelle IS NULL AND r_rlp.libelle IS NULL AND r_proc.libelle IS NULL AND r_dup.libelle IS NULL
         UNION ALL
          SELECT r_pct.idu,
             r_pct.libelle,
@@ -5204,6 +5212,11 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
             r_proc.libelle,
             r_proc.urlfic
            FROM r_proc
+        UNION ALL
+         SELECT r_dup.idu,
+            r_dup.libelle,
+            r_dup.urlfic
+           FROM r_dup
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
@@ -5214,10 +5227,7 @@ WITH DATA;
 
 ALTER TABLE x_apps.xapps_an_vmr_p_information
   OWNER TO sig_create;
-GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO sig_create;
-GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO create_sig;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps.xapps_an_vmr_p_information TO edit_sig;
-GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information TO read_sig;
+
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information
   IS E'Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (fiche d''information de GEO).
 ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\Ressources\\4-Partage\\3-Procedures\\FME\\prod\\URB\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
@@ -5230,6 +5240,8 @@ CREATE INDEX idx_an_vmr_p_information_idu
   ON x_apps.xapps_an_vmr_p_information
   USING btree
   (idu COLLATE pg_catalog."default");
+
+
 
 
 
