@@ -4851,7 +4851,7 @@ COMMENT ON VIEW m_urbanisme_doc.geo_v_urbreg_ads_commune
 
 -- Materialized View: x_apps.xapps_an_vmr_p_information
 
--- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information;
+DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information;
 
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS 
  WITH r_p AS (
@@ -4939,22 +4939,22 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                 ), r_natura2000_zps AS (
                  SELECT p."IDU" AS idu,
                         CASE
-                            WHEN zps.nom IS NOT NULL THEN (('Site Natura2000 : '::text || zps.nom::text) || chr(10)) || 'Remarque : les données présentées sont issues des données DREAL de janvier 2016'::text
+                            WHEN zps.nom IS NOT NULL THEN (('Site Natura2000 : '::text || zps.nom::text) || chr(10)) || 'Remarque : les données présentées sont issues de l''arrêté de janvier 2006 (les demandes de modifications sont en cours)'::text
                             ELSE NULL::text
                         END AS libelle,
-                    ''::text AS urlfic
+                    'http://geo.compiegnois.fr/documents/metiers/urba/2006-0501_arrete_ministeriel_zps_compiegne_laigue_ourscamps.pdf'::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_environnement.geo_env_n2000_zps_zinf_s_r22 zps
                   WHERE st_intersects(p."GEOM", zps.geom)
                 ), r_natura2000_sic AS (
                  SELECT p."IDU" AS idu,
                         CASE
-                            WHEN zsc.nom IS NOT NULL THEN (('Site Natura2000 : ZCS : '::text || zsc.nom::text) || chr(10)) || 'Remarque : les données présentées sont issues des données DREAL de janvier 2016'::text
+                            WHEN zsc.nom_site IS NOT NULL THEN (('Site Natura2000 : ZCS : '::text || zsc.nom_site::text) || chr(10)) || 'Remarque : les données présentées sont issues des données modifiées (demande de 2010) et validées par l''Etat.'::text
                             ELSE NULL::text
                         END AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_environnement.geo_env_n2000_zsc_zinf_s_r22 zsc
+                    m_environnement.geo_env_n2000_sic_m2010 zsc
                   WHERE st_intersects(p."GEOM", zsc.geom)
                 ), r_smoa AS (
                  SELECT p."IDU" AS idu,
@@ -5227,7 +5227,10 @@ WITH DATA;
 
 ALTER TABLE x_apps.xapps_an_vmr_p_information
   OWNER TO sig_create;
-
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO sig_create;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO create_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps.xapps_an_vmr_p_information TO edit_sig;
+GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information TO read_sig;
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information
   IS E'Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (fiche d''information de GEO).
 ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\Ressources\\4-Partage\\3-Procedures\\FME\\prod\\URB\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
@@ -5240,6 +5243,8 @@ CREATE INDEX idx_an_vmr_p_information_idu
   ON x_apps.xapps_an_vmr_p_information
   USING btree
   (idu COLLATE pg_catalog."default");
+
+
 
 
 
