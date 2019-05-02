@@ -452,6 +452,10 @@
                   <ogc:PropertyName>libelle</ogc:PropertyName>
                   <ogc:Literal>Périmètre de protection des installations classées</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>libelle</ogc:PropertyName>
+                  <ogc:Literal>Risques technologiques</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
               </ogc:Or>
             </ogc:And>  
           </ogc:Filter>
@@ -489,6 +493,10 @@
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
                   <ogc:Literal>Périmètre de protection des installations classées</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>libelle</ogc:PropertyName>
+                  <ogc:Literal>Risques technologiques</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
               </ogc:Or>
             </ogc:And>  
