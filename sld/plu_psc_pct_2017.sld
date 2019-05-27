@@ -10,9 +10,9 @@
 <!-- #####  PSC 07_02-03-05  ##### --> 
           
         <se:Rule>
-          <se:Name>Patrimoine paysager ou ‚l‚ments de paysage … prot‚ger</se:Name>
+          <se:Name>Patrimoine paysager ou Ã©lÃ©ments de paysage Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine paysager ou ‚l‚ments de paysage … prot‚ger</se:Title>
+            <se:Title>Patrimoine paysager ou Ã©lÃ©ments de paysage Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -50,9 +50,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Patrimoine paysager ou ‚l‚ments de paysage … prot‚ger</se:Name>
+          <se:Name>Patrimoine paysager ou Ã©lÃ©ments de paysage Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine paysager ou ‚l‚ments de paysage … prot‚ger</se:Title>
+            <se:Title>Patrimoine paysager ou Ã©lÃ©ments de paysage Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -90,12 +90,12 @@
         </se:Rule>        
         
 
-<!-- #####  PSC 07_01  ##### --> 
+<!-- #####  PSC 07_00_01  ##### --> 
           
         <se:Rule>
-          <se:Name>Patrimoine bƒti … prot‚ger</se:Name>
+          <se:Name>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine bƒti … prot‚ger</se:Title>
+            <se:Title>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -103,10 +103,16 @@
                 <ogc:PropertyName>typepsc</ogc:PropertyName>
                 <ogc:Literal>07</ogc:Literal>
               </ogc:PropertyIsEqualTo>
+               <ogc:Or>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>stypepsc</ogc:PropertyName>
                   <ogc:Literal>01</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>00</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+              </ogc:Or>
             </ogc:And>
           </ogc:Filter>
           <se:MinScaleDenominator>1001</se:MinScaleDenominator>
@@ -123,9 +129,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Patrimoine bƒti … prot‚ger</se:Name>
+          <se:Name>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine bƒti … prot‚ger</se:Title>
+            <se:Title>Patrimoine bÃ¢ti Ã  protÃ©ger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -133,10 +139,16 @@
                 <ogc:PropertyName>typepsc</ogc:PropertyName>
                 <ogc:Literal>07</ogc:Literal>
               </ogc:PropertyIsEqualTo>
+              <ogc:Or>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>stypepsc</ogc:PropertyName>
                   <ogc:Literal>01</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>00</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+              </ogc:Or>
             </ogc:And>
           </ogc:Filter>
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
@@ -156,9 +168,9 @@
 <!-- #####  PSC 07_04  ##### --> 
           
         <se:Rule>
-          <se:Name>El‚ments de paysages (sites et secteurs) … pr‚server</se:Name>
+          <se:Name>ElÃ©ments de paysages (sites et secteurs) Ã  prÃ©server</se:Name>
           <se:Description>
-            <se:Title>El‚ments de paysages (sites et secteurs) … pr‚server</se:Title>
+            <se:Title>ElÃ©ments de paysages (sites et secteurs) Ã  prÃ©server</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -186,9 +198,9 @@
         </se:Rule>
         
          <se:Rule>
-          <se:Name>El‚ments de paysages (sites et secteurs) … pr‚server</se:Name>
+          <se:Name>ElÃ©ments de paysages (sites et secteurs) Ã  prÃ©server</se:Name>
           <se:Description>
-            <se:Title>El‚ments de paysages (sites et secteurs) … pr‚server</se:Title>
+            <se:Title>ElÃ©ments de paysages (sites et secteurs) Ã  prÃ©server</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -219,9 +231,9 @@
 <!-- #####  PSC 05_06  ##### --> 
           
         <se:Rule>
-          <se:Name>Servitude de localisation des voies, ouvrages publics, installations d'int‚rˆt g‚n‚ral et espaces verts en zone U et AU</se:Name>
+          <se:Name>Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U et AU</se:Name>
           <se:Description>
-            <se:Title>Servitude de localisation des voies, ouvrages publics, installations d'int‚rˆt g‚n‚ral et espaces verts en zone U et AU</se:Title>
+            <se:Title>Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U et AU</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -249,9 +261,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Servitude de localisation des voies, ouvrages publics, installations d'int‚rˆt g‚n‚ral et espaces verts en zone U et AU</se:Name>
+          <se:Name>Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U et AU</se:Name>
           <se:Description>
-            <se:Title>Servitude de localisation des voies, ouvrages publics, installations d'int‚rˆt g‚n‚ral et espaces verts en zone U et AU</se:Title>
+            <se:Title>Servitude de localisation des voies, ouvrages publics, installations d'intÃ©rÃªt gÃ©nÃ©ral et espaces verts en zone U et AU</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -282,9 +294,9 @@
 <!-- #####  PSC 16_01  ##### --> 
 
         <se:Rule>
-           <se:Name>Bƒtiment susceptible de changer de destination</se:Name>
+           <se:Name>BÃ¢timent susceptible de changer de destination</se:Name>
           <se:Description>
-            <se:Title>Bƒtiment susceptible de changer de destination</se:Title>
+            <se:Title>BÃ¢timent susceptible de changer de destination</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:And>
@@ -312,9 +324,9 @@
         </se:Rule>
         
         <se:Rule>
-           <se:Name>Bƒtiment susceptible de changer de destination</se:Name>
+           <se:Name>BÃ¢timent susceptible de changer de destination</se:Name>
           <se:Description>
-            <se:Title>Bƒtiment susceptible de changer de destination</se:Title>
+            <se:Title>BÃ¢timent susceptible de changer de destination</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
               <ogc:And>
