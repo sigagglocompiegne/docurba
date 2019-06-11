@@ -355,19 +355,25 @@
         </se:Rule>                
 
 
-<!-- #####  INF 99 Périmètre de forêt domaniale  ##### -->        
+<!-- #####  INF 99 Périmètre de forêt domaniale / INF 37 Bois ou forêts relevant du régime forestier  ##### -->        
         
         <se:Rule>
-          <se:Name>Périmètre de forêt domaniale</se:Name>
+          <se:Name>Périmètre de forêt domaniale / Bois ou forêts relevant du régime forestier</se:Name>
           <se:Description>
-            <se:Title>Périmètre de forêt domaniale</se:Title>
+            <se:Title>Périmètre de forêt domaniale / Bois ou forêts relevant du régime forestier</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
+              <ogc:Or>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>typeinf</ogc:PropertyName>
                 <ogc:Literal>99</ogc:Literal>
               </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typeinf</ogc:PropertyName>
+                <ogc:Literal>37</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              </ogc:Or>
               <ogc:Or>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
@@ -392,16 +398,22 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Périmètre de forêt domaniale</se:Name>
+          <se:Name>Périmètre de forêt domaniale / Bois ou forêts relevant du régime forestier</se:Name>
           <se:Description>
-            <se:Title>Périmètre de forêt domaniale</se:Title>
+            <se:Title>Périmètre de forêt domaniale / Bois ou forêts relevant du régime forestier</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
+              <ogc:Or>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>typeinf</ogc:PropertyName>
                 <ogc:Literal>99</ogc:Literal>
               </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typeinf</ogc:PropertyName>
+                <ogc:Literal>37</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              </ogc:Or>
               <ogc:Or>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>libelle</ogc:PropertyName>
@@ -412,7 +424,7 @@
                   <ogc:Literal>Périmètre de forêt domaniale</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
               </ogc:Or>
-            </ogc:And>   
+            </ogc:And>    
           </ogc:Filter>
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
           <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
