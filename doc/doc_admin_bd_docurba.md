@@ -262,7 +262,7 @@ Particularité(s) à noter :
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
 |l_insee|Code INSEE|character varying(5)| |
-|l_nom|Nom|character varying(80)| |
+|l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
 |l_bnfcr|Bénéficiaire|character varying(80)| |
 |l_numero|Numéro|character varying(10)| |
@@ -293,7 +293,7 @@ Particularité(s) à noter :
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
 |l_insee|Code INSEE|character varying(5)| |
-|l_nom|Nom|character varying(80)| |
+|l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
 |l_bnfcr|Bénéficiaire|character varying(80)| |
 |l_numero|Numéro|character varying(10)| |
@@ -324,7 +324,7 @@ Particularité(s) à noter :
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
 |l_insee|Code INSEE|character varying(5)| |
-|l_nom|Nom|character varying(80)| |
+|l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
 |l_bnfcr|Bénéficiaire|character varying(80)| |
 |l_numero|Numéro|character varying(10)| |
@@ -565,7 +565,7 @@ Particularité(s) à noter :
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
 |l_insee|Code INSEE|character varying(5)| |
-|l_nom|Nom|character varying(80)| |
+|l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
 |l_bnfcr|Bénéficiaire|character varying(80)| |
 |l_numero|Numéro|character varying(10)| |
@@ -597,7 +597,7 @@ Particularité(s) à noter :
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
 |l_insee|Code INSEE|character varying(5)| |
-|l_nom|Nom|character varying(80)| |
+|l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
 |l_bnfcr|Bénéficiaire|character varying(80)| |
 |l_numero|Numéro|character varying(10)| |
@@ -630,7 +630,7 @@ Particularité(s) à noter :
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
 |l_insee|Code INSEE|character varying(5)| |
-|l_nom|Nom|character varying(80)| |
+|l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
 |l_bnfcr|Bénéficiaire|character varying(80)| |
 |l_numero|Numéro|character varying(10)| |
@@ -898,7 +898,7 @@ Particularité(s) à noter :
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
 |l_insee|Code INSEE|character varying(5)| |
-|l_nom|Nom|character varying(80)| |
+|l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
 |l_bnfcr|Bénéficiaire|character varying(80)| |
 |l_numero|Numéro|character varying(10)| |
@@ -931,7 +931,7 @@ Particularité(s) à noter :
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
 |l_insee|Code INSEE|character varying(5)| |
-|l_nom|Nom|character varying(80)| |
+|l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
 |l_bnfcr|Bénéficiaire|character varying(80)| |
 |l_numero|Numéro|character varying(10)| |
@@ -962,7 +962,7 @@ Particularité(s) à noter :
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
 |l_insee|Code INSEE|character varying(5)| |
-|l_nom|Nom|character varying(80)| |
+|l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
 |l_bnfcr|Bénéficiaire|character varying(80)| |
 |l_numero|Numéro|character varying(10)| |
