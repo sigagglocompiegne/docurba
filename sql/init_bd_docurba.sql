@@ -14,6 +14,7 @@
 -- 2018/08/20 : GB / Intégration des vues pour traiter les données du PLUi et modification des vues applicatives filtrées sur l'ARC pour respecter la structure CNIG2017
 -- 2018/10/29 : GB / Intégration des modifications mineures du standard v2017b (ajout du code 98-00 comme information)
 -- 2019/03/11 : GB / Mise à jour vue applicative des informations (ajout des ZAC non saisies dans les données info des PLU)
+-- 2019/06/27 : GB / Modification de la taille de l'attribut l_non (de 80 à 254) pour les tables de prescriptions (suite données PLUi dépassant les 80 caractères)
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -1014,7 +1015,7 @@ CREATE TABLE m_urbanisme_doc.geo_p_prescription_surf
   idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
   datvalid character(8), -- Date de validation (aaaammjj)
   l_insee character varying(5) NOT NULL, -- Code INSEE
-  l_nom character varying(80), -- Nom
+  l_nom character varying(254), -- Nom
   l_nature character varying(254), -- Nature / vocation
   l_bnfcr character varying(80), -- Bénéficiaire
   l_numero character varying(10), -- Numéro
@@ -1110,7 +1111,7 @@ CREATE TABLE m_urbanisme_doc.geo_p_prescription_lin
   idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
   datvalid character(8), -- Date de validation (aaaammjj)
   l_insee character varying(5) NOT NULL, -- Code INSEE
-  l_nom character varying(80), -- Nom
+  l_nom character varying(254), -- Nom
   l_nature character varying(254), -- Nature / vocation
   l_bnfcr character varying(80), -- Bénéficiaire
   l_numero character varying(10), -- Numéro
@@ -1203,7 +1204,7 @@ CREATE TABLE m_urbanisme_doc.geo_p_prescription_pct
   idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
   datvalid character(8), -- Date de validation (aaaammjj)
   l_insee character varying(5) NOT NULL, -- Code INSEE
-  l_nom character varying(80), -- Nom
+  l_nom character varying(254), -- Nom
   l_nature character varying(254), -- Nature / vocation
   l_bnfcr character varying(80), -- Bénéficiaire
   l_numero character varying(10), -- Numéro
@@ -1669,7 +1670,7 @@ CREATE TABLE m_urbanisme_doc.geo_a_prescription_surf
   idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
   datvalid character(8), -- Date de validation (aaaammjj)
   l_insee character varying(5) NOT NULL, -- Code INSEE
-  l_nom character varying(80), -- Nom
+  l_nom character varying(254), -- Nom
   l_nature character varying(254), -- Nature / vocation
   l_bnfcr character varying(80), -- Bénéficiaire
   l_numero character varying(10), -- Numéro
@@ -1732,7 +1733,7 @@ CREATE TABLE m_urbanisme_doc.geo_a_prescription_lin
   idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
   datvalid character(8), -- Date de validation (aaaammjj)
   l_insee character varying(5) NOT NULL, -- Code INSEE
-  l_nom character varying(80), -- Nom
+  l_nom character varying(254), -- Nom
   l_nature character varying(254), -- Nature / vocation
   l_bnfcr character varying(80), -- Bénéficiaire
   l_numero character varying(10), -- Numéro
@@ -1794,7 +1795,7 @@ CREATE TABLE m_urbanisme_doc.geo_a_prescription_pct
   idurba character varying(30) NOT NULL, -- Identifiant du document d''urbanisme
   datvalid character(8), -- Date de validation (aaaammjj)
   l_insee character varying(5) NOT NULL, -- Code INSEE
-  l_nom character varying(80), -- Nom
+  l_nom character varying(254), -- Nom
   l_nature character varying(254), -- Nature / vocation
   l_bnfcr character varying(80), -- Bénéficiaire
   l_numero character varying(10), -- Numéro
@@ -2257,7 +2258,7 @@ CREATE TABLE m_urbanisme_doc.geo_t_prescription_surf
   idurba character varying(30), -- Identifiant du document d''urbanisme
   datvalid character(8), -- Date de validation (aaaammjj)
   l_insee character varying(5) NOT NULL, -- Code INSEE
-  l_nom character varying(80), -- Nom
+  l_nom character varying(254), -- Nom
   l_nature character varying(254), -- Nature / vocation
   l_bnfcr character varying(80), -- Bénéficiaire
   l_numero character varying(10), -- Numéro
@@ -2320,7 +2321,7 @@ CREATE TABLE m_urbanisme_doc.geo_t_prescription_lin
   idurba character varying(30), -- Identifiant du document d''urbanisme
   datvalid character(8), -- Date de validation (aaaammjj)
   l_insee character varying(5) NOT NULL, -- Code INSEE
-  l_nom character varying(80), -- Nom
+  l_nom character varying(254), -- Nom
   l_nature character varying(254), -- Nature / vocation
   l_bnfcr character varying(80), -- Bénéficiaire
   l_numero character varying(10), -- Numéro
@@ -2383,7 +2384,7 @@ CREATE TABLE m_urbanisme_doc.geo_t_prescription_pct
   idurba character varying(30), -- Identifiant du document d''urbanisme
   datvalid character(8), -- Date de validation (aaaammjj)
   l_insee character varying(5) NOT NULL, -- Code INSEE
-  l_nom character varying(80), -- Nom
+  l_nom character varying(254), -- Nom
   l_nature character varying(254), -- Nature / vocation
   l_bnfcr character varying(80), -- Bénéficiaire
   l_numero character varying(10), -- Numéro
@@ -2446,7 +2447,7 @@ CREATE TABLE m_urbanisme_doc.geo_t_info_surf
   idurba character varying(30), -- Identifiant du document d''urbanisme
   datvalid character(8), -- Date de validation (aaaammjj)
   l_insee character varying(5) NOT NULL, -- Code INSEE
-  l_nom character varying(80), -- Nom
+  l_nom character varying(254), -- Nom
   l_dateins character(8), -- Date d'instauration
   l_bnfcr character varying(80), -- Bénéficiaire
   l_datdlg character(8), -- Date de délégation
