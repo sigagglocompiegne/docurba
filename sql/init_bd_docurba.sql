@@ -15,6 +15,7 @@
 -- 2018/10/29 : GB / Intégration des modifications mineures du standard v2017b (ajout du code 98-00 comme information)
 -- 2019/03/11 : GB / Mise à jour vue applicative des informations (ajout des ZAC non saisies dans les données info des PLU)
 -- 2019/06/27 : GB / Modification de la taille de l'attribut l_non (de 80 à 254) pour les tables de prescriptions (suite données PLUi dépassant les 80 caractères)
+-- 2019/08/28 : GB / Modification vue matérialisée DPU (modification du message qui ressort en application)
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -5278,7 +5279,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu AS
  SELECT row_number() OVER () AS gid,
     r_p.idu,
         CASE
-            WHEN length(r_p.l_nom::text) = 0 OR r_p.l_nom::text = ''::text OR r_p.l_nom::text IS NULL THEN 'La parcelle n''est pas concernée'::character varying
+            WHEN length(r_p.l_nom::text) = 0 OR r_p.l_nom::text = ''::text OR r_p.l_nom::text IS NULL THEN 'Sans autres indications particulières sont concernées les zones U et AU.'::character varying
             ELSE 'Zone urbaine, zone d''urbanisation future et/ou périmètre de protection rapprochée du prélèvement d''eau'::character varying
         END AS application,
     r_p.l_bnfcr AS beneficiaire,
