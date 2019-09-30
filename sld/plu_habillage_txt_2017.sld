@@ -231,11 +231,11 @@
            <ogc:And>   
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>taille</ogc:PropertyName>
-                <ogc:Literal>12</ogc:Literal>
+                <ogc:Literal>10</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>style</ogc:PropertyName>
-                <ogc:Literal>Normal</ogc:Literal>
+                <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -252,9 +252,9 @@
       </se:Label>     
       <se:Font>
       	 <se:SvgParameter name="font-family">Arial</se:SvgParameter>
-         <se:SvgParameter name="font-size">12</se:SvgParameter>
+         <se:SvgParameter name="font-size">10</se:SvgParameter>
          <se:SvgParameter name="font-style">normal</se:SvgParameter>
-         <se:SvgParameter name="font-weight">normal</se:SvgParameter>
+         <se:SvgParameter name="font-weight">bold</se:SvgParameter>
       </se:Font>
       <se:LabelPlacement>
        <se:PointPlacement>
@@ -288,11 +288,11 @@
            <ogc:And>   
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>taille</ogc:PropertyName>
-                <ogc:Literal>12</ogc:Literal>
+                <ogc:Literal>10</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
                 <ogc:PropertyName>style</ogc:PropertyName>
-                <ogc:Literal>Normal</ogc:Literal>
+                <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -309,9 +309,9 @@
       </se:Label>     
       <se:Font>
       	 <se:SvgParameter name="font-family">Arial</se:SvgParameter>
-         <se:SvgParameter name="font-size">8</se:SvgParameter>
+         <se:SvgParameter name="font-size">7</se:SvgParameter>
          <se:SvgParameter name="font-style">normal</se:SvgParameter>
-         <se:SvgParameter name="font-weight">normal</se:SvgParameter>
+         <se:SvgParameter name="font-weight">bold</se:SvgParameter>
       </se:Font>
       <se:LabelPlacement>
        <se:PointPlacement>
