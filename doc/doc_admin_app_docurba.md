@@ -597,6 +597,7 @@ Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
 |(vide)|section_parcelle|Masqué|Vertical||||
 |(vide)|tableau_proprio|Masqué|Vertical||||
 |(vide)|titre_doc_urba_valide_html|Masqué|Vertical||||
+|(vide)|tableau_acces_reg|Masqué|Vertical||||
 |(vide)|tableau_doc_vigueur|Masqué|Vertical||||
 |(vide)|libelle(xapps_an_vmr_parcelle_plu),libelong,urlfic (xapps_an_vmr_parcelle_plu)|Masqué|Vertical||Fiche POS-PLU-CC||
 |(vide)|titre_prescription_html|Masqué|Vertical||||
