@@ -65,6 +65,10 @@ Particularité(s) à noter :
 |l_moe_dmat|Maitre d'oeuvre de la dématérialisation|character varying(80)| |
 |l_observ|Observations|character varying(254)| |
 |l_parent|Identification des documents parents pour recherche des historiques entre version de documents (1 pour le premier document (élaboration, modif, mise à jour), 2 pour la révision (révision n°1, modif, mise à jour), 3 pour le 2nd révision, ...|integer||
+|l_urldgen|Lien vers le fichier PDF contenant les dispositions générales du règlement|character varying(255)| |
+|l_urlann|Lien vers le fichier PDF contenant les annexes du règlement|character varying(255)| |
+|l_urllex|Lien vers le fichier PDF contenant le lexique du règlement|character varying(255)| |
+
 
 Particularité(s) à noter :
 * Une clé primaire existe sur le champ idurba
