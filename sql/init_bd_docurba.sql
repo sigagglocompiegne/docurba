@@ -16,6 +16,8 @@
 -- 2019/03/11 : GB / Mise à jour vue applicative des informations (ajout des ZAC non saisies dans les données info des PLU)
 -- 2019/06/27 : GB / Modification de la taille de l'attribut l_non (de 80 à 254) pour les tables de prescriptions (suite données PLUi dépassant les 80 caractères)
 -- 2019/08/28 : GB / Modification vue matérialisée DPU (modification du message qui ressort en application)
+-- 2019/11/15 : GB / Modification structure de la table an_doc_urba intégrant 3 attributs optionnels pour gérer l'accès aux documents complémentaires du règlement (dispositions générales, annexes et lexique)
+-- 2019/11/15 : GB / Modification de la vue an_v_docurba_valide pour gérer l'affichage des règlements à la commune suite à des PLUi
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -875,6 +877,9 @@ CREATE TABLE m_urbanisme_doc.an_doc_urba
   l_moe_dmat character varying(80), -- Maitre d'oeuvre de la dématérialisation
   l_observ character varying(254), -- Observations
   l_parent integer, -- Identification des documents parents pour recherche des historiques entre version de documents (1 pour le premier document (élaboration, modif, mise à jour), 2 pour la révision (révision n°1, modif, mise à jour), 3 pour le 2nd révisoon (révision n°2, modif, mise à jour), ...)
+  l_urldgen, -- Lien d'accès au document PDF des dispositiosn générales du règlement
+  l_urlann, -- Lien d'accès au document PDF des annnexes du règlement
+  l_urllex, -- Lien d'accès au document PDF du lexique du règlement
   CONSTRAINT an_doc_urba_pkey PRIMARY KEY (idurba)
 )
 WITH (
