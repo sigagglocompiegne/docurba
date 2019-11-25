@@ -93,7 +93,7 @@ Particularité(s) à noter : aucune
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage linéaire|character varying(10)| |
+|idhab|Identifiant unique de l'habillage linéaire|character varying(40)| |
 |nattrac|Nature du tracé|character varying(40)| |
 |couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
@@ -109,7 +109,7 @@ Particularité(s) à noter : aucune
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage ponctuel|character varying(10)| |
+|idhab|Identifiant unique de l'habillage ponctuel|character varying(40)| |
 |nattrac|Nature du tracé|character varying(40)| |
 |couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
@@ -125,7 +125,7 @@ Particularité(s) à noter : aucune
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage surfacique|character varying(10)| |
+|idhab|Identifiant unique de l'habillage surfacique|character varying(40)| |
 |nattrac|Nature du tracé|character varying(40)| |
 |couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
@@ -141,7 +141,7 @@ Particularité(s) à noter : aucune
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage ponctuel|character varying(10)| |
+|idhab|Identifiant unique de l'habillage ponctuel|character varying(40)| |
 |natecr|Nature de l'écriture|character varying(40)| |
 |txt|Texte de l'écriture|character varying(80)| |
 |police|Police de l'écriture|character varying(40)| |
@@ -164,7 +164,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idinf|Identifiant unique de l'information linéaire|character varying(10)| |
+|idinf|Identifiant unique de l'information linéaire|character varying(40)| |
 |libelle|Nom de l'information|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typeinf|Type d'information|character varying(2)| |
@@ -194,7 +194,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idinf|Identifiant unique de l'information ponctuelle|character varying(10)| |
+|idinf|Identifiant unique de l'information ponctuelle|character varying(40)| |
 |libelle|Nom de l'information|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typeinf|Type d'information|character varying(2)| |
@@ -224,7 +224,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idinf|Identifiant unique de l'information surfacique|character varying(10)| |
+|idinf|Identifiant unique de l'information surfacique|character varying(40)| |
 |libelle|Nom de l'information|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typeinf|Type d'information|character varying(2)| |
@@ -256,7 +256,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idpsc|Identifiant unique de prescription linéaire|character varying(10)| |
+|idpsc|Identifiant unique de prescription linéaire|character varying(40)| |
 |libelle|Nom de la prescription|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
@@ -287,7 +287,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idpsc|Identifiant unique de prescription ponctuelle|character varying(10)| |
+|idpsc|Identifiant unique de prescription ponctuelle|character varying(40)| |
 |libelle|Nom de la prescription|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
@@ -318,7 +318,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idpsc|Identifiant unique de prescription surfacique|character varying(10)| |
+|idpsc|Identifiant unique de prescription surfacique|character varying(40)| |
 |libelle|Nom de la prescription|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
@@ -351,7 +351,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idzone|Identifiant unique de zone|character varying(10)| |
+|idzone|Identifiant unique de zone|character varying(40)| |
 |libelle|Nom court de la zone|character varying(12)| |
 |libelong|Nom complet de la zone|character varying(254)| |
 |typezone|Type de la zone|character varying(3)| |
@@ -382,7 +382,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage linéaire|character varying(10)| |
+|idhab|Identifiant unique de l'habillage linéaire|character varying(40)| |
 |nattrac|Nature du tracé|character varying(40)| |
 |couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
@@ -400,7 +400,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage ponctuel|character varying(10)| |
+|idhab|Identifiant unique de l'habillage ponctuel|character varying(40)| |
 |nattrac|Nature du tracé|character varying(40)| |
 |couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
@@ -418,7 +418,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage surfacique|character varying(10)| |
+|idhab|Identifiant unique de l'habillage surfacique|character varying(40)| |
 |nattrac|Nature du tracé|character varying(40)| |
 |couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
@@ -436,7 +436,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage ponctuel|character varying(10)| |
+|idhab|Identifiant unique de l'habillage ponctuel|character varying(40)| |
 |natecr|Nature de l'écriture|character varying(40)| |
 |txt|Texte de l'écriture|character varying(80)| |
 |police|Police de l'écriture|character varying(40)| |
@@ -460,7 +460,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idinf|Identifiant unique de l'information linéaire|character varying(10)| |
+|idinf|Identifiant unique de l'information linéaire|character varying(40)| |
 |libelle|Nom de l'information|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typeinf|Type d'information|character varying(2)| |
@@ -492,7 +492,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idinf|Identifiant unique de l'information ponctuelle|character varying(10)| |
+|idinf|Identifiant unique de l'information ponctuelle|character varying(40)| |
 |libelle|Nom de l'information|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typeinf|Type d'information|character varying(2)| |
@@ -524,7 +524,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idinf|Identifiant unique de l'information surfacique|character varying(10)| |
+|idinf|Identifiant unique de l'information surfacique|character varying(40)| |
 |libelle|Nom de l'information|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typeinf|Type d'information|character varying(2)| |
@@ -559,7 +559,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idpsc|Identifiant unique de prescription linéaire|character varying(10)| |
+|idpsc|Identifiant unique de prescription linéaire|character varying(40)| |
 |libelle|Nom de la prescription|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
@@ -591,7 +591,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idpsc|Identifiant unique de prescription ponctuelle|character varying(10)| |
+|idpsc|Identifiant unique de prescription ponctuelle|character varying(40)| |
 |libelle|Nom de la prescription|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
@@ -624,7 +624,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idpsc|Identifiant unique de prescription surfacique|character varying(10)| |
+|idpsc|Identifiant unique de prescription surfacique|character varying(40)| |
 |libelle|Nom de la prescription|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
@@ -659,7 +659,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idpau|Identifiant géographique|integer|nextval('m_urbanisme_doc_cnig2017.idpau_seq'::regclass)|
+|idpau|Identifiant géographique|integer|nextval('m_urbanisme_doc.idpau_seq'::regclass)|
 |date_sai|Date de saisie des données|timestamp without time zone| |
 |date_maj|Date de mise à jour|timestamp without time zone| |
 |op_sai|Opérateur de saisie|character varying(50)| |
@@ -689,7 +689,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idzone|Identifiant unique de zone|character varying(10)| |
+|idzone|Identifiant unique de zone|character varying(40)| |
 |libelle|Nom court de la zone|character varying(12)| |
 |libelong|Nom complet de la zone|character varying(254)| |
 |typezone|Type de la zone|character varying(3)| |
@@ -723,7 +723,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage linéaire|character varying(10)| |
+|idhab|Identifiant unique de l'habillage linéaire|character varying(40)| |
 |nattrac|Nature du tracé|character varying(40)| |
 |couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
@@ -741,7 +741,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage ponctuel|character varying(10)| |
+|idhab|Identifiant unique de l'habillage ponctuel|character varying(40)| |
 |nattrac|Nature du tracé|character varying(40)| |
 |couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
@@ -759,7 +759,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage surfacique|character varying(10)| |
+|idhab|Identifiant unique de l'habillage surfacique|character varying(40)| |
 |nattrac|Nature du tracé|character varying(40)| |
 |couleur|Couleur de l'élément graphique, sous forme RVB (255-255-000)|character varying(11)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
@@ -777,7 +777,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idhab|Identifiant unique de l'habillage ponctuel|character varying(10)| |
+|idhab|Identifiant unique de l'habillage ponctuel|character varying(40)| |
 |natecr|Nature de l'écriture|character varying(40)| |
 |txt|Texte de l'écriture|character varying(80)| |
 |police|Police de l'écriture|character varying(40)| |
@@ -801,7 +801,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idinf|Identifiant unique de l'information linéaire|character varying(10)| |
+|idinf|Identifiant unique de l'information linéaire|character varying(40)| |
 |libelle|Nom de l'information|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typeinf|Type d'information|character varying(2)| |
@@ -831,7 +831,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idinf|Identifiant unique de l'information ponctuelle|character varying(10)| |
+|idinf|Identifiant unique de l'information ponctuelle|character varying(40)| |
 |libelle|Nom de l'information|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typeinf|Type d'information|character varying(2)| |
@@ -862,7 +862,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idinf|Identifiant unique de l'information surfacique|character varying(10)| |
+|idinf|Identifiant unique de l'information surfacique|character varying(40)| |
 |libelle|Nom de l'information|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typeinf|Type d'information|character varying(2)| |
@@ -892,7 +892,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idpsc|Identifiant unique de prescription linéaire|character varying(10)| |
+|idpsc|Identifiant unique de prescription linéaire|character varying(40)| |
 |libelle|Nom de la prescription|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
@@ -925,7 +925,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idpsc|Identifiant unique de prescription ponctuelle|character varying(10)| |
+|idpsc|Identifiant unique de prescription ponctuelle|character varying(40)| |
 |libelle|Nom de la prescription|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
@@ -956,7 +956,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idpsc|Identifiant unique de prescription surfacique|character varying(10)| |
+|idpsc|Identifiant unique de prescription surfacique|character varying(40)| |
 |libelle|Nom de la prescription|character varying(254)| |
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
@@ -988,7 +988,7 @@ Particularité(s) à noter :
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
-|idzone|Identifiant unique de zone|character varying(10)| |
+|idzone|Identifiant unique de zone|character varying(40)| |
 |libelle|Nom court de la zone|character varying(12)| |
 |libelong|Nom complet de la zone|character varying(254)| |
 |typezone|Type de la zone|character varying(3)| |
@@ -1252,6 +1252,10 @@ Valeurs possibles :
 |37|00|Bois ou forêts relevant du régime forestier||R151-53 7°|
 |38|00|Secteurs d'information sur les sols||R151-53 10°|
 |39|00|Périmètres de projets AFUP (dans lesquels les propriétaires fonciers sont incités à se regrouper en AFU de projet et les AFU de projet à mener leurs opérations de façon concertée)|L322-13|R151-52 14°|
+|40|01|Périmètre d'un bien inscrit au patrimoine mondial|L612-1 et R612-1 à R612-2 code du patrimoine|R151-53|
+|40|02|Zone tampon d'un bien inscrit au patrimoine mondial|L612-1 et R612-1 à R612-2 code du patrimoine|R151-53|
+|97|00|Périmètre d'application d'une pièce écrite territorialisée relative aux annexes (liste des annexes, liste des SUP, plan des SUP)|||
+|98|00|Périmètre d'annulation partielle du document d'urbanisme (lorqu'elle impacte le règlement graphique)|||
 |99|00|Autre périmètre, secteur, plan, document, site, projet, espace|||
 |99|01|Autre relevant de la loi littoral|||
 |99|02|Autre relevant de la loi montagne|||
@@ -1315,6 +1319,7 @@ Valeurs possibles :
 |16|01|Bâtiment susceptible de changer de destination|L151-11 2°||
 |16|02|Bâtiments d'habitation existants pouvant faire l'objet d’extensions ou d’annexes|L151-12||
 |16|03|Secteur de taille et de capacité d'accueil limitées (STECAL)|L151-13||
+|16|04|Constructions et installations nécessaires à l'activité agricole en zone A ou N|L151-11 II|R151-23 1° et R151-25 1°|
 |17|00|Secteur à programme de logements mixité sociale en zone U et AU|L151-15|R151-38 3°|
 |18|00|Secteur comportant des orientations d'aménagement et de programmation (OAP)|L151-6 et L151-7||
 |18|01|OAP de projet (sans règlement)|L151-6 et L151-7|R151-8|
@@ -1414,6 +1419,8 @@ Valeurs possibles :
 |49|02|Urbanisation conditionnée à la réalisation des équipements internes à la zone||R151-20 2|
 |50|00|Interdiction types d'activités, destinations, sous-destinations|L151-9|R151-30|
 |51|00|Autorisation sous conditions types d'activités, destinations, sous-destinations|L151-9|R151-33|
+|97|00|Périmètre d'application d'une pièce écrite territorialisée (rapport de présentation, PADD, règlement, règlement graphique, POA)|||
+|97|01|Périmètre d'application d'une pièce écrite territorialisée (rapport de présentation, PADD, règlement, règlement graphique, POA)couvert par un plan de secteurs|L151-3||
 |99|00|Autre||R151-27 à R151-29|
 |99|01|Autre : affectation des sols et destination des constructions|L151-9 à L151-10|R151-30 à R151-36|
 |99|02|Autre : zones naturelles, agricoles ou forestières|L151-11 à L151-13|R151-17 à R151-26|
