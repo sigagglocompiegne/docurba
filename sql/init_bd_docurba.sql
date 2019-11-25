@@ -20,11 +20,11 @@
 -- 2019/11/15 : GB / Modification de la vue an_v_docurba_valide pour gérer l'affichage des règlements à la commune suite à des PLUi
 -- 2019/11/15 : GB / Modification de la vue geo_v_docurba pour gérer l'affichage à la commune suite à des PLUi
 -- 2019/11/15 : GB / Mise à jour des vues Grand Publique
--- 2019/11/25 : GB / Mise à jour des vues Grand Publique
+-- 2019/11/25 : GB / Mise à jour des vues Grand Publique et applicatives spécifiques ARC
 -- 2019/11/25 : GB / Intégration des évolutions du standard CNIG V2017c
---		. nouvelle prescription 16-04 et 97-00, 97-01
---		. taille des attributs identifiants de 10 à 40 (prise en compte de l'intégration des idurba dans la valeur)
---		. nouvelle information 97-00 et 98-00
+--		. intégration des nouvelles valeurs de prescriptions 16-04 et 97-00, 97-01
+--		. modification de la taille des attributs gérant les identifiants passant de 10 à 40 caractères (prise en compte de l'intégration des idurba dans la valeur)
+--		. intégrations des nouvelles valeurs d'informations 97-00 et 98-00
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
