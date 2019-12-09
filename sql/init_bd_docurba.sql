@@ -5832,13 +5832,14 @@ ORDER BY idu
                    FROM r_cadastre.geo_parcelle p,
                     m_urbanisme_reg.geo_zonage_archeologique za
                   WHERE "left"('60'::text || p.idu::text, 5) = za.insee::text  and p.lot='arc' ORDER BY '60'::text || p.idu
-), req_txamt AS (
+)
+/*, req_txamt AS (
  SELECT DISTINCT '60'::text || p.idu as idu,
                    CASE WHEN taux ='Non renseigné' THEN 'Taxe d''aménagement (taux non connue)' ELSE 'Taxe d''aménagement au taux de ' || replace(taux,'.00','') || '%' END AS txamt
                    FROM r_cadastre.geo_parcelle p,
                     x_apps.xapps_an_fisc_geo_taxe_amgt tx
                   WHERE '60'::text || p.idu::text = tx.idu and p.lot='arc' ORDER BY '60'::text || p.idu
-)
+)*/
 --select distinct libelle,l_nom from m_urbanisme_doc.geo_v_t_info_surf_pluiarc isurf
 SELECT DISTINCT
 req_princ.idu,
@@ -5873,8 +5874,8 @@ CASE WHEN req_psc_lin.psc_lin IS NULL THEN 'nc' ELSE req_psc_lin.psc_lin END AS 
 CASE WHEN req_psc_surf.psc_surf IS NULL THEN 'nc' ELSE req_psc_surf.psc_surf END AS psc_surf,
 CASE WHEN req_zac.zac IS NULL THEN 'nc' ELSE  req_zac.zac END AS zac,
 CASE WHEN req_infosurf.isurf IS NULL THEN 'nc' ELSE  req_infosurf.isurf END AS isurf,
-CASE WHEN req_archeo.archeo IS NULL THEN 'nc' ELSE  req_archeo.archeo END AS archeo,
-CASE WHEN req_txamt.txamt IS NULL THEN 'nc' ELSE  req_txamt.txamt END AS txamt
+CASE WHEN req_archeo.archeo IS NULL THEN 'nc' ELSE  req_archeo.archeo END AS archeo/*,
+CASE WHEN req_txamt.txamt IS NULL THEN 'nc' ELSE  req_txamt.txamt END AS txamt*/
 
 FROM req_princ 
 LEFT JOIN req_oap ON req_princ.idu =  req_oap.idu
@@ -5901,7 +5902,7 @@ LEFT JOIN req_psc_surf ON req_princ.idu =  req_psc_surf.idu
 LEFT JOIN req_zac ON req_princ.idu =  req_zac.idu
 LEFT JOIN req_infosurf ON req_princ.idu =  req_infosurf.idu
 LEFT JOIN req_archeo ON req_princ.idu =  req_archeo.idu
-LEFT JOIN req_txamt ON req_princ.idu =  req_txamt.idu
+--LEFT JOIN req_txamt ON req_princ.idu =  req_txamt.idu
 
 GROUP BY 
 req_princ.idu, req_princ.nru_commune, req_princ.nru_section,req_princ.nru_numpar,
@@ -5909,8 +5910,8 @@ req_princ.nur_supf,req_princ.nur_regzone,req_princ.nru_urldgen,req_princ.nru_url
 req_princ.nru_urllex,req_oap.oap,req_dpu.dpu,req_ac1.ac1,req_ac4.ac4,req_pm1.pm1,req_a4.a4,
 req_ac2.ac2,req_el3.el3,req_as1.as1,req_el7.el7,req_i3.i3,req_i4.i4,req_pt1.pt1,req_pt2.pt2,
 req_pt2lh.pt2lh,req_t1.t1,req_t4t5.t5,req_supcom.sup_com,req_psc_pct.psc_pct,
-req_psc_lin.psc_lin,req_psc_surf.psc_surf,req_zac.zac,req_infosurf.isurf,req_archeo.archeo,
-req_txamt.txamt
+req_psc_lin.psc_lin,req_psc_surf.psc_surf,req_zac.zac,req_infosurf.isurf,req_archeo.archeo/*,
+req_txamt.txamt*/
 
 WITH DATA;
 
