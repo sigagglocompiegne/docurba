@@ -26,7 +26,7 @@
 --		. modification de la taille des attributs gérant les identifiants passant de 10 à 40 caractères (prise en compte de l'intégration des idurba dans la valeur)
 --		. intégrations des nouvelles valeurs d'informations 40-00 et 40-01, 97-00 et 98-00
 -- 2019/12/06 : GB / Mise à jour des requêtes Grand Publique et requête de visualisation des documents valides par commune
-
+-- 2019/12/19 : GB / Mise à jour desrequêtes applicatives interne ARC suite migration des données du PLUiH devenu exécutoire le 19/12/2019
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -1082,37 +1082,6 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_surf.datvalid IS 'Date de v
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_surf.geom IS 'Géométrie de l''objet';
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_surf.geom1 IS 'Géométrie de l'objet avec un buffer de -0.5 pour calcul de la vue an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l'insertion, mise à jour du champ geom';
 
--- Function: m_urbanisme_doc.m_geom1_prescription_surf()
-
--- DROP FUNCTION m_urbanisme_doc.m_geom1_prescription_surf();
-
-CREATE OR REPLACE FUNCTION m_urbanisme_doc.m_geom1_prescription_surf()
-  RETURNS trigger AS
-$BODY$BEGIN
-
- UPDATE m_urbanisme_doc.geo_p_prescription_surf SET geom1 = st_multi(st_buffer(geom,-0.5));
-
-
-RETURN NEW;
-END;$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION m_urbanisme_doc.m_geom1_prescription_surf()
-  OWNER TO sig_create;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_surf() TO public;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_surf() TO sig_create;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_surf() TO create_sig;
-
-
--- Trigger: t_t1_update_geom on m_urbanisme_doc.geo_p_prescription_surf
-
--- DROP TRIGGER t_t1_update_geom ON m_urbanisme_doc.geo_p_prescription_surf;
-
-CREATE TRIGGER t_t1_update_geom
-  AFTER INSERT OR UPDATE OF geom
-  ON m_urbanisme_doc.geo_p_prescription_surf
-  FOR EACH ROW
-  EXECUTE PROCEDURE m_urbanisme_doc.m_geom1_prescription_surf();
 
 -- ########################################################################### geo_p_prescription_lin #######################################################
 
@@ -1179,33 +1148,7 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_lin.geom IS 'Géométrie de
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_prescription_lin.geom1 IS 'Géométrie de l'objet avec un buffer de -0.01 pour calcul de la vue xapps_an_vmr_prescription pour GEO.
 Champ mis à jour en automatique par un trigger à l'insertion, mise à jour du champ geom';
 
--- Function: m_urbanisme_doc.m_geom1_prescription_surf()
 
--- DROP FUNCTION m_urbanisme_doc.m_geom1_prescription_surf();
-
-CREATE OR REPLACE FUNCTION m_urbanisme_doc.m_geom1_prescription_lin()
-  RETURNS trigger AS
-$BODY$BEGIN
-
- UPDATE m_urbanisme_doc.geo_p_prescription_lin SET geom1 = st_multi(st_buffer(geom,0.01,'endcap=flat join=round'));
-
-RETURN NEW;
-END;$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION m_urbanisme_doc.m_geom1_prescription_lin()
-  OWNER TO sig_create;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO public;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO sig_create;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_lin() TO create_sig;
-
-
-CREATE TRIGGER t_t1_update_geom
-  AFTER INSERT OR UPDATE OF geom
-  ON m_urbanisme_doc.geo_p_prescription_lin
-  FOR EACH ROW
-  EXECUTE PROCEDURE m_urbanisme_doc.m_geom1_prescription_lin();
-  
 
 -- ########################################################################### geo_p_prescription_pct #######################################################
 
@@ -1297,6 +1240,8 @@ CREATE TABLE m_urbanisme_doc.geo_p_info_surf
   l_typrecul character varying(80), -- Type de recul
   l_observ character varying(254), -- Observations
   geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
+  geom1 geometry(MultiPolygon,2154), -- Géométrie de l'objet avec un buffer de -0.5 pour calcul de la vue an_vmr_p_information pour GEO. Champ mis à jour en automatique par un trigger à l'insertion, mise à jour du champ geom
+  
   CONSTRAINT geo_p_info_surf_pkey PRIMARY KEY (idinf)
 )
 WITH (
@@ -1329,6 +1274,8 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_p_info_surf.l_insee IS 'Code INSEE';
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_info_surf.datvalid IS 'Date de validation (aaaammjj)';
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_info_surf.geom IS 'Géométrie de l''objet';
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_info_surf.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_info_surf.geom1 IS 'Géométrie de l''objet avec un buffer de -0.5 pour calcul de la vue an_vmr_p_information pour GEO. Champ mis à jour en automatique par un trigger à l''insertion, mise à jour du champ geom';
+
 
 -- ################################################################################ geo_p_info_lin ##########################################################
 
@@ -1357,7 +1304,8 @@ CREATE TABLE m_urbanisme_doc.geo_p_info_lin
   l_typrecul character varying(80), -- Type de recul
   l_observ character varying(254), -- Observations
   geom geometry(MultiLineString,2154), -- Géométrie de l'objet
-  CONSTRAINT geo_p_info_lin_pkey PRIMARY KEY (idinf)
+  geom1 geometry(MultiPolygon,2154), -- Géométrie de l'objet avec un buffer de -0.5 pour calcul de la vue an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l'insertion, mise à jour du champ geom
+    CONSTRAINT geo_p_info_lin_pkey PRIMARY KEY (idinf)
 )
 WITH (
   OIDS=FALSE
@@ -1389,6 +1337,7 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_p_info_lin.l_insee IS 'Code INSEE';
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_info_lin.datvalid IS 'Date de validation (aaaammjj)';
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_info_lin.geom IS 'Géométrie de l''objet';
 COMMENT ON COLUMN m_urbanisme_doc.geo_p_info_lin.idurba IS 'Identifiant du document d''urbanisme';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_info_lin.geom1 IS 'Géométrie de l''objet avec un buffer de -0.5 pour calcul de la vue an_vmr_prescription pour GEO.Champ mis à jour en automatique par un trigger à l''insertion, mise à jour du champ geom';
 
 
 -- ################################################################################ geo_p_info_pct ##########################################################
@@ -1701,6 +1650,7 @@ CREATE TABLE m_urbanisme_doc.geo_a_prescription_surf
   l_typrecul character varying(80), -- Type de recul
   l_observ character varying(254), -- Observations
   geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
+   geom1 geometry(MultiPolygon,2154), -- Géométrie de l'objet -0.5m pour croisement avec parcelle
 )
 WITH (
   OIDS=FALSE
@@ -1733,7 +1683,7 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_a_prescription_surf.l_insee IS 'Code INSEE
 COMMENT ON COLUMN m_urbanisme_doc.geo_a_prescription_surf.idurba IS 'Identifiant du document d''urbanisme';
 COMMENT ON COLUMN m_urbanisme_doc.geo_a_prescription_surf.datvalid IS 'Date de validation (aaaammjj)';
 COMMENT ON COLUMN m_urbanisme_doc.geo_a_prescription_surf.geom IS 'Géométrie de l''objet';
-
+COMMENT ON COLUMN m_urbanisme_doc.geo_a_prescription_surf.geom1 IS 'Géométrie de l''objet -0.5m pour croisement avec parcelle';
 
 
 -- ########################################################################### geo_a_prescription_lin #######################################################
@@ -1887,6 +1837,7 @@ CREATE TABLE m_urbanisme_doc.geo_a_info_surf
   l_typrecul character varying(80), -- Type de recul
   l_observ character varying(254), -- Observations
   geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
+  geom1 geometry(MultiPolygon,2154), -- Géométrie de l'objet -0.5m pour croisement avec parcelle
 )
 WITH (
   OIDS=FALSE
@@ -1922,7 +1873,7 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_a_info_surf.l_insee IS 'Code INSEE';
 COMMENT ON COLUMN m_urbanisme_doc.geo_a_info_surf.datvalid IS 'Date de validation (aaaammjj)';
 COMMENT ON COLUMN m_urbanisme_doc.geo_a_info_surf.geom IS 'Géométrie de l''objet';
 COMMENT ON COLUMN m_urbanisme_doc.geo_a_info_surf.idurba IS 'Identifiant du document d''urbanisme';
-
+COMMENT ON COLUMN m_urbanisme_doc.geo_a_info_surf.geom1 IS 'Géométrie de l''objet -0.5m pour croisement avec parcelle';
 
 -- ################################################################################ geo_a_info_lin ##########################################################
 
@@ -3414,72 +3365,6 @@ CREATE TRIGGER t_t1_r_null_an_doc_urba
   EXECUTE PROCEDURE m_urbanisme_doc.an_doc_urba_null();
 
 
--- Function: m_urbanisme_doc.m_geom1_prescription_surf()
-
--- DROP FUNCTION m_urbanisme_doc.m_geom1_prescription_surf();
-
-CREATE OR REPLACE FUNCTION m_urbanisme_doc.m_geom1_prescription_surf()
-  RETURNS trigger AS
-$BODY$BEGIN
-
- UPDATE m_urbanisme_doc.geo_p_prescription_surf SET geom1 = st_multi(st_buffer(geom,-0.5));
-
-
-RETURN NEW;
-END;$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION m_urbanisme_doc.m_geom1_prescription_surf()
-  OWNER TO sig_create;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_surf() TO public;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_surf() TO sig_create;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_prescription_surf() TO create_sig;
-
-
--- Trigger: update_geom on m_urbanisme_doc.geo_p_prescription_surf
-
--- DROP TRIGGER update_geom ON m_urbanisme_doc.geo_p_prescription_surf;
-
-CREATE TRIGGER update_geom
-  AFTER INSERT OR UPDATE OF geom
-  ON m_urbanisme_doc.geo_p_prescription_surf
-  FOR EACH ROW
-  EXECUTE PROCEDURE m_urbanisme_doc.m_geom1_prescription_surf();
-
-
--- Function: m_urbanisme_doc.m_geom1_information_surf()
-
--- DROP FUNCTION m_urbanisme_doc.m_geom1_information_surf();
-
-CREATE OR REPLACE FUNCTION m_urbanisme_doc.m_geom1_information_surf()
-  RETURNS trigger AS
-$BODY$BEGIN
-
- UPDATE m_urbanisme_doc.geo_p_info_surf SET geom1 = st_multi(st_buffer(geom,-0.5)); 
- UPDATE m_urbanisme_doc.geo_p_info_surf SET geom1 = st_multi(st_buffer(geom,-1.5)) where typeinf || stypeinf='0400';
-
-RETURN NEW;
-END;$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION m_urbanisme_doc.m_geom1_information_surf()
-  OWNER TO sig_create;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_information_surf() TO public;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_information_surf() TO sig_create;
-GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_geom1_information_surf() TO create_sig;
-
-
--- Trigger: update_geom on m_urbanisme_doc.geo_p_info_surf
-
--- DROP TRIGGER update_geom ON m_urbanisme_doc.geo_p_info_surf;
-
-CREATE TRIGGER update_geom
-  AFTER INSERT OR UPDATE OF geom
-  ON m_urbanisme_doc.geo_p_info_surf
-  FOR EACH ROW
-  EXECUTE PROCEDURE m_urbanisme_doc.m_geom1_information_surf();
-
-
 -- ####################################################### FONCTION TRIGGER - m_l_surf_cal_ha ##################################################
 
 -- Function: m_urbanisme_doc.m_l_surf_cal_ha()
@@ -3501,16 +3386,6 @@ GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_l_surf_cal_ha() TO sig_create;
 GRANT EXECUTE ON FUNCTION m_urbanisme_doc.m_l_surf_cal_ha() TO create_sig;
 								       
 COMMENT ON FUNCTION m_urbanisme_doc.m_l_surf_cal_ha() IS 'Fonction dont l''objet est de mettre à jour la superficie calculée en ha du champ l_surf_cal des zones urba';
-
--- Trigger: l_surface on m_urbanisme_doc.geo_p_zone_urba
-
--- DROP TRIGGER l_surface ON m_urbanisme_doc.geo_p_zone_urba
-
-CREATE TRIGGER l_surf_cal
-  BEFORE INSERT OR UPDATE OF geom
-  ON m_urbanisme_doc.geo_p_zone_urba
-  FOR EACH ROW
-  EXECUTE PROCEDURE m_urbanisme_doc.m_l_surf_cal_ha();
 
 
 -- Trigger: l_surface on m_urbanisme_doc.geo_t_zone_urba
@@ -4217,17 +4092,17 @@ COMMENT ON VIEW m_urbanisme_doc.geo_v_urbreg_ads_commune
 -- ###                                                                                                                                              ###
 -- ####################################################################################################################################################
 
--- Materialized View: x_apps.xapps_an_vmr_p_information
+-- Materialized View: x_apps.xapps_an_vmr_p_information_plu
 
--- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information;
+-- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu;
 
-CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu AS 
  WITH r_p AS (
          WITH r_pct AS (
-                 SELECT "PARCELLE"."IDU" AS idu,
+                 SELECT DISTINCT "PARCELLE"."IDU" AS idu,
                     ((((geo_p_info_pct.libelle::text ||
                         CASE
-                            WHEN length(geo_p_info_pct.l_nom::text) <> 0 THEN ' Nom : '::text || geo_p_info_pct.l_nom::text
+                            WHEN length(geo_p_info_pct.l_nom::text) <> 0 THEN ' : '::text || geo_p_info_pct.l_nom::text
                             ELSE ''::text
                         END) ||
                         CASE
@@ -4250,38 +4125,11 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_info_pct
                   WHERE st_intersects("PARCELLE"."GEOM", geo_p_info_pct.geom)
-                ), r_lin AS (
-                 SELECT "PARCELLE"."IDU" AS idu,
-                    ((((geo_p_info_lin.libelle::text ||
-                        CASE
-                            WHEN length(geo_p_info_lin.l_nom::text) <> 0 THEN ' Nom : '::text || geo_p_info_lin.l_nom::text
-                            ELSE ''::text
-                        END) ||
-                        CASE
-                            WHEN length(geo_p_info_lin.l_dateins) <> 0 THEN (chr(10) || ' Instauré(e) le : '::text) || to_char(to_date(geo_p_info_lin.l_dateins::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD/MM/YYYY'::text)::character varying::text
-                            ELSE ''::text
-                        END) ||
-                        CASE
-                            WHEN length(geo_p_info_lin.l_gen::text) <> 0 THEN (chr(10) || ' Générateur du recul : '::text) || geo_p_info_lin.l_gen::text
-                            ELSE ''::text
-                        END) ||
-                        CASE
-                            WHEN length(geo_p_info_lin.l_valrecul::text) <> 0 THEN (chr(10) || ' Valeur du recul : '::text) || geo_p_info_lin.l_valrecul::text
-                            ELSE ''::text
-                        END) ||
-                        CASE
-                            WHEN length(geo_p_info_lin.l_typrecul::text) <> 0 THEN (chr(10) || ' Type du recul : '::text) || geo_p_info_lin.l_typrecul::text
-                            ELSE ''::text
-                        END AS libelle,
-                    geo_p_info_lin.urlfic
-                   FROM r_bg_edigeo."PARCELLE",
-                    m_urbanisme_doc.geo_p_info_lin
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_info_lin.geom) AND upper(geo_p_info_lin.libelle::text) !~~ upper('%talweg%'::text) AND upper(geo_p_info_lin.libelle::text) !~~ upper('%crête%'::text) AND upper(geo_p_info_lin.libelle::text) !~~ upper('%ligne d''eau%'::text)
                 ), r_surf AS (
-                 SELECT "PARCELLE"."IDU" AS idu,
+                 SELECT DISTINCT "PARCELLE"."IDU" AS idu,
                     ((((geo_p_info_surf.libelle::text ||
                         CASE
-                            WHEN length(geo_p_info_surf.l_nom::text) <> 0 THEN ' Nom : '::text || geo_p_info_surf.l_nom::text
+                            WHEN length(geo_p_info_surf.l_nom::text) <> 0 THEN ' : '::text || geo_p_info_surf.l_nom::text
                             ELSE ''::text
                         END) ||
                         CASE
@@ -4304,7 +4152,40 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_info_surf
                   WHERE geo_p_info_surf.typeinf::text <> '04'::text AND geo_p_info_surf.typeinf::text <> '05'::text AND st_intersects("PARCELLE"."GEOM", geo_p_info_surf.geom1)
-                ), r_natura2000_zps AS (
+                )
+         SELECT r_pct.idu,
+            r_pct.libelle,
+            r_pct.urlfic
+           FROM r_pct
+        UNION ALL
+         SELECT r_surf.idu,
+            r_surf.libelle,
+            r_surf.urlfic
+           FROM r_surf
+        )
+ SELECT row_number() OVER () AS gid,
+    r_p.idu,
+    r_p.libelle,
+    r_p.urlfic
+   FROM r_p
+WITH DATA;
+
+ALTER TABLE x_apps.xapps_an_vmr_p_information_plu
+  OWNER TO sig_create;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_plu TO sig_create;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_plu TO create_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps.xapps_an_vmr_p_information_plu TO edit_sig;
+GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_plu TO read_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu
+  IS 'Vue matérialisée formatant les données les données informations jugées utiles provenant des données intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos hors PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
+
+-- Materialized View: x_apps.xapps_an_vmr_p_information_horsplu
+
+-- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
+
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu AS 
+ WITH r_p AS (
+         WITH r_natura2000_zps AS (
                  SELECT p."IDU" AS idu,
                         CASE
                             WHEN zps.nom IS NOT NULL THEN (('Site Natura2000 : '::text || zps.nom::text) || chr(10)) || 'Remarque : les données présentées sont issues de l''arrêté de janvier 2006 (les demandes de modifications sont en cours)'::text
@@ -4408,25 +4289,18 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                   WHERE p."IDU"::text = a.idu::text
                 ), r_inv_patri AS (
                  SELECT "PARCELLE"."IDU" AS idu,
-                    ('Inventaire des éléments du patrimoine bâti vernaculaire'::text || ' - '::text) || "OLD_geo_inv_patrimoine_pct".l_descript::text AS libelle,
-                    "OLD_geo_inv_patrimoine_pct".urlfic
+                    ('Inventaire des éléments du patrimoine bâti vernaculaire'::text || ' - '::text) || geo_patri_verna.descriptif::text AS libelle,
+                    geo_patri_verna.urlfic
                    FROM r_bg_edigeo."PARCELLE",
-                    m_urbanisme_reg."OLD_geo_inv_patrimoine_pct"
-                  WHERE st_intersects("PARCELLE"."GEOM", "OLD_geo_inv_patrimoine_pct".geom2)
+                    m_urbanisme_reg.geo_patri_verna
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_patri_verna.geom1)
                 ), r_zass AS (
                  SELECT p."IDU" AS idu,
                     'Zonage d''assainissement : '::text || z.zone::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_humide.an_eu_zonage_geo z
-                  WHERE p."IDU"::text = z.idu::text
-                ), r_rlp AS (
-                 SELECT p."IDU" AS idu,
-                    (('Règlement local de publicité : '::text || z.lib_zone::text) || ', approuvé le '::text) || to_char(to_date(z.datappro::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text) AS libelle,
-                    z.url_reg::text AS urlfic
-                   FROM r_bg_edigeo."PARCELLE" p,
-                    m_urbanisme_reg.geo_rlp_zonage z
-                  WHERE st_intersects(p."GEOM", z.geom1)
+                  WHERE p."IDU"::text = z.idu::text AND "left"(p."IDU"::text, 5) <> '60023'::text AND "left"(p."IDU"::text, 5) <> '60067'::text AND "left"(p."IDU"::text, 5) <> '60068'::text AND "left"(p."IDU"::text, 5) <> '60070'::text AND "left"(p."IDU"::text, 5) <> '60151'::text AND "left"(p."IDU"::text, 5) <> '60156'::text AND "left"(p."IDU"::text, 5) <> '60159'::text AND "left"(p."IDU"::text, 5) <> '60323'::text AND "left"(p."IDU"::text, 5) <> '60325'::text AND "left"(p."IDU"::text, 5) <> '60326'::text AND "left"(p."IDU"::text, 5) <> '60337'::text AND "left"(p."IDU"::text, 5) <> '60338'::text AND "left"(p."IDU"::text, 5) <> '60382'::text AND "left"(p."IDU"::text, 5) <> '60402'::text AND "left"(p."IDU"::text, 5) <> '60447'::text AND "left"(p."IDU"::text, 5) <> '60578'::text AND "left"(p."IDU"::text, 5) <> '60579'::text AND "left"(p."IDU"::text, 5) <> '60597'::text AND "left"(p."IDU"::text, 5) <> '60600'::text AND "left"(p."IDU"::text, 5) <> '60665'::text AND "left"(p."IDU"::text, 5) <> '60667'::text AND "left"(p."IDU"::text, 5) <> '60674'::text
                 ), r_proc AS (
                  SELECT DISTINCT p."IDU" AS idu,
                         CASE
@@ -4439,14 +4313,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                    FROM r_bg_edigeo."PARCELLE" p,
                     x_apps.xapps_geo_vmr_proc z,
                     m_urbanisme_reg.lt_proced zl
-                  WHERE z.z_proced::text = zl.z_proced::text AND st_intersects(p."GEOM", z.geom1)
-                ), r_dup AS (
-                 SELECT DISTINCT p."IDU" AS idu,
-                    'Périmètre de la DUP du Canal Seine Nord-Europe'::text AS libelle,
-                    d.l_urlfic AS urlfic
-                   FROM r_bg_edigeo."PARCELLE" p,
-                    m_amenagement.geo_csne_dup d
-                  WHERE st_intersects(p."GEOM", d.geom)
+                  WHERE z.z_proced::text = zl.z_proced::text AND z.z_proced::text <> '10'::text AND st_intersects(p."GEOM", z.geom1)
                 ), r_zarcheo AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     ('La commune dispose d'' un zonage archéologique'::text || chr(10)) || '(cliquez sur + d''infos pour accéder à l''arrêté et à la cartographie communale pour vérifier le positionnement de la parcelle)'::text AS libelle,
@@ -4455,55 +4322,6 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
                     m_urbanisme_reg.geo_zonage_archeologique za
                   WHERE "left"(p."IDU"::text, 5) = za.insee::text
                 )
-         SELECT p."IDU" AS idu,
-                CASE
-                    WHEN r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL AND r_natura2000_zps.libelle IS NULL AND r_natura2000_sic.libelle IS NULL AND r_smoa.libelle IS NULL AND r_sageba_zh.libelle IS NULL AND r_zico.libelle IS NULL AND r_znieff1.libelle IS NULL AND r_znieff2.libelle IS NULL AND r_zdh.libelle IS NULL AND r_apb.libelle IS NULL AND r_bgf.libelle IS NULL AND r_ens.libelle IS NULL AND r_argile_moyenfort.libelle IS NULL AND r_argile_faible.libelle IS NULL AND r_inv_patri.libelle IS NULL AND r_zass.libelle IS NULL AND r_rlp.libelle IS NULL AND r_proc.libelle IS NULL AND r_zarcheo.libelle IS NULL THEN 'Aucune'::text
-                    ELSE ''::text
-                END AS libelle,
-                CASE
-                    WHEN r_pct.urlfic IS NULL AND r_lin.urlfic IS NULL AND r_surf.urlfic IS NULL AND r_natura2000_zps.urlfic IS NULL AND r_natura2000_sic.urlfic IS NULL AND r_smoa.urlfic IS NULL AND r_sageba_zh.urlfic IS NULL AND r_zico.urlfic IS NULL AND r_znieff1.urlfic IS NULL AND r_znieff2.urlfic IS NULL AND r_zdh.urlfic IS NULL AND r_apb.urlfic IS NULL AND r_bgf.urlfic IS NULL AND r_ens.urlfic IS NULL AND r_argile_moyenfort.urlfic IS NULL AND r_argile_faible.urlfic IS NULL AND r_inv_patri.urlfic IS NULL AND r_zass.urlfic IS NULL AND r_rlp.urlfic IS NULL AND r_proc.urlfic IS NULL AND r_zarcheo.urlfic IS NULL THEN NULL::text
-                    ELSE NULL::text
-                END AS urlfic
-           FROM r_bg_edigeo."PARCELLE" p
-             LEFT JOIN r_pct ON p."IDU"::text = r_pct.idu::text
-             LEFT JOIN r_lin ON p."IDU"::text = r_lin.idu::text
-             LEFT JOIN r_surf ON p."IDU"::text = r_surf.idu::text
-             LEFT JOIN r_natura2000_zps ON p."IDU"::text = r_natura2000_zps.idu::text
-             LEFT JOIN r_natura2000_sic ON p."IDU"::text = r_natura2000_sic.idu::text
-             LEFT JOIN r_smoa ON p."IDU"::text = r_smoa.idu::text
-             LEFT JOIN r_sageba_zh ON p."IDU"::text = r_sageba_zh.idu::text
-             LEFT JOIN r_zico ON p."IDU"::text = r_zico.idu::text
-             LEFT JOIN r_znieff1 ON p."IDU"::text = r_znieff1.idu::text
-             LEFT JOIN r_znieff2 ON p."IDU"::text = r_znieff2.idu::text
-             LEFT JOIN r_zdh ON p."IDU"::text = r_zdh.idu::text
-             LEFT JOIN r_apb ON p."IDU"::text = r_apb.idu::text
-             LEFT JOIN r_bgf ON p."IDU"::text = r_bgf.idu::text
-             LEFT JOIN r_ens ON p."IDU"::text = r_ens.idu::text
-             LEFT JOIN r_argile_moyenfort ON p."IDU"::text = r_argile_moyenfort.idu::text
-             LEFT JOIN r_argile_faible ON p."IDU"::text = r_argile_faible.idu::text
-             LEFT JOIN r_inv_patri ON p."IDU"::text = r_inv_patri.idu::text
-             LEFT JOIN r_zass ON p."IDU"::text = r_zass.idu::text
-             LEFT JOIN r_rlp ON p."IDU"::text = r_rlp.idu::text
-             LEFT JOIN r_proc ON p."IDU"::text = r_proc.idu::text
-             LEFT JOIN r_dup ON p."IDU"::text = r_dup.idu::text
-             LEFT JOIN r_zarcheo ON p."IDU"::text = r_zarcheo.idu::text
-          WHERE r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL AND r_natura2000_zps.libelle IS NULL AND r_natura2000_sic.libelle IS NULL AND r_smoa.libelle IS NULL AND r_sageba_zh.libelle IS NULL AND r_zico.libelle IS NULL AND r_znieff1.libelle IS NULL AND r_znieff2.libelle IS NULL AND r_zdh.libelle IS NULL AND r_apb.libelle IS NULL AND r_bgf.libelle IS NULL AND r_ens.libelle IS NULL AND r_argile_moyenfort.libelle IS NULL AND r_argile_faible.libelle IS NULL AND r_inv_patri.libelle IS NULL AND r_zass.libelle IS NULL AND r_rlp.libelle IS NULL AND r_proc.libelle IS NULL AND r_dup.libelle IS NULL AND r_zarcheo.* IS NULL
-        UNION ALL
-         SELECT r_pct.idu,
-            r_pct.libelle,
-            r_pct.urlfic
-           FROM r_pct
-        UNION ALL
-         SELECT r_lin.idu,
-            r_lin.libelle,
-            r_lin.urlfic
-           FROM r_lin
-        UNION ALL
-         SELECT r_surf.idu,
-            r_surf.libelle,
-            r_surf.urlfic
-           FROM r_surf
-        UNION ALL
          SELECT r_natura2000_zps.idu,
             r_natura2000_zps.libelle,
             r_natura2000_zps.urlfic
@@ -4579,20 +4397,10 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
             r_zass.urlfic
            FROM r_zass
         UNION ALL
-         SELECT r_rlp.idu,
-            r_rlp.libelle,
-            r_rlp.urlfic
-           FROM r_rlp
-        UNION ALL
          SELECT r_proc.idu,
             r_proc.libelle,
             r_proc.urlfic
            FROM r_proc
-        UNION ALL
-         SELECT r_dup.idu,
-            r_dup.libelle,
-            r_dup.urlfic
-           FROM r_dup
         UNION ALL
          SELECT r_zarcheo.idu,
             r_zarcheo.libelle,
@@ -4606,6 +4414,42 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS
    FROM r_p
 WITH DATA;
 
+ALTER TABLE x_apps.xapps_an_vmr_p_information_horsplu
+  OWNER TO sig_create;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_create;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO create_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO edit_sig;
+GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO read_sig;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
+  IS E'Vue matérialisée formatant les données les données informations jugées utiles hors données intégrées dans les données de PLU (cette vue est fusionnée avec xapps_an_vmr_p_information_plu pour être lisible dans la fiche de renseignement d''urbanisme de GEO).
+ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\Ressources\\4-Partage\\3-Procedures\\FME\\prod\\URB\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
+
+
+-- Materialized View: x_apps.xapps_an_vmr_p_information
+
+-- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information;
+
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS 
+ WITH r_t AS (
+         SELECT xapps_an_vmr_p_information_plu.idu,
+            xapps_an_vmr_p_information_plu.libelle,
+            xapps_an_vmr_p_information_plu.urlfic
+           FROM x_apps.xapps_an_vmr_p_information_plu
+          WHERE xapps_an_vmr_p_information_plu.libelle <> ''::text AND xapps_an_vmr_p_information_plu.libelle !~~ '%taxe%'::text AND xapps_an_vmr_p_information_plu.libelle !~~ '%Zone humide%'::text
+        UNION ALL
+         SELECT xapps_an_vmr_p_information_horsplu.idu,
+            xapps_an_vmr_p_information_horsplu.libelle,
+            xapps_an_vmr_p_information_horsplu.urlfic
+           FROM x_apps.xapps_an_vmr_p_information_horsplu
+          WHERE xapps_an_vmr_p_information_horsplu.libelle <> ''::text
+        )
+ SELECT row_number() OVER () AS gid,
+    r_t.idu,
+    r_t.libelle,
+    r_t.urlfic
+   FROM r_t
+WITH DATA;
+
 ALTER TABLE x_apps.xapps_an_vmr_p_information
   OWNER TO sig_create;
 GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO sig_create;
@@ -4613,8 +4457,7 @@ GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO create_sig;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps.xapps_an_vmr_p_information TO edit_sig;
 GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information TO read_sig;
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information
-  IS E'Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (fiche d''information de GEO).
-ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\Ressources\\4-Partage\\3-Procedures\\FME\\prod\\URB\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
+  IS 'Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (assemblage des vues infos PLU et hors PLU)';
 
 
 -- Materialized View: x_apps.xapps_an_vmr_p_information_dpu
@@ -4681,6 +4524,7 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu
   IS E'Vue matérialisée formatant les données les données des DPU pour la fiche de renseignements d''''urbanisme (fiche d''''information de GEO).
 ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\\\\\\\Ressources\\\\\\\\4-Partage\\\\\\\\3-Procedures\\\\\\\\FME\\\\prod\\\\\\\\URB\\\\\\\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) 
 afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
+
 
 
 -- Materialized View: x_apps.xapps_an_vmr_p_prescription
@@ -4793,37 +4637,119 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription AS
                     geo_p_prescription_surf.urlfic
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_prescription_surf
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.l_insee::text = "left"("PARCELLE"."IDU"::text, 5)
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.l_insee::text = "left"("PARCELLE"."IDU"::text, 5) AND geo_p_prescription_surf.idurba::text <> '200067965_PLUI_20191114'::text
+                ), r_surf_horsoapplui AS (
+                 SELECT DISTINCT "PARCELLE"."IDU" AS idu,
+                    ((((((geo_p_prescription_surf.libelle::text ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_numero::text) <> 0 THEN ' n°'::text || geo_p_prescription_surf.l_numero::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_nom::text) <> 0 THEN (chr(10) || 'Nom : '::text) || geo_p_prescription_surf.l_nom::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_nature::text) <> 0 THEN (chr(10) || 'Nature : '::text) || geo_p_prescription_surf.l_nature::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_surf_txt::text) <> 0 THEN (chr(10) || 'Surface : '::text) || geo_p_prescription_surf.l_surf_txt::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_gen::text) <> 0 THEN (chr(10) || 'Générateur du recul : '::text) || geo_p_prescription_surf.l_gen::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_valrecul::text) <> 0 THEN (chr(10) || 'Valeur du recul : '::text) || geo_p_prescription_surf.l_valrecul::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_typrecul::text) <> 0 THEN (chr(10) || 'Type du recul : '::text) || geo_p_prescription_surf.l_typrecul::text
+                            ELSE ''::text
+                        END AS libelle,
+                    geo_p_prescription_surf.urlfic
+                   FROM r_bg_edigeo."PARCELLE",
+                    m_urbanisme_doc.geo_p_prescription_surf
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.l_insee::text = "left"("PARCELLE"."IDU"::text, 5) AND geo_p_prescription_surf.idurba::text = '200067965_PLUI_20191114'::text AND geo_p_prescription_surf.typepsc::text <> '18'::text
+                ), r_surf_oapplui AS (
+                 SELECT DISTINCT "PARCELLE"."IDU" AS idu,
+                    ((((((geo_p_prescription_surf.libelle::text ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_numero::text) <> 0 THEN ' n°'::text || geo_p_prescription_surf.l_numero::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_nom::text) <> 0 THEN (chr(10) || 'Nom : '::text) || geo_p_prescription_surf.l_nom::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_nature::text) <> 0 THEN (chr(10) || 'Nature : '::text) || geo_p_prescription_surf.l_nature::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_surf_txt::text) <> 0 THEN (chr(10) || 'Surface : '::text) || geo_p_prescription_surf.l_surf_txt::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_gen::text) <> 0 THEN (chr(10) || 'Générateur du recul : '::text) || geo_p_prescription_surf.l_gen::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_valrecul::text) <> 0 THEN (chr(10) || 'Valeur du recul : '::text) || geo_p_prescription_surf.l_valrecul::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN length(geo_p_prescription_surf.l_typrecul::text) <> 0 THEN (chr(10) || 'Type du recul : '::text) || geo_p_prescription_surf.l_typrecul::text
+                            ELSE ''::text
+                        END AS libelle,
+                    geo_p_prescription_surf.urlfic
+                   FROM r_bg_edigeo."PARCELLE",
+                    m_urbanisme_doc.geo_p_prescription_surf
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.idurba::text = '200067965_PLUI_20191114'::text AND geo_p_prescription_surf.typepsc::text = '18'::text
                 )
-         SELECT p."IDU" AS idu,
+         SELECT DISTINCT p."IDU" AS idu,
                 CASE
-                    WHEN r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL THEN 'Aucune'::text
+                    WHEN r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL AND r_surf_horsoapplui.libelle IS NULL AND r_surf_oapplui.libelle IS NULL THEN 'Aucune'::text
                     ELSE NULL::text
                 END AS libelle,
                 CASE
-                    WHEN r_pct.urlfic IS NULL AND r_lin.urlfic IS NULL AND r_surf.urlfic IS NULL THEN NULL::text
+                    WHEN r_pct.urlfic IS NULL AND r_lin.urlfic IS NULL AND r_surf.urlfic IS NULL AND r_surf_horsoapplui.urlfic IS NULL AND r_surf_oapplui.urlfic IS NULL THEN NULL::text
                     ELSE NULL::text
                 END AS urlfic
            FROM r_bg_edigeo."PARCELLE" p
              LEFT JOIN r_pct ON p."IDU"::text = r_pct.idu::text
              LEFT JOIN r_lin ON p."IDU"::text = r_lin.idu::text
              LEFT JOIN r_surf ON p."IDU"::text = r_surf.idu::text
-          WHERE r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL
+             LEFT JOIN r_surf_horsoapplui ON p."IDU"::text = r_surf_horsoapplui.idu::text
+             LEFT JOIN r_surf_oapplui ON p."IDU"::text = r_surf_oapplui.idu::text
+          WHERE r_pct.libelle IS NULL AND r_lin.libelle IS NULL AND r_surf.libelle IS NULL AND r_surf_horsoapplui.libelle IS NULL AND r_surf_oapplui.libelle IS NULL
         UNION ALL
-         SELECT r_pct.idu,
+         SELECT DISTINCT r_pct.idu,
             r_pct.libelle,
             r_pct.urlfic
            FROM r_pct
         UNION ALL
-         SELECT r_lin.idu,
+         SELECT DISTINCT r_lin.idu,
             r_lin.libelle,
             r_lin.urlfic
            FROM r_lin
         UNION ALL
-         SELECT r_surf.idu,
+         SELECT DISTINCT r_surf.idu,
             r_surf.libelle,
             r_surf.urlfic
            FROM r_surf
+        UNION ALL
+         SELECT DISTINCT r_surf_horsoapplui.idu,
+            r_surf_horsoapplui.libelle,
+            r_surf_horsoapplui.urlfic
+           FROM r_surf_horsoapplui
+        UNION ALL
+         SELECT DISTINCT r_surf_oapplui.idu,
+            r_surf_oapplui.libelle,
+            r_surf_oapplui.urlfic
+           FROM r_surf_oapplui
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
@@ -4844,7 +4770,7 @@ ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FM
 
 
 
- -- Materialized View: x_apps.xapps_an_vmr_parcelle_plu
+-- Materialized View: x_apps.xapps_an_vmr_parcelle_plu
 
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_plu;
 
@@ -4899,7 +4825,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_plu AS
                 END AS type_zone,
             geo_p_zone_urba.l_observ,
                 CASE
-                    WHEN length(geo_p_zone_urba.idurba::text) > 18 THEN to_char("substring"(geo_p_zone_urba.idurba::text, 11, 8)::timestamp without time zone, 'DD/MM/YYYY'::text)
+                    WHEN length(geo_p_zone_urba.idurba::text) = 23 THEN to_char("substring"(geo_p_zone_urba.idurba::text, 16, 8)::timestamp without time zone, 'DD/MM/YYYY'::text)
                     ELSE to_char("right"(geo_p_zone_urba.idurba::text, 8)::timestamp without time zone, 'DD/MM/YYYY'::text)
                 END AS datappro,
             st_buffer(geo_p_zone_urba.geom, (-1.5)::double precision) AS geom1
@@ -4966,7 +4892,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_geo_vmr_p_zone_urba AS
     geo_p_zone_urba.l_urlfic,
     geo_p_zone_urba.l_insee AS insee,
         CASE
-            WHEN length(geo_p_zone_urba.idurba::text) > 18 THEN to_char("substring"(geo_p_zone_urba.idurba::text, 11, 8)::timestamp without time zone, 'DD/MM/YYYY'::text)
+            WHEN length(geo_p_zone_urba.idurba::text) = 23 THEN to_char("substring"(geo_p_zone_urba.idurba::text, 16, 8)::timestamp without time zone, 'DD/MM/YYYY'::text)
             ELSE to_char("right"(geo_p_zone_urba.idurba::text, 8)::timestamp without time zone, 'DD/MM/YYYY'::text)
         END AS datappro,
     geo_p_zone_urba.datvalid,
@@ -5018,6 +4944,8 @@ CREATE INDEX idx_geo_vmr_p_zone_urba_typezone
   ON x_apps.xapps_geo_vmr_p_zone_urba
   USING btree
   (typezone COLLATE pg_catalog."default");
+
+
 
 
 
