@@ -27,7 +27,7 @@
 --		. intégrations des nouvelles valeurs d'informations 40-00 et 40-01, 97-00 et 98-00
 -- 2019/12/06 : GB / Mise à jour des requêtes Grand Publique et requête de visualisation des documents valides par commune
 -- 2019/12/19 : GB / Mise à jour des requêtes applicatives interne ARC suite migration des données du PLUiH devenu exécutoire le 19/12/2019
--- 2020/01/17 : GB / Modification requête préformatant la vue matérialisée remontant les prescriptions à la parcelle
+-- 2020/01/17 : GB / désactivation des triggers sur les tables de production pour optimiser les intégrations (les updates de geom1 se réalise après les intégrations avec FME)
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
