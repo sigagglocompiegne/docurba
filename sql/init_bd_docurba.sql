@@ -26,7 +26,8 @@
 --		. modification de la taille des attributs gérant les identifiants passant de 10 à 40 caractères (prise en compte de l'intégration des idurba dans la valeur)
 --		. intégrations des nouvelles valeurs d'informations 40-00 et 40-01, 97-00 et 98-00
 -- 2019/12/06 : GB / Mise à jour des requêtes Grand Publique et requête de visualisation des documents valides par commune
--- 2019/12/19 : GB / Mise à jour desrequêtes applicatives interne ARC suite migration des données du PLUiH devenu exécutoire le 19/12/2019
+-- 2019/12/19 : GB / Mise à jour des requêtes applicatives interne ARC suite migration des données du PLUiH devenu exécutoire le 19/12/2019
+-- 2020/01/17 : GB / Modification requête préformatant la vue matérialisée remontant les prescriptions à la parcelle
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -3317,7 +3318,7 @@ ADD CONSTRAINT lt_typeinf_pct_fkey FOREIGN KEY (typeinf,stypeinf)
 -- ####################################################################################################################################################
 
 
--- ####################################################### FONCTION TRIGGER - update_geom #############################################################
+-- ####################################################### FONCTION TRIGGER - an_doc_urba_null #############################################################
 
 -- Function: m_urbanisme_doc.an_doc_urba_null()
 
@@ -3398,6 +3399,161 @@ CREATE TRIGGER l_surf_cal
   FOR EACH ROW
   EXECUTE PROCEDURE m_urbanisme_doc.m_l_surf_cal_ha();
 
+
+-- Trigger: t_t1_l_surf_cal on m_urbanisme_doc.geo_p_zone_urba
+
+-- DROP TRIGGER t_t1_l_surf_cal ON m_urbanisme_doc.geo_p_zone_urba;
+
+CREATE TRIGGER t_t1_l_surf_cal
+  BEFORE INSERT OR UPDATE OF geom
+  ON m_urbanisme_doc.geo_p_zone_urba
+  FOR EACH ROW
+  EXECUTE PROCEDURE m_urbanisme_doc.ft_m_l_surf_cal_ha();
+ALTER TABLE m_urbanisme_doc.geo_p_zone_urba DISABLE TRIGGER t_t1_l_surf_cal;
+
+ALTER TABLE m_urbanisme_doc.geo_p_zone_urba DISABLE TRIGGER t_t1_l_surf_cal;
+
+-- ####################################################### FONCTION TRIGGER -pré-calcul des geom1 pour les traitements avec parcelle ##################################################
+-- TRIGGER DESACTIVER POUR OPTIMISER L'INTEGRATION DES NOUVELLES PROCEDURES. CES UPDATES SONT LANCES APRES LES INTEGRATIONS DE NOUVELLES PROCEDURES DANS FME VIA UN SQLEXECUTOR
+
+-- Function: m_urbanisme_doc.ft_m_geom1_information_surf()
+
+-- DROP FUNCTION m_urbanisme_doc.ft_m_geom1_information_surf();
+
+CREATE OR REPLACE FUNCTION m_urbanisme_doc.ft_m_geom1_information_surf()
+  RETURNS trigger AS
+$BODY$BEGIN
+
+ UPDATE m_urbanisme_doc.geo_p_info_surf SET geom1 = st_multi(st_buffer(geom,-0.5));
+ UPDATE m_urbanisme_doc.geo_p_info_surf SET geom1 = st_multi(st_buffer(geom,-1.5)) where typeinf || stypeinf='0400';
+
+
+RETURN NEW;
+END;$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION m_urbanisme_doc.ft_m_geom1_information_surf()
+  OWNER TO sig_create;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_information_surf() TO public;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_information_surf() TO sig_create;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_information_surf() TO create_sig;
+
+-- Trigger: t_t1_update_geom on m_urbanisme_doc.geo_p_info_surf
+
+-- DROP TRIGGER t_t1_update_geom ON m_urbanisme_doc.geo_p_info_surf;
+
+CREATE TRIGGER t_t1_update_geom
+  AFTER INSERT OR UPDATE OF geom
+  ON m_urbanisme_doc.geo_p_info_surf
+  FOR EACH ROW
+  EXECUTE PROCEDURE m_urbanisme_doc.ft_m_geom1_information_surf();
+ALTER TABLE m_urbanisme_doc.geo_p_info_surf DISABLE TRIGGER t_t1_update_geom;
+
+ALTER TABLE m_urbanisme_doc.geo_p_info_surf DISABLE TRIGGER t_t1_update_geom;
+
+
+-- Function: m_urbanisme_doc.ft_m_geom1_prescription_lin()
+
+-- DROP FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_lin();
+
+CREATE OR REPLACE FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_lin()
+  RETURNS trigger AS
+$BODY$BEGIN
+
+UPDATE m_urbanisme_doc.geo_p_prescription_lin SET geom1 = st_multi(st_buffer(st_buffer(geom,0.01,'endcap=flat join=round'),-0.005));
+
+
+RETURN NEW;
+END;$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_lin()
+  OWNER TO sig_create;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_lin() TO public;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_lin() TO sig_create;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_lin() TO create_sig;
+
+-- Trigger: t_t1_update_geom on m_urbanisme_doc.geo_p_prescription_lin
+
+-- DROP TRIGGER t_t1_update_geom ON m_urbanisme_doc.geo_p_prescription_lin;
+
+CREATE TRIGGER t_t1_update_geom
+  AFTER INSERT OR UPDATE OF geom
+  ON m_urbanisme_doc.geo_p_prescription_lin
+  FOR EACH ROW
+  EXECUTE PROCEDURE m_urbanisme_doc.ft_m_geom1_prescription_lin();
+ALTER TABLE m_urbanisme_doc.geo_p_prescription_lin DISABLE TRIGGER t_t1_update_geom;
+
+ALTER TABLE m_urbanisme_doc.geo_p_prescription_lin DISABLE TRIGGER t_t1_update_geom;
+
+
+-- Function: m_urbanisme_doc.ft_m_geom1_prescription_surf()
+
+-- DROP FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_surf();
+
+CREATE OR REPLACE FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_surf()
+  RETURNS trigger AS
+$BODY$BEGIN
+
+ UPDATE m_urbanisme_doc.geo_p_prescription_surf SET geom1 = st_multi(st_buffer(geom,-0.5));
+
+
+RETURN NEW;
+END;$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_surf()
+  OWNER TO sig_create;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_surf() TO public;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_surf() TO sig_create;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_prescription_surf() TO create_sig;
+
+-- Trigger: t_t1_update_geom on m_urbanisme_doc.geo_p_prescription_surf
+
+-- DROP TRIGGER t_t1_update_geom ON m_urbanisme_doc.geo_p_prescription_surf;
+
+CREATE TRIGGER t_t1_update_geom
+  AFTER INSERT OR UPDATE OF geom
+  ON m_urbanisme_doc.geo_p_prescription_surf
+  FOR EACH ROW
+  EXECUTE PROCEDURE m_urbanisme_doc.ft_m_geom1_prescription_surf();
+ALTER TABLE m_urbanisme_doc.geo_p_prescription_surf DISABLE TRIGGER t_t1_update_geom;
+
+ALTER TABLE m_urbanisme_doc.geo_p_prescription_surf DISABLE TRIGGER t_t1_update_geom;
+
+-- Function: m_urbanisme_doc.ft_m_geom1_zone_urba()
+
+-- DROP FUNCTION m_urbanisme_doc.ft_m_geom1_zone_urba();
+
+CREATE OR REPLACE FUNCTION m_urbanisme_doc.ft_m_geom1_zone_urba()
+  RETURNS trigger AS
+$BODY$BEGIN
+
+ UPDATE m_urbanisme_doc.geo_p_zone_urba SET geom1 = st_multi(st_buffer(geom,-0.5));
+
+
+RETURN NEW;
+END;$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION m_urbanisme_doc.ft_m_geom1_zone_urba()
+  OWNER TO sig_create;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_zone_urba() TO public;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_zone_urba() TO sig_create;
+GRANT EXECUTE ON FUNCTION m_urbanisme_doc.ft_m_geom1_zone_urba() TO create_sig;
+
+-- Trigger: t_t1_update_geom on m_urbanisme_doc.geo_p_zone_urba
+
+-- DROP TRIGGER t_t1_update_geom ON m_urbanisme_doc.geo_p_zone_urba;
+
+CREATE TRIGGER t_t1_update_geom
+  AFTER INSERT OR UPDATE OF geom
+  ON m_urbanisme_doc.geo_p_zone_urba
+  FOR EACH ROW
+  EXECUTE PROCEDURE m_urbanisme_doc.ft_m_geom1_zone_urba();
+ALTER TABLE m_urbanisme_doc.geo_p_zone_urba DISABLE TRIGGER t_t1_update_geom;
+
+ALTER TABLE m_urbanisme_doc.geo_p_zone_urba DISABLE TRIGGER t_t1_update_geom;
 
 
 -- ####################################################################################################################################################
