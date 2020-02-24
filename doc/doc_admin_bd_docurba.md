@@ -68,13 +68,13 @@ Particularité(s) à noter :
 |l_urldgen|Lien vers le fichier PDF contenant les dispositions générales du règlement|character varying(255)| |
 |l_urlann|Lien vers le fichier PDF contenant les annexes du règlement|character varying(255)| |
 |l_urllex|Lien vers le fichier PDF contenant le lexique du règlement|character varying(255)| |
-|nom| 	Dénomination du SCoT|character varying(254)| |
-|rapport|Nom du fichier contenant le rapport de présentation|character varying(30)| |
-|padd|Nom du fichier contenant le projet d'aménagement et de développement durables|character varying(30)| |
-|doo|Nom du fichier contenant le document d'orientation et d'objectifs|character varying(30)| |
-|urlrapport|Lien d'accès au fichier du rapport de présentation sous forme numérique|character varying(254)| |
-|urlpadd| 	Lien d'accès au fichier du PADD|character varying(254)| |
-|urldoo| Lien d'accès au fichier du document d'orientation et d'objectifs|character varying(254)| |
+|nom| 	Dénomination du SCoT (SCOT uniquement)|character varying(254)| |
+|rapport|Nom du fichier contenant le rapport de présentation (SCOT uniquement)|character varying(30)| |
+|padd|Nom du fichier contenant le projet d'aménagement et de développement durables (SCOT uniquement)|character varying(30)| |
+|doo|Nom du fichier contenant le document d'orientation et d'objectifs (SCOT uniquement)|character varying(30)| |
+|urlrapport|Lien d'accès au fichier du rapport de présentation sous forme numérique (SCOT uniquement)|character varying(254)| |
+|urlpadd| 	Lien d'accès au fichier du PADD|character varying(254) (SCOT uniquement)| |
+|urldoo| Lien d'accès au fichier du document d'orientation et d'objectifs (SCOT uniquement)|character varying(254)| |
 
 
 Particularité(s) à noter :
