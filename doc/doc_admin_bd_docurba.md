@@ -68,6 +68,13 @@ Particularité(s) à noter :
 |l_urldgen|Lien vers le fichier PDF contenant les dispositions générales du règlement|character varying(255)| |
 |l_urlann|Lien vers le fichier PDF contenant les annexes du règlement|character varying(255)| |
 |l_urllex|Lien vers le fichier PDF contenant le lexique du règlement|character varying(255)| |
+|nom| 	Dénomination du SCoT|character varying(254)| |
+|rapport|Nom du fichier contenant le rapport de présentation|character varying(30)| |
+|padd|Nom du fichier contenant le projet d'aménagement et de développement durables|character varying(30)| |
+|doo|Nom du fichier contenant le document d'orientation et d'objectifs|character varying(30)| |
+|urlrapport|Lien d'accès au fichier du rapport de présentation sous forme numérique|character varying(254)| |
+|urlpadd| 	Lien d'accès au fichier du PADD|character varying(254)| |
+|urldoo| Lien d'accès au fichier du document d'orientation et d'objectifs|character varying(254)| |
 
 
 Particularité(s) à noter :
@@ -84,6 +91,7 @@ Particularité(s) à noter :
 |:---|:---|:---|:---|  
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |insee|Code insee de la commune|character varying(5)| |
+|epci|Code SIREN de l'EPCI auquel appartient la commune (uniquement pour un SCoT)|character varying(9)| |
 
 Particularité(s) à noter : aucune
 
@@ -153,10 +161,10 @@ Particularité(s) à noter : aucune
 |l_insee|Code INSEE|character varying(5)| |
 |l_couleur|Couleur de l'élément graphique, sous forme HEXA (#000000)|character varying(7)| |
 |geom|Géométrie de l'objet|MultiPoint,2154| |
-|gid|Identifiant unique pour l'ARC|integer|nextval('m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq'::regclass)|
+|gid|Identifiant unique pour l'ARC|integer|nextval('m_urbanisme_doc.geo_a_habillage_txt_gid_seq'::regclass)|
 
 Particularité(s) à noter :
-* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc_cnig2017.geo_a_habillage_txt_gid_seq`
+* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc.geo_a_habillage_txt_gid_seq`
 
 ---
 
@@ -243,11 +251,11 @@ Particularité(s) à noter :
 |l_typrecul|Type de recul|character varying(80)| |
 |l_observ|Observations|character varying(254)| |
 |geom|Géométrie de l'objet|MultiPolygon,2154| |
-|gid|Identifiant unique spécifique à l'ARC|integer|nextval('m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq'::regclass)|
+|gid|Identifiant unique spécifique à l'ARC|integer|nextval('m_urbanisme_doc.geo_a_info_surf_gid_seq'::regclass)|
 
 
 Particularité(s) à noter :
-* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc_cnig2017.geo_a_info_surf_gid_seq`
+* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc.geo_a_info_surf_gid_seq`
 * Une clé étrangère existe sur la table de valeur `lt_typeinf` (sur les attributs code et sous-code)
 
 ---
@@ -338,11 +346,11 @@ Particularité(s) à noter :
 |l_typrecul|Type de recul|character varying(80)| |
 |l_observ|Observations|character varying(254)| |
 |geom|Géométrie de l'objet|MultiPolygon,2154| |
-|gid|Identifiant unique spécifique à l'ARC|integer|nextval('m_urbanisme_doc_cnig2017.geo_a_prescription_surf_gid_seq'::regclass)|
+|gid|Identifiant unique spécifique à l'ARC|integer|nextval('m_urbanisme_doc.geo_a_prescription_surf_gid_seq'::regclass)|
 
 
 Particularité(s) à noter :
-* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc_cnig2017.geo_a_prescription_surf_gid_seq`
+* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc.geo_a_prescription_surf_gid_seq`
 * Une clé étrangère existe sur la table de valeur `lt_typepsc` (sur les attributs code et sous-code)
 
 ---
@@ -368,13 +376,25 @@ Particularité(s) à noter :
 |l_surf_cal|Surface calculée de la zone en ha|numeric| |
 |l_observ|Observations|character varying(254)| |
 |geom|Géométrie de l'objet|MultiPolygon,2154| |
-|gid|Identifiant unique spécifique à l'ARC|integer|nextval('m_urbanisme_doc_cnig2017.geo_a_zone_urba_gid_seq'::regclass)|
+|gid|Identifiant unique spécifique à l'ARC|integer|nextval('m_urbanisme_doc.geo_a_zone_urba_gid_seq'::regclass)|
 
 Particularité(s) à noter :
-* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc_cnig2017.geo_a_zone_urba_gid_seq`
+* Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc.geo_a_zone_urba_gid_seq`
 * Une clé étrangère existe sur la table de valeur `lt_destdomi`
 * Une clé étrangère existe sur la table de valeur `lt_typesect`
 * Une clé étrangère existe sur la table de valeur `lt_typezone`
+
+---
+
+`geo_a_perimetre_scot` : (archive) Donnée géographique contenant les périmètres de SCOT (format CNIG 2018)
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idurba|Identifiant unique du SCOT|character varying(30)| |
+|geom|Géométrie de l'objet|MultiPolygon,2154| |
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ idurba `geo_a_perimetre_scot_pkey`
 
 ---
 
@@ -718,6 +738,17 @@ Particularité(s) à noter :
   * `l_surf_cal` : calcul de la surface en m² avant l'insert ou la mise à jour d'une géométrie uniquement
 
 ---
+`geo_p_perimetre_scot` : Donnée géographique contenant les périmètres de SCOT (format CNIG 2018)
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idurba|Identifiant unique du SCOT|character varying(30)| |
+|geom|Géométrie de l'objet|MultiPolygon,2154| |
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ idurba `geo_p_perimetre_scot_pkey`
+
+---
 
 `geo_t_habillage_lin` : (pré-production) Donnée géographique contenant les habillages linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
 
@@ -1016,6 +1047,18 @@ Particularité(s) à noter :
 
 ---
 
+`geo_t_perimetre_scot` : (pré-production) Donnée géographique contenant les périmètres de SCOT (format CNIG 2018)
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idurba|Identifiant unique du SCOT|character varying(30)| |
+|geom|Géométrie de l'objet|MultiPolygon,2154| |
+
+Particularité(s) à noter :
+* Une clé primaire existe sur le champ idurba `geo_t_perimetre_scot_pkey`
+
+---
+
 `an_v_docurba_arcba` : Vue ARC simplifiée de la table an_doc_urba à usage interne. Ajout nom de la commune et du libellé de l'état du document
 
 `an_v_docurba_cclo` : Vue CCLO simplifiée de la table an_doc_urba à usage interne. Ajout nom de la commune et du libellé de l''état du document
@@ -1056,7 +1099,12 @@ Particularité(s) à noter :
  
  **ATTENTION** : ces vues sont reformatées à chaque mise à jour de cadastre ou d'un document d'urbanisme dans un Workflow de l'ETL FME.
  
-`xapps_an_vmr_p_information` : Vue matérialisée alphanumérique formatant une liste des parcelles avec les informations ponctuelles, surfaciques (hors DPU et ZAD), linénaires issues des documents d'urbanisme et d'autres informations jugées utiles issues d'autres données métiers (Natura 2000,ZICO, ZNIEFF, ...) impactant chaque parcelle. Cette vue est liée dans GEO pour récupération de ces informations dans la fiche de renseignements d'urbanisme (cf dossier GitHub correspondant à l'application).
+`xapps_an_vmr_p_information` : Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (assemblage des vues infos PLU et hors PLU)
+
+`xapps_an_vmr_p_information_horsplu` : Vue matérialisée formatant les données les données informations jugées utiles hors données intégrées dans les données de PLU (cette vue est fusionnée avec xapps_an_vmr_p_information_plu pour être lisible dans la fiche de renseignement d''urbanisme de GEO).
+
+`xapps_an_vmr_p_information_plu` : Vue matérialisée formatant les données les données informations jugées utiles provenant des données intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos hors PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)
+
 
 `xapps_an_vmr_p_information_dpu` : Vue matérialisée alphanumérique formatant une liste des parcelles avec l'information d'appartenance ou non à une DPU. Cette vue est liée dans GEO pour récupération de ces informations dans la fiche de renseignements d'urbanisme (cf dossier GitHub correspondant à l'application).
 
@@ -1195,6 +1243,7 @@ Valeurs possibles :
 |POS|Plan d'occupation des sols|
 |CC|Carte communale|
 |PSMV|Plan de sauvegarde et de mise en valeur|
+|SCOT|SCOT|
 
 ---
 
