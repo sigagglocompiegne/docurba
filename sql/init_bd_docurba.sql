@@ -28,7 +28,7 @@
 -- 2019/12/06 : GB / Mise à jour des requêtes Grand Publique et requête de visualisation des documents valides par commune
 -- 2019/12/19 : GB / Mise à jour des requêtes applicatives interne ARC suite migration des données du PLUiH devenu exécutoire le 19/12/2019
 -- 2020/01/17 : GB / désactivation des triggers sur les tables de production pour optimiser les intégrations (les updates de geom1 se réalise après les intégrations avec FME)
--- 2020/02/24 : GB / Intégration du standard CNIG sur les sSCoT (norme CNIG juin 2018) dans le modèle PLU, PLUi et CC
+-- 2020/02/24 : GB / Intégration du standard CNIG sur les SCoT (norme CNIG juin 2018) dans le modèle PLU, PLUi et CC
 --		   . Intégration des attributs spécifiques SCOT dans les tables an_doc_urba et an_doc_urba_com
 --		   . Attribut typeproc du standard SCoT correspond à l'attribut nomproc de la structure PLU/PLUi/CC
 --		   . Intégration de la valeur spécifique SCOT dans la table lt_typedoc 
