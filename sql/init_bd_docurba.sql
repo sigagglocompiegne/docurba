@@ -28,6 +28,11 @@
 -- 2019/12/06 : GB / Mise à jour des requêtes Grand Publique et requête de visualisation des documents valides par commune
 -- 2019/12/19 : GB / Mise à jour des requêtes applicatives interne ARC suite migration des données du PLUiH devenu exécutoire le 19/12/2019
 -- 2020/01/17 : GB / désactivation des triggers sur les tables de production pour optimiser les intégrations (les updates de geom1 se réalise après les intégrations avec FME)
+-- 2020/02/24 : GB / Intégration des attributs spécifiques au SCoT (norme CNIG juin 2018) dans le modèle PLU, PLUi et CC
+--		   . Intégration des attributs spécifiques SCOT dans les tables an_doc_urba et an_doc_urba_com
+--		   . Intégration de la valeur spécifique SCOT dans la table lt_typedoc 
+--		   . Création des tables geo_p_perimetre_scot, geo_t_perimetre_scot, geo_a_perimetre_scot
+ 
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -132,6 +137,7 @@ INSERT INTO m_urbanisme_doc.lt_typedoc(
     ('PLUI','Plan local d''urbanisme intercommunal'),
     ('POS','Plan d''occupation des sols'),
     ('CC','Carte communale'),
+    ('SCOT','SCOT'),
     ('PSMV','Plan de sauvegarde et de mise en valeur'); 
 
 -- ################################################################# Domaine valeur - lt_typeref #############################################
@@ -871,6 +877,7 @@ INSERT INTO m_urbanisme_doc.lt_typeinf(
 CREATE TABLE m_urbanisme_doc.an_doc_urba
 (
   idurba character varying(30) NOT NULL, -- identifiant
+  nom character varying(254), -- Dénomination du SCOT
   typedoc character varying(4) NOT NULL, -- Type du document concerné
   etat character varying(2) NOT NULL, -- Etat juridique du document
   nomproc character varying(10), -- Etat juridique du document
@@ -881,6 +888,12 @@ CREATE TABLE m_urbanisme_doc.an_doc_urba
   nomreg character varying(80), -- Nom du fichier de règlement
   urlreg character varying(254), -- URL ou URI du fichier du règlement
   nomplan character varying(80), -- Nom du fichier du plan scanné
+  rapport character varying(30), -- Nom du fichier contenant le rapport de présentation
+  padd character varying(30), -- Nom du fichier contenant le projet d'aménagement et de développement durables
+  doo character varying(30), -- Nom du fichier contenant le document d'orientation et d'objectifs
+  urlrapport character varying(254), -- Lien d'accès au fichier du rapport de présentation sous forme numérique
+  urlpadd character varying(254), -- Lien d'accès au fichier du PADD
+  urldoo character varying(254), -- lien d'accès au fichier du document d'orientation et d'objectifs
   urlplan character varying(254), -- URL ou URI du fichier du plan scanné
   urlpe character varying(254), -- Lien d'accès à l'archive zip comprenant l'ensemble des pièces écrites
   siteweb character varying(254), -- Site web du service d'accès
@@ -946,6 +959,7 @@ CREATE TABLE m_urbanisme_doc.an_doc_urba_com
 (
   idurba character varying(30) NOT NULL, -- identifiant
   insee character varying(5) NOT NULL -- code insee de la commune 
+  epci character varying(9), -- code SIREN de l'EPCI auquel appartient la commune (uniquement pour un SCoT)
 )
 WITH (
   OIDS=FALSE
@@ -960,6 +974,32 @@ COMMENT ON TABLE m_urbanisme_doc.an_doc_urba_com
   IS 'Donnée alphanumerique d''appartenance d''une commune à une procédure définie';
 COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_com.idurba IS 'Identifiant du document d''urbanisme';
 COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_com.insee IS 'Code insee de la commune';
+
+-- ########################################################################### table geo_p_perimetre_scot #######################################################
+
+-- Table: m_urbanisme_doc.geo_p_perimetre_scot
+
+-- DROP TABLE m_urbanisme_doc.geo_p_perimetre_scot;
+
+CREATE TABLE m_urbanisme_doc.geo_p_perimetre_scot
+(
+  idurba character varying(30) NOT NULL, -- Identifiant du SCOT
+  geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_p_perimetre_scot_pkey PRIMARY KEY (idurba)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc.geo_p_perimetre_scot
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc.geo_p_perimetre_scot TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc.geo_p_perimetre_scot TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc.geo_p_perimetre_scot TO edit_sig;
+
+COMMENT ON TABLE m_urbanisme_doc.geo_p_perimetre_scot
+  IS 'Donnée géographique contenant les périmètres de SCOT';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_perimetre_scot.idurba IS 'Identifiant unique du SCOT';
+COMMENT ON COLUMN m_urbanisme_doc.geo_p_perimetre_scot.geom IS 'Géométrie de l''objet';
 
 
 -- ########################################################################### table geo_p_zone_urba #######################################################
@@ -1565,6 +1605,31 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_p_habillage_txt.l_couleur IS 'Couleur de l
 -- ###                                                  	     MODE ARCHIVE                                                                   ###
 -- ####################################################################################################################################################
 
+-- ########################################################################### table geo_a_perimetre_scot #######################################################
+
+-- Table: m_urbanisme_doc.geo_a_perimetre_scot
+
+-- DROP TABLE m_urbanisme_doc.geo_a_perimetre_scot;
+
+CREATE TABLE m_urbanisme_doc.geo_a_perimetre_scot
+(
+  idurba character varying(30) NOT NULL, -- Identifiant du SCOT
+  geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_a_perimetre_scot_pkey PRIMARY KEY (idurba)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc.geo_a_perimetre_scot
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc.geo_a_perimetre_scot TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc.geo_a_perimetre_scot TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc.geo_a_perimetre_scot TO edit_sig;
+
+COMMENT ON TABLE m_urbanisme_doc.geo_a_perimetre_scot
+  IS '(archive) Donnée géographique contenant les périmètres de SCOT';
+COMMENT ON COLUMN m_urbanisme_doc.geo_a_perimetre_scot.idurba IS 'Identifiant unique du SCOT';
+COMMENT ON COLUMN m_urbanisme_doc.geo_a_perimetre_scot.geom IS 'Géométrie de l''objet';
 
 -- ########################################################################### table geo_a_zone_urba #######################################################
 
@@ -2155,6 +2220,32 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_a_habillage_txt.l_couleur IS 'Couleur de l
 -- ####################################################################################################################################################
 -- ###                                                 	      MODE TEST (pré-production)                                                            ###
 -- ####################################################################################################################################################
+
+-- ########################################################################### table geo_t_perimetre_scot #######################################################
+
+-- Table: m_urbanisme_doc.geo_a_perimetre_scot
+
+-- DROP TABLE m_urbanisme_doc.geo_t_perimetre_scot;
+
+CREATE TABLE m_urbanisme_doc.geo_t_perimetre_scot
+(
+  idurba character varying(30) NOT NULL, -- Identifiant du SCOT
+  geom geometry(MultiPolygon,2154), -- Géométrie de l'objet
+  CONSTRAINT geo_t_perimetre_scot_pkey PRIMARY KEY (idurba)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc.geo_t_perimetre_scot
+  OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc.geo_t_perimetre_scot TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc.geo_t_perimetre_scot TO read_sig;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc.geo_t_perimetre_scot TO edit_sig;
+
+COMMENT ON TABLE m_urbanisme_doc.geo_t_perimetre_scot
+  IS '(test) Donnée géographique contenant les périmètres de SCOT';
+COMMENT ON COLUMN m_urbanisme_doc.geo_t_perimetre_scot.idurba IS 'Identifiant unique du SCOT';
+COMMENT ON COLUMN m_urbanisme_doc.geo_t_perimetre_scot.geom IS 'Géométrie de l''objet';
 
 -- ########################################################################### table geo_t_zone_urba #######################################################
 
