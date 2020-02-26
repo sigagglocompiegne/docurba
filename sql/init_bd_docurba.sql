@@ -3848,6 +3848,132 @@ COMMENT ON VIEW m_urbanisme_doc.an_v_docurba_valide
   IS 'Liste des documents d''urbanisme valide sur les communes du Pays Compiégnois avec le formatage d''accès aux dispositions générales, annexes et lexique du PLUih de l''ARC';
 
 
+-- View: x_apps.xapps_an_vmr_docurba_h
+
+-- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_docurba_h;
+
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_docurba_h
+TABLESPACE pg_default
+AS
+ WITH req_t AS (
+         WITH req_plu AS (
+                 SELECT "left"(an_doc_urba.idurba::text, 5) AS insee,
+                    an_doc_urba.idurba,
+                    an_doc_urba.typedoc,
+                    an_doc_urba.etat,
+                    an_doc_urba.nomproc,
+                    an_doc_urba.l_nomprocn,
+                    an_doc_urba.datappro,
+                    an_doc_urba.datefin,
+                    an_doc_urba.siren,
+                    an_doc_urba.nomreg,
+                    an_doc_urba.urlreg,
+                    an_doc_urba.nomplan,
+                    an_doc_urba.urlplan,
+                    an_doc_urba.urlpe,
+                    an_doc_urba.siteweb,
+                    an_doc_urba.typeref,
+                    an_doc_urba.dateref,
+                    an_doc_urba.l_meta,
+                    an_doc_urba.l_moa_proc,
+                    an_doc_urba.l_moe_proc,
+                    an_doc_urba.l_moa_dmat,
+                    an_doc_urba.l_moe_dmat,
+                    an_doc_urba.l_observ,
+                    an_doc_urba.l_parent,
+                    an_doc_urba.l_urldgen,
+                    an_doc_urba.l_urlann,
+                    an_doc_urba.l_urllex
+                   FROM m_urbanisme_doc.an_doc_urba
+                  WHERE an_doc_urba.etat::text <> '03'::text AND an_doc_urba.typedoc::text <> 'PLUI'::text AND an_doc_urba.typedoc::text <> 'SCOT'::text
+                UNION ALL
+                 SELECT an_doc_urba_com.insee,
+                    an_doc_urba.idurba,
+                    an_doc_urba.typedoc,
+                    an_doc_urba.etat,
+                    an_doc_urba.nomproc,
+                    an_doc_urba.l_nomprocn,
+                    an_doc_urba.datappro,
+                    an_doc_urba.datefin,
+                    an_doc_urba.siren,
+                    an_doc_urba.nomreg,
+                    an_doc_urba.urlreg,
+                    an_doc_urba.nomplan,
+                    an_doc_urba.urlplan,
+                    an_doc_urba.urlpe,
+                    an_doc_urba.siteweb,
+                    an_doc_urba.typeref,
+                    an_doc_urba.dateref,
+                    an_doc_urba.l_meta,
+                    an_doc_urba.l_moa_proc,
+                    an_doc_urba.l_moe_proc,
+                    an_doc_urba.l_moa_dmat,
+                    an_doc_urba.l_moe_dmat,
+                    an_doc_urba.l_observ,
+                    an_doc_urba.l_parent,
+                    an_doc_urba.l_urldgen,
+                    an_doc_urba.l_urlann,
+                    an_doc_urba.l_urllex
+                   FROM m_urbanisme_doc.an_doc_urba
+                     LEFT JOIN m_urbanisme_doc.an_doc_urba_com ON an_doc_urba.siren::text = "left"(an_doc_urba_com.idurba::text, 9)
+                  WHERE an_doc_urba.etat::text <> '03'::text AND an_doc_urba.typedoc::text = 'PLUI'::text AND an_doc_urba.typedoc::text <> 'SCOT'::text
+                )
+         SELECT req_plu.insee,
+            an_geo_1.libgeo,
+            string_agg(((((((((('<tr><td align="center">'::text || req_plu.typedoc::text) || '</td><td align="center">'::text) ||
+                CASE
+                    WHEN req_plu.datappro::text = ''::text OR req_plu.datappro IS NULL THEN ''::text
+                    ELSE to_char(req_plu.datappro::date::timestamp with time zone, 'DD-MM-YYYY'::text)
+                END) || '</td><td align="center">'::text) || lt_etat.valeur::text) || '</td><td align="center">'::text) || lt_nomproc.valeur::text) ||
+                CASE
+                    WHEN req_plu.l_nomprocn IS NULL THEN ''::text
+                    ELSE ' n° '::text || req_plu.l_nomprocn
+                END) ||
+                CASE
+                    WHEN req_plu.urlreg::text = ''::text OR req_plu.urlreg IS NULL THEN '</td><td align="center">Aucun règlement disponible</td>'::text
+                    ELSE ('</td><td align="center"><a href="'::text || req_plu.urlreg::text) || '" target="_blank">Ouvrir</a></td>'::text
+                END) ||
+                CASE
+                    WHEN req_plu.urlplan::text = ''::text OR req_plu.urlplan IS NULL THEN '<td align="center">Aucun plan disponible</td></tr>'::text
+                    ELSE ('<td align="center"><a href="'::text || req_plu.urlplan::text) || '" target="_blank">Ouvrir</a></td></tr>'::text
+                END, ''::text ORDER BY req_plu.datappro DESC) AS ancien_reg
+           FROM req_plu
+             LEFT JOIN m_urbanisme_doc.lt_etat ON lt_etat.code = req_plu.etat::bpchar
+             LEFT JOIN m_urbanisme_doc.lt_nomproc ON req_plu.nomproc::text = lt_nomproc.code::text
+             LEFT JOIN r_administratif.an_geo an_geo_1 ON an_geo_1.insee::text = req_plu.insee
+          GROUP BY req_plu.insee, an_geo_1.libgeo
+        )
+ SELECT
+        CASE
+            WHEN req_t.insee IS NOT NULL THEN req_t.insee::character varying
+            ELSE duc.insee
+        END AS insee,
+        CASE
+            WHEN req_t.insee IS NOT NULL THEN ('<center><i>Historique des procédures d''urbanisme pour la commune de<b> '::text || req_t.libgeo::text) || '</b></i></center>'::text
+            ELSE ('<center><i>Historique des procédures d''urbanisme pour la commune de<b> '::text || an_geo.libgeo::text) || '</b></i></center>'::text
+        END AS commune,
+        CASE
+            WHEN req_t.insee IS NOT NULL THEN ('<table border=1 align="center" width=100%><tr><td align="center"><b>Document </b></td><td align="center"><b>Approbation </b></td><td align="center"><b> Etat </b></td><td align="center"><b> Version </b></td><td align="center"><b>Règlement écrit</b></td><td align="center"><b>Plan de zonage</b></td></tr>'::text || req_t.ancien_reg) || '</table>'::text
+            ELSE '<table border=1 align="center" width=100%><tr><td align="center"><b>Document </b></td><td align="center"><b>Approbation </b></td><td align="center"><b> Etat </b></td><td align="center"><b> Version </b></td><td align="center"><b>Règlement écrit</b></td><td align="center"><b>Plan de zonage</b></td></tr>
+   <tr><td colspan="6" align="center">Aucune procédure antérieure n''a été trouvée pour cette commune.</td></tr></table>'::text
+        END AS affiche_liste
+   FROM req_t
+     RIGHT JOIN m_urbanisme_doc.an_doc_urba_com duc ON req_t.insee = duc.insee::text
+     LEFT JOIN r_administratif.an_geo ON an_geo.insee::text = duc.insee::text
+WITH DATA;
+
+ALTER TABLE x_apps.xapps_an_vmr_docurba_h
+    OWNER TO sig_create;
+
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_docurba_h
+    IS 'Vue matérialisée listant les anciennes procédures d''urbanisme par commune';
+
+GRANT DELETE, UPDATE, SELECT, INSERT ON TABLE x_apps.xapps_an_vmr_docurba_h TO edit_sig;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_docurba_h TO postgres;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_docurba_h TO sig_create;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_docurba_h TO create_sig;
+GRANT SELECT ON TABLE x_apps.xapps_an_vmr_docurba_h TO read_sig;
+
 -- View: m_urbanisme_doc.geo_v_docurba
 
 -- DROP VIEW m_urbanisme_doc.geo_v_docurba;
@@ -4428,11 +4554,13 @@ GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_plu TO read_sig;
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu
   IS 'Vue matérialisée formatant les données les données informations jugées utiles provenant des données intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos hors PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
 
--- Materialized View: x_apps.xapps_an_vmr_p_information_horsplu
+-- View: x_apps.xapps_an_vmr_p_information_horsplu
 
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
 
-CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
+TABLESPACE pg_default
+AS
  WITH r_p AS (
          WITH r_natura2000_zps AS (
                  SELECT p."IDU" AS idu,
@@ -4468,11 +4596,11 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu AS
                   WHERE p."IDU"::text = zh.idu::text
                 ), r_sageba_zh AS (
                  SELECT DISTINCT "PARCELLE"."IDU" AS idu,
-                    'Zone humide SAGEBA (V5) : Zone humide avérée'::text AS libelle,
+                    'Zone humide SAGEBA (V5.1) : Zone humide avérée'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE",
-                    m_environnement.geo_env_sageba_zhv5
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_env_sageba_zhv5.geom)
+                    m_environnement.geo_env_sageba_zhv51
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_env_sageba_zhv51.geom)
                 ), r_zico AS (
                  SELECT "PARCELLE"."IDU" AS idu,
                     'Zones Importantes pour la Conservation des Oiseaux (ZICO) : '::text || geo_env_zico.nom::text AS libelle,
@@ -4570,6 +4698,34 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu AS
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_zonage_archeologique za
                   WHERE "left"(p."IDU"::text, 5) = za.insee::text
+                ),  r_enedis_bta AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'La parcelle est traversée où est à proximité immédiate du Réseau ENEDIS Basse Tension en ligne aérienne.'::text  AS libelle,
+                    ''::text as urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_reseau_sec.geo_ele_b_bta_enedis bta
+                  WHERE st_intersects(p."GEOM", bta.geom)
+                ),  r_enedis_bts AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'La parcelle est traversée où est à proximité immédiate du Réseau ENEDIS Basse Tension en ligne souterraine.'::text  AS libelle,
+                    ''::text as urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_reseau_sec.geo_ele_b_bts_enedis bts
+                  WHERE st_intersects(p."GEOM", bts.geom)
+                ),  r_enedis_htaa AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'La parcelle est traversée où est à proximité immédiate du Réseau ENEDIS Moyenne Tension en ligne aérienne.'::text  AS libelle,
+                    ''::text as urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_reseau_sec.geo_ele_b_htaa_enedis htaa
+                  WHERE st_intersects(p."GEOM", htaa.geom)
+                ),  r_enedis_htas AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'La parcelle est traversée où est à proximité immédiate du Réseau ENEDIS Moyenne Tension en ligne souterraine.'::text  AS libelle,
+                    ''::text as urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_reseau_sec.geo_ele_b_htas_enedis htas
+                  WHERE st_intersects(p."GEOM", htas.geom)
                 )
          SELECT r_natura2000_zps.idu,
             r_natura2000_zps.libelle,
@@ -4655,6 +4811,26 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu AS
             r_zarcheo.libelle,
             r_zarcheo.urlfic
            FROM r_zarcheo
+	    UNION ALL
+         SELECT r_enedis_bta.idu,
+            r_enedis_bta.libelle,
+            r_enedis_bta.urlfic
+           FROM r_enedis_bta
+	 	    UNION ALL
+         SELECT r_enedis_bts.idu,
+            r_enedis_bts.libelle,
+            r_enedis_bts.urlfic
+           FROM r_enedis_bts
+	 	 	    UNION ALL
+         SELECT r_enedis_htaa.idu,
+            r_enedis_htaa.libelle,
+            r_enedis_htaa.urlfic
+           FROM r_enedis_htaa
+	 	 	 	    UNION ALL
+         SELECT r_enedis_htas.idu,
+            r_enedis_htas.libelle,
+            r_enedis_htas.urlfic
+           FROM r_enedis_htas
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
@@ -4664,15 +4840,16 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu AS
 WITH DATA;
 
 ALTER TABLE x_apps.xapps_an_vmr_p_information_horsplu
-  OWNER TO sig_create;
+    OWNER TO sig_create;
+
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
+    IS 'Vue matérialisée formatant les données les données informations jugées utiles hors données intégrées dans les données de PLU (cette vue est fusionnée avec xapps_an_vmr_p_information_plu pour être lisible dans la fiche de renseignement d''urbanisme de GEO).
+ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
+
+GRANT DELETE, UPDATE, SELECT, INSERT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO edit_sig;
 GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_create;
 GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO create_sig;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO edit_sig;
 GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO read_sig;
-COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
-  IS E'Vue matérialisée formatant les données les données informations jugées utiles hors données intégrées dans les données de PLU (cette vue est fusionnée avec xapps_an_vmr_p_information_plu pour être lisible dans la fiche de renseignement d''urbanisme de GEO).
-ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\Ressources\\4-Partage\\3-Procedures\\FME\\prod\\URB\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
-
 
 -- Materialized View: x_apps.xapps_an_vmr_p_information
 
