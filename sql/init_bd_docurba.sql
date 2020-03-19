@@ -34,7 +34,7 @@
 --		   . Intégration de la valeur spécifique SCOT dans la table lt_typedoc 
 --		   . Les types énumérés de l'attribut typeproc ne sont pas repris (utilisation de ceux du standard CNIG PLU/PLUi/CC)
 --		   . Création des tables geo_p_perimetre_scot, geo_t_perimetre_scot, geo_a_perimetre_scot
- 
+-- 2020/03/19 : GB / Mise à jour de la table an_doc_urbai_valide pour filtrer sans les SCoT et RNU dans la 1ere partie de la requête (correctif) 
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -3820,7 +3820,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.an_v_docurba_valide AS
    FROM m_urbanisme_doc.an_doc_urba,
     m_urbanisme_doc.an_doc_urba_com,
     m_urbanisme_doc.lt_nomproc
-  WHERE an_doc_urba.idurba::text = an_doc_urba_com.idurba::text AND an_doc_urba.nomproc::text = lt_nomproc.code::text AND an_doc_urba.etat::bpchar = '03'::bpchar
+  WHERE an_doc_urba.idurba::text = an_doc_urba_com.idurba::text AND an_doc_urba.nomproc::text = lt_nomproc.code::text 
+  AND an_doc_urba.etat::bpchar = '03'::bpchar AND an_doc_urba.typedoc::bpchar <> 'SCOT'::bpchar AND an_doc_urba.typedoc::bpchar <> 'RNU'::bpchar
 UNION ALL
  SELECT "left"(an_doc_urba.idurba::text, 5) AS insee,
     an_doc_urba.typedoc,
