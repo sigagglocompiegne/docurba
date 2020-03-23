@@ -5064,7 +5064,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription AS
                     geo_p_prescription_surf.urlfic
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_prescription_surf
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.l_insee::text = "left"("PARCELLE"."IDU"::text, 5) AND geo_p_prescription_surf.idurba::text <> '200067965_PLUI_20191114'::text
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.l_insee::text = "left"("PARCELLE"."IDU"::text, 5) AND geo_p_prescription_surf.idurba::text NOT LIKE '%_PLUI_%'::text
                 ), r_surf_horsoapplui AS (
                  SELECT DISTINCT "PARCELLE"."IDU" AS idu,
                     ((((((geo_p_prescription_surf.libelle::text ||
@@ -5099,7 +5099,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription AS
                     geo_p_prescription_surf.urlfic
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_prescription_surf
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.l_insee::text = "left"("PARCELLE"."IDU"::text, 5) AND geo_p_prescription_surf.idurba::text = '200067965_PLUI_20191114'::text AND geo_p_prescription_surf.typepsc::text <> '18'::text
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.l_insee::text = "left"("PARCELLE"."IDU"::text, 5) AND geo_p_prescription_surf.idurba::text like '%_PLUI_%'::text AND geo_p_prescription_surf.typepsc::text <> '18'::text
                 ), r_surf_oapplui AS (
                  SELECT DISTINCT "PARCELLE"."IDU" AS idu,
                     ((((((geo_p_prescription_surf.libelle::text ||
@@ -5134,7 +5134,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_prescription AS
                     geo_p_prescription_surf.urlfic
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_prescription_surf
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.idurba::text = '200067965_PLUI_20191114'::text AND geo_p_prescription_surf.typepsc::text = '18'::text
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_p_prescription_surf.geom1) AND geo_p_prescription_surf.idurba::text like '%_PLUI_%'::text AND geo_p_prescription_surf.typepsc::text = '18'::text
                 )
          SELECT DISTINCT p."IDU" AS idu,
                 CASE
