@@ -3988,7 +3988,11 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_docurba AS
     m_urbanisme_doc.an_doc_urba_com uc,
     r_osm.geo_osm_commune c,
     r_administratif.an_geo a
-  WHERE u.idurba::text = uc.idurba::text AND a.insee::text = c.insee::text AND "substring"(u.idurba::text, 1, 5) = c.insee::text AND (a.epci::text = '200067965'::text OR a.epci::text = '246000897'::text OR a.epci::text = '246000749'::text) AND u.etat::bpchar = '03'::bpchar
+  WHERE u.idurba::text = uc.idurba::text AND a.insee::text = c.insee::text 
+  AND "substring"(u.idurba::text, 1, 5) = c.insee::text 
+  AND (a.epci::text = '200067965'::text OR a.epci::text = '246000897'::text OR a.epci::text = '246000749'::text) 
+  AND u.etat::bpchar = '03'::bpchar
+  AND u.typedoc <> 'SCOT'
 
   UNION ALL
  SELECT "left"(u.idurba::text, 5) AS insee,
@@ -3998,7 +4002,9 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_docurba AS
    FROM m_urbanisme_doc.an_doc_urba u,
     r_osm.geo_osm_commune c,
     r_administratif.an_geo a
-  WHERE a.insee::text = c.insee::text AND "substring"(u.idurba::text, 1, 5) = c.insee::text AND (a.epci::text = '200067965'::text OR a.epci::text = '246000897'::text OR a.epci::text = '246000749'::text) AND u.etat::bpchar = '03'::bpchar AND u.typedoc::bpchar = 'RNU'::bpchar
+  WHERE a.insee::text = c.insee::text AND "substring"(u.idurba::text, 1, 5) = c.insee::text 
+  AND (a.epci::text = '200067965'::text OR a.epci::text = '246000897'::text OR a.epci::text = '246000749'::text) 
+  AND u.etat::bpchar = '03'::bpchar AND u.typedoc::bpchar = 'RNU'::bpchar
   ;
   
 
