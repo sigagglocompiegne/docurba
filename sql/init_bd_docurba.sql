@@ -35,6 +35,7 @@
 --		   . Les types énumérés de l'attribut typeproc ne sont pas repris (utilisation de ceux du standard CNIG PLU/PLUi/CC)
 --		   . Création des tables geo_p_perimetre_scot, geo_t_perimetre_scot, geo_a_perimetre_scot
 -- 2020/03/19 : GB / Mise à jour de la table an_doc_urbai_valide pour filtrer sans les SCoT et RNU dans la 1ere partie de la requête (correctif) 
+-- 2020/04/02 : GB / Anomalie : vue filtrant les données de prodcution sur l'ARC filtrée avec l_insee, corrigée avec les 9 premiers chiffres de l'IDURBA (SIREN)
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -4032,12 +4033,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_habillage_surf_arc AS
     right(geo_p_habillage_surf.idurba,8) as l_datappro,
     geo_p_habillage_surf.geom
    FROM m_urbanisme_doc_cnig2017.geo_p_habillage_surf
-  WHERE geo_p_habillage_surf.l_insee::text = '60023'::text OR geo_p_habillage_surf.l_insee::text = '60070'::text OR geo_p_habillage_surf.l_insee::text = '60151'::text OR geo_p_habillage_surf.l_insee::text = '60156'::text 
-  OR geo_p_habillage_surf.l_insee::text = '60159'::text OR geo_p_habillage_surf.l_insee::text = '60323'::text OR geo_p_habillage_surf.l_insee::text = '60325'::text OR geo_p_habillage_surf.l_insee::text = '60326'::text 
-  OR geo_p_habillage_surf.l_insee::text = '60337'::text OR geo_p_habillage_surf.l_insee::text = '60338'::text OR geo_p_habillage_surf.l_insee::text = '60382'::text OR geo_p_habillage_surf.l_insee::text = '60402'::text 
-  OR geo_p_habillage_surf.l_insee::text = '60579'::text OR geo_p_habillage_surf.l_insee::text = '60597'::text OR geo_p_habillage_surf.l_insee::text = '60665'::text OR geo_p_habillage_surf.l_insee::text = '60674'::text 
-  OR geo_p_habillage_surf.l_insee::text = '60067'::text OR geo_p_habillage_surf.l_insee::text = '60068'::text OR geo_p_habillage_surf.l_insee::text = '60447'::text OR geo_p_habillage_surf.l_insee::text = '60578'::text 
-  OR geo_p_habillage_surf.l_insee::text = '60600'::text OR geo_p_habillage_surf.l_insee::text = '60667'::text;
+  WHERE geo_p_habillage_surf.idurba like '200067965%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_p_habillage_surf_arc
   OWNER TO sig_create;
@@ -4062,12 +4058,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_habillage_pct_arc AS
     right(geo_p_habillage_pct.idurba,8) as l_datappro,
     geo_p_habillage_pct.geom
    FROM m_urbanisme_doc.geo_p_habillage_pct
-  WHERE geo_p_habillage_pct.l_insee::text = '60023'::text OR geo_p_habillage_pct.l_insee::text = '60070'::text OR geo_p_habillage_pct.l_insee::text = '60151'::text OR geo_p_habillage_pct.l_insee::text = '60156'::text 
-  OR geo_p_habillage_pct.l_insee::text = '60159'::text OR geo_p_habillage_pct.l_insee::text = '60323'::text OR geo_p_habillage_pct.l_insee::text = '60325'::text OR geo_p_habillage_pct.l_insee::text = '60326'::text 
-  OR geo_p_habillage_pct.l_insee::text = '60337'::text OR geo_p_habillage_pct.l_insee::text = '60338'::text OR geo_p_habillage_pct.l_insee::text = '60382'::text OR geo_p_habillage_pct.l_insee::text = '60402'::text 
-  OR geo_p_habillage_pct.l_insee::text = '60579'::text OR geo_p_habillage_pct.l_insee::text = '60597'::text OR geo_p_habillage_pct.l_insee::text = '60665'::text OR geo_p_habillage_pct.l_insee::text = '60674'::text 
-  OR geo_p_habillage_pct.l_insee::text = '60067'::text OR geo_p_habillage_pct.l_insee::text = '60068'::text OR geo_p_habillage_pct.l_insee::text = '60447'::text OR geo_p_habillage_pct.l_insee::text = '60578'::text 
-  OR geo_p_habillage_pct.l_insee::text = '60600'::text OR geo_p_habillage_pct.l_insee::text = '60667'::text;
+  WHERE geo_p_habillage_pct.idurba like '200067965%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_p_habillage_pct_arc
   OWNER TO sig_create;
@@ -4091,12 +4082,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_habillage_lin_arc AS
     right(geo_p_habillage_lin.idurba,8) as l_datappro,
     geo_p_habillage_lin.geom
    FROM m_urbanisme_doc.geo_p_habillage_lin
-  WHERE geo_p_habillage_lin.l_insee::text = '60023'::text OR geo_p_habillage_lin.l_insee::text = '60070'::text OR geo_p_habillage_lin.l_insee::text = '60151'::text OR geo_p_habillage_lin.l_insee::text = '60156'::text 
-  OR geo_p_habillage_lin.l_insee::text = '60159'::text OR geo_p_habillage_lin.l_insee::text = '60323'::text OR geo_p_habillage_lin.l_insee::text = '60325'::text OR geo_p_habillage_lin.l_insee::text = '60326'::text 
-  OR geo_p_habillage_lin.l_insee::text = '60337'::text OR geo_p_habillage_lin.l_insee::text = '60338'::text OR geo_p_habillage_lin.l_insee::text = '60382'::text OR geo_p_habillage_lin.l_insee::text = '60402'::text 
-  OR geo_p_habillage_lin.l_insee::text = '60579'::text OR geo_p_habillage_lin.l_insee::text = '60597'::text OR geo_p_habillage_lin.l_insee::text = '60665'::text OR geo_p_habillage_lin.l_insee::text = '60674'::text 
-  OR geo_p_habillage_lin.l_insee::text = '60067'::text OR geo_p_habillage_lin.l_insee::text = '60068'::text OR geo_p_habillage_lin.l_insee::text = '60447'::text OR geo_p_habillage_lin.l_insee::text = '60578'::text 
-  OR geo_p_habillage_lin.l_insee::text = '60600'::text OR geo_p_habillage_lin.l_insee::text = '60667'::text;
+  WHERE geo_p_habillage_lin.idurba like '200067965%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_p_habillage_lin_arc
   OWNER TO sig_create;
@@ -4127,12 +4113,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_habillage_txt_arc AS
     right(geo_p_habillage_txt.idurba,8) as l_datappro,
     geo_p_habillage_txt.geom
    FROM m_urbanisme_doc.geo_p_habillage_txt
-  WHERE geo_p_habillage_txt.l_insee::text = '60023'::text OR geo_p_habillage_txt.l_insee::text = '60070'::text OR geo_p_habillage_txt.l_insee::text = '60151'::text OR geo_p_habillage_txt.l_insee::text = '60156'::text 
-  OR geo_p_habillage_txt.l_insee::text = '60159'::text OR geo_p_habillage_txt.l_insee::text = '60323'::text OR geo_p_habillage_txt.l_insee::text = '60325'::text OR geo_p_habillage_txt.l_insee::text = '60326'::text 
-  OR geo_p_habillage_txt.l_insee::text = '60337'::text OR geo_p_habillage_txt.l_insee::text = '60338'::text OR geo_p_habillage_txt.l_insee::text = '60382'::text OR geo_p_habillage_txt.l_insee::text = '60402'::text 
-  OR geo_p_habillage_txt.l_insee::text = '60579'::text OR geo_p_habillage_txt.l_insee::text = '60597'::text OR geo_p_habillage_txt.l_insee::text = '60665'::text OR geo_p_habillage_txt.l_insee::text = '60674'::text 
-  OR geo_p_habillage_txt.l_insee::text = '60067'::text OR geo_p_habillage_txt.l_insee::text = '60068'::text OR geo_p_habillage_txt.l_insee::text = '60447'::text OR geo_p_habillage_txt.l_insee::text = '60578'::text 
-  OR geo_p_habillage_txt.l_insee::text = '60600'::text OR geo_p_habillage_txt.l_insee::text = '60667'::text;
+  WHERE geo_p_habillage_txt.idurba like '200067965%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_p_habillage_txt_arc
   OWNER TO sig_create;
@@ -4170,13 +4151,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_info_pct_arc AS
     geo_p_info_pct.datvalid,
     geo_p_info_pct.geom
    FROM m_urbanisme_doc.geo_p_info_pct, m_urbanisme_doc.lt_typeinf
-  WHERE geo_p_info_pct.typeinf || geo_p_info_pct.stypeinf = lt_typeinf.code || lt_typeinf.sous_code and (geo_p_info_pct.l_insee::text = '60023'::text OR geo_p_info_pct.l_insee::text = '60070'::text OR geo_p_info_pct.l_insee::text = '60151'::text 
-  OR geo_p_info_pct.l_insee::text = '60156'::text 
-  OR geo_p_info_pct.l_insee::text = '60159'::text OR geo_p_info_pct.l_insee::text = '60323'::text OR geo_p_info_pct.l_insee::text = '60325'::text OR geo_p_info_pct.l_insee::text = '60326'::text 
-  OR geo_p_info_pct.l_insee::text = '60337'::text OR geo_p_info_pct.l_insee::text = '60338'::text OR geo_p_info_pct.l_insee::text = '60382'::text OR geo_p_info_pct.l_insee::text = '60402'::text 
-  OR geo_p_info_pct.l_insee::text = '60579'::text OR geo_p_info_pct.l_insee::text = '60597'::text OR geo_p_info_pct.l_insee::text = '60665'::text OR geo_p_info_pct.l_insee::text = '60674'::text 
-  OR geo_p_info_pct.l_insee::text = '60067'::text OR geo_p_info_pct.l_insee::text = '60068'::text OR geo_p_info_pct.l_insee::text = '60447'::text OR geo_p_info_pct.l_insee::text = '60578'::text 
-  OR geo_p_info_pct.l_insee::text = '60600'::text OR geo_p_info_pct.l_insee::text = '60667'::text);
+  WHERE geo_p_info_pct.typeinf || geo_p_info_pct.stypeinf = lt_typeinf.code || lt_typeinf.sous_code and 
+  geo_p_info_pct.idurba like '200067965%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_p_info_pct_arc
 OWNER TO sig_create;
@@ -4213,12 +4189,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_info_lin_arc AS
     geo_p_info_lin.datvalid,
     geo_p_info_lin.geom
    FROM m_urbanisme_doc.geo_p_info_lin, m_urbanisme_doc.lt_typeinf
-  WHERE geo_p_info_lin.typeinf || geo_p_info_lin.stypeinf = lt_typeinf.code || lt_typeinf.sous_code and (geo_p_info_lin.l_insee::text = '60023'::text OR geo_p_info_lin.l_insee::text = '60070'::text OR geo_p_info_lin.l_insee::text = '60151'::text OR geo_p_info_lin.l_insee::text = '60156'::text 
-  OR geo_p_info_lin.l_insee::text = '60159'::text OR geo_p_info_lin.l_insee::text = '60323'::text OR geo_p_info_lin.l_insee::text = '60325'::text OR geo_p_info_lin.l_insee::text = '60326'::text 
-  OR geo_p_info_lin.l_insee::text = '60337'::text OR geo_p_info_lin.l_insee::text = '60338'::text OR geo_p_info_lin.l_insee::text = '60382'::text OR geo_p_info_lin.l_insee::text = '60402'::text 
-  OR geo_p_info_lin.l_insee::text = '60579'::text OR geo_p_info_lin.l_insee::text = '60597'::text OR geo_p_info_lin.l_insee::text = '60665'::text OR geo_p_info_lin.l_insee::text = '60674'::text 
-  OR geo_p_info_lin.l_insee::text = '60067'::text OR geo_p_info_lin.l_insee::text = '60068'::text OR geo_p_info_lin.l_insee::text = '60447'::text OR geo_p_info_lin.l_insee::text = '60578'::text 
-  OR geo_p_info_lin.l_insee::text = '60600'::text OR geo_p_info_lin.l_insee::text = '60667'::text);
+  WHERE geo_p_info_lin.typeinf || geo_p_info_lin.stypeinf = lt_typeinf.code || lt_typeinf.sous_code 
+  and geo_p_info_lin.idurba like '200067965%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_p_info_lin_arc
   OWNER TO sig_create;
@@ -4256,12 +4228,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_info_surf_arc AS
     geo_p_info_surf.datvalid,
     geo_p_info_surf.geom
    FROM m_urbanisme_doc.geo_p_info_surf, m_urbanisme_doc.lt_typeinf
-  WHERE geo_p_info_surf.typeinf || geo_p_info_surf.stypeinf = lt_typeinf.code || lt_typeinf.sous_code and (geo_p_info_surf.l_insee::text = '60023'::text OR geo_p_info_surf.l_insee::text = '60070'::text OR geo_p_info_surf.l_insee::text = '60151'::text OR geo_p_info_surf.l_insee::text = '60156'::text 
-  OR geo_p_info_surf.l_insee::text = '60159'::text OR geo_p_info_surf.l_insee::text = '60323'::text OR geo_p_info_surf.l_insee::text = '60325'::text OR geo_p_info_surf.l_insee::text = '60326'::text 
-  OR geo_p_info_surf.l_insee::text = '60337'::text OR geo_p_info_surf.l_insee::text = '60338'::text OR geo_p_info_surf.l_insee::text = '60382'::text OR geo_p_info_surf.l_insee::text = '60402'::text 
-  OR geo_p_info_surf.l_insee::text = '60579'::text OR geo_p_info_surf.l_insee::text = '60597'::text OR geo_p_info_surf.l_insee::text = '60665'::text OR geo_p_info_surf.l_insee::text = '60674'::text 
-  OR geo_p_info_surf.l_insee::text = '60067'::text OR geo_p_info_surf.l_insee::text = '60068'::text OR geo_p_info_surf.l_insee::text = '60447'::text OR geo_p_info_surf.l_insee::text = '60578'::text 
-  OR geo_p_info_surf.l_insee::text = '60600'::text OR geo_p_info_surf.l_insee::text = '60667'::text);
+  WHERE geo_p_info_surf.typeinf || geo_p_info_surf.stypeinf = lt_typeinf.code || lt_typeinf.sous_code 
+  and geo_p_info_surf.idurba like '200067965%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_p_info_surf_arc
   OWNER TO sig_create;
@@ -4299,12 +4267,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_prescription_lin_arc AS
     geo_p_prescription_lin.datvalid,
     geo_p_prescription_lin.geom
    FROM m_urbanisme_doc.geo_p_prescription_lin, m_urbanisme_doc.lt_typepsc
-  WHERE  geo_p_prescription_lin.typepsc || geo_p_prescription_lin.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and (geo_p_prescription_lin.l_insee::text = '60023'::text OR geo_p_prescription_lin.l_insee::text = '60070'::text OR geo_p_prescription_lin.l_insee::text = '60151'::text OR geo_p_prescription_lin.l_insee::text = '60156'::text 
-   OR geo_p_prescription_lin.l_insee::text = '60159'::text OR geo_p_prescription_lin.l_insee::text = '60323'::text OR geo_p_prescription_lin.l_insee::text = '60325'::text OR geo_p_prescription_lin.l_insee::text = '60326'::text 
-   OR geo_p_prescription_lin.l_insee::text = '60337'::text OR geo_p_prescription_lin.l_insee::text = '60338'::text OR geo_p_prescription_lin.l_insee::text = '60382'::text OR geo_p_prescription_lin.l_insee::text = '60402'::text 
-   OR geo_p_prescription_lin.l_insee::text = '60579'::text OR geo_p_prescription_lin.l_insee::text = '60597'::text OR geo_p_prescription_lin.l_insee::text = '60665'::text OR geo_p_prescription_lin.l_insee::text = '60674'::text 
-   OR geo_p_prescription_lin.l_insee::text = '60067'::text OR geo_p_prescription_lin.l_insee::text = '60068'::text OR geo_p_prescription_lin.l_insee::text = '60447'::text OR geo_p_prescription_lin.l_insee::text = '60578'::text 
-   OR geo_p_prescription_lin.l_insee::text = '60600'::text OR geo_p_prescription_lin.l_insee::text = '60667'::text);
+  WHERE  geo_p_prescription_lin.typepsc || geo_p_prescription_lin.stypepsc = lt_typepsc.code || lt_typepsc.sous_code 
+  and geo_p_prescription_lin.idurba like '200067965%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_p_prescription_lin_arc
   OWNER TO sig_create;
@@ -4343,12 +4307,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_prescription_pct_arc AS
     geo_p_prescription_pct.datvalid,
     geo_p_prescription_pct.geom
    FROM m_urbanisme_doc.geo_p_prescription_pct, m_urbanisme_doc.lt_typepsc
-  WHERE geo_p_prescription_pct.typepsc || geo_p_prescription_pct.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and (geo_p_prescription_pct.l_insee::text = '60023'::text OR geo_p_prescription_pct.l_insee::text = '60070'::text OR geo_p_prescription_pct.l_insee::text = '60151'::text OR geo_p_prescription_pct.l_insee::text = '60156'::text 
-OR geo_p_prescription_pct.l_insee::text = '60159'::text OR geo_p_prescription_pct.l_insee::text = '60323'::text OR geo_p_prescription_pct.l_insee::text = '60325'::text OR geo_p_prescription_pct.l_insee::text = '60326'::text 
-OR geo_p_prescription_pct.l_insee::text = '60337'::text OR geo_p_prescription_pct.l_insee::text = '60338'::text OR geo_p_prescription_pct.l_insee::text = '60382'::text OR geo_p_prescription_pct.l_insee::text = '60402'::text 
-OR geo_p_prescription_pct.l_insee::text = '60579'::text OR geo_p_prescription_pct.l_insee::text = '60597'::text OR geo_p_prescription_pct.l_insee::text = '60665'::text OR geo_p_prescription_pct.l_insee::text = '60674'::text 
-OR geo_p_prescription_pct.l_insee::text = '60067'::text OR geo_p_prescription_pct.l_insee::text = '60068'::text OR geo_p_prescription_pct.l_insee::text = '60447'::text OR geo_p_prescription_pct.l_insee::text = '60578'::text 
-OR geo_p_prescription_pct.l_insee::text = '60600'::text OR geo_p_prescription_pct.l_insee::text = '60667'::text);
+  WHERE geo_p_prescription_pct.typepsc || geo_p_prescription_pct.stypepsc = lt_typepsc.code || lt_typepsc.sous_code 
+  and geo_p_prescription_pct.idurba like '200067965%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_p_prescription_pct_arc
   OWNER TO sig_create;
@@ -4387,12 +4347,8 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_prescription_surf_arc AS
     geo_p_prescription_surf.datvalid,
     geo_p_prescription_surf.geom
    FROM m_urbanisme_doc.geo_p_prescription_surf, m_urbanisme_doc.lt_typepsc
-  WHERE geo_p_prescription_surf.typepsc || geo_p_prescription_surf.stypepsc = lt_typepsc.code || lt_typepsc.sous_code and (geo_p_prescription_surf.l_insee::text = '60023'::text OR geo_p_prescription_surf.l_insee::text = '60070'::text OR geo_p_prescription_surf.l_insee::text = '60151'::text OR geo_p_prescription_surf.l_insee::text = '60156'::text 
-OR geo_p_prescription_surf.l_insee::text = '60159'::text OR geo_p_prescription_surf.l_insee::text = '60323'::text OR geo_p_prescription_surf.l_insee::text = '60325'::text OR geo_p_prescription_surf.l_insee::text = '60326'::text 
-OR geo_p_prescription_surf.l_insee::text = '60337'::text OR geo_p_prescription_surf.l_insee::text = '60338'::text OR geo_p_prescription_surf.l_insee::text = '60382'::text OR geo_p_prescription_surf.l_insee::text = '60402'::text 
-OR geo_p_prescription_surf.l_insee::text = '60579'::text OR geo_p_prescription_surf.l_insee::text = '60597'::text OR geo_p_prescription_surf.l_insee::text = '60665'::text OR geo_p_prescription_surf.l_insee::text = '60674'::text 
-OR geo_p_prescription_surf.l_insee::text = '60067'::text OR geo_p_prescription_surf.l_insee::text = '60068'::text OR geo_p_prescription_surf.l_insee::text = '60447'::text OR geo_p_prescription_surf.l_insee::text = '60578'::text 
-OR geo_p_prescription_surf.l_insee::text = '60600'::text OR geo_p_prescription_surf.l_insee::text = '60667'::text);
+  WHERE geo_p_prescription_surf.typepsc || geo_p_prescription_surf.stypepsc = lt_typepsc.code || lt_typepsc.sous_code 
+  and geo_p_prescription_surf.idurba like '200067965%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_p_prescription_surf_arc
   OWNER TO sig_create;
@@ -4426,12 +4382,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_p_zone_urba_arc AS
     geo_p_zone_urba.typesect,
     geo_p_zone_urba.fermreco
    FROM m_urbanisme_doc.geo_p_zone_urba
-  WHERE geo_p_zone_urba.l_insee::text = '60023'::text OR geo_p_zone_urba.l_insee::text = '60070'::text OR geo_p_zone_urba.l_insee::text = '60151'::text OR geo_p_zone_urba.l_insee::text = '60156'::text 
-OR geo_p_zone_urba.l_insee::text = '60159'::text OR geo_p_zone_urba.l_insee::text = '60323'::text OR geo_p_zone_urba.l_insee::text = '60325'::text OR geo_p_zone_urba.l_insee::text = '60326'::text 
-OR geo_p_zone_urba.l_insee::text = '60337'::text OR geo_p_zone_urba.l_insee::text = '60338'::text OR geo_p_zone_urba.l_insee::text = '60382'::text OR geo_p_zone_urba.l_insee::text = '60402'::text 
-OR geo_p_zone_urba.l_insee::text = '60579'::text OR geo_p_zone_urba.l_insee::text = '60597'::text OR geo_p_zone_urba.l_insee::text = '60665'::text OR geo_p_zone_urba.l_insee::text = '60674'::text 
-OR geo_p_zone_urba.l_insee::text = '60067'::text OR geo_p_zone_urba.l_insee::text = '60068'::text OR geo_p_zone_urba.l_insee::text = '60447'::text OR geo_p_zone_urba.l_insee::text = '60578'::text 
-OR geo_p_zone_urba.l_insee::text = '60600'::text OR geo_p_zone_urba.l_insee::text = '60667'::text;
+  WHERE geo_p_zone_urba.idurba like '200067965%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_p_zone_urba_arc
   OWNER TO sig_create;
@@ -5403,7 +5354,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_t_habillage_surf_pluiarc AS
     right(geo_p_habillage_surf.idurba,8) as l_datappro,
     geo_p_habillage_surf.geom
    FROM m_urbanisme_doc.geo_p_habillage_surf
-  WHERE idurba = '200067965_PLUI_00000000' or  idurba = '200067965_PLUI_20191114';
+  WHERE idurba like '200067965_PLUI_%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_t_habillage_surf_pluiarc
   OWNER TO sig_create;
@@ -5428,7 +5379,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_t_habillage_pct_pluiarc AS
     right(geo_p_habillage_pct.idurba,8) as l_datappro,
     geo_p_habillage_pct.geom
    FROM m_urbanisme_doc.geo_p_habillage_pct
-  WHERE idurba = '200067965_PLUI_00000000' or  idurba = '200067965_PLUI_20191114';
+  WHERE idurba like '200067965_PLUI_%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_t_habillage_pct_pluiarc
   OWNER TO sig_create;
@@ -5453,7 +5404,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_t_habillage_lin_pluiarc AS
     right(geo_p_habillage_lin.idurba,8) as l_datappro,
     geo_p_habillage_lin.geom
    FROM m_urbanisme_doc.geo_p_habillage_lin
-  WHERE idurba = '200067965_PLUI_00000000' or  idurba = '200067965_PLUI_20191114';
+  WHERE idurba like '200067965_PLUI_%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_t_habillage_lin_pluiarc
   OWNER TO sig_create;
@@ -5484,7 +5435,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_t_habillage_txt_pluiarc AS
     right(geo_p_habillage_txt.idurba,8) as l_datappro,
     geo_p_habillage_txt.geom
    FROM m_urbanisme_doc.geo_p_habillage_txt
-  WHERE idurba = '200067965_PLUI_00000000' or  idurba = '200067965_PLUI_20191114';
+  WHERE idurba like '200067965_PLUI_%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_t_habillage_txt_pluiarc
   OWNER TO sig_create;
@@ -5523,7 +5474,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_t_info_pct_pluiarc AS
     geo_p_info_pct.geom
    FROM m_urbanisme_doc.geo_p_info_pct, m_urbanisme_doc.lt_typeinf
   WHERE geo_p_info_pct.typeinf || geo_p_info_pct.stypeinf = lt_typeinf.code || lt_typeinf.sous_code 
-  AND (idurba = '200067965_PLUI_00000000' AND or  idurba = '200067965_PLUI_20191114');
+  AND idurba like '200067965_PLUI_%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_t_info_pct_pluiarc
 OWNER TO sig_create;
@@ -5561,7 +5512,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_t_info_lin_pluiarc AS
     geo_p_info_lin.geom
    FROM m_urbanisme_doc.geo_p_info_lin, m_urbanisme_doc_cnig2017.lt_typeinf
   WHERE geo_p_info_lin.typeinf || geo_p_info_lin.stypeinf = lt_typeinf.code || lt_typeinf.sous_code 
-  and (idurba = '200067965_PLUI_00000000' or  idurba = '200067965_PLUI_20191114');
+  and idurba like '200067965_PLUI_%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_t_info_lin_pluiarc
   OWNER TO sig_create;
@@ -5600,7 +5551,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_t_info_surf_pluiarc AS
     geo_p_info_surf.geom
    FROM m_urbanisme_doc.geo_p_info_surf, m_urbanisme_doc.lt_typeinf
   WHERE geo_p_info_surf.typeinf || geo_p_info_surf.stypeinf = lt_typeinf.code || lt_typeinf.sous_code 
-  and (idurba = '200067965_PLUI_00000000' or  idurba = '200067965_PLUI_20191114');
+  and idurba like '200067965_PLUI_%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_t_info_surf_pluiarc
   OWNER TO sig_create;
@@ -5639,7 +5590,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_t_prescription_lin_pluiarc AS
     geo_p_prescription_lin.geom
    FROM m_urbanisme_doc.geo_p_prescription_lin, m_urbanisme_doc.lt_typepsc
   WHERE  geo_p_prescription_lin.typepsc || geo_p_prescription_lin.stypepsc = lt_typepsc.code || lt_typepsc.sous_code 
-  and (idurba = '200067965_PLUI_00000000' or  idurba = '200067965_PLUI_20191114');
+  and idurba like '200067965_PLUI_%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_t_prescription_lin_pluiarc
   OWNER TO sig_create;
@@ -5679,7 +5630,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_t_prescription_pct_pluiarc AS
     geo_p_prescription_pct.geom
    FROM m_urbanisme_doc.geo_p_prescription_pct, m_urbanisme_doc.lt_typepsc
   WHERE geo_p_prescription_pct.typepsc || geo_p_prescription_pct.stypepsc = lt_typepsc.code || lt_typepsc.sous_code 
-  and (idurba = '200067965_PLUI_00000000' or  idurba = '200067965_PLUI_20191114');
+  and idurba like '200067965_PLUI_%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_t_prescription_pct_pluiarc
   OWNER TO sig_create;
@@ -5719,7 +5670,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_t_prescription_surf_pluiarc AS
     geo_p_prescription_surf.geom
    FROM m_urbanisme_doc.geo_p_prescription_surf, m_urbanisme_doc.lt_typepsc
   WHERE geo_p_prescription_surf.typepsc || geo_p_prescription_surf.stypepsc = lt_typepsc.code || lt_typepsc.sous_code 
-  and (idurba = '200067965_PLUI_00000000' or  idurba = '200067965_PLUI_20191114');
+  and idurba like '200067965_PLUI_%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_t_prescription_surf_pluiarc
   OWNER TO sig_create;
@@ -5753,7 +5704,7 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.geo_v_t_zone_urba_pluiarc AS
     geo_p_zone_urba.typesect,
     geo_p_zone_urba.fermreco
    FROM m_urbanisme_doc.geo_p_zone_urba
-  WHERE (idurba = '200067965_PLUI_00000000' or  idurba = '200067965_PLUI_20191114');
+  WHERE idurba like '200067965_PLUI_%';
 
 ALTER TABLE m_urbanisme_doc.geo_v_t_zone_urba_pluiarc
   OWNER TO sig_create;
