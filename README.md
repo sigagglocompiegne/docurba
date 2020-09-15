@@ -1,4 +1,4 @@
-![picto](/doc/img/Logo_web-GeoCompiegnois.png)
+![picto](/doc/img/geocompiegnois_2020_reduit_v2.png)
 
 # Document d'urbanisme (Carte communale,PLU, PLUi)
 
