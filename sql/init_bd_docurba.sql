@@ -3976,6 +3976,152 @@ GRANT ALL ON TABLE x_apps.xapps_an_vmr_docurba_h TO sig_create;
 GRANT ALL ON TABLE x_apps.xapps_an_vmr_docurba_h TO create_sig;
 GRANT SELECT ON TABLE x_apps.xapps_an_vmr_docurba_h TO read_sig;
 
+
+-- View: m_urbanisme_doc.an_v_docurba_annee
+
+DROP VIEW m_urbanisme_doc.an_v_docurba_annee;
+
+CREATE OR REPLACE VIEW m_urbanisme_doc.an_v_docurba_annee
+ AS
+ 
+ WITH req_tot AS (
+        ( WITH req_plu AS (
+                 SELECT 
+			        g.insee AS insee,
+			        ''::character varying(9) as siren,
+			        g.libgeo AS territoire,
+                    u.typedoc,
+                    p.valeur AS nomproc,
+                    e.valeur AS etat,
+                    to_char(to_date(u.datappro::text, 'YYYYMMDD'::text)::timestamp with time zone, 'YYYY'::text) AS anneappro,
+                    to_char(to_date(u.datappro::text, 'YYYYMMDD'::text)::timestamp with time zone, 'DD-MM-YYYY'::text) AS datappro
+                   FROM m_urbanisme_doc.an_doc_urba u,
+                    m_urbanisme_doc.lt_etat e,
+                    m_urbanisme_doc.lt_nomproc p,
+                    r_administratif.an_geo g
+                  WHERE u.etat::bpchar = e.code AND u.nomproc::text = p.code::text AND g.insee::text = "left"(u.idurba::text, 5) AND (u.typedoc::text = 'PLU'::text OR u.typedoc::text = 'POS'::text OR u.typedoc::text = 'CC'::text)
+                  ORDER BY g.libgeo, (to_date(u.datappro::text, 'YYYYMMDD'::text)) DESC
+                )
+         SELECT 
+		    req_plu.insee,
+		    req_plu.siren,
+		    req_plu.territoire,
+            req_plu.typedoc,
+            req_plu.nomproc,
+            req_plu.etat,
+            req_plu.anneappro,
+            req_plu.datappro
+           FROM req_plu)
+        UNION ALL
+        ( WITH req_plui AS (
+                 SELECT 
+			       ''::character varying(5) as insee,
+			        g.cepci as siren,
+			        g.lib_epci AS territoire,
+                    u.typedoc,
+                    p.valeur AS nomproc,
+                    e.valeur AS etat,
+                    to_char(to_date(u.datappro::text, 'YYYYMMDD'::text)::timestamp with time zone, 'YYYY'::text) AS anneappro,
+                    to_char(to_date(u.datappro::text, 'YYYYMMDD'::text)::timestamp with time zone, 'DD-MM-YYYY'::text) AS datappro
+                   FROM m_urbanisme_doc.an_doc_urba u,
+                    m_urbanisme_doc.lt_etat e,
+                    m_urbanisme_doc.lt_nomproc p,
+                    r_osm.geo_vm_osm_epci g
+                  WHERE u.etat::bpchar = e.code AND u.nomproc::text = p.code::text AND g.cepci::text = "left"(u.idurba::text, 9) AND u.typedoc::text = 'PLUI'::text
+                  ORDER BY g.lib_epci, (to_date(u.datappro::text, 'YYYYMMDD'::text)) DESC
+                )
+         SELECT 
+		    req_plui.insee,
+		 	req_plui.siren,
+		    req_plui.territoire,
+            req_plui.typedoc,
+            req_plui.nomproc,
+            req_plui.etat,
+            req_plui.anneappro,
+            req_plui.datappro
+           FROM req_plui)
+        UNION ALL
+        ( WITH req_scot AS (
+                 SELECT 
+			        ''::character varying(5) as insee,
+			 		g.cepci AS siren,
+			        g.lib_epci AS territoire,
+                    u.typedoc,
+                    p.valeur AS nomproc,
+                    e.valeur AS etat,
+                    to_char(to_date(u.datappro::text, 'YYYYMMDD'::text)::timestamp with time zone, 'YYYY'::text) AS anneappro,
+                    to_char(to_date(u.datappro::text, 'YYYYMMDD'::text)::timestamp with time zone, 'DD-MM-YYYY'::text) AS datappro
+                   FROM m_urbanisme_doc.an_doc_urba u,
+                    m_urbanisme_doc.lt_etat e,
+                    m_urbanisme_doc.lt_nomproc p,
+                    r_osm.geo_vm_osm_epci g
+                  WHERE u.etat::bpchar = e.code AND u.nomproc::text = p.code::text AND g.cepci::text = "left"(u.idurba::text, 9) AND u.typedoc::text = 'SCOT'::text
+                  ORDER BY g.lib_epci, (to_date(u.datappro::text, 'YYYYMMDD'::text)) DESC
+                )
+         SELECT 
+		    req_scot.insee,
+		    req_scot.siren,
+		    req_scot.territoire,
+            req_scot.typedoc,
+            req_scot.nomproc,
+            req_scot.etat,
+            req_scot.anneappro,
+            req_scot.datappro
+           FROM req_scot)
+        UNION ALL
+        ( WITH req_scot_arc AS (
+                 SELECT 
+			        ''::character varying(5) as insee,
+					'246001010'::character varying(9) as siren,
+			        'Agglomération de la Région de Compiègne'::text AS territoire,
+                    u.typedoc,
+                    p.valeur AS nomproc,
+                    e.valeur AS etat,
+                    to_char(to_date(u.datappro::text, 'YYYYMMDD'::text)::timestamp with time zone, 'YYYY'::text) AS anneappro,
+                    to_char(to_date(u.datappro::text, 'YYYYMMDD'::text)::timestamp with time zone, 'DD-MM-YYYY'::text) AS datappro
+                   FROM m_urbanisme_doc.an_doc_urba u,
+                    m_urbanisme_doc.lt_etat e,
+                    m_urbanisme_doc.lt_nomproc p
+                  WHERE u.etat::bpchar = e.code AND u.nomproc::text = p.code::text AND u.idurba::text = '246001010_SCOT_20121215'::text AND u.typedoc::text = 'SCOT'::text
+                  ORDER BY 'Agglomération de la Région de Compiègne'::text, (to_date(u.datappro::text, 'YYYYMMDD'::text)) DESC
+                )
+         SELECT 
+		    req_scot_arc.insee,
+		    req_scot_arc.siren,
+		    req_scot_arc.territoire,
+            req_scot_arc.typedoc,
+            req_scot_arc.nomproc,
+            req_scot_arc.etat,
+            req_scot_arc.anneappro,
+            req_scot_arc.datappro
+           FROM req_scot_arc)
+        )
+ SELECT 
+    row_number() over() as id,
+    CASE WHEN req_tot.insee IS NULL OR req_tot.insee = '' THEN '' ELSE req_tot.insee END as insee,
+    CASE WHEN req_tot.siren IS NULL OR req_tot.siren = '' THEN '' ELSE req_tot.siren END as siren,
+    req_tot.territoire,
+    req_tot.typedoc,
+    req_tot.nomproc,
+    req_tot.etat,
+    req_tot.anneappro,
+    req_tot.datappro
+   FROM req_tot
+  ORDER BY req_tot.anneappro DESC, req_tot.territoire;
+
+ALTER TABLE m_urbanisme_doc.an_v_docurba_annee
+    OWNER TO sig_create;
+COMMENT ON VIEW m_urbanisme_doc.an_v_docurba_annee
+    IS 'Vue alphanumérique des documents d''urbanisme par territoire et par année';
+
+GRANT ALL ON TABLE m_urbanisme_doc.an_v_docurba_annee TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc.an_v_docurba_annee TO slazarescu;
+GRANT SELECT ON TABLE m_urbanisme_doc.an_v_docurba_annee TO read_sig;
+GRANT INSERT, SELECT, UPDATE, DELETE ON TABLE m_urbanisme_doc.an_v_docurba_annee TO edit_sig;
+GRANT ALL ON TABLE m_urbanisme_doc.an_v_docurba_annee TO create_sig;
+
+
+
 -- View: m_urbanisme_doc.geo_v_docurba
 
 -- DROP VIEW m_urbanisme_doc.geo_v_docurba;
