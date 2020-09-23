@@ -36,6 +36,8 @@
 --		   . Création des tables geo_p_perimetre_scot, geo_t_perimetre_scot, geo_a_perimetre_scot
 -- 2020/03/19 : GB / Mise à jour de la table an_doc_urbai_valide pour filtrer sans les SCoT et RNU dans la 1ere partie de la requête (correctif) 
 -- 2020/04/02 : GB / Anomalie : vue filtrant les données de prodcution sur l'ARC filtrée avec l_insee, corrigée avec les 9 premiers chiffres de l'IDURBA (SIREN)
+-- 2020/09/23 : GB / Ajout d'une vue : création d'une vue regroupant tous les types de documents d'urbanisme par annnée et par territoire
+
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
