@@ -4992,11 +4992,13 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information
   IS 'Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (assemblage des vues infos PLU et hors PLU)';
 
 
--- Materialized View: x_apps.xapps_an_vmr_p_information_dpu
+-- View: x_apps.xapps_an_vmr_p_information_dpu
 
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu;
 
-CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu AS 
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu
+TABLESPACE pg_default
+AS
  WITH r_p AS (
          WITH r_surf AS (
                  SELECT "PARCELLE"."IDU" AS idu,
@@ -5022,7 +5024,7 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu AS
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
-    r_p.l_nom,
+    CASE WHEN r_p.l_nom = '' OR r_p.l_nom IS NULL THEN '' ELSE r_p.l_nom END as l_nom,
         CASE
             WHEN r_p.libelle IS NULL OR r_p.libelle::text = ''::text THEN 'Parcelle non concernée'::character varying
             ELSE
@@ -5031,11 +5033,13 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu AS
                 ELSE r_p.l_nom
             END
         END AS application,
-    r_p.l_bnfcr AS beneficiaire,
-    to_char(to_date(r_p.l_dateins::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text) AS date_ins,
-    r_p.urlfic
+    CASE WHEN r_p.l_bnfcr = '' OR r_p.l_bnfcr IS NULL THEN '' ELSE r_p.l_bnfcr END  AS beneficiaire,
+	CASE WHEN r_p.l_dateins::text = '' or r_p.l_dateins::text IS NULL THEN '' ELSE
+    to_char(to_date(r_p.l_dateins::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text) END AS date_ins,
+   r_p.urlfic as urlfic
    FROM r_p
-  ORDER BY
+
+  ORDER BY (
         CASE
             WHEN r_p.libelle IS NULL OR r_p.libelle::text = ''::text THEN 'Parcelle non concernée'::character varying
             ELSE
@@ -5043,20 +5047,21 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu AS
                 WHEN r_p.l_nom IS NULL OR r_p.l_nom::text = ''::text THEN r_p.l_gen
                 ELSE r_p.l_nom
             END
-        END DESC
+        END) DESC
+		
 WITH DATA;
 
-ALTER TABLE x_apps.xapps_an_vmr_p_information_dpu
-  OWNER TO sig_create;
-GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_dpu TO sig_create;
-GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_dpu TO create_sig;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps.xapps_an_vmr_p_information_dpu TO edit_sig;
-GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_dpu TO read_sig;
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_dpu
-  IS E'Vue matérialisée formatant les données les données des DPU pour la fiche de renseignements d''''urbanisme (fiche d''''information de GEO).
-ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\\\\\\\Ressources\\\\\\\\4-Partage\\\\\\\\3-Procedures\\\\\\\\FME\\\\prod\\\\\\\\URB\\\\\\\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) 
+    IS 'Vue matérialisée formatant les données les données des DPU pour la fiche de renseignements d''''urbanisme (fiche d''''information de GEO).
+ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\\\Ressources\\\\4-Partage\\\\3-Procedures\\\\FME\\prod\\\\URB\\\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) 
 afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
 
+
+CREATE INDEX idx_xapps_an_vmr_p_information
+    ON x_apps.xapps_an_vmr_p_information_dpu USING btree
+    (idu COLLATE pg_catalog."default")
+    TABLESPACE pg_default;
+	
 
 
 -- Materialized View: x_apps.xapps_an_vmr_p_prescription
