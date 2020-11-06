@@ -38,6 +38,7 @@
 -- 2020/04/02 : GB / Anomalie : vue filtrant les données de prodcution sur l'ARC filtrée avec l_insee, corrigée avec les 9 premiers chiffres de l'IDURBA (SIREN)
 -- 2020/09/23 : GB / Ajout d'une vue : création d'une vue regroupant tous les types de documents d'urbanisme par annnée et par territoire
 -- 2020/10/02 : GB / Adaptation de la vue traitent des parcelles en DPU
+-- 2020/11/06 : GB / Modification éditoriale dans la vue matérialisée information hors PLU concernant les réseaux
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -4804,31 +4805,31 @@ AS
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_zonage_archeologique za
                   WHERE "left"(p."IDU"::text, 5) = za.insee::text
-                ),  r_enedis_bta AS (
+                ), r_enedis_bta AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée où est à proximité immédiate du Réseau ENEDIS Basse Tension en ligne aérienne.'::text  AS libelle,
-                    ''::text as urlfic
+                    'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Basse Tension en ligne aérienne.'::text AS libelle,
+                    ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_bta_enedis bta
                   WHERE st_intersects(p."GEOM", bta.geom)
-                ),  r_enedis_bts AS (
+                ), r_enedis_bts AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée où est à proximité immédiate du Réseau ENEDIS Basse Tension en ligne souterraine.'::text  AS libelle,
-                    ''::text as urlfic
+                    'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Basse Tension en ligne souterraine.'::text AS libelle,
+                    ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_bts_enedis bts
                   WHERE st_intersects(p."GEOM", bts.geom)
-                ),  r_enedis_htaa AS (
+                ), r_enedis_htaa AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée où est à proximité immédiate du Réseau ENEDIS Moyenne Tension en ligne aérienne.'::text  AS libelle,
-                    ''::text as urlfic
+                    'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Moyenne Tension en ligne aérienne.'::text AS libelle,
+                    ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_htaa_enedis htaa
                   WHERE st_intersects(p."GEOM", htaa.geom)
-                ),  r_enedis_htas AS (
+                ), r_enedis_htas AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée où est à proximité immédiate du Réseau ENEDIS Moyenne Tension en ligne souterraine.'::text  AS libelle,
-                    ''::text as urlfic
+                    'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Moyenne Tension en ligne souterraine.'::text AS libelle,
+                    ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_htas_enedis htas
                   WHERE st_intersects(p."GEOM", htas.geom)
@@ -4917,22 +4918,22 @@ AS
             r_zarcheo.libelle,
             r_zarcheo.urlfic
            FROM r_zarcheo
-	    UNION ALL
+        UNION ALL
          SELECT r_enedis_bta.idu,
             r_enedis_bta.libelle,
             r_enedis_bta.urlfic
            FROM r_enedis_bta
-	 	    UNION ALL
+        UNION ALL
          SELECT r_enedis_bts.idu,
             r_enedis_bts.libelle,
             r_enedis_bts.urlfic
            FROM r_enedis_bts
-	 	 	    UNION ALL
+        UNION ALL
          SELECT r_enedis_htaa.idu,
             r_enedis_htaa.libelle,
             r_enedis_htaa.urlfic
            FROM r_enedis_htaa
-	 	 	 	    UNION ALL
+        UNION ALL
          SELECT r_enedis_htas.idu,
             r_enedis_htas.libelle,
             r_enedis_htas.urlfic
