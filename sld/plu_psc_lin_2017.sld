@@ -251,7 +251,11 @@
                 <ogc:PropertyName>typepsc</ogc:PropertyName>
                 <ogc:Literal>07</ogc:Literal>
               </ogc:PropertyIsEqualTo>
-              <ogc:Or>
+              <ogc:PropertyIsNotEqualTo>
+                <ogc:PropertyName>l_nature</ogc:PropertyName>
+                <ogc:Literal>Cône de vue</ogc:Literal>
+              </ogc:PropertyIsNotEqualTo>
+             <ogc:Or>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>stypepsc</ogc:PropertyName>
                   <ogc:Literal>00</ogc:Literal>
@@ -408,12 +412,12 @@
         </se:Rule>
 
 
-<!-- #####  PSC 07_04  ##### --> 
+<!-- #####  PSC 07_02_cone_de_vue  ##### --> 
           
         <se:Rule>
-          <se:Name>Eléments de paysages (sites et secteurs) à préserver</se:Name>
+          <se:Name>Patrimoine paysager ou éléments de paysage à protéger</se:Name>
           <se:Description>
-            <se:Title>Eléments de paysages (sites et secteurs) à préserver</se:Title>
+            <se:Title>Cône de vue</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -423,7 +427,11 @@
               </ogc:PropertyIsEqualTo>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>stypepsc</ogc:PropertyName>
-                  <ogc:Literal>04</ogc:Literal>
+                  <ogc:Literal>02</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+              	<ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>l_nature</ogc:PropertyName>
+                  <ogc:Literal>Cône de vue</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
             </ogc:And>
           </ogc:Filter>
