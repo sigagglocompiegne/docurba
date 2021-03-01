@@ -42,7 +42,7 @@ Sans objet
 
 Sont décrites ici les Géotables et/ou Tables intégrées dans GEO pour les besoins de l'application. Les autres données servant d'habillage (pour la cartographie ou les recherches) sont listées dans les autres parties ci-après. Le tableau ci-dessous présente uniquement les changements (type de champ, formatage du résultat, ...) ou les ajouts (champs calculés, filtre, ...) non présents dans la donnée source. 
 
-## Table : `r_bg_edigeo.PARCELLE`
+## Table : `r_bg_majic.NBAT_10 (Parcelle Alpha) dans GEO`
 
 Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC. Cependant pour assurer un suivi en cas de mise à jour de l'éditeur, sont exposées ci-dessous uniquement Les relations forcées avec d'autres tables et les champs calculés réalisés par l'ARC.
 
@@ -68,9 +68,13 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 | Parcelle (QGis) |idu = idu_60| 0..1 (égal) |
 | an_v_docurba_valide |idu | 0..1 (égal) |
 
-## Table : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3 dans GEO`
+## Table : `r_bg_edigeo.PARCELLE (PARCELLE) dans GEO`
 
-Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC. Sur cette table est reliée l'ensemble des autres tables ou geotable issues de la base de données de l'ARC pour affichage dans la fiche de renseignements d'urbanisme.
+Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC. 
+
+## Table : `r_bg_majioc.PROP (Propriétaire) dans GEO`
+
+Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC. 
 
 ## Table : `an_v_docurba_valide`
 
