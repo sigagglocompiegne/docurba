@@ -609,9 +609,9 @@ Source : `m_urbanisme_reg.geo_sup_pm1_ppri_projet_rq (PPRi zonage (projet) - rem
 
  * Modèle d'impression : Fiche standard+carte
  
-## Fiche d'information : `Renseignements d'urbanisme`
+## Fiche d'information : `Note de renseignements d'urbanisme`
 
-Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
+Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha)`
 
  * Statistique : aucune
  
@@ -619,31 +619,36 @@ Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
  
 |Mode d'ouverture|Taille|Agencement des sections|
 |:---|:---|:---|
-|dans le gabarit|600x650|Vertical|
+|dans le gabarit|800x650|Vertical|
 
 |Nom de la section|Attributs|Position label|Agencement attribut|Visibilité conditionnelle|Fichie liée|Ajout de données autorisé|
 |:---|:---|:---|:---|:---|:---|:---|
-|(vide)|affiche_commune|Masqué|Vertical||||
-|(vide)|titre_html|Masqué|Vertical||||
-|(vide)|section_parcelle|Masqué|Vertical||||
-|(vide)|tableau_proprio|Masqué|Vertical||||
-|(vide)|titre_doc_urba_valide_html|Masqué|Vertical||||
-|(vide)|tableau_acces_reg|Masqué|Vertical||||
-|(vide)|tableau_doc_vigueur|Masqué|Vertical||||
-|(vide)|libelle(xapps_an_vmr_parcelle_plu),libelong,urlfic (xapps_an_vmr_parcelle_plu)|Masqué|Vertical||Fiche POS-PLU-CC||
-|(vide)|titre_prescription_html|Masqué|Vertical||||
-|(vide)|libelle(xapps_an_vmr_p_prescription),lien(xapps_an_vmr_p_prescription)|Masqué|Vertical||||
-|(vide)|titre_dpu_html|Masqué|Vertical||||
-|(vide)|application,beneficiaire,date_ins,urlfic(xapps_an_vmr_p_information_dpu)|Masqué|Vertical||||
-|(vide)|titre_info_utile_html|Masqué|Vertical||||
-|(vide)|libelle(xapps_an_vmr_p_information),lien(xapps_an_vmr_p_information)|Masqué|Vertical||||
-|(vide)|titre_sup_html,titre_sup_impact|Masqué|Vertical||||
-|(vide)|ligne_aff(an_sup_geo),l_url(an_sup_geo)|Masqué|Vertical||||
-|(vide)|titre_ac4|Masqué|Vertical||||
-|(vide)|message,protec,typeprotec(an_sup_ac4_geo_protect)|Masqué|Vertical||||
-|(vide)|titre_liste_sup_com|Masqué|Vertical||||
-|(vide)|titre_taxe_amgt|Masqué|Vertical||||
-|(vide)|affiche_taux,affiche_url(an_fisc_geo_taxe_amgt)|Masqué|Vertical||||
+|(vide)|affiche_titre_note|Masqué|Vertical||||
+|(vide)|affiche_terrain|Masqué|Vertical||||
+|(vide)|affiche_adresse|Masqué|Vertical||||
+|(vide)|affiche_liste_proprio|Masqué|Vertical||||
+|(vide)|affiche_message_note|Masqué|Vertical||||
+|(vide)|affiche_bandeau_a|Masqué|Vertical||||
+|(vide)|tableau_doc_vigueur, tableau_acces_reg|Masqué|Vertical||||
+|(vide)|zonage (libelle), libelle (libelong, + d'info(urlfic)|Masqué|Vertical||||
+|(vide)|Commune(commune)|Masqué|Vertical||Ancien(s) document(s) d'urbanisme (Accès à la liste des procédures antérieures)||
+|(vide)|affiche_bandeau_b|Masqué|Vertical||||
+|(vide)|Libelle(libelle_1),+ d'infos(lien)|Masqué|Vertical||||
+|(vide)|affiche_note_psc|Masqué|Vertical||||
+|(vide)|affiche_bandeau_c|Masqué|Vertical||||
+|(vide)|Application,Bénéficiaire,Instauré le,+ d'infos (url_1)|Masqué|Vertical||||
+|(vide)|affiche_note_dpu|Masqué|Vertical||||
+|(vide)|affiche_bandeau_d|Masqué|Vertical||||
+|(vide)|affiche_note_sup|Masqué|Vertical||||
+|(vide)|Libellé de la servitude(ligne_aff), +d'infos(l_url)|Masqué|Vertical||||
+|(vide)|affiche_ac4|Masqué|Vertical|affiche_codesup=="AC4'|Cartographie de l'AVAP de Compiègne||
+|(vide)(vide)|affiche_codesup|Masqué|Vertical|affiche_codesup=="ZZ'|||
+|(vide)|affiche_note_sup_com|Masqué|Vertical||||
+|(vide)|affiche_liste_sup_com|Masqué|Vertical||||
+|(vide)|affiche_bandeau_e|Masqué|Vertical||||
+|(vide)|Libellé(libell_2), + d'infos(lien_1)|Masqué|Vertical||||
+|(vide)|affiche_taxe_amgt|Masqué|Vertical||||
+|(vide)|affiche_pied_de_page|Masqué|Vertical||||
 
  * Saisie : aucune
 
@@ -651,9 +656,9 @@ Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
  * Particularité : le champ calculé tableau_proprio a été intégré en plus de l'éditeur. Ce champ doit-être recréer à chaque mise à jour du module GeoCadastre et de la création de la structure dans GEO si besoin (champ HTML <b>{BG_FULL_NAME} /st de ligne/
 {BG_FULL_ADDRESS}</b>) et renommé Le ou les propriétaire(s).
 
-## Fiche d'information : `Renseignements d'urbanisme (non DGFIP)`
+## Fiche d'information : `Cartographie de l'AVAP de Compiègne`
 
-Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
+Source : `x_apps.xapps_an_vmr_sup_ac4`
 
  * Statistique : aucune
  
@@ -661,34 +666,9 @@ Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3)`
  
 |Mode d'ouverture|Taille|Agencement des sections|
 |:---|:---|:---|
-|dans le gabarit|600x650|Vertical|
+|depuis un lien externe|80% par 95%||
 
-|Nom de la section|Attributs|Position label|Agencement attribut|Visibilité conditionnelle|Fichie liée|Ajout de données autorisé|
-|:---|:---|:---|:---|:---|:---|:---|
-|(vide)|affiche_commune|Masqué|Vertical||||
-|(vide)|titre_html|Masqué|Vertical||||
-|(vide)|section_parcelle|Masqué|Vertical||||
-|(vide)|titre_doc_urba_valide_html|Masqué|Vertical||||
-|(vide)|tableau_doc_vigueur|Masqué|Vertical||||
-|(vide)|libelle(xapps_an_vmr_parcelle_plu),libelong,urlfic (xapps_an_vmr_parcelle_plu)|Masqué|Vertical||Fiche POS-PLU-CC||
-|(vide)|titre_prescription_html|Masqué|Vertical||||
-|(vide)|libelle(xapps_an_vmr_p_prescription),lien(xapps_an_vmr_p_prescription)|Masqué|Vertical||||
-|(vide)|titre_dpu_html|Masqué|Vertical||||
-|(vide)|application,beneficiaire,date_ins,urlfic(xapps_an_vmr_p_information_dpu)|Masqué|Vertical||||
-|(vide)|titre_info_utile_html|Masqué|Vertical||||
-|(vide)|libelle(xapps_an_vmr_p_information),lien(xapps_an_vmr_p_information)|Masqué|Vertical||||
-|(vide)|titre_sup_html,titre_sup_impact|Masqué|Vertical||||
-|(vide)|ligne_aff(an_sup_geo),l_url(an_sup_geo)|Masqué|Vertical||||
-|(vide)|titre_ac4|Masqué|Vertical||||
-|(vide)|message,protec,typeprotec(an_sup_ac4_geo_protect)|Masqué|Vertical||||
-|(vide)|titre_liste_sup_com|Masqué|Vertical||||
-|(vide)|titre_taxe_amgt|Masqué|Vertical||||
-|(vide)|affiche_taux,affiche_url(an_fisc_geo_taxe_amgt)|Masqué|Vertical||||
-
- * Saisie : aucune
-
- * Modèle d'impression : Fiche standard
- * Particularité : cette fiche est identique à la fiche "Renseignement d'urbanisme" sauf qu'elle n'affiche pas le nom des propriétaires et n'est accessible uniquement pour les profils non DGI à partir des applicatifs GEO.
+ * Lien externe : https://geo.compiegnois.fr/adws/app/994d39a3-75fe-11eb-9e91-97bc9665d3ad/?_r=AVAP (parcelle concernée)&_f.parcelle_avap=${idu} 
 
 ## Analyse :
 
