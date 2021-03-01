@@ -21,7 +21,7 @@ L’ARC privilégie donc une organisation dans laquelle l’Interface Homme Mach
 ## Voir aussi
 
 -[Lire la documentation du standard national CNIG]()
--Ressources sur les données AVAP (en cours)
+- Ressources sur les données AVAP (en cours)
 
 ## Jeu de données consolidé
 
