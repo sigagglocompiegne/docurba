@@ -696,8 +696,7 @@ Source : `r_bg_majic.NBAT_10 (Parcelle (Alpha)`
  * Saisie : aucune
 
  * Modèle d'impression : Fiche standard
- * Particularité : le champ calculé tableau_proprio a été intégré en plus de l'éditeur. Ce champ doit-être recréer à chaque mise à jour du module GeoCadastre et de la création de la structure dans GEO si besoin (champ HTML <b>{BG_FULL_NAME} /st de ligne/
-{BG_FULL_ADDRESS}</b>) et renommé Le ou les propriétaire(s).
+ * Particularité : le champ calculé tableau_proprio a été intégré en plus de l'éditeur. Ce champ doit-être recréer à chaque mise à jour du module GeoCadastre et de la création de la structure dans GEO si besoin (champ HTML <b>{BG_FULL_NAME} /st de ligne/ {BG_FULL_ADDRESS}</b>) et renommé Le ou les propriétaire(s).
 
 ## Fiche d'information : `Cartographie de l'AVAP de Compiègne`
 
@@ -712,6 +711,8 @@ Source : `x_apps.xapps_an_vmr_sup_ac4`
 |depuis un lien externe|80% par 95%||
 
  * Lien externe : https://geo.compiegnois.fr/adws/app/994d39a3-75fe-11eb-9e91-97bc9665d3ad/?_r=AVAP (parcelle concernée)&_f.parcelle_avap=${idu} 
+
+Pour plus d'informations sur l'application AVAP, vous pouvez accéder au répertoire GitHub en cliquant [ici](https://github.com/sigagglocompiegne/avap/)
 
 ## Analyse :
 
