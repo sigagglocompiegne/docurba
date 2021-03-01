@@ -51,8 +51,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 | affiche_avap |x|x||Déclaré en HTML. Contenu explicatif fonctionnel pour afficher la légende|Application AVAP|`<font size =3><i><b>Pour accéder à la légende</b>, cliquez sur l'onglet correpondant ci-dessus.<br><br><b>Pour accéder à la photothèque</b>, désactivez la recherche en cours en cliquant sur <img src="https://geo.compiegnois.fr/documents/cms/ferme_rech.png" alt =''></img> ci-dessus et cliquez sur le bâtiment ou le symbole du petit patrimoine dans la carte.</i></font>`|
 |affiche_avap_result_parcelle |x|x||Déclaré en HTML (format SQL). Formate l'affichage du résultat d'une parcelle dans l'APPLI AVAP à la sélection d'une parcelle dans l'appli URBANISME|Application AVAP|`'<b>' {CCOSEC} {BG_NUMPARC} '</b> ' upper({commune}) '<br>' CASE WHEN {BG_PROP_RECORDS} is null OR {BG_PROP_RECORDS} = '' THEN 'Fiche propriétaire inconnue ou non renseignée.' ELSE '<font size=3>Adresse (fiscale) : ' {BG_FULL_ADDRESS} END '</font><br><br>'`|
 |affiche_blanc |x|x||Attribut vide intégré dans le résultat de recherche|||
-| affiche_result_cadastre |x|x||Déclaré en HTML (format SQL). Formate l'affichage du résultat d'une parcelle à la sélection d'une parcelle dans l'appli URBANISME|Recherche Parcelle ...||`'<b>' {CCOSEC} {BG_NUMPARC}  '</b> ' upper({commune}) '<br>' CASE WHEN {BG_PROP_RECORDS} is null OR {BG_PROP_RECORDS} = '' THEN
-'Fiche propriétaire inconnue ou non renseignée.' ELSE 'Adresse (fiscale) : ' {BG_FULL_ADDRESS} END'<br><br>'`|
+| affiche_result_cadastre |x|x||Déclaré en HTML (format SQL). Formate l'affichage du résultat d'une parcelle à la sélection d'une parcelle dans l'appli URBANISME|Recherche Parcelle ...||`'<b>' {CCOSEC} {BG_NUMPARC} '</b> ' upper({commune}) '<br>' CASE WHEN {BG_PROP_RECORDS} is null OR {BG_PROP_RECORDS} = '' THEN 'Fiche propriétaire inconnue ou non renseignée.' ELSE 'Adresse (fiscale) : ' {BG_FULL_ADDRESS} END'<br><br>'`|
 
    * relations :
 
