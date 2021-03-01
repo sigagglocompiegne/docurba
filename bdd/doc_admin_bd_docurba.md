@@ -12,7 +12,7 @@
 
 ## Schéma fonctionnel
 
-![schema_fonctionnel](img/schema_fonctionnel_docurba.png)
+![schema_fonctionnel](schema_fonctionnel_docurba.png)
 
 ## Dépendances (non critiques)
 
@@ -1619,7 +1619,7 @@ Les données liées aux documents d'urbanisme font l'objet d'un export automatiq
 
 ## Modèle conceptuel simplifié
 
-![mcd](img/MCD.png)
+![mcd](MCD.png)
 
 
 
