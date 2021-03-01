@@ -48,7 +48,12 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
-
+| affiche_avap |x|x||Déclaré en HTML. Contenu explicatif fonctionnel pour afficher la légende|Fiche de renseignements d'urbanisme|`<font size =3><i>
+<b>Pour accéder à la légende</b>, cliquez sur l'onglet correpondant ci-dessus.
+<br><br><b>Pour accéder à la photothèque</b>, désactivez la recherche en cours en cliquant sur
+ <img src="https://geo.compiegnois.fr/documents/cms/ferme_rech.png" alt =''></img> ci-dessus
+et cliquez sur le bâtiment ou le symbole du petit patrimoine dans la carte.
+</i></font>`|
 
    * relations :
 
