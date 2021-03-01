@@ -44,7 +44,29 @@ Sont décrites ici les Géotables et/ou Tables intégrées dans GEO pour les bes
 
 ## Table : `r_bg_edigeo.PARCELLE`
 
-Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC. Les relations forcées avec d'autres tables induites par cette intégration ne sont pas relatés dans cette documentation.
+Cette table est intégrée via le module GeoCadastre et est donc formatée par l'intégrateur. Aucune modification réalisée par l'ARC. Cependant pour assurer un suivi en cas de mise à jour de l'éditeur, sont exposées ci-dessous uniquement Les relations forcées avec d'autres tables et les champs calculés réalisés par l'ARC.
+
+|Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
+|:---|:-:|:-:|:---|:---|:---|:---|
+
+
+   * relations :
+
+|Géotables ou Tables| Champs de jointure | Type |
+|:---|:---|:---|
+| xapps_an_vmr_p_information_dpu |idu | 0..n (égal) |
+| xapps_an_vmr_sup_ac4 |idu | 0..1 (égal) |
+| an_sup_geo_commune_synthese |idu | 0..1 (égal) |
+| an_sup_ac4_geo_protect |idu | 0..n (égal) |
+| xapps_an_vmr_docurba_h |ccocom =insee | 0..1 (égal) |
+| an_sup_geo |idu | 0..n (égal) |
+| xapps_an_vmr_p_information |idu | 0..n (égal) |
+| xapps_an_fisc_geo_taxe_amgt |idu | 0..1 (égal) |
+| xapps_an_vmr_p_prescription |idu | 0..n (égal) |
+| xapps_an_vmr_parcelle_ru |idu | 0..1 (égal) |
+| x_apps_an_vmr_parcelle_plu |idu | 0..n (égal) |
+| Parcelle (QGis) |idu = idu_60| 0..1 (égal) |
+| an_v_docurba_valide |idu | 0..1 (égal) |
 
 ## Table : `r_bg_majic.NBAT_10 (Parcelle (Alpha) V3 dans GEO`
 
