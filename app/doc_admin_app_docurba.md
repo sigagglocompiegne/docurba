@@ -13,7 +13,7 @@
 
 |Représentation| Nom de l'application |Résumé|
 |:---|:---|:---|
-|![picto](/doc/img/picto_docurba1.png)|Urbanisme|Cette application est dédiée à la consultation des données cadastrales ainsi qu'à la consultation des règles d'urbanisme et utilise l'ensemble de la base de données des documents d'urbanisme. Cependant les recherches et informations liées à cette application ont été intégrées également dans d'autres applications métiers afin que les utilisateurs puissent avoir accès à ses informations dans leurs propres applicatifs au lieu de se connecter à l'application Cadastre-Urbanisme.|
+|![picto](picto_docurba1.png)|Urbanisme|Cette application est dédiée à la consultation des données cadastrales ainsi qu'à la consultation des règles d'urbanisme et utilise l'ensemble de la base de données des documents d'urbanisme. Cependant les recherches et informations liées à cette application ont été intégrées également dans d'autres applications métiers afin que les utilisateurs puissent avoir accès à ses informations dans leurs propres applicatifs au lieu de se connecter à l'application Cadastre-Urbanisme.|
 
 # Accès
 
@@ -63,7 +63,6 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 | xapps_an_vmr_p_information_dpu |idu | 0..n (égal) |
 | xapps_an_vmr_sup_ac4 |idu | 0..1 (égal) |
 | an_sup_geo_commune_synthese |idu | 0..1 (égal) |
-| an_sup_ac4_geo_protect |idu | 0..n (égal) |
 | xapps_an_vmr_docurba_h |ccocom =insee | 0..1 (égal) |
 | an_sup_geo |idu | 0..n (égal) |
 | xapps_an_vmr_p_information |idu | 0..n (égal) |
@@ -73,6 +72,8 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 | x_apps_an_vmr_parcelle_plu |idu | 0..n (égal) |
 | Parcelle (QGis) |idu = idu_60| 0..1 (égal) |
 | an_v_docurba_valide |idu | 0..1 (égal) |
+
+   * particularité : les relations de cette table permette de reconstruire la note de renseignements d'urbanisme
 
 ## Table : `r_bg_edigeo.PARCELLE (PARCELLE) dans GEO`
 
@@ -92,20 +93,7 @@ Cette table est intégrée via le module GeoCadastre et est donc formatée par l
 |tableau_acces_reg|x|x|null|Déclaré en HTML. Formate une ligne HTML contenant les liens vers les fichiers PDF des dispositions générales, annexes et lexique|`Fiche de renseignements d'urbanisme en HTML|CASE WHEN {insee} = '60023' or {insee} = '60067' or {insee} = '60068' or {insee} = '60070' or {insee} = '60151' or {insee} = '60156' or {insee} = '60159' or {insee} = '60323' or {insee} = '60325' or {insee} = '60326' or {insee} = '60337' or {insee} = '60338' or {insee} = '60382' or {insee} = '60402' or {insee} = '60447' or {insee} = '60578' or {insee} = '60579' or {insee} = '60597' or {insee} = '60600' or {insee} = '60665' or {insee} = '60667' or {insee} = '60674' THEN '<div align="center">' '<a href="'{l_urldgen} '" target="_blank">Dispositions générales</a>' '&nbsp;-&nbsp;<a href="' {l_urlann} '" target="_blank">Annexes du règlement écrit</a>' '&nbsp;-&nbsp;<a href="' {l_urllex} '" target="_blank">Lexique</a>''</div>' ELSE '' END`|
 |tableau_doc_vigueur|x|x|null|Déclaré en HTML. Formate un tableau HTML contenant les éléments de la procédure actuelle|Fiche de renseignements d'urbanisme en HTML|`<table border="0" width="100%"><tr><td width="25%"><div align="center">Type</div></td><td width="50%"><div align="center">Version</div></td><td width="25%"><div align="center">Approbation</div></td></tr><tr><td width="25%"><b><div align="center">{typedoc}</div></b></td><td width="50%"><b><div align="center">{l_version}</div></b></td>
 <td width="25%"><b><div align="center">{format_datappro}</div></b></td></tr></table>`|
-|titre_ac4 |x|x|null|Déclaré en HTML. Formatage du titre pour la SUP AC4|Fiche de renseignements d'urbanisme|`<table border="0" width="100%"><td align="center"><p><i>Complément d'informations pour la servitude AC4(Règlement d''aire de mise en valeur de l''architecture et du patrimoine (AVAP) et de zone de protection du patrimoine architectural, urbain et paysager (ZPPAUP))</i></p> </td></table>`|
-|titre_doc_urba_valide_html  |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur la procédure actuelle|`Fiche de renseignements d'urbanisme|<table border="1" width="100%"><td align="center"><b>Document d'urbanisme en vigueur sur la commune</b></td></table>`|
-|titre_dpu_html |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur les DPU|Fiche de renseignements d'urbanisme|`<table border="1" width="100%"><td align="center"><b>Droit de Préemption Urbain (DPU)</b><font size="1"><p>Cette information est issue, soit des différents plans présents dans le document d'urbanisme, soit d'une délibération décrivant l'instauration du DPU et est communiquée à titre indicatif.<br>Les autres droits de préemption (comme sur les ENS) ne figurent pas dans cette partie mais listés dans la partie "Informations jugées utiles" ci-après.</p></font></td></table>`|
-|titre_info_utile_html |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur les informations jugées utiles|Fiche de renseignements d'urbanisme|`<table border="1" width="100%"><td align="center"><b>Les informations jugées utiles applicables sur la parcelle</b><font size="1"><p>Ces informations sont issues à la fois des différents 
-plans présents dans le document d'urbanisme et de sources diverses, elles sont données à titre indicatif.</p></font><font size="1"><u>Avertissement</u> :<p> les données environnementales ne sont pas numérisées à l'échelle du cadastre. Les parcelles en bordure doivent être interprétées avec précaution (se référer à la cartographie).</p></font>
-</td></table>`|
-|titre_liste_sup_com |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur la liste des SUP devant encore être intégrées à la commune|Fiche de renseignements d'urbanisme|`<table border="0" width="100%"><td align="center"><p><i>Autre(s) servitude(s) sur la commune, non intégrée(s) dans l'application et pouvant avoir un impact sur la parcelle</i></p></td></table>`|
-|titre_prescription_html  |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur les prescriptions|Fiche de renseignements d'urbanisme|`<table border="1" width="100%"><td align="center"><b>Les prescriptions applicables sur la parcelle</b><font size="1"><p>Ces informations sont issues des différents plans présents dans le document d'urbanisme et sont données à titre indicatif.</p></font></td></table>`|
-|titre_sup_html   |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur les SUP intégrées|Fiche de renseignements d'urbanisme|`<table border="1" width="100%">
-<td align="center"><b>Les servitudes d'utilités publiques</b><font size="1"><p>Ces informations sont issues des différents gestionnaires de servitudes, elles sont donc communiquées à titre indicatif.</p></font><font size="1"><u>Avertissement</u> :<p>certaines servitudes présentent une qualité de saisie insuffisante ou des particularités d'applications qui ne sont pas compatibles avec l'échelle du cadastre. Il est donc recommandé de s'appuyer à la fois sur la cartographie et les règles d'application de la servitude.</p></font><font size="1"><u>Information</u> :<p>seules les servitudes A4, AC1, AC2, AC4, AS1, EL3, EL7 (hors RN et RD), I4 (RTE uniquement), INT1, PM1, PM3, PT1, PT2 (les obstacles mais pas les faisceaux hertziens), PT2LH, T5(T4), T1 sont intégrées dans l'application et sont affichées comme pouvant impacter la parcelle. Les autres sont listées comme étant présentes sur la commune.</p></font></td></table>`|
-|titre_sup_impact   |x|x|null|Déclaré en HTML. Formatage du sous-titre pour la partie sur les SUP intégrées|Fiche de renseignements d'urbanisme|`<table border="0" width="100%"><td align="center"><i>Servitude(s) impactant ou pouvant impacter la parcelle</i></td></table>`|
-|titre_taxe_amgt   |x|x|null|Déclaré en HTML. Formatage du titre pour la partie sur la taxe d'aménagement|Fiche de renseignements d'urbanisme|`<table border="1" width="100%">
-<td align="center"><b>Taxe d'aménagement (applicable en 2018)</b><font size="1"><p>(uniquement pour les communes renseignées)</p></font></td></table>`|
-|titre_zonage_html   |x|x|null||Déclaré en HTML. Utilisée pour les anciennes fiches de renseignements d'urbanisme|`<table border="1" width="100%"><td align="center"><b>Le zonage applicable sur la parcelle</b></td></table>`|
+
 
    * filtres : aucun
    * relations :
@@ -301,7 +289,7 @@ plans présents dans le document d'urbanisme et de sources diverses, elles sont 
    
    * particularité(s) : aucune
    
-## Geotable : `r_cadastre.geo_parcelle (Parcelle (QGis)`
+## Geotable : `r_cadastre.geo_parcelle (Parcelle (QGis))`
 
 |Attributs| Champ calculé | Formatage |Renommage|Particularité/Usage|Utilisation|Exemple|
 |:---|:-:|:-:|:---|:---|:---|:---|
@@ -320,22 +308,9 @@ plans présents dans le document d'urbanisme et de sources diverses, elles sont 
 
    * filtres : aucun
    
-   * relations :
-
-|Géotables ou Tables| Champs de jointure | Type |
-|:---|:---|:---|
-|xapps_an_fisc_geo_taxe_amgt | idu | 0..1 (égal) |
-|an_sup_geo_commune_synthese | idu | 0..1 (égal) |
-|x_apps_an_vmr_parcelle_plu | idu | 0..n (égal) |
-|xapps_an_vmr_p_information | idu | 0..n (égal) |
-|xapps_an_vmr_p_information_dpu | idu | 0..n (égal) |
-|an_sup_geo | idu | 0..n (égal) |
-|xapps_an_vmr_parcelle_ru | idu | 0..1 (égal) |
-|xapps_an_vmr_docurba_h | insee | 0..1 (égal) |
-|xapps_an_vmr_p_prescription | idu | 0..n (égal) |
-|an_v_docurba_valide | insee | 0..1 (égal) |
+   * relations : aucune
    
-   * particularité(s) : table importée depuis le schéma r_cadastre (intégration des données cadastrales avezc le module QGIS) et lié ici à la table utilisée par l'éditeur pour s'affranchir des mises à jours de celui-ci. L'objectif est de pouvoir restaurer cette fiche en cas de suppression suite à une mise à jour du module éditeur. Une seule relation sur cette table permet de rétablir la fiche. Les autres liens provenant des tables multiples de cette documentation n'ont pas encore été nettoyés.
+   * particularité(s) : table importée depuis le schéma r_cadastre (intégration des données cadastrales avezc le module QGIS) et lié ici à la table utilisée par l'éditeur pour s'affranchir des mises à jours de celui-ci. L'objectif est de pouvoir restaurer cette fiche en cas de suppression suite à une mise à jour du module éditeur. Une seule relation sur cette table permet de rétablir les titres et notes de la fiche.
 
 ## Geotable : `m_urbanisme_doc.geo_p_zone_pau`
 
