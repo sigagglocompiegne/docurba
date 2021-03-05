@@ -303,7 +303,11 @@
                 <ogc:PropertyName>typepsc</ogc:PropertyName>
                 <ogc:Literal>07</ogc:Literal>
               </ogc:PropertyIsEqualTo>
-              <ogc:Or>
+              <ogc:PropertyIsNotEqualTo>
+                <ogc:PropertyName>l_nature</ogc:PropertyName>
+                <ogc:Literal>Cône de vue</ogc:Literal>
+              </ogc:PropertyIsNotEqualTo>
+             <ogc:Or>
                 <ogc:PropertyIsEqualTo>
                   <ogc:PropertyName>stypepsc</ogc:PropertyName>
                   <ogc:Literal>00</ogc:Literal>
