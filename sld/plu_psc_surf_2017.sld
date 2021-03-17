@@ -178,7 +178,7 @@
                     <se:Fill/>
                     <se:Stroke>
                       <se:SvgParameter name="stroke">#ff00ff</se:SvgParameter>
-                      <se:SvgParameter name="stroke-width">0.1</se:SvgParameter>
+                      <se:SvgParameter name="stroke-width">0.3</se:SvgParameter>
                     </se:Stroke>
                   </se:Mark>
                     <se:Size>8</se:Size>
@@ -271,7 +271,7 @@
                     <se:Fill/>
                     <se:Stroke>
                       <se:SvgParameter name="stroke">#996c2d</se:SvgParameter>
-                      <se:SvgParameter name="stroke-width">0.1</se:SvgParameter>
+                      <se:SvgParameter name="stroke-width">0.3</se:SvgParameter>
                     </se:Stroke>
                   </se:Mark>
                     <se:Size>8</se:Size>
@@ -364,7 +364,7 @@
                     <se:Fill/>
                     <se:Stroke>
                       <se:SvgParameter name="stroke">#0bb200</se:SvgParameter>
-                      <se:SvgParameter name="stroke-width">0.1</se:SvgParameter>
+                      <se:SvgParameter name="stroke-width">0.3</se:SvgParameter>
                     </se:Stroke>
                   </se:Mark>
                     <se:Size>8</se:Size>
@@ -451,7 +451,7 @@
                     <se:Fill/>
                     <se:Stroke>
                       <se:SvgParameter name="stroke">#ffaa00</se:SvgParameter>
-                      <se:SvgParameter name="stroke-width">0.1</se:SvgParameter>
+                      <se:SvgParameter name="stroke-width">0.3</se:SvgParameter>
                     </se:Stroke>
                   </se:Mark>
                     <se:Size>8</se:Size>
@@ -548,7 +548,7 @@
                     <se:Fill/>
                     <se:Stroke>
                       <se:SvgParameter name="stroke">#8282ff</se:SvgParameter>
-                      <se:SvgParameter name="stroke-width">0.1</se:SvgParameter>
+                      <se:SvgParameter name="stroke-width">0.3</se:SvgParameter>
                     </se:Stroke>
                   </se:Mark>
                     <se:Size>8</se:Size>
