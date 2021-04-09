@@ -416,7 +416,7 @@
         </se:Rule>
 
 
-<!-- #####  PSC 07_02_cone_de_vue  ##### --> 
+<!-- #####  PSC 07_02_cone_de_vue  ##### -->
           
         <se:Rule>
           <se:Name>Patrimoine paysager ou éléments de paysage à protéger</se:Name>
@@ -952,6 +952,77 @@
                 <se:Graphic>
                   <se:ExternalGraphic>
                      <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_43_v2.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>1.5</se:Size>
+                </se:Graphic>
+              </se:GraphicStroke>
+            </se:Stroke>
+          </se:LineSymbolizer>
+        </se:Rule>
+        
+        
+<!-- #####  PSC 48_01  ##### --> 
+
+        <se:Rule>
+          <se:Name>Installations nécessaires à la gestion des eaux pluviales et du ruissellement</se:Name>
+          <se:Description>
+            <se:Title>Installations nécessaires à la gestion des eaux pluviales et du ruissellement</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+           <ogc:And>  
+             <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>48</ogc:Literal>
+             </ogc:PropertyIsEqualTo>
+             <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                <ogc:Literal>01</ogc:Literal>
+             </ogc:PropertyIsEqualTo>
+           </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
+          <se:LineSymbolizer>
+            <se:Stroke>
+              <se:GraphicStroke>
+                <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_48.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>7</se:Size>
+                </se:Graphic>
+              </se:GraphicStroke>
+            </se:Stroke>
+          </se:LineSymbolizer>
+        </se:Rule>
+        
+        <se:Rule>
+          <se:Name>Installations nécessaires à la gestion des eaux pluviales et du ruissellement</se:Name>
+          <se:Description>
+            <se:Title>Installations nécessaires à la gestion des eaux pluviales et du ruissellement</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>  
+             <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>48</ogc:Literal>
+             </ogc:PropertyIsEqualTo>
+             <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                <ogc:Literal>01</ogc:Literal>
+             </ogc:PropertyIsEqualTo>
+            </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:LineSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
+            <se:Stroke>
+              <se:GraphicStroke>
+                <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_48.svg"/>
                      <se:Format>image/svg+xml</se:Format>
                   </se:ExternalGraphic>
                   <se:Size>1.5</se:Size>
