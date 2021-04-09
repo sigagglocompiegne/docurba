@@ -3010,20 +3010,42 @@ CREATE TRIGGER t_t4_pau_surface
 
 CREATE TABLE m_urbanisme_doc.an_doc_urba_tpe
 (
-  idtpe character varying(40) NOT NULL, -- Identifiant unique de la pièce écrite
-  idurba character varying(30), -- Identifiant du document d''urbanisme
-  fichier character varying(80) NOT NULL, -- nom du fichier technique de la pièce écrite (avec l'extension)
-  titre character varying(80), -- nom usuel ou titre du fichier technique de la pièce écrite
-  CONSTRAINT an_doc_urba_tpe_pkey PRIMARY KEY (idtpe)
+    idtpe character varying(40) COLLATE pg_catalog."default" NOT NULL,
+    idurba character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    fichier character varying(80) COLLATE pg_catalog."default",
+    titre character varying(80) COLLATE pg_catalog."default",
+    CONSTRAINT an_doc_urba_tpe_pkey PRIMARY KEY (idtpe)
 )
 WITH (
-  OIDS=FALSE
-);
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
 ALTER TABLE m_urbanisme_doc.an_doc_urba_tpe
-  OWNER TO create_sig;
+    OWNER to create_sig;
+
 GRANT ALL ON TABLE m_urbanisme_doc.an_doc_urba_tpe TO sig_create;
+
 GRANT SELECT ON TABLE m_urbanisme_doc.an_doc_urba_tpe TO sig_read;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc.an_doc_urba_tpe TO sig_edit;
+
+GRANT ALL ON TABLE m_urbanisme_doc.an_doc_urba_tpe TO create_sig;
+
+GRANT INSERT, SELECT, UPDATE, DELETE ON TABLE m_urbanisme_doc.an_doc_urba_tpe TO sig_edit;
+
+COMMENT ON TABLE m_urbanisme_doc.an_doc_urba_tpe
+    IS 'Table alphanumérique gérant la correspondance entre le nom des fichiers techniques et le nom usuel des pièces écrites';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_tpe.idtpe
+    IS 'Identifiant unique de la pièce écrite';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_tpe.idurba
+    IS 'Identifiant du document d''''urbanisme';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_tpe.fichier
+    IS 'nom du fichier technique de la pièce écrite (avec l''extension)';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_tpe.titre
+    IS 'nom usuel ou titre du fichier technique de la pièce écrite';
 
 
 -- ####################################################################################################################################################
