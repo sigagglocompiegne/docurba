@@ -3012,7 +3012,7 @@ CREATE TABLE m_urbanisme_doc.an_doc_urba_tpe
 (
   idtpe character varying(40) NOT NULL, -- Identifiant unique de la pièce écrite
   idurba character varying(30), -- Identifiant du document d''urbanisme
-  fichier character varying(100) NOT NULL, -- nom du fichier technique de la pièce écrite (avec l'extension)
+  fichier character varying(80) NOT NULL, -- nom du fichier technique de la pièce écrite (avec l'extension)
   titre character varying(80), -- nom usuel ou titre du fichier technique de la pièce écrite
   CONSTRAINT an_doc_urba_tpe_pkey PRIMARY KEY (idtpe)
 )
