@@ -40,7 +40,7 @@
 -- 2020/10/02 : GB / Adaptation de la vue traitent des parcelles en DPU
 -- 2020/11/06 : GB / Modification éditoriale dans la vue matérialisée information hors PLU concernant les réseaux
 -- 2021/04/09 : GB / Intégration version mineur Standard 2017d (ajout de 5 prescriptions)
-
+-- 2021/04/12 : GB / Intégration d'une classe d'objets (an_doc_urba_tpe) pour gérer la correspondance des pièces écrites (Standard 2017d)
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -3003,6 +3003,27 @@ CREATE TRIGGER t_t4_pau_surface
   ON m_urbanisme_doc.geo_p_zone_pau
   FOR EACH ROW
   EXECUTE PROCEDURE public.r_sup_m2_maj();
+
+-- Table: m_urbanisme_doc.an_doc_urba_tpe
+
+-- DROP TABLE m_urbanisme_doc.an_doc_urba_tpe;
+
+CREATE TABLE m_urbanisme_doc.an_doc_urba_tpe
+(
+  idtpe character varying(40) NOT NULL, -- Identifiant unique de la pièce écrite
+  idurba character varying(30), -- Identifiant du document d''urbanisme
+  fichier character varying(100) NOT NULL, -- nom du fichier technique de la pièce écrite (avec l'extension)
+  titre character varying(80), -- nom usuel ou titre du fichier technique de la pièce écrite
+  CONSTRAINT an_doc_urba_tpe_pkey PRIMARY KEY (idtpe)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc.an_doc_urba_tpe
+  OWNER TO create_sig;
+GRANT ALL ON TABLE m_urbanisme_doc.an_doc_urba_tpe TO sig_create;
+GRANT SELECT ON TABLE m_urbanisme_doc.an_doc_urba_tpe TO sig_read;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc.an_doc_urba_tpe TO sig_edit;
 
 
 -- ####################################################################################################################################################
