@@ -39,6 +39,8 @@
 -- 2020/09/23 : GB / Ajout d'une vue : création d'une vue regroupant tous les types de documents d'urbanisme par annnée et par territoire
 -- 2020/10/02 : GB / Adaptation de la vue traitent des parcelles en DPU
 -- 2020/11/06 : GB / Modification éditoriale dans la vue matérialisée information hors PLU concernant les réseaux
+-- 2021/04/09 : GB / Intégration version mineur Standard 2017d (ajout de 5 prescriptions)
+
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -444,6 +446,7 @@ INSERT INTO m_urbanisme_doc.lt_typepsc(
     ('16','02','Bâtiments d''habitation existants pouvant faire l''objet d’extensions ou d’annexes','L151-12',null),
     ('16','03','Secteur de taille et de capacité d''accueil limitées (STECAL)','L151-13',null),
     ('16','04','Constructions et installations nécessaires à l''activité agricole en zone A ou N','L151-11 II','R151-23 1° et R151-25 1°'),
+    ('16','05','Diversification de l''activité agricole : transformation, conditionnement, et ventes de produits agricoles (activités liées au tourisme exclues)','L151-11 II',null),
     ('17','00','Secteur à programme de logements mixité sociale en zone U et AU','L151-15','R151-38 3°'),
     ('18','00','Secteur comportant des orientations d''aménagement et de programmation (OAP)','L151-6 et L151-7',null),
     ('18','01','OAP de projet (sans règlement)','L151-6 et L151-7','R151-8'),
@@ -454,6 +457,9 @@ INSERT INTO m_urbanisme_doc.lt_typepsc(
     ('18','06','OAP relatives à l''habitat','L151-6 ou L151-46',null),
     ('18','07','OAP comprenant des dispositions relatives à l''équipement commercial et artisanal','L151-6 2e alinéa ou L151-7 2°',null),
     ('18','08','OAP relatives aux transports et aux déplacements','L151-6 ou L151-47',null),
+    ('18','09','OAP relatives aux espaces publics en zone d''aménagement concerné','L151-7-1 1°',null),
+    ('18','10','OAP relatives aux ouvrages publics, installations d''intérêt général et espaces verts en zone d''aménagement concerté','L151-7-1 2°',null),
+    ('18','11','OAP valant création de zone d''aménagement concerté','L151-7-2','R151-8-1'),
     ('19','00','Secteur protégé en raison de la richesse du sol et du sous-sol',null,'R.151-34 2°'),
     ('20','00','Secteur à transfert de constructibilité en zone N','L151-25','R151-36'),
     ('22','00','Diversité commerciale à protéger ou à développer','L151-16','R151-37 4°'),
@@ -527,6 +533,7 @@ INSERT INTO m_urbanisme_doc.lt_typepsc(
     ('44','02','Stationnement maximal','L151-30 à L151-37','R151-45 3°'),
     ('44','03','Caractéristiques et type de stationnement',null,'R151-45 1°'),
     ('44','04','Minoration des règles de stationnement',null,'R151-45 2°'),
+    ('44','05','Réalisation d''aires de livraison imposée ','L151-33-1',null),
     ('44','98','Stationnement règles alternatives',null,'R151-13'),
     ('45','00','Zone d''aménagement concerté (surface de plancher, destination)','L151-27',null),
     ('46','00','Constructibilité espace boisé antérieur au 20ème siècle','L151-20',null),
@@ -543,6 +550,7 @@ INSERT INTO m_urbanisme_doc.lt_typepsc(
     ('49','02','Urbanisation conditionnée à la réalisation des équipements internes à la zone',null,'R151-20 2'),
     ('50','00','Interdiction types d''activités, destinations, sous-destinations','L151-9','R151-30'),
     ('51','00','Autorisation sous conditions types d''activités, destinations, sous-destinations','L151-9','R151-33'),
+    ('52','00','Infrastructures et équipements logistiques à préserver ou à développer en zones U et AU ','L151-16-2',null),
     ('97','00','Périmètre d''application d''une pièce écrite territorialisée (rapport de présentation, PADD, règlement, règlement graphique, POA)',null,null),
     ('97','01','Périmètre couvert par un plan de secteurs',null,null),
     ('99','00','Autre',null,'R151-27 à R151-29'),
