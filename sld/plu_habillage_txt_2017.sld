@@ -124,8 +124,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>255,0,255</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#ff00ff</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -188,8 +188,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>255,0,255</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#ff00ff</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -252,8 +252,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>153,108,45</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#996c2d</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -316,8 +316,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>153,108,45</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#996c2d</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -380,8 +380,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>11,178,0</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#0bb200</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -444,8 +444,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>11,178,0</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#0bb200</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -508,8 +508,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>255,170,0</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#ffaa00</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -572,8 +572,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>255,170,0</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#ffaa00</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -636,8 +636,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>130,130,255</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#8282ff</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -700,8 +700,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>130,130,255</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#8282ff</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -764,8 +764,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>0,255,255</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#00ffff</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -828,8 +828,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>0,255,255</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#00ffff</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -892,8 +892,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>153,108,45</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#996c2d</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -956,8 +956,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>153,108,45</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#996c2d</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -1020,8 +1020,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>76,230,112</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#4ce670</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
@@ -1084,8 +1084,8 @@
                 <ogc:Literal>Gras</ogc:Literal>
               </ogc:PropertyIsEqualTo>
               <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>couleur</ogc:PropertyName>
-                <ogc:Literal>76,230,112</ogc:Literal>
+                <ogc:PropertyName>l_couleur</ogc:PropertyName>
+                <ogc:Literal>#4ce670</ogc:Literal>
               </ogc:PropertyIsEqualTo>
            </ogc:And>   
         </ogc:Filter>
