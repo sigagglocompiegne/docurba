@@ -21,6 +21,7 @@ L’ARC privilégie donc une organisation dans laquelle l’Interface Homme Mach
 ## Voir aussi
 
 * [Lire la documentation du standard national CNIG](http://cnig.gouv.fr/?page_id=2732)
+* [Sous-groupe SG5 Symbolisation pour les PLU et les PSMV du GT CNIG DDU](https://github.com/GT-CNIG-DDU-team/SG5-SYMBOLISATION)
 * [Ressources sur les données AVAP](https://github.com/sigagglocompiegne/avap)
 
 ## Jeu de données consolidé
