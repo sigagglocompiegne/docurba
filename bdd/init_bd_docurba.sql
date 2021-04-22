@@ -41,6 +41,7 @@
 -- 2020/11/06 : GB / Modification éditoriale dans la vue matérialisée information hors PLU concernant les réseaux
 -- 2021/04/09 : GB / Intégration version mineur Standard 2017d (ajout de 5 prescriptions)
 -- 2021/04/12 : GB / Intégration d'une classe d'objets (an_doc_urba_tpe) pour gérer la correspondance des pièces écrites (Standard 2017d)
+-- 2021/04/22 : GB / Intégration Canalisation réseaux humides sur parcelle privé dans la vue xapps_an_vmr_p_information_horsplu pour remontée en tant qu'informartions jugées utiles
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -4714,13 +4715,15 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu
 
 -- View: x_apps.xapps_an_vmr_p_information_horsplu
 
--- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
+DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
 
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
 AS
+
  WITH r_p AS (
-         WITH r_natura2000_zps AS (
+         WITH 
+	 			r_natura2000_zps AS (
                  SELECT p."IDU" AS idu,
                         CASE
                             WHEN zps.nom IS NOT NULL THEN (('Site Natura2000 : '::text || zps.nom::text) || chr(10)) || 'Remarque : les données présentées sont issues de l''arrêté de janvier 2006 (les demandes de modifications sont en cours)'::text
@@ -4884,7 +4887,14 @@ AS
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_htas_enedis htas
                   WHERE st_intersects(p."GEOM", htas.geom)
-                )
+                ), r_cana_prive AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'La parcelle peut être soumise à une bande de sécurité de ' || round(zpose,2) || ' mètre(s) générée par une canalisation du réseau ' || r.valeur || '.'::text AS libelle,
+                    ''::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_reseau_humide.geo_resh_domaineprive cana_prive, m_reseau_humide.lt_resh_natresh r
+                  WHERE st_intersects(p."GEOM", cana_prive.geom) AND cana_prive.typres = r.code AND cana_prive.typsup IN ('10','11','20','40')
+				)
          SELECT r_natura2000_zps.idu,
             r_natura2000_zps.libelle,
             r_natura2000_zps.urlfic
@@ -4989,25 +4999,36 @@ AS
             r_enedis_htas.libelle,
             r_enedis_htas.urlfic
            FROM r_enedis_htas
+	    UNION ALL
+         SELECT r_cana_prive.idu,
+            r_cana_prive.libelle,
+            r_cana_prive.urlfic
+           FROM r_cana_prive
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
     r_p.libelle,
     r_p.urlfic
    FROM r_p
+
+
+
 WITH DATA;
 
+
 ALTER TABLE x_apps.xapps_an_vmr_p_information_horsplu
-    OWNER TO sig_create;
+    OWNER TO create_sig;
 
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
     IS 'Vue matérialisée formatant les données les données informations jugées utiles hors données intégrées dans les données de PLU (cette vue est fusionnée avec xapps_an_vmr_p_information_plu pour être lisible dans la fiche de renseignement d''urbanisme de GEO).
-ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
+ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB/00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
 
-GRANT DELETE, UPDATE, SELECT, INSERT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO edit_sig;
-GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_create;
-GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO create_sig;
-GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO read_sig;
+GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_create;
+GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_read;
+GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_edit;
+GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO create_sig;
+
+
 
 -- Materialized View: x_apps.xapps_an_vmr_p_information
 
