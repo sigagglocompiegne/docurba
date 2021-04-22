@@ -4893,7 +4893,7 @@ AS
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_humide.geo_resh_domaineprive cana_prive, m_reseau_humide.lt_resh_natresh r
-                  WHERE st_intersects(p."GEOM", cana_prive.geom) AND cana_prive.typres = r.code AND cana_prive.typsup IN ('10','11','20','40')
+                  WHERE st_intersects(p."GEOM", cana_prive.geom1) AND cana_prive.typres = r.code AND cana_prive.typsup IN ('10','11','20','40')
 				)
          SELECT r_natura2000_zps.idu,
             r_natura2000_zps.libelle,
