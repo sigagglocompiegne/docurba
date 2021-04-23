@@ -10,9 +10,13 @@
  * **résumé fonctionnel** :
  le fonctionnement de la base de données répond à la norme CNIG à la fois sur les attributs et les primitives géographiques (se référer au standard http://cnig.gouv.fr/?page_id=2732). Le système de versionnement repose sur une partie production (qui contient l'ensemble des procédures en vigueur), une partie archive (qui contient l'ensemble des procédures annulée,remplacée,abrogée,...) et une partie test (qui contient l'ensemble des documents en cours de création ou de modification). Le basculement des données entre les diverses parties s'effectuent via des Workflow de l'ETL FME.
 
-## Schéma fonctionnel
+## Schéma fonctionnel (détaillé)
 
-![schema_fonctionnel](schema_fonctionnel_docurba.png)
+![schema_fonctionnel](schema_fonctionnel_docurba_v2.png)
+
+## Schéma fonctionnel (simplifié)
+
+![schema_fonctionnel](schema_fonctionnel_simple_docurba_v1.png)
 
 ## Dépendances (non critiques)
 
