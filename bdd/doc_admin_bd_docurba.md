@@ -18,6 +18,10 @@
 
 ![schema_fonctionnel](schema_fonctionnel_simple_docurba_v1.png)
 
+## Modèle conceptuel simplifié
+
+![mcd](MCD.png)
+
 ## Dépendances (non critiques)
 
 La base de données des documents d'urbanisme s'appui sur des référentiels préexistants uniquement pour les vues applicatives constituant autant de dépendances nécessaires pour l'implémentatation des vues de cette base. Il n'y a donc pas de dépendances critiques pour la gestion des données des documents d'urbanisme.
@@ -1619,11 +1623,9 @@ Aucun projet QGIS a été réalisé pour la gestion interne des données.
 
 Les données liées aux documents d'urbanisme font l'objet d'un export automatique au standard CNIG en vigueur dans la procédure d'intégration des données (se référer à cette partie ci plus haut pour plus de précisions). Ces données peuvent être téléchargées via les fiches de métadonnées.
 
----
 
-## Modèle conceptuel simplifié
 
-![mcd](MCD.png)
+
 
 
 
