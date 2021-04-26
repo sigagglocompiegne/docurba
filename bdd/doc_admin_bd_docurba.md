@@ -1600,6 +1600,10 @@ L'ensemble des fichiers a utilisé est placé ici `Y:\Ressources\4-Partage\3-Pro
 
 Une série de traitement a été mis en place pour créer des tables de références listant l'ensemble des parcelles avec les SUP et les informations jugées utiles (hors PLU) s'y appliquant. Ces procédures doivent être lancées uniquement lors d'une mise à jour du cadastre, d'une servitude, d'une information ou de l'intégration d'une nouvelle servitude ou informations.
 
+Le cas particulier de la SUP A5 gérée au sein de l'Agglomération de la Région de Compiègne par les services concernées nous a obligé à mettre en oeuvre une gestion particulière pour cette information. L'inventaire des canalisations des réseaux humides en domaine privé fait ressortir 2 sortes d'informations : une information jugée utile de fait, et dans certains cas des servitudes existantes ou en devenir. Selon ces 2 cas de figures, 2 solutions ont été adoptées :
+- dans le cas d'une information jugée utile (inexistance d'une SUP) : l'information gérée par les services dans la table `m_reseau_humide.geo_resh_domaineprive` est intégrée à la vue matérialisée `x_apps.xapps_an_vmr_p_information_horsplu` traitant toutes les informations non intégrées aux PLU à la parcelle. Cette vue ainsi que la vue `x_apps.xapps_an_vmr_p_information` (informations intégrées aux PLU à la parcelle) sont rafraichies toutes les nuits à partir du fichier `vmat_igeo.sh` sur la VM SIG-SGBD exécutée en tache CRON,
+- dans le cas d'une servitude : 
+
 **Mise à jour complète après une intégration d'un nouveau millésime cadastrale** `00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw`
  
 Ce traitement fait appel à des traitements secondaires et intègre une série de requêtes directement exécutée dans la base de données :
