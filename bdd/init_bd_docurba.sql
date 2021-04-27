@@ -34,14 +34,14 @@
 --		   . Intégration de la valeur spécifique SCOT dans la table lt_typedoc 
 --		   . Les types énumérés de l'attribut typeproc ne sont pas repris (utilisation de ceux du standard CNIG PLU/PLUi/CC)
 --		   . Création des tables geo_p_perimetre_scot, geo_t_perimetre_scot, geo_a_perimetre_scot
--- 2020/03/19 : GB / Mise à jour de la table an_doc_urbai_valide pour filtrer sans les SCoT et RNU dans la 1ere partie de la requête (correctif) 
+-- 2020/03/19 : GB / Mise à jour de la table an_doc_urba_valide pour filtrer sans les SCoT et RNU dans la 1ere partie de la requête (correctif) 
 -- 2020/04/02 : GB / Anomalie : vue filtrant les données de prodcution sur l'ARC filtrée avec l_insee, corrigée avec les 9 premiers chiffres de l'IDURBA (SIREN)
 -- 2020/09/23 : GB / Ajout d'une vue : création d'une vue regroupant tous les types de documents d'urbanisme par annnée et par territoire
 -- 2020/10/02 : GB / Adaptation de la vue traitent des parcelles en DPU
 -- 2020/11/06 : GB / Modification éditoriale dans la vue matérialisée information hors PLU concernant les réseaux
 -- 2021/04/09 : GB / Intégration version mineur Standard 2017d (ajout de 5 prescriptions)
 -- 2021/04/12 : GB / Intégration d'une classe d'objets (an_doc_urba_tpe) pour gérer la correspondance des pièces écrites (Standard 2017d)
--- 2021/04/22 : GB / Intégration Canalisation réseaux humides sur parcelle privé dans la vue xapps_an_vmr_p_information_horsplu pour remontée en tant qu'informartions jugées utiles
+-- 2021/04/22 : GB / Intégration Canalisation réseaux humides sur parcelle privé dans la vue xapps_an_vmr_p_information_horsplu pour la remontée en tant qu'informations jugées utiles
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
