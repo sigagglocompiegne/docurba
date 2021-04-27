@@ -1598,7 +1598,13 @@ Les données reçues d'un bureau d'étude doivent être vérifier au préalable 
 
 L'ensemble des fichiers a utilisé est placé ici `Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB`.
 
-Une série de traitement a été mis en place pour créer des tables de références listant l'ensemble des parcelles avec les SUP et les informations jugées utiles (hors PLU) s'y appliquant. Ces procédures doivent être lancées uniquement lors d'une mise à jour du cadastre, d'une servitude, d'une information ou de l'intégration d'une nouvelle servitude ou informations.
+Une série de traitement a été mis en place pour créer des tables de références listant l'ensemble des parcelles avec les SUP (sous répertoire `\SUP`)et les informations jugées utiles (hors PLU) s'y appliquant (sous répertoire `Information_jugées_utiles`). Ces procédures doivent être lancées uniquement lors d'une mise à jour du cadastre, d'une servitude, d'une information ou de l'intégration d'une nouvelle servitude ou informations. Des fiches de procédures ont été réalisées pour tous les cas d'usage. A défaut certains traitements peuvent être lancés indépendemment lors d'une SUP ou d'une information ajoutées entre 2 mises à jour cadastrales. Dans ce cas, il faut s'adresser à l'administrateur SIG.
+
+**Traite l'ensemble des informations jugées utiles non intégrées dans les documents d'urbanisme en terme de données SIG à la parcelle** 
+`00_INFOJU_integration_globale.fmw.fmw` : ce workflow utilise 2 sous-workflow, `bloc\01_INFO_JUGEE_UTILE_hors_plu.fmw` pour les informations jugées utiles "classiques" et `bloc\02_TAUX_FISCALITE_GEO.fmw` pour le cas spécifique de la taxe d'aménagement.
+
+**Traite l'ensemble des SUP disponibles à la parcelle** 
+`00_SUP_integration_globale.fmw` : ce workflow utilise 3 sous-workflow `bloc\01_SUP_mise_a_jour_liste_commune.fmw` pour mettre à jour à partir du fichier Excel (`R:\Projets\Metiers\1306URB-ARC-numSUP\2-PreEtude\servitude_par_commune_restant_a_integrer.xlsx`) la liste des SUP non intégrées et pouvant affecter une parcelle d'une commune, `bloc\03_SUP_generer_table_AC4_ZPPAUP_protect_GEO.fmw` pour la gestion de la SUP AC4 (AVAP), et `bloc\02_SUP_generer_table_idu_sup_GEO.fmw` pour traiter l'ensemble des SUP présentes dans le schéma `m_urbanisme_reg` et créé une table `an_sup_geo` dans ce même schéma.
 
 Le cas particulier de la SUP A5 gérée au sein de l'Agglomération de la Région de Compiègne par les services concernées, nous a obligé à mettre en oeuvre une gestion particulière pour cette information tout en l'intégrant aux fonctionnels existants. L'inventaire des canalisations des réseaux humides en domaine privé fait ressortir 2 sortes d'informations : une information jugée utile de fait, et dans certains cas des servitudes existantes ou en devenir. Selon ces 2 cas de figures, 2 solutions ont été adoptées :
 - **dans le cas d'une information jugée utile** (inexistance d'une SUP) : l'information gérée par les services dans la table `m_reseau_humide.geo_resh_domaineprive` est intégrée à la vue matérialisée `x_apps.xapps_an_vmr_p_information_horsplu` traitant toutes les informations non intégrées aux PLU à la parcelle. Cette vue ainsi que la vue `x_apps.xapps_an_vmr_p_information` (informations intégrées aux PLU à la parcelle) sont rafraichies toutes les nuits à partir du fichier `vmat_igeo.sh` sur la VM SIG-SGBD exécutée en tache CRON,
@@ -1606,7 +1612,13 @@ Le cas particulier de la SUP A5 gérée au sein de l'Agglomération de la Régio
 
 Ce fonctionnel permet de disposer des informations liées aux canalisations en domaine privé, gérées par les services, à J+1 dans la fiche de renseignements d'urbanisme, soit aux niveaux des informations jugées utiles ou des servitudes.
 
-La publication de cette SUP A5 au format CNIG, sur le géoportail de l'urbanisme, est réalisée par le service SIG lorsque celui-ci est averti par une notification d'email (via les applictions Web) lorsqu'une SUP est créée. Un Workflow FME, ainsi qu'une fiche de procédure sont en cours de réalisation. La validation sur le géoportail restera toujours le privilège du gestionnaire.
+La publication de cette SUP A5 au format CNIG, sur le géoportail de l'urbanisme, est réalisée par le service SIG lorsque celui-ci est averti par une notification d'email (via les applictions Web) lorsqu'une SUP est créée. Un Workflow FME a été construit pour gérer manuellement cet export. Une fiche de procédure est en cours de réalisation. La validation sur le géoportail restera toujours le privilège du gestionnaire.
+
+**Export de la SUP AC4 au format CNIG** 
+`10_SUP_AC4_Export_CNIG.fmw`
+
+**Export de la SUP A5 au format CNIG** 
+`11_SUP_A5_Export_CNIG.fmw`
 
 **Mise à jour complète après une intégration d'un nouveau millésime cadastrale** `00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw`
  
