@@ -42,6 +42,7 @@
 -- 2021/04/09 : GB / Intégration version mineur Standard 2017d (ajout de 5 prescriptions)
 -- 2021/04/12 : GB / Intégration d'une classe d'objets (an_doc_urba_tpe) pour gérer la correspondance des pièces écrites (Standard 2017d)
 -- 2021/04/22 : GB / Intégration Canalisation réseaux humides sur parcelle privé dans la vue xapps_an_vmr_p_information_horsplu pour la remontée en tant qu'informations jugées utiles
+-- 2021/04/27 : GB / Intégration Canalisation réseaux humides sur parcelle privé dans la vue xappspublic_an_vmr_nru pour la remontée en tant qu'informations jugées utiles ou SUP pour le gd public
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -6099,248 +6100,213 @@ COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_geo_vmr_fichegeo_plui_ru
   IS 'Vue géographique matérialisée contenant les informations pour l''application Gd Public PLUi Interactif (données de production)';
 
 
--- Materialized View: x_apps_public.xappspublic_an_vmr_parcelle_plui_ru
+-- View: x_apps_public.xappspublic_an_vmr_nru
 
-DROP MATERIALIZED VIEW IF EXISTS x_apps_public.xappspublic_an_vmr_nru;
+-- DROP MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru;
 
-CREATE MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru AS 
-
-WITH req_princ AS
-(
-SELECT
-
-ru.idu,
-upper(ru.commune) as nru_commune,
-ru.section as nru_section,
-ru.num_par as nru_numpar,
-CASE
-WHEN length(ru.supf::character varying)::integer >= 1 AND length(ru.supf::character varying)::integer <= 3 THEN ru.supf::text
-WHEN length(ru.supf::character varying)::integer = 4 THEN replace(to_char(ru.supf, 'FM9G999'::text), ','::text, ' '::text) 
-WHEN length(ru.supf::character varying)::integer = 5 THEN replace(to_char(ru.supf, 'FM99G999'::text), ','::text, ' '::text) 
-WHEN length(ru.supf::character varying)::integer = 6 THEN replace(to_char(ru.supf, 'FM999G999'::text), ','::text, ' '::text) 
-WHEN length(ru.supf::character varying)::integer = 7 THEN replace(to_char(ru.supf, 'FM9G999G999'::text), ','::text, ' '::text) 
-WHEN length(ru.supf::character varying)::integer = 8 THEN replace(to_char(ru.supf, 'FM99G999G999'::text), ','::text, ' '::text) 
-ELSE ru.supf::text
-END || ' mètres carrés' AS nur_supf,
-ru.reg_zone as nur_regzone,
-ru.l_urldgen as nru_urldgen,
-ru.l_urlann as nru_urlann,
-ru.l_urllex as nru_urllex
-
-
-FROM x_apps_public.xappspublic_geo_vmr_fichegeo_plui_ru ru
-),
-req_oap AS
-(SELECT DISTINCT 
-            '60'::text || p.idu AS idu,
-            string_agg('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/s1800.png" width=34 heigth=21>'::text || ' <a href="' || spct.urlfic || '" target="_blank"><b>'::text || spct.libelle::text ||
-                 ' (Nature : '::text || spct.l_nature::text || ')</b></a>', '<br>'::text) AS oap
+CREATE MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru
+TABLESPACE pg_default
+AS
+ WITH req_princ AS (
+         SELECT ru.idu,
+            upper(ru.commune::text) AS nru_commune,
+            ru.section AS nru_section,
+            ru.num_par AS nru_numpar,
+                CASE
+                    WHEN length(ru.supf::character varying::text) >= 1 AND length(ru.supf::character varying::text) <= 3 THEN ru.supf::text
+                    WHEN length(ru.supf::character varying::text) = 4 THEN replace(to_char(ru.supf, 'FM9G999'::text), ','::text, ' '::text)
+                    WHEN length(ru.supf::character varying::text) = 5 THEN replace(to_char(ru.supf, 'FM99G999'::text), ','::text, ' '::text)
+                    WHEN length(ru.supf::character varying::text) = 6 THEN replace(to_char(ru.supf, 'FM999G999'::text), ','::text, ' '::text)
+                    WHEN length(ru.supf::character varying::text) = 7 THEN replace(to_char(ru.supf, 'FM9G999G999'::text), ','::text, ' '::text)
+                    WHEN length(ru.supf::character varying::text) = 8 THEN replace(to_char(ru.supf, 'FM99G999G999'::text), ','::text, ' '::text)
+                    ELSE ru.supf::text
+                END || ' mètres carrés'::text AS nur_supf,
+            ru.reg_zone AS nur_regzone,
+            ru.l_urldgen AS nru_urldgen,
+            ru.l_urlann AS nru_urlann,
+            ru.l_urllex AS nru_urllex
+           FROM x_apps_public.xappspublic_geo_vmr_fichegeo_plui_ru ru
+        ), req_oap AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            string_agg((((((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/s1800.png" width=34 heigth=21>'::text || ' <a href="'::text) || spct.urlfic::text) || '" target="_blank"><b>'::text) || spct.libelle::text) || ' (Nature : '::text) || spct.l_nature::text) || ')</b></a>'::text, '<br>'::text) AS oap
            FROM r_cadastre.geo_parcelle p,
-            m_urbanisme_doc.geo_v_t_prescription_surf_pluiarc spct
-          WHERE st_intersects(p.geom, spct.geom1) is TRUE AND spct.typepsc = '18'
-          GROUP BY '60'::text || p.idu, spct.typepsc::text, spct.libelle
-),
-req_dpu AS
-(SELECT DISTINCT
-            '60'::text || p.idu AS idu,
-            '<a href="' || tinfo.urlfic || '" target="_blank"><b>Droit de préemption urbain au bénéfice de l''Agglomération de la Région de Compiègne suite à la délibération du conseil d''Agglomération du 30 mars 2017.</b></a>' AS dpu
+            m_urbanisme_doc.geo_v_p_prescription_surf_arc spct
+          WHERE st_intersects(p.geom, spct.geom1) IS TRUE AND spct.typepsc::text = '18'::text
+          GROUP BY ('60'::text || p.idu), (spct.typepsc::text), spct.libelle
+        ), req_dpu AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            ('<a href="'::text || tinfo.urlfic::text) || '" target="_blank"><b>Droit de préemption urbain au bénéfice de l''Agglomération de la Région de Compiègne suite à la délibération du conseil d''Agglomération du 30 mars 2017.</b></a>'::text AS dpu
            FROM r_cadastre.geo_parcelle p,
-            m_urbanisme_doc.geo_v_t_info_surf_pluiarc tinfo
-          WHERE st_intersects(p.geom, tinfo.geom1) is TRUE AND tinfo.typeinf = '04'
-          GROUP BY '60'::text || p.idu, tinfo.typeinf::text, tinfo.urlfic
-),
-req_ac1 AS
-(SELECT DISTINCT 
-            '60'::text || p.idu AS idu,
-           sup.code || ' : ' || sup.libelle as ac1
+            m_urbanisme_doc.geo_v_p_info_surf_arc tinfo
+          WHERE st_intersects(p.geom, tinfo.geom1) IS TRUE AND tinfo.typeinf::text = '04'::text
+          GROUP BY ('60'::text || p.idu), (tinfo.typeinf::text), tinfo.urlfic
+        ), req_a5 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS a5
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'AC1'
-          GROUP BY '60'::text || p.idu, sup.libelle, sup.code
-),
-req_ac4 AS
-(SELECT DISTINCT 
-            sup.idu AS idu,
-           'AC4 : Servitude résultant des zones de protection du patrimoine architectural et urbain<br>Niveau de protection : ' || sup.protec || ' sur ' || sup.typeprotec ||
-           '&nbsp;<a href="' || sup.nomreg || '" target="_blank"><b>Règlement</b></a>&nbsp;<a href="' || sup.nomplan || '" target="_blank"><b>Plan</b></a>' AS ac4
-           FROM  
-		r_cadastre.geo_parcelle p, m_urbanisme_reg.an_sup_ac4_geo_protect sup
-	  WHERE '60'::text || p.idu = sup.idu AND p.lot='arc' 
-          GROUP BY sup.idu,sup.protec,sup.typeprotec, sup.nomreg, sup.nomplan  ORDER BY sup.idu
-),
-req_pm1 AS
-(SELECT DISTINCT 
-            sup.idu AS idu,
-           'PM1 : Plan de Prévention des risques d''inondation, zone(s) ' || string_agg(sup.l_zone,' et ') || ' <a href="' || sup1.l_url || '" target="_blank"><b>Règlement</b></a>' AS pm1
-           FROM  
-		r_cadastre.geo_parcelle p,m_urbanisme_reg.an_sup_geo_pm1 sup, m_urbanisme_reg.an_sup_geo sup1
-	  WHERE '60'::text || p.idu = sup.idu AND '60'::text || p.idu = sup1.idu AND p.lot='arc' AND sup1.code='PM1'
-          GROUP BY sup.idu,sup1.l_url  ORDER BY sup.idu
-),
-req_a4 AS
-(SELECT DISTINCT 
-            '60'::text || p.idu AS idu,
-           string_agg(sup.ligne_aff,'<br>') as a4
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'A5'::text
+          GROUP BY ('60'::text || p.idu), sup.libelle, sup.code
+        ), req_ac1 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS ac1
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'A4' 
-          GROUP BY '60'::text || p.idu
-),
-req_ac2 AS
-(SELECT DISTINCT 
-            '60'::text || p.idu AS idu,
-           string_agg(sup.code || ' : ' || sup.libelle,'<br>') as ac2
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'AC1'::text
+          GROUP BY ('60'::text || p.idu), sup.libelle, sup.code
+        ), req_ac4 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            'AC4 : Règlement d''aire de mise en valeur de l''architecture et du patrimoine (AVAP) et de zone de protection du patrimoine architectural, urbain et paysager (ZPPAUP)<br>Site patrimonial remarquable de la ville de Compiègne'::text AS ac4
+           FROM r_cadastre.geo_parcelle p,
+            m_urbanisme_reg.geo_sup_ac4_assiette_sup_s sup
+          WHERE st_intersects(st_pointonsurface(p.geom), sup.geom) IS TRUE AND p.lot = 'arc'::text
+          GROUP BY p.idu
+          ORDER BY ('60'::text || p.idu)
+        ), req_pm1 AS (
+         SELECT DISTINCT sup.idu,
+            ((('PM1 : Plan de Prévention des risques d''inondation, zone(s) '::text || string_agg(sup.l_zone::text, ' et '::text)) || ' <a href="'::text) || sup1.l_url::text) || '" target="_blank"><b>Règlement</b></a>'::text AS pm1
+           FROM r_cadastre.geo_parcelle p,
+            m_urbanisme_reg.an_sup_geo_pm1 sup,
+            m_urbanisme_reg.an_sup_geo sup1
+          WHERE ('60'::text || p.idu) = sup.idu::text AND ('60'::text || p.idu) = sup1.idu::text AND p.lot = 'arc'::text AND sup1.code::text = 'PM1'::text
+          GROUP BY sup.idu, sup1.l_url
+          ORDER BY sup.idu
+        ), req_a4 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            string_agg(sup.ligne_aff::text, '<br>'::text) AS a4
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'AC2'
-          GROUP BY '60'::text || p.idu
-),
-req_as1 AS
-(SELECT DISTINCT 
-            '60'::text || p.idu AS idu,
-           sup.code || ' : ' || sup.libelle as as1
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'A4'::text
+          GROUP BY ('60'::text || p.idu)
+        ), req_ac2 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            string_agg((sup.code::text || ' : '::text) || sup.libelle::text, '<br>'::text) AS ac2
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'AS1'
-          GROUP BY '60'::text || p.idu,sup.code || ' : ' || sup.libelle  ORDER BY '60'::text || p.idu
-),
-req_el3 AS
-(SELECT DISTINCT 
-            '60'::text || p.idu AS idu,
-           sup.code || ' : ' || sup.libelle as el3
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'AC2'::text
+          GROUP BY ('60'::text || p.idu)
+        ), req_as1 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS as1
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'EL3'
-          GROUP BY '60'::text || p.idu, sup.code || ' : ' || sup.libelle
-),
-req_el7 AS
-(SELECT DISTINCT 
-            '60'::text || p.idu AS idu,
-           sup.code || ' : ' || sup.libelle as el7
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'AS1'::text
+          GROUP BY ('60'::text || p.idu), ((sup.code::text || ' : '::text) || sup.libelle::text)
+          ORDER BY ('60'::text || p.idu)
+        ), req_el3 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS el3
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'EL7'
-          GROUP BY '60'::text || p.idu, sup.code || ' : ' || sup.libelle
-),
-req_i3 AS
-(SELECT DISTINCT 
-            '60'::text || p.idu AS idu,
-           sup.code || ' : ' || sup.libelle as i3
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'EL3'::text
+          GROUP BY ('60'::text || p.idu), ((sup.code::text || ' : '::text) || sup.libelle::text)
+        ), req_el7 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS el7
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'I3' 
-          GROUP BY '60'::text || p.idu, sup.code || ' : ' || sup.libelle  ORDER BY '60'::text || p.idu
-),
-req_i4 AS
-(SELECT DISTINCT 
-           '60'::text || p.idu AS idu,
-           sup.code || ' : ' || sup.libelle as i4
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'EL7'::text
+          GROUP BY ('60'::text || p.idu), ((sup.code::text || ' : '::text) || sup.libelle::text)
+        ), req_i3 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS i3
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'I4' /* AND  '60'::text || p.idu='60156000AD0272'*/
-          GROUP BY '60'::text || p.idu, sup.code || ' : ' || sup.libelle  ORDER BY '60'::text || p.idu
-),
-req_pt1 AS
-(SELECT DISTINCT 
-           '60'::text || p.idu AS idu,
-           sup.code || ' : ' || sup.libelle as pt1
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'I3'::text
+          GROUP BY ('60'::text || p.idu), ((sup.code::text || ' : '::text) || sup.libelle::text)
+          ORDER BY ('60'::text || p.idu)
+        ), req_i4 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS i4
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'PT1' 
-          GROUP BY '60'::text || p.idu, sup.code || ' : ' || sup.libelle ORDER BY '60'::text || p.idu
-),
-req_pt2 AS
-(SELECT DISTINCT 
-           '60'::text || p.idu AS idu,
-           sup.code || ' : ' || sup.libelle as pt2
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'I4'::text
+          GROUP BY ('60'::text || p.idu), ((sup.code::text || ' : '::text) || sup.libelle::text)
+          ORDER BY ('60'::text || p.idu)
+        ), req_pt1 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS pt1
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'PT2'
-          GROUP BY '60'::text || p.idu,sup.code || ' : ' || sup.libelle ORDER BY '60'::text || p.idu
-),
-
-
-req_pt2lh AS
-(SELECT DISTINCT 
-           '60'::text || p.idu AS idu,
-           sup.code || ' : ' || sup.libelle as pt2lh
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'PT1'::text
+          GROUP BY ('60'::text || p.idu), ((sup.code::text || ' : '::text) || sup.libelle::text)
+          ORDER BY ('60'::text || p.idu)
+        ), req_pt2 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS pt2
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'PT2LH' 
-          GROUP BY '60'::text || p.idu, sup.code || ' : ' || sup.libelle  ORDER BY '60'::text || p.idu
-),
-req_t1 AS
-(SELECT DISTINCT 
-           '60'::text || p.idu AS idu,
-           sup.code || ' : ' || sup.libelle as t1
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'PT2'::text
+          GROUP BY ('60'::text || p.idu), ((sup.code::text || ' : '::text) || sup.libelle::text)
+          ORDER BY ('60'::text || p.idu)
+        ), req_pt2lh AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS pt2lh
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'T1'  
-          GROUP BY '60'::text || p.idu, sup.code || ' : ' || sup.libelle  ORDER BY '60'::text || p.idu
-),
-req_t4t5 AS
-(SELECT DISTINCT 
-           '60'::text || p.idu AS idu,
-          sup.code || ' : ' || sup.libelle as t5
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'PT2LH'::text
+          GROUP BY ('60'::text || p.idu), ((sup.code::text || ' : '::text) || sup.libelle::text)
+          ORDER BY ('60'::text || p.idu)
+        ), req_t1 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS t1
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo sup
-          WHERE '60'::text || p.idu = sup.idu AND sup.code = 'T4-T5'
-          GROUP BY '60'::text || p.idu, sup.code || ' : ' || sup.libelle ORDER BY '60'::text || p.idu
-),
-req_supcom AS
-(
-SELECT DISTINCT
-idu,
-CASE WHEN ligne_aff like 'Aucune%' THEN 'Aucune' ELSE replace(ligne_aff,'Atlas des Zones inondables','') END as sup_com
-FROM 
-m_urbanisme_reg.an_sup_geo_commune_synthese
-WHERE
-left(idu,5) IN
-('60023','60070','60067','60068','60151','60156','60159','60323','60325','60326','60337','60338',
-'60382','60402','60447','60578','60579','60597','60600','60665','60667','60674')
-
-ORDER BY idu
-), req_psc_pct AS 
-(
-         SELECT DISTINCT
-            '60'::text || p.idu AS idu,
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'T1'::text
+          GROUP BY ('60'::text || p.idu), ((sup.code::text || ' : '::text) || sup.libelle::text)
+          ORDER BY ('60'::text || p.idu)
+        ), req_t4t5 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            (sup.code::text || ' : '::text) || sup.libelle::text AS t5
+           FROM r_cadastre.geo_parcelle p,
+            m_urbanisme_reg.an_sup_geo sup
+          WHERE ('60'::text || p.idu) = sup.idu::text AND sup.code::text = 'T4-T5'::text
+          GROUP BY ('60'::text || p.idu), ((sup.code::text || ' : '::text) || sup.libelle::text)
+          ORDER BY ('60'::text || p.idu)
+        ), req_supcom AS (
+         SELECT DISTINCT an_sup_geo_commune_synthese.idu,
+                CASE
+                    WHEN an_sup_geo_commune_synthese.ligne_aff::text ~~ 'Aucune%'::text THEN 'Aucune'::text
+                    ELSE replace(an_sup_geo_commune_synthese.ligne_aff::text, 'Atlas des Zones inondables'::text, ''::text)
+                END AS sup_com
+           FROM m_urbanisme_reg.an_sup_geo_commune_synthese
+          WHERE "left"(an_sup_geo_commune_synthese.idu::text, 5) = ANY (ARRAY['60023'::text, '60070'::text, '60067'::text, '60068'::text, '60151'::text, '60156'::text, '60159'::text, '60323'::text, '60325'::text, '60326'::text, '60337'::text, '60338'::text, '60382'::text, '60402'::text, '60447'::text, '60578'::text, '60579'::text, '60597'::text, '60600'::text, '60665'::text, '60667'::text, '60674'::text])
+          ORDER BY an_sup_geo_commune_synthese.idu
+        ), req_psc_pct AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
             string_agg(((((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/p'::text || ppct.typepsc::text) || ppct.stypepsc::text) || '.png" width=17 heigth=17>'::text) || ' '::text) || ppct.libelle::text) ||
                 CASE
                     WHEN ppct.l_nature IS NULL OR ppct.l_nature::text = ''::text THEN ''::text
                     ELSE '<br> Nature : '::text || ppct.l_nature::text
                 END, '<br>'::text) AS psc_pct
            FROM r_cadastre.geo_parcelle p,
-            m_urbanisme_doc.geo_v_t_prescription_pct_pluiarc ppct
-          WHERE st_intersects(p.geom, ppct.geom) IS TRUE 
-          GROUP BY '60'::text || p.idu
-), req_psc_lin AS (
-         SELECT DISTINCT
-            '60'::text || p.idu AS idu,
+            m_urbanisme_doc.geo_v_p_prescription_pct_arc ppct
+          WHERE st_intersects(p.geom, ppct.geom) IS TRUE
+          GROUP BY ('60'::text || p.idu)
+        ), req_psc_lin AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
             string_agg(((((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/l'::text || lpct.typepsc::text) || lpct.stypepsc::text) || '.png" width=41 heigth=11>'::text) || ' '::text) || lpct.libelle::text) ||
                 CASE
                     WHEN lpct.l_nature IS NULL OR lpct.l_nature::text = ''::text THEN ''::text
                     ELSE '<br> Nature : '::text || lpct.l_nature::text
                 END, '<br>'::text) AS psc_lin
            FROM r_cadastre.geo_parcelle p,
-            m_urbanisme_doc.geo_v_t_prescription_lin_pluiarc lpct
+            m_urbanisme_doc.geo_v_p_prescription_lin_arc lpct
           WHERE st_intersects(p.geom, lpct.geom1) IS TRUE
-          GROUP BY '60'::text || p.idu
-), req_psc_surf AS 
-(
-         SELECT DISTINCT
-            '60'::text || p.idu AS idu,
+          GROUP BY ('60'::text || p.idu)
+        ), req_psc_surf AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
             string_agg(((((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/s'::text || spct.typepsc::text) || spct.stypepsc::text) || '.png" width=34 heigth=21>'::text) || ' '::text) || spct.libelle::text) ||
                 CASE
                     WHEN spct.l_nature IS NULL OR spct.l_nature::text = ''::text THEN ''::text
                     ELSE '<br> Nature : '::text || spct.l_nature::text
                 END, '<br>'::text) AS psc_surf
            FROM r_cadastre.geo_parcelle p,
-            m_urbanisme_doc.geo_v_t_prescription_surf_pluiarc spct
-          WHERE st_intersects(p.geom, spct.geom1) IS TRUE AND spct.typepsc <> '18'-- ici ne prend pas les OAP géré à part
-          GROUP BY '60'::text || p.idu
-), req_zac AS (
-         SELECT DISTINCT
-            '60'::text || p.idu AS idu,
+            m_urbanisme_doc.geo_v_p_prescription_surf_arc spct
+          WHERE st_intersects(p.geom, spct.geom1) IS TRUE AND spct.typepsc::text <> '18'::text
+          GROUP BY ('60'::text || p.idu)
+        ), req_zac AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
             string_agg((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/is0200.png" width=34 heigth=21>'::text || ' '::text) || 'Zone d''aménagement concerté'::text) ||
                 CASE
                     WHEN isurf.l_ope_nom IS NULL OR isurf.l_ope_nom::text = ''::text THEN ''::text
@@ -6349,120 +6315,201 @@ ORDER BY idu
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.geo_v_proc isurf
           WHERE isurf.z_proced::text = '10'::text AND st_intersects(p.geom, isurf.geom1)
-          GROUP BY '60'::text || p.idu
-), req_infosurf AS (
-         SELECT DISTINCT
-            '60'::text || p.idu AS idu,
-            
-             string_agg(
-             CASE WHEN isurf.typeinf = '14' THEN isurf.libelle || ' (' || isurf.l_gen || ')' 
-		  WHEN isurf.typeinf = '19' THEN 'Zonage d''assainissement (' || isurf.l_nom || ')' ELSE isurf.libelle END
-              ,'<br>')
-              AS isurf
+          GROUP BY ('60'::text || p.idu)
+        ), req_infosurf AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            string_agg(
+                CASE
+                    WHEN isurf.typeinf::text = '14'::text THEN (((isurf.libelle::text || ' ('::text) || isurf.l_gen::text) || ')'::text)::character varying
+                    WHEN isurf.typeinf::text = '19'::text THEN (('Zonage d''assainissement ('::text || isurf.l_nom::text) || ')'::text)::character varying
+                    ELSE isurf.libelle
+                END::text, '<br>'::text) AS isurf
            FROM r_cadastre.geo_parcelle p,
-            m_urbanisme_doc.geo_v_t_info_surf_pluiarc isurf
-          WHERE (isurf.typeinf = '14' OR isurf.typeinf = '19' OR isurf.typeinf = '20' OR isurf.typeinf = '38') AND st_intersects(p.geom, isurf.geom1) IS TRUE
-          GROUP BY '60'::text || p.idu
-          
-), req_archeo AS (
- SELECT DISTINCT '60'::text || p.idu as idu,
-                    'Zonage archéologique' AS archeo
-                   FROM r_cadastre.geo_parcelle p,
-                    m_urbanisme_reg.geo_zonage_archeologique za
-                  WHERE "left"('60'::text || p.idu::text, 5) = za.insee::text  and p.lot='arc' ORDER BY '60'::text || p.idu
-)
-/*, req_txamt AS (
- SELECT DISTINCT '60'::text || p.idu as idu,
-                   CASE WHEN taux ='Non renseigné' THEN 'Taxe d''aménagement (taux non connue)' ELSE 'Taxe d''aménagement au taux de ' || replace(taux,'.00','') || '%' END AS txamt
-                   FROM r_cadastre.geo_parcelle p,
-                    x_apps.xapps_an_fisc_geo_taxe_amgt tx
-                  WHERE '60'::text || p.idu::text = tx.idu and p.lot='arc' ORDER BY '60'::text || p.idu
-)*/
---select distinct libelle,l_nom from m_urbanisme_doc.geo_v_t_info_surf_pluiarc isurf
-SELECT DISTINCT
-req_princ.idu,
-upper(req_princ.nru_commune) as nru_commune,
-req_princ.nru_section as nru_section,
-req_princ.nru_numpar as nru_numpar,
-req_princ.nur_supf::text as nur_supf,
-req_princ.nur_regzone as nur_regzone,
-req_princ.nru_urldgen as nru_urldgen,
-req_princ.nru_urlann as nru_urlann,
-req_princ.nru_urllex as nru_urllex,
-CASE WHEN req_oap.oap IS NULL THEN 'nc' ELSE string_agg(req_oap.oap,'<br>') END as oap,
-CASE WHEN req_dpu.dpu IS NULL THEN 'nc' ELSE req_dpu.dpu END as dpu,
-CASE WHEN req_ac1.ac1 IS NULL THEN 'nc' ELSE req_ac1.ac1 END as ac1,
-CASE WHEN req_ac4.ac4 IS NULL THEN 'nc' ELSE req_ac4.ac4 END as ac4,
-CASE WHEN req_pm1.pm1 IS NULL THEN 'nc' ELSE req_pm1.pm1 END as pm1,
-CASE WHEN req_a4.a4 IS NULL THEN 'nc' ELSE req_a4.a4 END as a4,
-CASE WHEN req_ac2.ac2 IS NULL THEN 'nc' ELSE req_ac2.ac2 END as ac2,
-CASE WHEN req_as1.as1 IS NULL THEN 'nc' ELSE req_as1.as1 END as as1,
-CASE WHEN req_el3.el3 IS NULL THEN 'nc' ELSE req_el3.el3 END as el3,
-CASE WHEN req_el7.el7 IS NULL THEN 'nc' ELSE req_el7.el7 END as el7,
-CASE WHEN req_i3.i3 IS NULL THEN 'nc' ELSE req_i3.i3 END as i3,
-CASE WHEN req_i4.i4 IS NULL THEN 'nc' ELSE req_i4.i4 END as i4,
-CASE WHEN req_pt1.pt1 IS NULL THEN 'nc' ELSE req_pt1.pt1 END as pt1,
-CASE WHEN req_pt2.pt2 IS NULL THEN 'nc' ELSE req_pt2.pt2 END as pt2,
-CASE WHEN req_pt2lh.pt2lh IS NULL THEN 'nc' ELSE req_pt2lh.pt2lh END as pt2lh,
-CASE WHEN req_t1.t1 IS NULL THEN 'nc' ELSE req_t1.t1 END as t1,
-CASE WHEN req_t4t5.t5 IS NULL THEN 'nc' ELSE req_t4t5.t5 END as t5,
-CASE WHEN req_supcom.sup_com IS NULL THEN 'nc' ELSE req_supcom.sup_com END as sup_com,
-CASE WHEN req_psc_pct.psc_pct IS NULL THEN 'nc' ELSE req_psc_pct.psc_pct END AS psc_pct,
-CASE WHEN req_psc_lin.psc_lin IS NULL THEN 'nc' ELSE req_psc_lin.psc_lin END AS psc_lin,
-CASE WHEN req_psc_surf.psc_surf IS NULL THEN 'nc' ELSE req_psc_surf.psc_surf END AS psc_surf,
-CASE WHEN req_zac.zac IS NULL THEN 'nc' ELSE  req_zac.zac END AS zac,
-CASE WHEN req_infosurf.isurf IS NULL THEN 'nc' ELSE  req_infosurf.isurf END AS isurf,
-CASE WHEN req_archeo.archeo IS NULL THEN 'nc' ELSE  req_archeo.archeo END AS archeo/*,
-CASE WHEN req_txamt.txamt IS NULL THEN 'nc' ELSE  req_txamt.txamt END AS txamt*/
-
-FROM req_princ 
-LEFT JOIN req_oap ON req_princ.idu =  req_oap.idu
-LEFT JOIN req_dpu ON req_princ.idu =  req_dpu.idu
-LEFT JOIN req_ac1 ON req_princ.idu =  req_ac1.idu
-LEFT JOIN req_ac4 ON req_princ.idu =  req_ac4.idu
-LEFT JOIN req_pm1 ON req_princ.idu =  req_pm1.idu
-LEFT JOIN req_a4  ON req_princ.idu =  req_a4.idu
-LEFT JOIN req_ac2 ON req_princ.idu =  req_ac2.idu
-LEFT JOIN req_as1 ON req_princ.idu =  req_as1.idu
-LEFT JOIN req_el3 ON req_princ.idu =  req_el3.idu
-LEFT JOIN req_el7 ON req_princ.idu =  req_el7.idu
-LEFT JOIN req_i3 ON req_princ.idu =  req_i3.idu
-LEFT JOIN req_i4 ON req_princ.idu =  req_i4.idu
-LEFT JOIN req_pt1 ON req_princ.idu =  req_pt1.idu
-LEFT JOIN req_pt2 ON req_princ.idu =  req_pt2.idu
-LEFT JOIN req_pt2lh ON req_princ.idu =  req_pt2lh.idu
-LEFT JOIN req_t1 ON req_princ.idu =  req_t1.idu
-LEFT JOIN req_t4t5 ON req_princ.idu =  req_t4t5.idu
-LEFT JOIN req_supcom ON req_princ.idu =  req_supcom.idu
-LEFT JOIN req_psc_pct ON req_princ.idu =  req_psc_pct.idu
-LEFT JOIN req_psc_lin ON req_princ.idu =  req_psc_lin.idu
-LEFT JOIN req_psc_surf ON req_princ.idu =  req_psc_surf.idu
-LEFT JOIN req_zac ON req_princ.idu =  req_zac.idu
-LEFT JOIN req_infosurf ON req_princ.idu =  req_infosurf.idu
-LEFT JOIN req_archeo ON req_princ.idu =  req_archeo.idu
---LEFT JOIN req_txamt ON req_princ.idu =  req_txamt.idu
-
-GROUP BY 
-req_princ.idu, req_princ.nru_commune, req_princ.nru_section,req_princ.nru_numpar,
-req_princ.nur_supf,req_princ.nur_regzone,req_princ.nru_urldgen,req_princ.nru_urlann,
-req_princ.nru_urllex,req_oap.oap,req_dpu.dpu,req_ac1.ac1,req_ac4.ac4,req_pm1.pm1,req_a4.a4,
-req_ac2.ac2,req_el3.el3,req_as1.as1,req_el7.el7,req_i3.i3,req_i4.i4,req_pt1.pt1,req_pt2.pt2,
-req_pt2lh.pt2lh,req_t1.t1,req_t4t5.t5,req_supcom.sup_com,req_psc_pct.psc_pct,
-req_psc_lin.psc_lin,req_psc_surf.psc_surf,req_zac.zac,req_infosurf.isurf,req_archeo.archeo/*,
-req_txamt.txamt*/
-
+            m_urbanisme_doc.geo_v_p_info_surf_arc isurf
+          WHERE (isurf.typeinf::text = '14'::text OR isurf.typeinf::text = '19'::text OR isurf.typeinf::text = '20'::text OR isurf.typeinf::text = '38'::text) AND st_intersects(p.geom, isurf.geom1) IS TRUE
+          GROUP BY ('60'::text || p.idu)
+        ), req_archeo AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            'Zonage archéologique'::text AS archeo
+           FROM r_cadastre.geo_parcelle p,
+            m_urbanisme_reg.geo_zonage_archeologique za
+          WHERE "left"('60'::text || p.idu, 5) = za.insee::text AND p.lot = 'arc'::text
+          ORDER BY ('60'::text || p.idu)
+        ), req_txamt AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+                CASE
+                    WHEN tx.taux::text = 'Non renseigné'::text THEN 'Taxe d''aménagement (taux non connue)'::text
+                    ELSE ('Taxe d''aménagement au taux de '::text || replace(tx.taux::text, '.00'::text, ''::text)) || '%'::text
+                END AS txamt
+           FROM r_cadastre.geo_parcelle p,
+            x_apps.xapps_an_fisc_geo_taxe_amgt tx
+          WHERE ('60'::text || p.idu) = tx.idu::text AND p.lot = 'arc'::text
+          ORDER BY ('60'::text || p.idu)
+        ), req_cana_prive AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            ((('La parcelle peut être soumise à une bande de sécurité de '::text || round(cana_prive.zpose, 2)) || ' mètre(s) générée par une canalisation du réseau '::text) || r.valeur::text) || '.'::text AS cana_prive
+           FROM r_cadastre.geo_parcelle p,
+            m_reseau_humide.geo_resh_domaineprive cana_prive,
+            m_reseau_humide.lt_resh_natresh r
+          WHERE st_intersects(p.geom, cana_prive.geom1) AND cana_prive.typres::text = r.code::text AND (cana_prive.typsup::text = ANY (ARRAY['10'::character varying::text, '11'::character varying::text, '20'::character varying::text, '40'::character varying::text])) AND p.lot = 'arc'::text
+          ORDER BY ('60'::text || p.idu)
+        )
+ SELECT DISTINCT req_princ.idu,
+    upper(req_princ.nru_commune) AS nru_commune,
+    req_princ.nru_section,
+    req_princ.nru_numpar,
+    req_princ.nur_supf,
+    req_princ.nur_regzone,
+    req_princ.nru_urldgen,
+    req_princ.nru_urlann,
+    req_princ.nru_urllex,
+        CASE
+            WHEN req_oap.oap IS NULL THEN 'nc'::text
+            ELSE string_agg(req_oap.oap, '<br>'::text)
+        END AS oap,
+        CASE
+            WHEN req_dpu.dpu IS NULL THEN 'nc'::text
+            ELSE req_dpu.dpu
+        END AS dpu,
+        CASE
+            WHEN req_a5.a5 IS NULL THEN 'nc'::text
+            ELSE req_a5.a5
+        END AS a5,
+        CASE
+            WHEN req_ac1.ac1 IS NULL THEN 'nc'::text
+            ELSE req_ac1.ac1
+        END AS ac1,
+        CASE
+            WHEN req_ac4.ac4 IS NULL THEN 'nc'::text
+            ELSE req_ac4.ac4
+        END AS ac4,
+        CASE
+            WHEN req_pm1.pm1 IS NULL THEN 'nc'::text
+            ELSE req_pm1.pm1
+        END AS pm1,
+        CASE
+            WHEN req_a4.a4 IS NULL THEN 'nc'::text
+            ELSE req_a4.a4
+        END AS a4,
+        CASE
+            WHEN req_ac2.ac2 IS NULL THEN 'nc'::text
+            ELSE req_ac2.ac2
+        END AS ac2,
+        CASE
+            WHEN req_as1.as1 IS NULL THEN 'nc'::text
+            ELSE req_as1.as1
+        END AS as1,
+        CASE
+            WHEN req_el3.el3 IS NULL THEN 'nc'::text
+            ELSE req_el3.el3
+        END AS el3,
+        CASE
+            WHEN req_el7.el7 IS NULL THEN 'nc'::text
+            ELSE req_el7.el7
+        END AS el7,
+        CASE
+            WHEN req_i3.i3 IS NULL THEN 'nc'::text
+            ELSE req_i3.i3
+        END AS i3,
+        CASE
+            WHEN req_i4.i4 IS NULL THEN 'nc'::text
+            ELSE req_i4.i4
+        END AS i4,
+        CASE
+            WHEN req_pt1.pt1 IS NULL THEN 'nc'::text
+            ELSE req_pt1.pt1
+        END AS pt1,
+        CASE
+            WHEN req_pt2.pt2 IS NULL THEN 'nc'::text
+            ELSE req_pt2.pt2
+        END AS pt2,
+        CASE
+            WHEN req_pt2lh.pt2lh IS NULL THEN 'nc'::text
+            ELSE req_pt2lh.pt2lh
+        END AS pt2lh,
+        CASE
+            WHEN req_t1.t1 IS NULL THEN 'nc'::text
+            ELSE req_t1.t1
+        END AS t1,
+        CASE
+            WHEN req_t4t5.t5 IS NULL THEN 'nc'::text
+            ELSE req_t4t5.t5
+        END AS t5,
+        CASE
+            WHEN req_supcom.sup_com IS NULL THEN 'nc'::text
+            ELSE req_supcom.sup_com
+        END AS sup_com,
+        CASE
+            WHEN req_psc_pct.psc_pct IS NULL THEN 'nc'::text
+            ELSE req_psc_pct.psc_pct
+        END AS psc_pct,
+        CASE
+            WHEN req_psc_lin.psc_lin IS NULL THEN 'nc'::text
+            ELSE req_psc_lin.psc_lin
+        END AS psc_lin,
+        CASE
+            WHEN req_psc_surf.psc_surf IS NULL THEN 'nc'::text
+            ELSE req_psc_surf.psc_surf
+        END AS psc_surf,
+        CASE
+            WHEN req_zac.zac IS NULL THEN 'nc'::text
+            ELSE req_zac.zac
+        END AS zac,
+        CASE
+            WHEN req_infosurf.isurf IS NULL THEN 'nc'::text
+            ELSE req_infosurf.isurf
+        END AS isurf,
+        CASE
+            WHEN req_archeo.archeo IS NULL THEN 'nc'::text
+            ELSE req_archeo.archeo
+        END AS archeo,
+        CASE
+            WHEN req_txamt.txamt IS NULL THEN 'nc'::text
+            ELSE req_txamt.txamt
+        END AS txamt,
+        CASE
+            WHEN req_cana_prive.cana_prive IS NULL THEN 'nc'::text
+            ELSE req_cana_prive.cana_prive
+        END AS cana_prive
+   FROM req_princ
+     LEFT JOIN req_oap ON req_princ.idu = req_oap.idu
+     LEFT JOIN req_dpu ON req_princ.idu = req_dpu.idu
+     LEFT JOIN req_a5 ON req_princ.idu = req_a5.idu
+     LEFT JOIN req_ac1 ON req_princ.idu = req_ac1.idu
+     LEFT JOIN req_ac4 ON req_princ.idu = req_ac4.idu
+     LEFT JOIN req_pm1 ON req_princ.idu = req_pm1.idu::text
+     LEFT JOIN req_a4 ON req_princ.idu = req_a4.idu
+     LEFT JOIN req_ac2 ON req_princ.idu = req_ac2.idu
+     LEFT JOIN req_as1 ON req_princ.idu = req_as1.idu
+     LEFT JOIN req_el3 ON req_princ.idu = req_el3.idu
+     LEFT JOIN req_el7 ON req_princ.idu = req_el7.idu
+     LEFT JOIN req_i3 ON req_princ.idu = req_i3.idu
+     LEFT JOIN req_i4 ON req_princ.idu = req_i4.idu
+     LEFT JOIN req_pt1 ON req_princ.idu = req_pt1.idu
+     LEFT JOIN req_pt2 ON req_princ.idu = req_pt2.idu
+     LEFT JOIN req_pt2lh ON req_princ.idu = req_pt2lh.idu
+     LEFT JOIN req_t1 ON req_princ.idu = req_t1.idu
+     LEFT JOIN req_t4t5 ON req_princ.idu = req_t4t5.idu
+     LEFT JOIN req_supcom ON req_princ.idu = req_supcom.idu::text
+     LEFT JOIN req_psc_pct ON req_princ.idu = req_psc_pct.idu
+     LEFT JOIN req_psc_lin ON req_princ.idu = req_psc_lin.idu
+     LEFT JOIN req_psc_surf ON req_princ.idu = req_psc_surf.idu
+     LEFT JOIN req_zac ON req_princ.idu = req_zac.idu
+     LEFT JOIN req_infosurf ON req_princ.idu = req_infosurf.idu
+     LEFT JOIN req_archeo ON req_princ.idu = req_archeo.idu
+     LEFT JOIN req_txamt ON req_princ.idu = req_txamt.idu
+     LEFT JOIN req_cana_prive ON req_princ.idu = req_cana_prive.idu
+  GROUP BY req_princ.idu, req_princ.nru_commune, req_princ.nru_section, req_princ.nru_numpar, req_princ.nur_supf, req_princ.nur_regzone, req_princ.nru_urldgen, req_princ.nru_urlann, req_princ.nru_urllex, req_oap.oap, req_dpu.dpu, req_a5.a5, req_ac1.ac1, req_ac4.ac4, req_pm1.pm1, req_a4.a4, req_ac2.ac2, req_el3.el3, req_as1.as1, req_el7.el7, req_i3.i3, req_i4.i4, req_pt1.pt1, req_pt2.pt2, req_pt2lh.pt2lh, req_t1.t1, req_t4t5.t5, req_supcom.sup_com, req_psc_pct.psc_pct, req_psc_lin.psc_lin, req_psc_surf.psc_surf, req_zac.zac, req_infosurf.isurf, req_archeo.archeo, req_txamt.txamt, req_cana_prive.cana_prive
 WITH DATA;
 
 ALTER TABLE x_apps_public.xappspublic_an_vmr_nru
-  OWNER TO sig_create;
-GRANT ALL ON TABLE x_apps_public.xappspublic_an_vmr_nru TO sig_create;
-GRANT ALL ON TABLE x_apps_public.xappspublic_an_vmr_nru TO create_sig;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps_public.xappspublic_an_vmr_nru TO edit_sig;
-GRANT SELECT ON TABLE x_apps_public.xappspublic_an_vmr_nru TO read_sig;
+    OWNER TO create_sig;
+
 COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru
-  IS 'Vue matérialisée contenant les informations pré-formatés du PLUi communes à toutes les communes pour la note de renseignements d''urbanisme ';
+    IS 'Vue matérialisée contenant les informations pré-formatés du PLUi communes à toutes les communes pour la note de renseignements d''urbanisme';
 
-
+GRANT ALL ON TABLE x_apps_public.xappspublic_an_vmr_nru TO create_sig;
+GRANT SELECT ON TABLE x_apps_public.xappspublic_an_vmr_nru TO sig_edit;
 
 -- ## Consultation document avt le PLUiH
 -- ######################################
