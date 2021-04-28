@@ -6102,7 +6102,7 @@ COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_geo_vmr_fichegeo_plui_ru
 
 -- View: x_apps_public.xappspublic_an_vmr_nru
 
--- DROP MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru;
+DROP MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru;
 
 CREATE MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru
 TABLESPACE pg_default
@@ -6345,7 +6345,8 @@ AS
             x_apps.xapps_an_fisc_geo_taxe_amgt tx
           WHERE ('60'::text || p.idu) = tx.idu::text AND p.lot = 'arc'::text
           ORDER BY ('60'::text || p.idu)
-        ), req_cana_prive AS (
+        )
+		/*, req_cana_prive AS (
          SELECT DISTINCT '60'::text || p.idu AS idu,
             ((('La parcelle peut être soumise à une bande de sécurité de '::text || round(cana_prive.zpose, 2)) || ' mètre(s) générée par une canalisation du réseau '::text) || r.valeur::text) || '.'::text AS cana_prive
            FROM r_cadastre.geo_parcelle p,
@@ -6353,7 +6354,7 @@ AS
             m_reseau_humide.lt_resh_natresh r
           WHERE st_intersects(p.geom, cana_prive.geom1) AND cana_prive.typres::text = r.code::text AND (cana_prive.typsup::text = ANY (ARRAY['10'::character varying::text, '11'::character varying::text, '20'::character varying::text, '40'::character varying::text])) AND p.lot = 'arc'::text
           ORDER BY ('60'::text || p.idu)
-        )
+        )*/
  SELECT DISTINCT req_princ.idu,
     upper(req_princ.nru_commune) AS nru_commune,
     req_princ.nru_section,
@@ -6466,11 +6467,13 @@ AS
         CASE
             WHEN req_txamt.txamt IS NULL THEN 'nc'::text
             ELSE req_txamt.txamt
-        END AS txamt,
+        END AS txamt
+		/*,
         CASE
             WHEN req_cana_prive.cana_prive IS NULL THEN 'nc'::text
             ELSE req_cana_prive.cana_prive
         END AS cana_prive
+		*/
    FROM req_princ
      LEFT JOIN req_oap ON req_princ.idu = req_oap.idu
      LEFT JOIN req_dpu ON req_princ.idu = req_dpu.idu
@@ -6498,8 +6501,9 @@ AS
      LEFT JOIN req_infosurf ON req_princ.idu = req_infosurf.idu
      LEFT JOIN req_archeo ON req_princ.idu = req_archeo.idu
      LEFT JOIN req_txamt ON req_princ.idu = req_txamt.idu
-     LEFT JOIN req_cana_prive ON req_princ.idu = req_cana_prive.idu
-  GROUP BY req_princ.idu, req_princ.nru_commune, req_princ.nru_section, req_princ.nru_numpar, req_princ.nur_supf, req_princ.nur_regzone, req_princ.nru_urldgen, req_princ.nru_urlann, req_princ.nru_urllex, req_oap.oap, req_dpu.dpu, req_a5.a5, req_ac1.ac1, req_ac4.ac4, req_pm1.pm1, req_a4.a4, req_ac2.ac2, req_el3.el3, req_as1.as1, req_el7.el7, req_i3.i3, req_i4.i4, req_pt1.pt1, req_pt2.pt2, req_pt2lh.pt2lh, req_t1.t1, req_t4t5.t5, req_supcom.sup_com, req_psc_pct.psc_pct, req_psc_lin.psc_lin, req_psc_surf.psc_surf, req_zac.zac, req_infosurf.isurf, req_archeo.archeo, req_txamt.txamt, req_cana_prive.cana_prive
+    -- LEFT JOIN req_cana_prive ON req_princ.idu = req_cana_prive.idu
+  GROUP BY req_princ.idu, req_princ.nru_commune, req_princ.nru_section, req_princ.nru_numpar, req_princ.nur_supf, req_princ.nur_regzone, req_princ.nru_urldgen, req_princ.nru_urlann, req_princ.nru_urllex, req_oap.oap, req_dpu.dpu, req_a5.a5, req_ac1.ac1, req_ac4.ac4, req_pm1.pm1, req_a4.a4, req_ac2.ac2, req_el3.el3, req_as1.as1, req_el7.el7, req_i3.i3, req_i4.i4, req_pt1.pt1, req_pt2.pt2, req_pt2lh.pt2lh, req_t1.t1, req_t4t5.t5, req_supcom.sup_com, req_psc_pct.psc_pct, req_psc_lin.psc_lin, req_psc_surf.psc_surf, req_zac.zac, req_infosurf.isurf, req_archeo.archeo, req_txamt.txamt
+  /*, req_cana_prive.cana_prive*/
 WITH DATA;
 
 ALTER TABLE x_apps_public.xappspublic_an_vmr_nru
