@@ -43,6 +43,7 @@
 -- 2021/04/12 : GB / Intégration d'une classe d'objets (an_doc_urba_tpe) pour gérer la correspondance des pièces écrites (Standard 2017d)
 -- 2021/04/22 : GB / Intégration Canalisation réseaux humides sur parcelle privé dans la vue xapps_an_vmr_p_information_horsplu pour la remontée en tant qu'informations jugées utiles
 -- 2021/04/27 : GB / Intégration Canalisation réseaux humides sur parcelle privé dans la vue xappspublic_an_vmr_nru pour la remontée en tant qu'informations jugées utiles ou SUP pour le gd public
+-- 2011/06/28 : GB / Adaptation vue des informations hors PLU pour intégrer le nom des PA
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -4721,10 +4722,8 @@ DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
 AS
-
  WITH r_p AS (
-         WITH 
-	 			r_natura2000_zps AS (
+         WITH r_natura2000_zps AS (
                  SELECT p."IDU" AS idu,
                         CASE
                             WHEN zps.nom IS NOT NULL THEN (('Site Natura2000 : '::text || zps.nom::text) || chr(10)) || 'Remarque : les données présentées sont issues de l''arrêté de janvier 2006 (les demandes de modifications sont en cours)'::text
@@ -4843,9 +4842,10 @@ AS
                 ), r_proc AS (
                  SELECT DISTINCT p."IDU" AS idu,
                         CASE
-                            WHEN (z.date_crea::text IS NULL OR z.date_crea::text = ''::text) AND z.z_proced::text <> '10'::text THEN 'Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.proced_lib::text
+                            WHEN (z.date_crea::text IS NULL OR z.date_crea::text = ''::text) AND z.z_proced::text <> '10'::text 
+					THEN 'Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.proced_lib::text || ' - ' || z.l_ope_nom::text
                             WHEN z.z_proced::text = '10'::text AND (z.idsite::text = '60382ad'::text OR z.idsite::text = '60156aa'::text OR z.idsite::text = '60151ha'::text OR z.idsite::text = '60159ag'::text OR z.idsite::text = '60159ha'::text OR z.idsite::text = '60159aa'::text OR z.idsite::text = '60159af'::text OR z.idsite::text = '60159aa'::text) THEN 'Zone d''aménagement concerté : '::text || z.l_ope_nom::text
-                            WHEN (z.date_crea::text IS NOT NULL OR z.date_crea::text <> ''::text) AND z.z_proced::text <> '10'::text THEN (('Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.proced_lib::text) || ', créée le '::text) || to_char(to_date(z.date_crea::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text)
+                            WHEN (z.date_crea::text IS NOT NULL OR z.date_crea::text <> ''::text) AND z.z_proced::text <> '10'::text THEN (('Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.proced_lib::text || ' - ' || z.l_ope_nom::text) || ', créée le '::text) || to_char(to_date(z.date_crea::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text)
                             ELSE ''::text
                         END AS libelle,
                     ''::text AS urlfic
@@ -4890,12 +4890,13 @@ AS
                   WHERE st_intersects(p."GEOM", htas.geom)
                 ), r_cana_prive AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle peut être soumise à une bande de sécurité de ' || round(zpose,2) || ' mètre(s) générée par une canalisation du réseau ' || r.valeur || '.'::text AS libelle,
+                    ((('La parcelle peut être soumise à une bande de sécurité de '::text || round(cana_prive.zpose, 2)) || ' mètre(s) générée par une canalisation du réseau '::text) || r.valeur::text) || '.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_reseau_humide.geo_resh_domaineprive cana_prive, m_reseau_humide.lt_resh_natresh r
-                  WHERE st_intersects(p."GEOM", cana_prive.geom1) AND cana_prive.typres = r.code AND cana_prive.typsup IN ('10','11','20','40')
-				)
+                    m_reseau_humide.geo_resh_domaineprive cana_prive,
+                    m_reseau_humide.lt_resh_natresh r
+                  WHERE st_intersects(p."GEOM", cana_prive.geom1) AND cana_prive.typres::text = r.code::text AND (cana_prive.typsup::text = ANY (ARRAY['10'::character varying, '11'::character varying, '20'::character varying, '40'::character varying]::text[]))
+                )
          SELECT r_natura2000_zps.idu,
             r_natura2000_zps.libelle,
             r_natura2000_zps.urlfic
@@ -5000,7 +5001,7 @@ AS
             r_enedis_htas.libelle,
             r_enedis_htas.urlfic
            FROM r_enedis_htas
-	    UNION ALL
+        UNION ALL
          SELECT r_cana_prive.idu,
             r_cana_prive.libelle,
             r_cana_prive.urlfic
@@ -5011,11 +5012,7 @@ AS
     r_p.libelle,
     r_p.urlfic
    FROM r_p
-
-
-
 WITH DATA;
-
 
 ALTER TABLE x_apps.xapps_an_vmr_p_information_horsplu
     OWNER TO create_sig;
@@ -5026,8 +5023,8 @@ ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FM
 
 GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_create;
 GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_read;
+GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO create_sig;
 GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_edit;
-GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO create_sig;
 
 
 
