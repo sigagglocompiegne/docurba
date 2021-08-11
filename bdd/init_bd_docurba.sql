@@ -45,6 +45,7 @@
 -- 2021/04/27 : GB / Intégration Canalisation réseaux humides sur parcelle privé dans la vue xappspublic_an_vmr_nru pour la remontée en tant qu'informations jugées utiles ou SUP pour le gd public
 -- 2021/06/28 : GB / Adaptation vue des informations hors PLU pour intégrer le nom des PA
 -- 2021/07/09 : GB / Intégration de la ramontée des parcelles dans le périmètree OPAH-RU dans la vue xapps_an_vmr_p_information_horsplu
+--
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
