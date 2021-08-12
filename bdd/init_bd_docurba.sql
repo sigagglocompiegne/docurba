@@ -4861,28 +4861,28 @@ AS
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_zonage_archeologique za
                   WHERE "left"(p."IDU"::text, 5) = za.insee::text
-                ), r_enedis_bta AS (
+                ), r_bta AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Basse Tension en ligne aérienne.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_bta_enedis bta
                   WHERE st_intersects(p."GEOM", bta.geom)
-                ), r_enedis_bts AS (
+                ), r_bts AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Basse Tension en ligne souterraine.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_bts_enedis bts
                   WHERE st_intersects(p."GEOM", bts.geom)
-                ), r_enedis_htaa AS (
+                ), r_htaa AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Moyenne Tension en ligne aérienne.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_htaa_enedis htaa
                   WHERE st_intersects(p."GEOM", htaa.geom)
-                ), r_enedis_htas AS (
+                ), r_htas AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Moyenne Tension en ligne souterraine.'::text AS libelle,
                     ''::text AS urlfic
