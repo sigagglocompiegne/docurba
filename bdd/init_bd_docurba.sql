@@ -4992,25 +4992,25 @@ AS
             r_zarcheo.urlfic
            FROM r_zarcheo
         UNION ALL
-         SELECT r_enedis_bta.idu,
-            r_enedis_bta.libelle,
-            r_enedis_bta.urlfic
-           FROM r_enedis_bta
+         SELECT r_bta.idu,
+            r_bta.libelle,
+            r_bta.urlfic
+           FROM r_bta
         UNION ALL
-         SELECT r_enedis_bts.idu,
-            r_enedis_bts.libelle,
-            r_enedis_bts.urlfic
-           FROM r_enedis_bts
+         SELECT r_bts.idu,
+            r_bts.libelle,
+            r_bts.urlfic
+           FROM r_bts
         UNION ALL
-         SELECT r_enedis_htaa.idu,
-            r_enedis_htaa.libelle,
-            r_enedis_htaa.urlfic
-           FROM r_enedis_htaa
+         SELECT r_htaa.idu,
+            r_htaa.libelle,
+            r_htaa.urlfic
+           FROM r_htaa
         UNION ALL
-         SELECT r_enedis_htas.idu,
-            r_enedis_htas.libelle,
-            r_enedis_htas.urlfic
-           FROM r_enedis_htas
+         SELECT r_htas.idu,
+            r_htas.libelle,
+            r_htas.urlfic
+           FROM r_htas
         UNION ALL
          SELECT r_cana_prive.idu,
             r_cana_prive.libelle,
