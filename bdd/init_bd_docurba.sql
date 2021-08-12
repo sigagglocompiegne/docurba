@@ -4863,28 +4863,28 @@ AS
                   WHERE "left"(p."IDU"::text, 5) = za.insee::text
                 ), r_bta AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Basse Tension en ligne aérienne.'::text AS libelle,
+                    'La parcelle est traversée ou à proximité immédiate du Réseau ' || bta.exploitant || ' Basse Tension en ligne aérienne.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_bta_enedis bta
                   WHERE st_intersects(p."GEOM", bta.geom)
                 ), r_bts AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Basse Tension en ligne souterraine.'::text AS libelle,
+                    'La parcelle est traversée ou à proximité immédiate du Réseau ' || bts.exploitant || ' Basse Tension en ligne souterraine.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_bts_enedis bts
                   WHERE st_intersects(p."GEOM", bts.geom)
                 ), r_htaa AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Moyenne Tension en ligne aérienne.'::text AS libelle,
+                    'La parcelle est traversée ou à proximité immédiate du Réseau ' || htaa.exploitant || ' Moyenne Tension en ligne aérienne.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_htaa_enedis htaa
                   WHERE st_intersects(p."GEOM", htaa.geom)
                 ), r_htas AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée ou à proximité immédiate du Réseau ENEDIS Moyenne Tension en ligne souterraine.'::text AS libelle,
+                    'La parcelle est traversée ou à proximité immédiate du Réseau ' || htas.exploitant || ' Moyenne Tension en ligne souterraine.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_sec.geo_ele_b_htas_enedis htas
