@@ -4748,7 +4748,7 @@ AS
                 ), r_smoa AS (
                  SELECT p."IDU" AS idu,
                         CASE
-                            WHEN zh.classement::text = 'PP'::text THEN 'Zone humide SMOA : zone potentiennement humide - nécessite une analyse de la végétation et du sol'::text
+                            WHEN zh.classement::text = 'PP'::text THEN 'Zone humide SMOA : zone potentiellement humide - nécessite une analyse de la végétation et du sol'::text
                             WHEN zh.classement::text = 'H'::text THEN 'Zone humide SMOA : zone humide avérée'::text
                             WHEN zh.classement::text = 'NZH'::text OR zh.classement::text = 'P'::text THEN 'Zone humide SMOA : zone potentiennement humide - nécessite une analyse du sol'::text
                             ELSE NULL::text
