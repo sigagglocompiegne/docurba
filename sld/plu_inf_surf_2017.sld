@@ -52,9 +52,69 @@
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>
-        
 
-<!-- #####  INF 03  ##### -->        
+     <!-- #####  INF 99 Zone de 40m spécifique commune de Bailly #####  -->
+        
+        <se:Rule>
+          <se:Name>Zone de 40m</se:Name>
+          <se:Description>
+            <se:Title>Zone de 40m</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typeinf</ogc:PropertyName>
+                <ogc:Literal>99</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>l_nom</ogc:PropertyName>
+                  <ogc:Literal>Zone de 40m</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+            </ogc:And> 
+          </ogc:Filter>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
+          <se:PolygonSymbolizer>
+            <se:Stroke>
+              <se:SvgParameter name="stroke">#b2b2b2</se:SvgParameter>
+              <se:SvgParameter name="stroke-width">1.5</se:SvgParameter>
+              <se:SvgParameter name="stroke-linecap">round</se:SvgParameter>
+              <se:SvgParameter name="stroke-dasharray">0.5 2.5</se:SvgParameter>
+            </se:Stroke>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        
+        <se:Rule>
+          <se:Name>Zone de 40m</se:Name>
+          <se:Description>
+            <se:Title>Zone de 40m</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typeinf</ogc:PropertyName>
+                <ogc:Literal>99</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>l_nom</ogc:PropertyName>
+                  <ogc:Literal>Zone de 40m</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+            </ogc:And> 
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:PolygonSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
+            <se:Stroke>
+              <se:SvgParameter name="stroke">#b2b2b2</se:SvgParameter>
+              <se:SvgParameter name="stroke-width">0.5</se:SvgParameter>
+              <se:SvgParameter name="stroke-linecap">round</se:SvgParameter>
+              <se:SvgParameter name="stroke-dasharray">0.1 1</se:SvgParameter>
+            </se:Stroke>
+          </se:PolygonSymbolizer>
+        </se:Rule>       
+   
+
+<!-- #####  INF 03  #####        
         
         <se:Rule>
           <se:Name>Zone de préemption dans un espace naturel et sensible</se:Name>
@@ -101,9 +161,9 @@
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>
-        
+-->        
 
-<!-- #####  INF 04  ##### -->        
+<!-- #####  INF 04  #####        
         
         <se:Rule>
           <se:Name>Périmètre de droit de préemption urbain</se:Name>
@@ -186,9 +246,9 @@
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>                          
+-->
 
-
-<!-- #####  INF 05  ##### -->        
+<!-- #####  INF 05  #####        
        
         <se:Rule>
           <se:Name>Zone d'aménagement différé</se:Name>
@@ -233,9 +293,9 @@
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>
-        
+-->        
 
-<!-- #####  INF 14  ##### -->        
+<!-- #####  INF 14  #####        
         
         <se:Rule>
           <se:Name>Périmètre de voisinage de transport terrestre</se:Name>
@@ -271,9 +331,9 @@
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>
+-->         
         
-        
-<!-- #####  INF 16  ##### --> 
+<!-- #####  INF 16  ##### 
 
         <se:Rule>
           <se:Name>Site archéologique</se:Name>
@@ -306,10 +366,10 @@
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>
+-->        
         
-        
-<!-- #####  INF 19  ##### -->        
-        
+<!-- #####  INF 19  #####      
+       
         <se:Rule>
           <se:Name>Zone d'assainissement collectif/non collectif, eaux usées/eaux pluviales, schéma de réseaux eau et assainissement, systèmes d'élimination des déchets, emplacements traitements eaux et déchets</se:Name>
           <se:Description>
@@ -353,9 +413,14 @@
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>                
+-->
 
+       
+        
+      
 
-<!-- #####  INF 99 Périmètre de forêt domaniale / INF 37 Bois ou forêts relevant du régime forestier  ##### -->        
+        
+<!-- #####  INF 99 Périmètre de forêt domaniale / INF 37 Bois ou forêts relevant du régime forestier  #####        
         
         <se:Rule>
           <se:Name>Périmètre de forêt domaniale / Bois ou forêts relevant du régime forestier</se:Name>
@@ -436,9 +501,9 @@
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>
+-->
 
-
-<!-- #####  INF 99 Installations classées - zones de protection  ##### -->        
+<!-- #####  INF 99 Installations classées - zones de protection  #####        
         
         <se:Rule>
           <se:Name>Installations classées - zones de protection</se:Name>
@@ -523,9 +588,10 @@
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>
+-->
         
         
-<!-- #####  INF 99 Autre périmètre, secteur, plan, document, site, projet, espace ##### -->        
+<!-- #####  INF 99 Autre périmètre, secteur, plan, document, site, projet, espace #####
         
         <se:Rule>
           <se:Name>Autre périmètre, secteur, plan, document, site, projet, espace</se:Name>
@@ -584,6 +650,10 @@
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>        
+-->        
+        
+            
+
         
         
       </se:FeatureTypeStyle>
