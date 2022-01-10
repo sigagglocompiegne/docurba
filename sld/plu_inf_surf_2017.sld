@@ -76,7 +76,7 @@
           <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
           <se:PolygonSymbolizer>
             <se:Stroke>
-              <se:SvgParameter name="stroke">#b2b2b2</se:SvgParameter>
+              <se:SvgParameter name="stroke">#0000ff</se:SvgParameter>
               <se:SvgParameter name="stroke-width">1.5</se:SvgParameter>
               <se:SvgParameter name="stroke-linecap">round</se:SvgParameter>
               <se:SvgParameter name="stroke-dasharray">0.5 2.5</se:SvgParameter>
@@ -105,7 +105,7 @@
           <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
           <se:PolygonSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
             <se:Stroke>
-              <se:SvgParameter name="stroke">#b2b2b2</se:SvgParameter>
+              <se:SvgParameter name="stroke">#0000ff</se:SvgParameter>
               <se:SvgParameter name="stroke-width">0.5</se:SvgParameter>
               <se:SvgParameter name="stroke-linecap">round</se:SvgParameter>
               <se:SvgParameter name="stroke-dasharray">0.1 1</se:SvgParameter>
