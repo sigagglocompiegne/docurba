@@ -5569,6 +5569,36 @@ CREATE INDEX idx_geo_vmr_p_zone_urba_typezone
   (typezone COLLATE pg_catalog."default");
 
 
+-- View: x_apps.xapps_an_vmr_parcelle_ru
+
+DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_ru;
+
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_ru
+TABLESPACE pg_default
+AS
+ SELECT "NBAT_10"."IDU" AS idu,
+    "left"("NBAT_10"."IDU"::text, 5) AS insee,
+    "NBAT_10"."CCOSEC" AS section_cad_bg,
+    "NBAT_10"."BG_NUMPARC" AS numpar_cad_bg,
+    "NBAT_10"."DCNTPA" AS surf_cad_bg,
+    "NBAT_10"."BG_FULL_ADDRESS" AS adresse_cad_bg,
+    "NBAT_10"."BG_PROP_RECORDS" AS proprio_cad_bg ,
+	string_agg(p."DDENOM" || ' (' || dp."DESIGNATION" || ')','<br>') as proprio_cad_ru
+   FROM 
+   r_bg_majic."NBAT_10",r_bg_majic."PROP" p, r_bg_majic."DROIT" dp
+   WHERE "NBAT_10"."DNUPRO" = p."DNUPRO" 
+AND dp."CO_DROIT" = p."CCODRO"
+AND p."CCOCOM" = left("NBAT_10"."IDU",5) 
+GROUP BY "NBAT_10"."IDU", "NBAT_10"."CCOSEC","NBAT_10"."BG_NUMPARC", "NBAT_10"."DCNTPA", "NBAT_10"."BG_FULL_ADDRESS","NBAT_10"."BG_PROP_RECORDS"
+
+WITH DATA;
+
+ALTER TABLE x_apps.xapps_an_vmr_parcelle_ru
+    OWNER TO create_sig;
+
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_ru
+    IS 'Vue matérialisée extrayant de la table PARCELLE de BG les informations essentielles pour la note d''urbanisme. Evite d''utiliser les données intégrées via le module GEOCADASTRE pour des pbs de mises à jour et de reconstructions applicatives';
+
 
 
 
