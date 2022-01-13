@@ -46,6 +46,7 @@
 -- 2021/06/28 : GB / Adaptation vue des informations hors PLU pour intégrer le nom des PA
 -- 2021/07/09 : GB / Intégration de la ramontée des parcelles dans le périmètree OPAH-RU dans la vue xapps_an_vmr_p_information_horsplu
 -- 2021/08/11 : GB / Mise à jour des tables réseaux électriques gérant maintenant plusieurs exploitant dans la vue xapps_an_vmr_information_horsplu
+-- 2022/01/13 : GB / Mise à jour vue grand public, et informations hors PLU intégrant l'aléa q100 à la parcellle
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -4719,7 +4720,7 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu
 
 -- View: x_apps.xapps_an_vmr_p_information_horsplu
 
-DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
+-- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
 
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
@@ -4748,7 +4749,7 @@ AS
                 ), r_smoa AS (
                  SELECT p."IDU" AS idu,
                         CASE
-                            WHEN zh.classement::text = 'PP'::text THEN 'Zone humide SMOA : zone potentiellement humide - nécessite une analyse de la végétation et du sol'::text
+                            WHEN zh.classement::text = 'PP'::text THEN 'Zone humide SMOA : zone potentiennement humide - nécessite une analyse de la végétation et du sol'::text
                             WHEN zh.classement::text = 'H'::text THEN 'Zone humide SMOA : zone humide avérée'::text
                             WHEN zh.classement::text = 'NZH'::text OR zh.classement::text = 'P'::text THEN 'Zone humide SMOA : zone potentiennement humide - nécessite une analyse du sol'::text
                             ELSE NULL::text
@@ -4757,6 +4758,13 @@ AS
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_smoa.an_smoa_inv_zh_geo zh
                   WHERE p."IDU"::text = zh.idu::text
+                ), r_q100 AS (
+                 SELECT p."IDU" AS idu,
+                    q100.libelle,
+                    ''::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_risque.an_parcelle_q100_ru q100
+                  WHERE p."IDU"::text = q100.idu::text
                 ), r_sageba_zh AS (
                  SELECT DISTINCT "PARCELLE"."IDU" AS idu,
                     'Zone humide SAGEBA (V5.1) : Zone humide avérée'::text AS libelle,
@@ -4863,31 +4871,31 @@ AS
                   WHERE "left"(p."IDU"::text, 5) = za.insee::text
                 ), r_bta AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée ou à proximité immédiate du Réseau ' || bta.exploitant || ' Basse Tension en ligne aérienne.'::text AS libelle,
+                    ('La parcelle est traversée ou à proximité immédiate du Réseau '::text || bta.exploitant::text) || ' Basse Tension en ligne aérienne.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_reseau_sec.geo_ele_b_bta_enedis bta
+                    m_reseau_sec.geo_ele_b_bta bta
                   WHERE st_intersects(p."GEOM", bta.geom)
                 ), r_bts AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée ou à proximité immédiate du Réseau ' || bts.exploitant || ' Basse Tension en ligne souterraine.'::text AS libelle,
+                    ('La parcelle est traversée ou à proximité immédiate du Réseau '::text || bts.exploitant::text) || ' Basse Tension en ligne souterraine.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_reseau_sec.geo_ele_b_bts_enedis bts
+                    m_reseau_sec.geo_ele_b_bts bts
                   WHERE st_intersects(p."GEOM", bts.geom)
                 ), r_htaa AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée ou à proximité immédiate du Réseau ' || htaa.exploitant || ' Moyenne Tension en ligne aérienne.'::text AS libelle,
+                    ('La parcelle est traversée ou à proximité immédiate du Réseau '::text || htaa.exploitant::text) || ' Moyenne Tension en ligne aérienne.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_reseau_sec.geo_ele_b_htaa_enedis htaa
+                    m_reseau_sec.geo_ele_b_htaa htaa
                   WHERE st_intersects(p."GEOM", htaa.geom)
                 ), r_htas AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est traversée ou à proximité immédiate du Réseau ' || htas.exploitant || ' Moyenne Tension en ligne souterraine.'::text AS libelle,
+                    ('La parcelle est traversée ou à proximité immédiate du Réseau '::text || htas.exploitant::text) || ' Moyenne Tension en ligne souterraine.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_reseau_sec.geo_ele_b_htas_enedis htas
+                    m_reseau_sec.geo_ele_b_htas htas
                   WHERE st_intersects(p."GEOM", htas.geom)
                 ), r_cana_prive AS (
                  SELECT DISTINCT p."IDU" AS idu,
@@ -4899,12 +4907,10 @@ AS
                   WHERE st_intersects(p."GEOM", cana_prive.geom1) AND cana_prive.typres::text = r.code::text AND (cana_prive.typsup::text = ANY (ARRAY['10'::character varying::text, '11'::character varying::text, '20'::character varying::text, '40'::character varying::text]))
                 ), r_opah_ru AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est comprise en partie ou entièrement dans le périmètre <b>OPAH-RU</b> de l''Agglomération de la Région de Compiègne.'::text 
-					AS libelle,
+                    'La parcelle est comprise en partie ou entièrement dans le périmètre OPAH-RU de l''Agglomération de la Région de Compiègne.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_habitat.geo_hab_opahru o
-       
                   WHERE st_intersects(p."GEOM", o.geom1)
                 )
          SELECT r_natura2000_zps.idu,
@@ -4916,6 +4922,11 @@ AS
             r_natura2000_sic.libelle,
             r_natura2000_sic.urlfic
            FROM r_natura2000_sic
+        UNION ALL
+         SELECT r_q100.idu,
+            r_q100.libelle,
+            r_q100.urlfic
+           FROM r_q100
         UNION ALL
          SELECT r_smoa.idu,
             r_smoa.libelle,
@@ -5016,7 +5027,7 @@ AS
             r_cana_prive.libelle,
             r_cana_prive.urlfic
            FROM r_cana_prive
-	         UNION ALL
+        UNION ALL
          SELECT r_opah_ru.idu,
             r_opah_ru.libelle,
             r_opah_ru.urlfic
@@ -5035,11 +5046,6 @@ ALTER TABLE x_apps.xapps_an_vmr_p_information_horsplu
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
     IS 'Vue matérialisée formatant les données les données informations jugées utiles hors données intégrées dans les données de PLU (cette vue est fusionnée avec xapps_an_vmr_p_information_plu pour être lisible dans la fiche de renseignement d''urbanisme de GEO).
 ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB/00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
-
-GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_create;
-GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO create_sig;
-GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_read;
-GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_horsplu TO sig_edit;
 
 
 
@@ -6175,6 +6181,13 @@ AS
             m_urbanisme_doc.geo_v_p_prescription_surf_arc spct
           WHERE st_intersects(p.geom, spct.geom1) IS TRUE AND spct.typepsc::text = '18'::text
           GROUP BY ('60'::text || p.idu), (spct.typepsc::text), spct.libelle
+			        ), req_q100 AS (
+                 SELECT p."IDU" AS idu,
+                    'Aléa inondation : la parcelle est concernée par la crue centennale (modélisation de décembre 2016).'::text AS libelle,
+                    ''::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_risque.an_parcelle_q100_ru q100
+                  WHERE p."IDU"::text = q100.idu::text
         ), req_dpu AS (
          SELECT DISTINCT '60'::text || p.idu AS idu,
             ('<a href="'::text || tinfo.urlfic::text) || '" target="_blank"><b>Droit de préemption urbain au bénéfice de l''Agglomération de la Région de Compiègne suite à la délibération du conseil d''Agglomération du 30 mars 2017.</b></a>'::text AS dpu
@@ -6388,15 +6401,6 @@ AS
           WHERE ('60'::text || p.idu) = tx.idu::text AND p.lot = 'arc'::text
           ORDER BY ('60'::text || p.idu)
         )
-		/*, req_cana_prive AS (
-         SELECT DISTINCT '60'::text || p.idu AS idu,
-            ((('La parcelle peut être soumise à une bande de sécurité de '::text || round(cana_prive.zpose, 2)) || ' mètre(s) générée par une canalisation du réseau '::text) || r.valeur::text) || '.'::text AS cana_prive
-           FROM r_cadastre.geo_parcelle p,
-            m_reseau_humide.geo_resh_domaineprive cana_prive,
-            m_reseau_humide.lt_resh_natresh r
-          WHERE st_intersects(p.geom, cana_prive.geom1) AND cana_prive.typres::text = r.code::text AND (cana_prive.typsup::text = ANY (ARRAY['10'::character varying::text, '11'::character varying::text, '20'::character varying::text, '40'::character varying::text])) AND p.lot = 'arc'::text
-          ORDER BY ('60'::text || p.idu)
-        )*/
  SELECT DISTINCT req_princ.idu,
     upper(req_princ.nru_commune) AS nru_commune,
     req_princ.nru_section,
@@ -6509,13 +6513,11 @@ AS
         CASE
             WHEN req_txamt.txamt IS NULL THEN 'nc'::text
             ELSE req_txamt.txamt
-        END AS txamt
-		/*,
-        CASE
-            WHEN req_cana_prive.cana_prive IS NULL THEN 'nc'::text
-            ELSE req_cana_prive.cana_prive
-        END AS cana_prive
-		*/
+        END AS txamt,
+		        CASE
+            WHEN req_q100.libelle IS NULL THEN 'nc'::text
+            ELSE req_q100.libelle
+        END AS q100
    FROM req_princ
      LEFT JOIN req_oap ON req_princ.idu = req_oap.idu
      LEFT JOIN req_dpu ON req_princ.idu = req_dpu.idu
@@ -6543,9 +6545,8 @@ AS
      LEFT JOIN req_infosurf ON req_princ.idu = req_infosurf.idu
      LEFT JOIN req_archeo ON req_princ.idu = req_archeo.idu
      LEFT JOIN req_txamt ON req_princ.idu = req_txamt.idu
-    -- LEFT JOIN req_cana_prive ON req_princ.idu = req_cana_prive.idu
-  GROUP BY req_princ.idu, req_princ.nru_commune, req_princ.nru_section, req_princ.nru_numpar, req_princ.nur_supf, req_princ.nur_regzone, req_princ.nru_urldgen, req_princ.nru_urlann, req_princ.nru_urllex, req_oap.oap, req_dpu.dpu, req_a5.a5, req_ac1.ac1, req_ac4.ac4, req_pm1.pm1, req_a4.a4, req_ac2.ac2, req_el3.el3, req_as1.as1, req_el7.el7, req_i3.i3, req_i4.i4, req_pt1.pt1, req_pt2.pt2, req_pt2lh.pt2lh, req_t1.t1, req_t4t5.t5, req_supcom.sup_com, req_psc_pct.psc_pct, req_psc_lin.psc_lin, req_psc_surf.psc_surf, req_zac.zac, req_infosurf.isurf, req_archeo.archeo, req_txamt.txamt
-  /*, req_cana_prive.cana_prive*/
+	    LEFT JOIN req_q100 ON req_princ.idu = req_q100.idu
+  GROUP BY req_q100.libelle,req_princ.idu, req_princ.nru_commune, req_princ.nru_section, req_princ.nru_numpar, req_princ.nur_supf, req_princ.nur_regzone, req_princ.nru_urldgen, req_princ.nru_urlann, req_princ.nru_urllex, req_oap.oap, req_dpu.dpu, req_a5.a5, req_ac1.ac1, req_ac4.ac4, req_pm1.pm1, req_a4.a4, req_ac2.ac2, req_el3.el3, req_as1.as1, req_el7.el7, req_i3.i3, req_i4.i4, req_pt1.pt1, req_pt2.pt2, req_pt2lh.pt2lh, req_t1.t1, req_t4t5.t5, req_supcom.sup_com, req_psc_pct.psc_pct, req_psc_lin.psc_lin, req_psc_surf.psc_surf, req_zac.zac, req_infosurf.isurf, req_archeo.archeo, req_txamt.txamt
 WITH DATA;
 
 ALTER TABLE x_apps_public.xappspublic_an_vmr_nru
@@ -6554,8 +6555,6 @@ ALTER TABLE x_apps_public.xappspublic_an_vmr_nru
 COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru
     IS 'Vue matérialisée contenant les informations pré-formatés du PLUi communes à toutes les communes pour la note de renseignements d''urbanisme';
 
-GRANT ALL ON TABLE x_apps_public.xappspublic_an_vmr_nru TO create_sig;
-GRANT SELECT ON TABLE x_apps_public.xappspublic_an_vmr_nru TO sig_edit;
 
 -- ## Consultation document avt le PLUiH
 -- ######################################
