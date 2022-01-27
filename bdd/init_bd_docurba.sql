@@ -47,7 +47,7 @@
 -- 2021/07/09 : GB / Intégration de la ramontée des parcelles dans le périmètree OPAH-RU dans la vue xapps_an_vmr_p_information_horsplu
 -- 2021/08/11 : GB / Mise à jour des tables réseaux électriques gérant maintenant plusieurs exploitant dans la vue xapps_an_vmr_information_horsplu
 -- 2022/01/13 : GB / Mise à jour vue grand public, et informations hors PLU intégrant l'aléa q100 à la parcelle
--- 2022/01/22 : GB / Intégration vue matérialisée pour affecter la parcelle à une planche graphique du PLUih
+-- 2022/01/22 : GB / Intégration vue matérialisée pour affecter la parcelle à une planche graphique du PLUih + accès aux planches des communes hors PLU
 -- 2022/01/22 : GB / Intégration d'une table pour gérer les plans n pour une procédure
 
 -- ####################################################################################################################################################
@@ -5649,6 +5649,62 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_parcelle_ru
     IS 'Vue matérialisée extrayant de la table PARCELLE de BG les informations essentielles pour la note d''urbanisme. Evite d''utiliser les données intégrées via le module GEOCADASTRE pour des pbs de mises à jour et de reconstructions applicatives';
 
 
+-- View: x_apps.xapps_an_vmr_p_planche_graphique_plu
+
+-- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_planche_graphique_plu;
+
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_planche_graphique_plu
+TABLESPACE pg_default
+AS
+ WITH req_tot AS (
+         WITH req_par AS (
+                 SELECT row_number() OVER () AS gid,
+                    '60'::text || c.idu AS idu,
+                    p.id_maille,
+                    'pluih_arc'::text AS plu
+                   FROM m_urbanisme_doc.geo_p_planche_pluiarc p,
+                    r_cadastre.geo_parcelle c
+                  WHERE c.lot = 'arc'::text AND p.insee::text = ('60'::text || "left"(c.idu, 3)) AND st_intersects(p.geom, st_pointonsurface(c.geom)) IS TRUE
+                ), req_plu AS (
+                 SELECT 'pluih_arc'::text AS plu,
+                    d.siren,
+                    d.datappro,
+                    d.idurba
+                   FROM m_urbanisme_doc.an_doc_urba d
+                  WHERE d.etat::text = '03'::text AND d.siren::text = '200067965'::text
+                )
+         SELECT row_number() OVER () AS gid,
+            req_par.idu,
+            'Planche(s) graphique(s) n°'::text || string_agg(((('<a href="'::text ||
+                CASE
+                    WHEN req_par.id_maille = 10 OR req_par.id_maille = 11 THEN ((((('https://geo.compiegnois.fr/documents/metiers/urba/docurba/'::text || replace(req_plu.idurba::text, 'PLUI'::text, 'PLUi'::text)) || '/Pieces_ecrites/3_Reglement/'::text) || req_plu.siren::text) || '_reglement_graphique_10_11_'::text) || req_plu.datappro::text) || '.pdf'::text
+                    ELSE ((((((('https://geo.compiegnois.fr/documents/metiers/urba/docurba/'::text || replace(req_plu.idurba::text, 'PLUI'::text, 'PLUi'::text)) || '/Pieces_ecrites/3_Reglement/'::text) || req_plu.siren::text) || '_reglement_graphique_'::text) || req_par.id_maille) || '_'::text) || req_plu.datappro::text) || '.pdf'::text
+                END) || '" target="_blank">'::text) || req_par.id_maille) || '</a>'::text, ', '::text ORDER BY req_par.id_maille) AS num_planche
+           FROM req_par,
+            req_plu
+          WHERE req_par.plu = req_plu.plu
+          GROUP BY req_par.idu
+        UNION ALL
+         SELECT row_number() OVER () AS gid,
+            '60'::text || p.idu AS idu,
+            'Planche(s) graphique(s) : '::text || string_agg(((('<a href="'::text || rg.urlfic::text) || '" target="_blank">'::text) || rg.echelleplan::text) || '</a>'::text, ', '::text ORDER BY rg.numplan) AS num_planche
+           FROM r_cadastre.geo_parcelle p,
+            m_urbanisme_doc.an_doc_urba_com_plan rg
+          WHERE (p.lot = ANY (ARRAY['ccpe'::text, 'cclo'::text, 'cc2v'::text])) AND p.insee::text = rg.insee::text
+          GROUP BY ('60'::text || p.idu)
+        )
+ SELECT row_number() OVER () AS gid,
+    req_tot.idu,
+    req_tot.num_planche
+   FROM req_tot
+WITH DATA;
+
+ALTER TABLE x_apps.xapps_an_vmr_p_planche_graphique_plu
+    OWNER TO create_sig;
+
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_planche_graphique_plu
+    IS 'Vue matérialisée formatant l''accès aux planches du règlement graphique des PLU (cette vue est ensuite liée dans GEO pour accessiiblité à la parcelle dans la fiche de renseignements d''urbanisme dans GEO)';
+
 
 
    
@@ -6599,47 +6655,6 @@ COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru
     IS 'Vue matérialisée contenant les informations pré-formatés du PLUi communes à toutes les communes pour la note de renseignements d''urbanisme';
 
 
--- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_planche_graphique_plui_arc;
-
-CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_planche_graphique_plui_arc
-TABLESPACE pg_default
-AS
-
-WITH
-req_par AS
-(
-SELECT row_number() over() AS gid, '60' || c.idu AS idu, p.id_maille AS id_maille, 'pluih_arc'::text AS plu 
-FROM m_urbanisme_doc.geo_p_planche_pluiarc p, r_cadastre.geo_parcelle c
-WHERE c.lot = 'arc' AND p.insee = '60' || left(c.idu,3) AND st_intersects(p.geom,st_pointonsurface(c.geom)) IS TRUE
-),
-req_plu AS
-(
-SELECT 'pluih_arc'::text AS plu, siren, datappro,idurba FROM m_urbanisme_doc.an_doc_urba d WHERE d.etat = '03' AND siren ='200067965'
-)
-SELECT
-row_number() over() AS gid,
-req_par.idu AS idu,
-'Planche(s) graphique(s) n°'::text || string_agg('<a href="' || 
-		   	CASE WHEN (req_par.id_maille = 10 OR req_par.id_maille = 11) THEN
-			'https://geo.compiegnois.fr/documents/metiers/urba/docurba/' || replace(req_plu.idurba,'PLUI','PLUi') || '/Pieces_ecrites/3_Reglement/'|| req_plu.siren || '_reglement_graphique_10_11_' || req_plu.datappro || '.pdf' 
-			ELSE
-			'https://geo.compiegnois.fr/documents/metiers/urba/docurba/' || replace(req_plu.idurba,'PLUI','PLUi') || '/Pieces_ecrites/3_Reglement/'|| req_plu.siren || '_reglement_graphique_' || req_par.id_maille || '_' || req_plu.datappro || '.pdf' 
-			END
-		    || '" target="_blank">' || req_par.id_maille || '</a>'
-		    ,', ' ORDER BY req_par.id_maille) AS num_planche
-FROM
-req_par, req_plu
-WHERE req_par.plu = req_plu.plu
-GROUP BY req_par.idu
-
-WITH DATA;
-
-ALTER TABLE x_apps.xapps_an_vmr_p_planche_graphique_plui_arc
-    OWNER TO create_sig;
-
-COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_planche_graphique_plui_arc
-    IS 'Vue matérialisée formatant l''accès aux planches du règlement graphique du PLUiH (cette vue est ensuite liée dans GEO pour accessiiblité à la parcelle dans la fiche de renseignements d''urbanisme dans GEO)';
-
 
 
 -- ## Consultation document avt le PLUiH
@@ -7376,13 +7391,51 @@ WITH DATA;
 
 ALTER TABLE x_apps_public.xappspublic_geo_vmr_commune_plui_ru
   OWNER TO sig_create;
-GRANT ALL ON TABLE x_apps_public.xappspublic_geo_vmr_commune_plui_ru TO sig_create;
-GRANT ALL ON TABLE x_apps_public.xappspublic_geo_vmr_commune_plui_ru TO create_sig;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps_public.xappspublic_geo_vmr_commune_plui_ru TO edit_sig;
-GRANT SELECT ON TABLE x_apps_public.xappspublic_geo_vmr_commune_plui_ru TO read_sig;
+
 COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_geo_vmr_commune_plui_ru
   IS 'Vue matérialisée contenant les informations pré-formatés pour la constitution de la fiche d''information sur les communes dans l''application PLU Interactif V0.2 (test pour voir où on met les infos d''urbanisme)';
 
+-- View: x_apps_public.xappspublic_an_vmr_p_planche_graphique_plui_arc
+
+-- DROP MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_p_planche_graphique_plui_arc;
+
+CREATE MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_p_planche_graphique_plui_arc
+TABLESPACE pg_default
+AS
+ WITH req_par AS (
+         SELECT row_number() OVER () AS gid,
+            '60'::text || c.idu AS idu,
+            p.id_maille,
+            'pluih_arc'::text AS plu
+           FROM m_urbanisme_doc.geo_p_planche_pluiarc p,
+            r_cadastre.geo_parcelle c
+          WHERE c.lot = 'arc'::text AND p.insee::text = ('60'::text || "left"(c.idu, 3)) AND st_intersects(p.geom, st_pointonsurface(c.geom)) IS TRUE
+        ), req_plu AS (
+         SELECT 'pluih_arc'::text AS plu,
+            d.siren,
+            d.datappro,
+            d.idurba
+           FROM m_urbanisme_doc.an_doc_urba d
+          WHERE d.etat::text = '03'::text AND d.siren::text = '200067965'::text
+        )
+ SELECT row_number() OVER () AS gid,
+    req_par.idu,
+    'Planche(s) graphique(s) n°'::text || string_agg(((('<a href="'::text ||
+        CASE
+            WHEN req_par.id_maille = 10 OR req_par.id_maille = 11 THEN ((((('https://geo.compiegnois.fr/documents/metiers/urba/docurba/'::text || replace(req_plu.idurba::text, 'PLUI'::text, 'PLUi'::text)) || '/Pieces_ecrites/3_Reglement/'::text) || req_plu.siren::text) || '_reglement_graphique_10_11_'::text) || req_plu.datappro::text) || '.pdf'::text
+            ELSE ((((((('https://geo.compiegnois.fr/documents/metiers/urba/docurba/'::text || replace(req_plu.idurba::text, 'PLUI'::text, 'PLUi'::text)) || '/Pieces_ecrites/3_Reglement/'::text) || req_plu.siren::text) || '_reglement_graphique_'::text) || req_par.id_maille) || '_'::text) || req_plu.datappro::text) || '.pdf'::text
+        END) || '" target="_blank">'::text) || req_par.id_maille) || '</a>'::text, ', '::text ORDER BY req_par.id_maille) AS num_planche
+   FROM req_par,
+    req_plu
+  WHERE req_par.plu = req_plu.plu
+  GROUP BY req_par.idu
+WITH DATA;
+
+ALTER TABLE x_apps_public.xappspublic_an_vmr_p_planche_graphique_plui_arc
+    OWNER TO create_sig;
+
+COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_p_planche_graphique_plui_arc
+    IS 'Vue matérialisée formatant l''accès aux planches du règlement graphique du PLUiH (cette vue est ensuite liée dans GEO pour accessiiblité à la parcelle dans la fiche de renseignements d''urbanisme dans GEO)';
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
