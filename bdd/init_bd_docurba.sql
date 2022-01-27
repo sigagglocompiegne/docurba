@@ -48,6 +48,7 @@
 -- 2021/08/11 : GB / Mise à jour des tables réseaux électriques gérant maintenant plusieurs exploitant dans la vue xapps_an_vmr_information_horsplu
 -- 2022/01/13 : GB / Mise à jour vue grand public, et informations hors PLU intégrant l'aléa q100 à la parcelle
 -- 2022/01/22 : GB / Intégration vue matérialisée pour affecter la parcelle à une planche graphique du PLUih
+-- 2022/01/22 : GB / Intégration d'une table pour gérer les plans n pour une procédure
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -3054,6 +3055,47 @@ COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_tpe.fichier
 COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_tpe.titre
     IS 'nom usuel ou titre du fichier technique de la pièce écrite';
 
+-- ########################################################################## table an_doc_urba_com_plan #######################################################
+
+-- Table: m_urbanisme_doc.an_doc_urba_com_plan
+
+-- DROP TABLE m_urbanisme_doc.an_doc_urba_com_plan;
+
+CREATE TABLE m_urbanisme_doc.an_doc_urba_com_plan
+(
+    gid integer NOT NULL DEFAULT nextval('m_urbanisme_doc.an_doc_urba_com_plan_seq'::regclass),
+    idurba character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    insee character varying(5) COLLATE pg_catalog."default" NOT NULL,
+    numplan character varying(50) COLLATE pg_catalog."default",
+    echelleplan character varying(50) COLLATE pg_catalog."default",
+    urlfic character varying(254) COLLATE pg_catalog."default",
+    CONSTRAINT an_doc_urba_com_plan_pkey PRIMARY KEY (gid)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE m_urbanisme_doc.an_doc_urba_com_plan
+    OWNER to create_sig;
+
+COMMENT ON TABLE m_urbanisme_doc.an_doc_urba_com_plan
+    IS 'Donnée alphanumerique d''appartenance des plans du règlement graphique à une procédure définie (approuvée ou non) pour une commune hors du PLUiH de l''ARC';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_com_plan.idurba
+    IS 'Identifiant du document d''urbanisme';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_com_plan.insee
+    IS 'Code insee de la commune';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_com_plan.numplan
+    IS 'Numéro du plan';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_com_plan.echelleplan
+    IS 'Echelle du plan';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_com_plan.urlfic
+    IS 'Lien URL vers le plan';
 
 -- ####################################################################################################################################################
 -- ###                                         		  TABLES SPECIFIQUES AU PNR ET OLV                                                          ###
