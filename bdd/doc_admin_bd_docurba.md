@@ -105,6 +105,20 @@ Particularité(s) à noter : aucune
 
 ---
 
+`an_doc_urba_com_plan` : Table listant l'appartenance des plans du règlement graphique à une procédure définie (approuvée ou non) pour une commune hors du PLUiH de l''ARC. ou autre PLUi disposant d'un tableau d'assemblage
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|idurba|Identifiant du document d'urbanisme|character varying(30)| |
+|insee|Code insee de la commune|character varying(5)| |
+|numplan|Numéro du plan|character varying(50)| |
+|echelleplan|Echelle du plan|character varying(50)| |
+|urlfic|Lien URL vers le plan|character varying(254)| |
+
+Particularité(s) à noter : aucune
+
+---
+
 `geo_a_habillage_lin` : (archive) Donnée géographique contenant l'habillage linéaire des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
