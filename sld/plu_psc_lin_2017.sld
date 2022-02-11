@@ -415,13 +415,12 @@
           </se:LineSymbolizer>
         </se:Rule>
 
-
-<!-- #####  PSC 07_02_cone_de_vue  ##### -->
+<!-- #####  PSC 07_02_PP  ##### -->
           
         <se:Rule>
           <se:Name>Patrimoine paysager ou éléments de paysage à protéger</se:Name>
           <se:Description>
-            <se:Title>Cône de vue</se:Title>
+            <se:Title>Patrimoine paysager ou éléments de paysage à protéger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -429,80 +428,137 @@
                 <ogc:PropertyName>typepsc</ogc:PropertyName>
                 <ogc:Literal>07</ogc:Literal>
               </ogc:PropertyIsEqualTo>
-                <ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
-                  <ogc:Literal>02</ogc:Literal>
-                </ogc:PropertyIsEqualTo>
-              	<ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>l_nature</ogc:PropertyName>
-                  <ogc:Literal>Cône de vue</ogc:Literal>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                <ogc:Literal>02</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+                             <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>txt</ogc:PropertyName>
+                  <ogc:Literal>PP</ogc:Literal>
                 </ogc:PropertyIsEqualTo>
             </ogc:And>
           </ogc:Filter>
-          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
           <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
-         <se:PointSymbolizer>
-                 <se:Geometry>
-                    <ogc:Function name="startPoint">
-                        <ogc:PropertyName>geom</ogc:PropertyName>
-                    </ogc:Function>
-                </se:Geometry>
-                <se:Graphic>
-                  <se:Mark>
-                    <se:WellKnownName>shape://carrow</se:WellKnownName>
-                    <se:Fill>
-                      <se:SvgParameter name="fill">#4ce670</se:SvgParameter>
-                    </se:Fill>
-                    <se:Stroke>
-                      <se:SvgParameter name="stroke">#4ce670</se:SvgParameter>
-                      <se:SvgParameter name="stroke-width">0.1</se:SvgParameter>
-                    </se:Stroke>
-                  </se:Mark>
-                  <se:Size>20</se:Size>
-                   <se:Rotation>
-                    <ogc:Add>
-                    <ogc:Function name="startAngle">
-                        <ogc:PropertyName>geom</ogc:PropertyName>
-                    </ogc:Function>
-                    <ogc:Literal>180.0</ogc:Literal> 
-                    </ogc:Add>                   
-                  </se:Rotation>
-                </se:Graphic>
-           </se:PointSymbolizer>
-            <se:PointSymbolizer>
-                 <se:Geometry>
-                    <ogc:Function name="endPoint">
-                        <ogc:PropertyName>geom</ogc:PropertyName>
-                    </ogc:Function>
-                </se:Geometry>
-                <se:Graphic>
-                  <se:Mark>
-                    <se:WellKnownName>shape://carrow</se:WellKnownName>
-                    <se:Fill>
-                      <se:SvgParameter name="fill">#4ce670</se:SvgParameter>
-                    </se:Fill>
-                    <se:Stroke>
-                      <se:SvgParameter name="stroke">#4ce670</se:SvgParameter>
-                      <se:SvgParameter name="stroke-width">0.1</se:SvgParameter>
-                    </se:Stroke>
-                  </se:Mark>
-                  <se:Size>20</se:Size>
-                   <se:Rotation>
-                    <ogc:Function name="endAngle">
-                        <ogc:PropertyName>geom</ogc:PropertyName>
-                    </ogc:Function>
-                  </se:Rotation>
-                </se:Graphic>
-           </se:PointSymbolizer>
-           <se:LineSymbolizer>
+          <se:LineSymbolizer>          
             <se:Stroke>
-               <se:SvgParameter name="stroke">#4ce670</se:SvgParameter>
-               <se:SvgParameter name="stroke-width">0.8</se:SvgParameter>
+              <se:GraphicStroke>
+                <se:Graphic>
+                  <se:Mark>
+                   <se:WellKnownName>shape://times</se:WellKnownName>
+                    <se:Stroke>
+                       <se:SvgParameter name="stroke">#4ce670</se:SvgParameter>
+                      <se:SvgParameter name="stroke-width">0.1</se:SvgParameter>
+                    </se:Stroke>
+                  </se:Mark>
+                  <se:Size>6</se:Size>
+                </se:Graphic>
+              </se:GraphicStroke>
             </se:Stroke>
           </se:LineSymbolizer>
         </se:Rule>
+        
+        <se:Rule>
+          <se:Name>Patrimoine paysager ou éléments de paysage à protéger</se:Name>
+          <se:Description>
+            <se:Title>Patrimoine paysager ou éléments de paysage à protéger</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>07</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                <ogc:Literal>02</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+                                         <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>txt</ogc:PropertyName>
+                  <ogc:Literal>PP</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+           
+            </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:LineSymbolizer uom="http://www.opengeospatial.org/se/units/metre">          
+            <se:Stroke>
+              <se:GraphicStroke>
+                <se:Graphic>
+                  <se:Mark>
+                   <se:WellKnownName>shape://times</se:WellKnownName>
+                    <se:Stroke>
+                       <se:SvgParameter name="stroke">#4ce670</se:SvgParameter>
+                      <se:SvgParameter name="stroke-width">0.15</se:SvgParameter>
+                    </se:Stroke>
+                  </se:Mark>
+                  <se:Size>1.5</se:Size>
+                </se:Graphic>
+              </se:GraphicStroke>
+            </se:Stroke>
+          </se:LineSymbolizer>
+        </se:Rule>         
 
 
+<!-- #####  PSC 07_02_PP  ##### -->        
+        
+        <se:Rule>
+          <se:Name>Patrimoine paysager ou éléments de paysage à protéger</se:Name>
+          <se:Description>
+            <se:Title>Patrimoine paysager ou éléments de paysage à protéger</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+             <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>07</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>02</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+             </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
+          <se:LineSymbolizer>
+            <se:Stroke>
+              <se:SvgParameter name="stroke">#996c2d</se:SvgParameter>
+              <se:SvgParameter name="stroke-width">1</se:SvgParameter>
+              <se:SvgParameter name="stroke-dasharray">4 2</se:SvgParameter>
+            </se:Stroke>
+          </se:LineSymbolizer>
+        </se:Rule>
+        
+        <se:Rule>
+          <se:Name>Règles d'implantation des constructions</se:Name>
+          <se:Description>
+            <se:Title>Règles d'implantation des constructions</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+             <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>15</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>00</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+             </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:LineSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
+            <se:Stroke>
+              <se:SvgParameter name="stroke">#996c2d</se:SvgParameter>
+              <se:SvgParameter name="stroke-width">0.4</se:SvgParameter>
+              <se:SvgParameter name="stroke-dasharray">1 0.5</se:SvgParameter>
+            </se:Stroke>
+          </se:LineSymbolizer>
+        </se:Rule>
+        
 <!-- #####  PSC 15_00  ##### -->        
         
         <se:Rule>
