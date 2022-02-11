@@ -352,8 +352,58 @@
                </se:Graphic>
           </se:PointSymbolizer>
         </se:Rule>
-        
 
+<!-- #####  PSC22-01  ##### --> 
+<!--
+        <se:Rule>
+           <se:Name>Diversité commerciale</se:Name>
+          <se:Description>
+            <se:Title>Diversité commerciale</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>22</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
+          <se:PointSymbolizer>
+               <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_22.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>18</se:Size>
+               </se:Graphic>
+          </se:PointSymbolizer>
+        </se:Rule>
+        
+        <se:Rule>
+           <se:Name>Diversité commerciale</se:Name>
+          <se:Description>
+            <se:Title>Diversité commerciale</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>22</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
+               <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_22.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>05</se:Size>
+               </se:Graphic>
+          </se:PointSymbolizer>
+        </se:Rule>             
+        
+-->
 <!-- #####  PSC 39  ##### --> 
 
         <se:Rule>
