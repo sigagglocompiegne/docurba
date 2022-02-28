@@ -4763,7 +4763,7 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu
 
 -- View: x_apps.xapps_an_vmr_p_information_horsplu
 
--- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
+DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
 
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
@@ -4955,6 +4955,13 @@ AS
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_habitat.geo_hab_opahru o
                   WHERE st_intersects(p."GEOM", o.geom1)
+                ), r_zae AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'La parcelle est comprise dans une zone d''activité économique : '::text || o.site_nom AS libelle,
+                    ''::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    x_apps.xapps_geo_v_zae o
+                  WHERE st_intersects(p."GEOM", o.geom1) IS TRUE
                 )
          SELECT r_natura2000_zps.idu,
             r_natura2000_zps.libelle,
@@ -5075,6 +5082,11 @@ AS
             r_opah_ru.libelle,
             r_opah_ru.urlfic
            FROM r_opah_ru
+	  UNION ALL
+         SELECT r_zae.idu,
+            r_zae.libelle,
+            r_zae.urlfic
+           FROM r_zae
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
