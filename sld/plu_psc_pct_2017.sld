@@ -9,9 +9,9 @@
         <!-- #####  PSC 07_00  ##### --> 
           
         <se:Rule>
-          <se:Name>Patrimoine paysager ou éléments de paysage à protéger</se:Name>
+          <se:Name>Patrimoine bâti et paysager à protéger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine paysager ou éléments de paysage à protéger</se:Title>
+            <se:Title>Patrimoine bâti et paysager à protéger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -41,9 +41,9 @@
         </se:Rule>
         
         <se:Rule>
-          <se:Name>Patrimoine paysager ou éléments de paysage à protéger</se:Name>
+          <se:Name>Patrimoine bâti et paysager à protéger</se:Name>
           <se:Description>
-            <se:Title>Patrimoine paysager ou éléments de paysage à protéger</se:Title>
+            <se:Title>Patrimoine bâti et paysager à protéger</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
@@ -71,7 +71,271 @@
               </se:Graphic>
           </se:PointSymbolizer>
         </se:Rule>  
-      
+
+<!-- #####  PSC 07_01  ##### --> 
+          
+        <se:Rule>
+          <se:Name>Patrimoine bâti à protéger</se:Name>
+          <se:Description>
+            <se:Title>Patrimoine bâti à protéger</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>07</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+             
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>01</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+          
+            </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
+          <se:PointSymbolizer>
+               <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-01.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>18</se:Size>
+              </se:Graphic>
+          </se:PointSymbolizer>
+        </se:Rule>
+        
+        <se:Rule>
+          <se:Name>Patrimoine bâti à protéger</se:Name>
+          <se:Description>
+            <se:Title>Patrimoine bâti à protéger</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>07</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+           
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>01</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+         
+            </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
+               <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-01.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>5</se:Size>
+              </se:Graphic>
+          </se:PointSymbolizer>
+        </se:Rule>    
+        
+<!-- #####  PSC 07_02  ##### --> 
+          
+        <se:Rule>
+          <se:Name>Patrimoine paysager à protéger pour des motifs architectural</se:Name>
+          <se:Description>
+            <se:Title>Patrimoine paysager à protéger pour des motifs architectural</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>07</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+             
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>02</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+          
+            </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
+          <se:PointSymbolizer>
+               <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-02.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>18</se:Size>
+              </se:Graphic>
+          </se:PointSymbolizer>
+        </se:Rule>
+        
+        <se:Rule>
+          <se:Name>Patrimoine paysager à protéger pour des motifs architectural</se:Name>
+          <se:Description>
+            <se:Title>Patrimoine paysager à protéger pour des motifs architectural</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>07</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+           
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>02</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+         
+            </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
+               <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-02.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>5</se:Size>
+              </se:Graphic>
+          </se:PointSymbolizer>
+        </se:Rule>     
+
+<!-- #####  PSC 07_03  ##### --> 
+          
+        <se:Rule>
+          <se:Name>Patrimoine paysager espace boisé à protéger pour des motifs architectural</se:Name>
+          <se:Description>
+            <se:Title>Patrimoine paysager espace boisé à protéger pour des motifs architectural</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>07</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+             
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>03</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+          
+            </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
+          <se:PointSymbolizer>
+               <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-03.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>18</se:Size>
+              </se:Graphic>
+          </se:PointSymbolizer>
+        </se:Rule>
+        
+        <se:Rule>
+          <se:Name>Patrimoine paysager espace boisé à protéger pour des motifs architectural</se:Name>
+          <se:Description>
+            <se:Title>Patrimoine paysager espace boisé à protéger pour des motifs architectural</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>07</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+           
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>03</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+         
+            </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
+               <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-03.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>5</se:Size>
+              </se:Graphic>
+          </se:PointSymbolizer>
+        </se:Rule> 
+
+<!-- #####  PSC 07_04  ##### --> 
+          
+        <se:Rule>
+          <se:Name>Eléments de paysage (sites et secteurs)à protéger pour des motifs d'ordre écologique</se:Name>
+          <se:Description>
+            <se:Title>Eléments de paysage (sites et secteurs)à protéger pour des motifs d'ordre écologique</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>07</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+             
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>04</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+          
+            </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
+          <se:PointSymbolizer>
+               <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-04.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>18</se:Size>
+              </se:Graphic>
+          </se:PointSymbolizer>
+        </se:Rule>
+        
+        <se:Rule>
+          <se:Name>Eléments de paysage (sites et secteurs)à protéger pour des motifs d'ordre écologique</se:Name>
+          <se:Description>
+            <se:Title>Eléments de paysage (sites et secteurs)à protéger pour des motifs d'ordre écologique</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>typepsc</ogc:PropertyName>
+                <ogc:Literal>07</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+           
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
+                  <ogc:Literal>04</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+         
+            </ogc:And>
+          </ogc:Filter>
+          <se:MinScaleDenominator>1</se:MinScaleDenominator>
+          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
+               <se:Graphic>
+                  <se:ExternalGraphic>
+                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-04.svg"/>
+                     <se:Format>image/svg+xml</se:Format>
+                  </se:ExternalGraphic>
+                  <se:Size>5</se:Size>
+              </se:Graphic>
+          </se:PointSymbolizer>
+        </se:Rule> 
+        
 <!-- #####  PSC 07_05  ##### --> 
           
         <se:Rule>
@@ -139,151 +403,7 @@
         </se:Rule>        
         
 
-<!-- #####  PSC 07_01_02_03  ##### --> 
-          
-        <se:Rule>
-          <se:Name>Patrimoine bâti à protéger</se:Name>
-          <se:Description>
-            <se:Title>Patrimoine bâti à protéger</se:Title>
-          </se:Description>
-          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>typepsc</ogc:PropertyName>
-                <ogc:Literal>07</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-               <ogc:Or>
-                <ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
-                  <ogc:Literal>01</ogc:Literal>
-                </ogc:PropertyIsEqualTo>
-                <ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
-                  <ogc:Literal>02</ogc:Literal>
-                </ogc:PropertyIsEqualTo>
-                  <ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
-                  <ogc:Literal>03</ogc:Literal>
-                </ogc:PropertyIsEqualTo>
-              </ogc:Or>
-            </ogc:And>
-          </ogc:Filter>
-          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
-          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
-          <se:PointSymbolizer>
-               <se:Graphic>
-                  <se:ExternalGraphic>
-                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-01.svg"/>
-                     <se:Format>image/svg+xml</se:Format>
-                  </se:ExternalGraphic>
-                  <se:Size>18</se:Size>
-              </se:Graphic>
-          </se:PointSymbolizer>
-        </se:Rule>
-        
-        <se:Rule>
-          <se:Name>Patrimoine bâti à protéger</se:Name>
-          <se:Description>
-            <se:Title>Patrimoine bâti à protéger</se:Title>
-          </se:Description>
-          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>typepsc</ogc:PropertyName>
-                <ogc:Literal>07</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:Or>
-                <ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
-                  <ogc:Literal>01</ogc:Literal>
-                </ogc:PropertyIsEqualTo>
-                <ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
-                  <ogc:Literal>02</ogc:Literal>
-                </ogc:PropertyIsEqualTo>
-                 <ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
-                  <ogc:Literal>03</ogc:Literal>
-                </ogc:PropertyIsEqualTo>
-              </ogc:Or>
-            </ogc:And>
-          </ogc:Filter>
-          <se:MinScaleDenominator>1</se:MinScaleDenominator>
-          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
-          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
-               <se:Graphic>
-                  <se:ExternalGraphic>
-                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-01.svg"/>
-                     <se:Format>image/svg+xml</se:Format>
-                  </se:ExternalGraphic>
-                  <se:Size>5</se:Size>
-              </se:Graphic>
-          </se:PointSymbolizer>
-        </se:Rule>
 
-
-<!-- #####  PSC 07_04  ##### --> 
-          
-        <se:Rule>
-          <se:Name>Eléments de paysages (sites et secteurs) à préserver</se:Name>
-          <se:Description>
-            <se:Title>Eléments de paysages (sites et secteurs) à préserver</se:Title>
-          </se:Description>
-          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>typepsc</ogc:PropertyName>
-                <ogc:Literal>07</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-                <ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
-                  <ogc:Literal>04</ogc:Literal>
-                </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <se:MinScaleDenominator>1001</se:MinScaleDenominator>
-          <se:MaxScaleDenominator>5000</se:MaxScaleDenominator>
-          <se:PointSymbolizer>
-               <se:Graphic>
-                  <se:ExternalGraphic>
-                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-04.svg"/>
-                     <se:Format>image/svg+xml</se:Format>
-                  </se:ExternalGraphic>
-                  <se:Size>18</se:Size>
-              </se:Graphic>
-          </se:PointSymbolizer>
-        </se:Rule>
-        
-         <se:Rule>
-          <se:Name>Eléments de paysages (sites et secteurs) à préserver</se:Name>
-          <se:Description>
-            <se:Title>Eléments de paysages (sites et secteurs) à préserver</se:Title>
-          </se:Description>
-          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>typepsc</ogc:PropertyName>
-                <ogc:Literal>07</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-                <ogc:PropertyIsEqualTo>
-                  <ogc:PropertyName>stypepsc</ogc:PropertyName>
-                  <ogc:Literal>04</ogc:Literal>
-                </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <se:MinScaleDenominator>1</se:MinScaleDenominator>
-          <se:MaxScaleDenominator>1000</se:MaxScaleDenominator>
-          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
-               <se:Graphic>
-                  <se:ExternalGraphic>
-                     <se:OnlineResource xlink:type="simple" xlink:href="docurba/typepsc_07-04.svg"/>
-                     <se:Format>image/svg+xml</se:Format>
-                  </se:ExternalGraphic>
-                  <se:Size>5</se:Size>
-              </se:Graphic>
-          </se:PointSymbolizer>
-        </se:Rule>
-        
         
 <!-- #####  PSC 05_06  ##### --> 
           
