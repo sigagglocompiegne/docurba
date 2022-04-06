@@ -6635,7 +6635,7 @@ AS
             ELSE req_psc_pct.psc_pct
         END AS psc_pct,
         CASE
-            WHEN req_psc_lin.psc_lin IS NULL THEN 'nc'::text
+            WHEN req_psc_lin.psc_lin IS NULL or req_psc_lin.psc_lin = '' THEN 'nc'::text
             ELSE req_psc_lin.psc_lin
         END AS psc_lin,
 		     CASE
@@ -6718,6 +6718,9 @@ ALTER TABLE x_apps_public.xappspublic_an_vmr_nru
 COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru
     IS 'Vue matérialisée contenant les informations pré-formatés du PLUi communes à toutes les communes pour la note de renseignements d''urbanisme';
 
+GRANT SELECT ON TABLE x_apps_public.xappspublic_an_vmr_nru TO sig_read;
+GRANT ALL ON TABLE x_apps_public.xappspublic_an_vmr_nru TO create_sig;
+GRANT SELECT ON TABLE x_apps_public.xappspublic_an_vmr_nru TO sig_edit;
 
 
 
