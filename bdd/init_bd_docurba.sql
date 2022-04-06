@@ -6261,11 +6261,12 @@ COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_geo_vmr_fichegeo_plui_ru
 
 -- View: x_apps_public.xappspublic_an_vmr_nru
 
-DROP MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru;
+--DROP MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru;
 
 CREATE MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru
 TABLESPACE pg_default
 AS
+
  WITH req_princ AS (
          SELECT ru.idu,
             upper(ru.commune::text) AS nru_commune,
@@ -6292,13 +6293,13 @@ AS
             m_urbanisme_doc.geo_v_p_prescription_surf_arc spct
           WHERE st_intersects(p.geom, spct.geom1) IS TRUE AND spct.typepsc::text = '18'::text
           GROUP BY ('60'::text || p.idu), (spct.typepsc::text), spct.libelle
-			        ), req_q100 AS (
-                 SELECT p."IDU" AS idu,
-                    'Aléa inondation : la parcelle est concernée par la crue centennale (modélisation de décembre 2016).'::text AS libelle,
-                    ''::text AS urlfic
-                   FROM r_bg_edigeo."PARCELLE" p,
-                    m_risque.an_parcelle_q100_ru q100
-                  WHERE p."IDU"::text = q100.idu::text
+        ), req_q100 AS (
+         SELECT p."IDU" AS idu,
+            'Aléa inondation : la parcelle est concernée par la crue centennale (modélisation de décembre 2016).'::text AS libelle,
+            ''::text AS urlfic
+           FROM r_bg_edigeo."PARCELLE" p,
+            m_risque.an_parcelle_q100_ru q100
+          WHERE p."IDU"::text = q100.idu::text
         ), req_dpu AS (
          SELECT DISTINCT '60'::text || p.idu AS idu,
             ('<a href="'::text || tinfo.urlfic::text) || '" target="_blank"><b>Droit de préemption urbain au bénéfice de l''Agglomération de la Région de Compiègne suite à la délibération du conseil d''Agglomération du 30 mars 2017.</b></a>'::text AS dpu
@@ -6440,7 +6441,7 @@ AS
           ORDER BY an_sup_geo_commune_synthese.idu
         ), req_psc_pct AS (
          SELECT DISTINCT '60'::text || p.idu AS idu,
-            string_agg(((((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/p'::text || ppct.typepsc::text) || ppct.stypepsc::text) || '.png" width=17 heigth=17>'::text) || ' '::text) || ppct.libelle::text) ||
+            string_agg(distinct((((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/p'::text || ppct.typepsc::text) || ppct.stypepsc::text) || '.png" width=17 heigth=17>'::text) || ' '::text) || ppct.libelle::text) ||
                 CASE
                     WHEN ppct.l_nature IS NULL OR ppct.l_nature::text = ''::text THEN ''::text
                     ELSE '<br> Nature : '::text || ppct.l_nature::text
@@ -6451,26 +6452,57 @@ AS
           GROUP BY ('60'::text || p.idu)
         ), req_psc_lin AS (
          SELECT DISTINCT '60'::text || p.idu AS idu,
-            string_agg(((((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/l'::text || lpct.typepsc::text) || lpct.stypepsc::text) || '.png" width=41 heigth=11>'::text) || ' '::text) || lpct.libelle::text) ||
+            CASE WHEN lpct.l_nature = 'Cône de vue' THEN '' ELSE
+			string_agg(distinct((((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/l'::text || lpct.typepsc::text) || lpct.stypepsc::text) 
+						  || '.png" width=41 heigth=11>'::text) || ' '::text) || lpct.libelle::text) ||
+                CASE
+                    WHEN lpct.l_nature IS NULL OR lpct.l_nature::text = ''::text THEN ''::text
+                    ELSE '<br> Nature : '::text || lpct.l_nature::text
+                END, '<br>'::text)
+			END
+			AS psc_lin
+           FROM r_cadastre.geo_parcelle p,
+            m_urbanisme_doc.geo_v_p_prescription_lin_arc lpct
+          WHERE st_intersects(p.geom, lpct.geom1) IS TRUE 
+          GROUP BY ('60'::text || p.idu),lpct.l_nature
+		), req_psc_lin_cv_01 AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+            string_agg(distinct((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/l0701cv.png" width=41 heigth=11>'::text) || ' '::text) || lpct.libelle::text) ||
                 CASE
                     WHEN lpct.l_nature IS NULL OR lpct.l_nature::text = ''::text THEN ''::text
                     ELSE '<br> Nature : '::text || lpct.l_nature::text
                 END, '<br>'::text) AS psc_lin
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_doc.geo_v_p_prescription_lin_arc lpct
-          WHERE st_intersects(p.geom, lpct.geom1) IS TRUE
-          GROUP BY ('60'::text || p.idu)
-        ), req_psc_surf AS (
+          WHERE st_intersects(p.geom, lpct.geom1) IS TRUE AND lpct.l_nature like '%de vue%' AND (lpct.typepsc || lpct.stypepsc) = '0701'
+          GROUP BY ('60'::text || p.idu)	
+			), req_psc_lin_cv_03 AS (
          SELECT DISTINCT '60'::text || p.idu AS idu,
-            string_agg(((((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/s'::text || spct.typepsc::text) || spct.stypepsc::text) || '.png" width=34 heigth=21>'::text) || ' '::text) || spct.libelle::text) ||
+            string_agg(distinct((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/l0703cv.png" width=41 heigth=11>'::text) || ' '::text) || lpct.libelle::text) ||
+                CASE
+                    WHEN lpct.l_nature IS NULL OR lpct.l_nature::text = ''::text THEN ''::text
+                    ELSE '<br> Nature : '::text || lpct.l_nature::text
+                END, '<br>'::text) AS psc_lin
+           FROM r_cadastre.geo_parcelle p,
+            m_urbanisme_doc.geo_v_p_prescription_lin_arc lpct
+          WHERE st_intersects(p.geom, lpct.geom1) IS TRUE AND lpct.l_nature like '%de vue%' AND (lpct.typepsc || lpct.stypepsc) IN ('0701','0702','0703','0704','0705') 
+          GROUP BY ('60'::text || p.idu)
+        ), 
+		
+		req_psc_surf AS (
+         SELECT DISTINCT '60'::text || p.idu AS idu,
+
+            string_agg(distinct((((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/s'::text || spct.typepsc::text) || spct.stypepsc::text) || '.png" width=34 heigth=21>'::text) 
+						 || ' '::text) || spct.libelle::text) ||
                 CASE
                     WHEN spct.l_nature IS NULL OR spct.l_nature::text = ''::text THEN ''::text
                     ELSE '<br> Nature : '::text || spct.l_nature::text
-                END, '<br>'::text) AS psc_surf
+                END, '<br>'::text ) AS psc_surf
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_doc.geo_v_p_prescription_surf_arc spct
           WHERE st_intersects(p.geom, spct.geom1) IS TRUE AND spct.typepsc::text <> '18'::text
           GROUP BY ('60'::text || p.idu)
+			
         ), req_zac AS (
          SELECT DISTINCT '60'::text || p.idu AS idu,
             string_agg((('<img src="http://geo.compiegnois.fr/documents/metiers/urba/divers/geo_legende_plu/picto_legende/is0200.png" width=34 heigth=21>'::text || ' '::text) || 'Zone d''aménagement concerté'::text) ||
@@ -6605,6 +6637,14 @@ AS
             WHEN req_psc_lin.psc_lin IS NULL THEN 'nc'::text
             ELSE req_psc_lin.psc_lin
         END AS psc_lin,
+		     CASE
+            WHEN req_psc_lin_cv_01.psc_lin IS NULL THEN 'nc'::text
+            ELSE req_psc_lin_cv_01.psc_lin
+        END AS req_psc_lin_cv_01,
+		     CASE
+            WHEN req_psc_lin_cv_03.psc_lin IS NULL THEN 'nc'::text
+            ELSE req_psc_lin_cv_03.psc_lin
+        END AS req_psc_lin_cv_03,
         CASE
             WHEN req_psc_surf.psc_surf IS NULL THEN 'nc'::text
             ELSE req_psc_surf.psc_surf
@@ -6625,7 +6665,7 @@ AS
             WHEN req_txamt.txamt IS NULL THEN 'nc'::text
             ELSE req_txamt.txamt
         END AS txamt,
-		        CASE
+        CASE
             WHEN req_q100.libelle IS NULL THEN 'nc'::text
             ELSE req_q100.libelle
         END AS q100
@@ -6651,13 +6691,24 @@ AS
      LEFT JOIN req_supcom ON req_princ.idu = req_supcom.idu::text
      LEFT JOIN req_psc_pct ON req_princ.idu = req_psc_pct.idu
      LEFT JOIN req_psc_lin ON req_princ.idu = req_psc_lin.idu
+	 LEFT JOIN req_psc_lin_cv_01 ON req_princ.idu = req_psc_lin_cv_01.idu
+     LEFT JOIN req_psc_lin_cv_03 ON req_princ.idu = req_psc_lin_cv_03.idu
      LEFT JOIN req_psc_surf ON req_princ.idu = req_psc_surf.idu
      LEFT JOIN req_zac ON req_princ.idu = req_zac.idu
      LEFT JOIN req_infosurf ON req_princ.idu = req_infosurf.idu
      LEFT JOIN req_archeo ON req_princ.idu = req_archeo.idu
      LEFT JOIN req_txamt ON req_princ.idu = req_txamt.idu
-	    LEFT JOIN req_q100 ON req_princ.idu = req_q100.idu
-  GROUP BY req_q100.libelle,req_princ.idu, req_princ.nru_commune, req_princ.nru_section, req_princ.nru_numpar, req_princ.nur_supf, req_princ.nur_regzone, req_princ.nru_urldgen, req_princ.nru_urlann, req_princ.nru_urllex, req_oap.oap, req_dpu.dpu, req_a5.a5, req_ac1.ac1, req_ac4.ac4, req_pm1.pm1, req_a4.a4, req_ac2.ac2, req_el3.el3, req_as1.as1, req_el7.el7, req_i3.i3, req_i4.i4, req_pt1.pt1, req_pt2.pt2, req_pt2lh.pt2lh, req_t1.t1, req_t4t5.t5, req_supcom.sup_com, req_psc_pct.psc_pct, req_psc_lin.psc_lin, req_psc_surf.psc_surf, req_zac.zac, req_infosurf.isurf, req_archeo.archeo, req_txamt.txamt
+     LEFT JOIN req_q100 ON req_princ.idu = req_q100.idu::text
+	
+  GROUP BY req_q100.libelle, req_princ.idu, req_princ.nru_commune, req_princ.nru_section, req_princ.nru_numpar, 
+  req_princ.nur_supf, req_princ.nur_regzone, req_princ.nru_urldgen, req_princ.nru_urlann, req_princ.nru_urllex, 
+  req_oap.oap, req_dpu.dpu, req_a5.a5, req_ac1.ac1, req_ac4.ac4, req_pm1.pm1, req_a4.a4, req_ac2.ac2, 
+  req_el3.el3, req_as1.as1, req_el7.el7, req_i3.i3, req_i4.i4, req_pt1.pt1, 
+  req_pt2.pt2, req_pt2lh.pt2lh, req_t1.t1, req_t4t5.t5, req_supcom.sup_com, req_psc_pct.psc_pct, 
+  req_psc_lin.psc_lin, req_psc_lin_cv_01.psc_lin, req_psc_lin_cv_03.psc_lin,
+  req_psc_surf.psc_surf, req_zac.zac, req_infosurf.isurf, req_archeo.archeo, req_txamt.txamt
+
+
 WITH DATA;
 
 ALTER TABLE x_apps_public.xappspublic_an_vmr_nru
@@ -6665,6 +6716,8 @@ ALTER TABLE x_apps_public.xappspublic_an_vmr_nru
 
 COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru
     IS 'Vue matérialisée contenant les informations pré-formatés du PLUi communes à toutes les communes pour la note de renseignements d''urbanisme';
+
+
 
 
 
