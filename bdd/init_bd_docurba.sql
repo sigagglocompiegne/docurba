@@ -4879,6 +4879,22 @@ AS
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_risque.an_risq_alea_retraitgonflement_argiles_faible_geo a
                   WHERE p."IDU"::text = a.idu::text
+                ), r_coulee_boue AS (
+                 SELECT p."IDU" AS idu,
+                    'Aléa coulées de boue : '::text || a.alea::text AS libelle,
+                    'http://infoterre.brgm.fr/rapports//RP-65452-FR.pdf'::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_risque.an_risq_alea_couleeboue_geo a
+                  WHERE p."IDU"::text = a.idu::text
+               
+                ), r_remonte_nappe AS (
+                 SELECT p."IDU" AS idu,
+                    ('Sensibilité remontée de nappe : '::text || a.alea::text) AS libelle,
+                    ''::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_risque.an_risq_alea_nappe_geo a
+                  WHERE p."IDU"::text = a.idu::text AND p."IDU"::text = '60325000ZK0048'::text
+               
                 ), r_inv_patri AS (
                  SELECT "PARCELLE"."IDU" AS idu,
                     ('Inventaire des éléments du patrimoine bâti vernaculaire'::text || ' - '::text) || geo_patri_verna.descriptif::text AS libelle,
@@ -4958,7 +4974,7 @@ AS
                   WHERE st_intersects(p."GEOM", o.geom1)
                 ), r_zae AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'La parcelle est comprise dans une zone d''activité économique : '::text || o.site_nom AS libelle,
+                    'La parcelle est comprise dans une zone d''activité économique : '::text || o.site_nom::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     x_apps.xapps_geo_v_zae o
@@ -5083,11 +5099,21 @@ AS
             r_opah_ru.libelle,
             r_opah_ru.urlfic
            FROM r_opah_ru
-	  UNION ALL
+        UNION ALL
          SELECT r_zae.idu,
             r_zae.libelle,
             r_zae.urlfic
            FROM r_zae
+	    UNION ALL
+	 	 SELECT r_remonte_nappe.idu,
+            r_remonte_nappe.libelle,
+            r_remonte_nappe.urlfic
+	 	 FROM r_remonte_nappe
+	 	    UNION ALL
+	 	 SELECT r_coulee_boue.idu,
+            r_coulee_boue.libelle,
+            r_coulee_boue.urlfic
+	 	 FROM r_coulee_boue
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
