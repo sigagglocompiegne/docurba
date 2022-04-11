@@ -50,6 +50,7 @@
 -- 2022/01/22 : GB / Intégration vue matérialisée pour affecter la parcelle à une planche graphique du PLUih + accès aux planches des communes hors PLU
 -- 2022/01/22 : GB / Intégration d'une table pour gérer les plans n pour une procédure
 -- 2022/04/06 : GB / Mise à jour de la vue grand public "xappspublic_an_vmr_nru" (correction de remontée et adaptation suite modification de symbologie)
+-- 2022/04/11 : GB / Mise à jour Informations Jugées Utiles (intégration des aléas de coulées de boue et remontées de nappe)
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
