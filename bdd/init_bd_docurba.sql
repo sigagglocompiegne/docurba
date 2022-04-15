@@ -51,6 +51,8 @@
 -- 2022/01/22 : GB / Intégration d'une table pour gérer les plans n pour une procédure
 -- 2022/04/06 : GB / Mise à jour de la vue grand public "xappspublic_an_vmr_nru" (correction de remontée et adaptation suite modification de symbologie)
 -- 2022/04/11 : GB / Mise à jour Informations Jugées Utiles (intégration des aléas de coulées de boue et remontées de nappe)
+-- 2022/04/15 : GB / Intégration de la gestion des pièces écrites dans la base de données (option du modèle CNIG 2017d)
+
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -364,9 +366,7 @@ WITH (
 );
 ALTER TABLE m_urbanisme_doc.lt_libsect
   OWNER TO sig_create;
-GRANT ALL ON TABLE m_urbanisme_doc.lt_libsect TO sig_create;
-GRANT SELECT ON TABLE m_urbanisme_doc.lt_libsect TO read_sig;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc.lt_libsect TO edit_sig;
+
 
 COMMENT ON TABLE m_urbanisme_doc.lt_libsect
   IS 'Liste des valeurs de l''attribut libelle à saisir pour la carte communale (convention de libellé pour l''affichage cartographique)';
@@ -402,9 +402,6 @@ WITH (
 );
 ALTER TABLE m_urbanisme_doc.lt_typepsc
   OWNER TO sig_create;
-GRANT ALL ON TABLE m_urbanisme_doc.lt_typepsc TO sig_create;
-GRANT SELECT ON TABLE m_urbanisme_doc.lt_typepsc TO read_sig;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc.lt_typepsc TO edit_sig;
 
 COMMENT ON TABLE m_urbanisme_doc.lt_typepsc
   IS 'Liste des valeurs de l''attribut typepsc de la donnée prescription_surf, prescription_lin et prescription_pct';
@@ -656,6 +653,81 @@ INSERT INTO m_urbanisme_doc.lt_typeinf(
 	('99','02','Autre relevant de la loi montagne',null,null);
 
 
+-- ################################################################# Domaine valeur - lt_titre_cnig #############################################
+
+-- Table: m_urbanisme_doc.lt_titre_cnig
+
+-- DROP TABLE m_urbanisme_doc.lt_titre_cnig;
+
+CREATE TABLE m_urbanisme_doc.lt_titre_cnig
+(
+  code character(2) NOT NULL,
+  valeur character varying(254) NOT NULL,
+  CONSTRAINT lt_titre_cnig_pkey PRIMARY KEY (code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc.lt_titre_cnig
+  OWNER TO sig_create;
+
+COMMENT ON TABLE m_urbanisme_doc.lt_titre_cnig
+  IS 'Liste des valeurs de l''attribut titre de la donnée an_doc_urba_titre_pieces_ecrites';
+COMMENT ON COLUMN m_urbanisme_doc.lt_titre_cnig.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc.lt_titre_cnig.valeur IS 'Valeur';
+
+INSERT INTO m_urbanisme_doc.lt_titre_cnig(
+            code, valeur)
+    VALUES
+('01','Délibération de l''autorité compétente'),
+('10','Rapport de présentation'),
+('20','PADD'),
+('30','Règlement écrit'),
+('31','Règlement graphique'),
+('32','Liste des emplacements réservés'),
+('39','Autres prescriptions'),
+('40','Liste des SUP'),
+('42','Liste des annexes'),
+('41','Plan des SUP'),
+('49','Autres annexes'),
+('50','Orientations d''aménagement'),
+('43','Notice sanitaire'),
+('44','Réseaux');
+
+-- ################################################################# Domaine valeur - lt_typerep_cnig #############################################
+
+-- Table: m_urbanisme_doc.lt_typerep_cnig
+
+-- DROP TABLE m_urbanisme_doc.lt_typerep_cnig;
+
+CREATE TABLE m_urbanisme_doc.lt_typerep_cnig
+(
+  code character(2) NOT NULL,
+  valeur character varying(254) NOT NULL,
+  definition character varying(60) COLLATE pg_catalog."default",
+  CONSTRAINT lt_typerep_cnig_pkey PRIMARY KEY (code)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE m_urbanisme_doc.lt_typerep_cnig
+  OWNER TO sig_create;
+
+COMMENT ON TABLE m_urbanisme_doc.lt_typerep_cnig
+  IS 'Liste des valeurs de l''attribut rep_cnig de la donnée an_doc_urba_titre_pieces_ecrites';
+COMMENT ON COLUMN m_urbanisme_doc.lt_typerep_cnig.code IS 'Code';
+COMMENT ON COLUMN m_urbanisme_doc.lt_typerep_cnig.valeur IS 'Valeur';
+COMMENT ON COLUMN m_urbanisme_doc.lt_typerep_cnig.valeur IS 'Ecriture claire de l''attribut Valeur';
+
+INSERT INTO m_urbanisme_doc.lt_typerep_cnig(
+            code, valeur, definition)
+    VALUES
+    ('0','0_Procedure','Procécure'),
+    ('1','1_Rapport_de_presentation','Rapport de présentation'),
+    ('2','2_PADD','PADD'),
+    ('3','3_Reglement','Réglement'),
+    ('4','4_Annexes','Annexes'),
+    ('5','5_Orientations_amenagement','Orientations d''aménagement');
 
 -- ####################################################################################################################################################
 -- ###                                                  DOMAINES DE VALEURS SPECIFIQUE PNR-OLV                                                      ###
@@ -2238,6 +2310,66 @@ COMMENT ON COLUMN m_urbanisme_doc.geo_a_habillage_txt.geom IS 'Géométrie de l'
 COMMENT ON COLUMN m_urbanisme_doc.geo_a_habillage_txt.idurba IS 'Identifiant du document d''urbanisme';
 COMMENT ON COLUMN m_urbanisme_doc.geo_a_habillage_txt.couleur IS 'Couleur de l''élément graphique, sous forme RVB (255-255-000)';
 COMMENT ON COLUMN m_urbanisme_doc.geo_a_habillage_txt.l_couleur IS 'Couleur de l''élément graphique, sous forme HEXA (#000000)';
+
+-- ########################################################################## table an_doc_urba_titre_pieces_ecrites #######################################################
+
+-- Table: m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites
+
+-- DROP TABLE m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites;
+
+CREATE TABLE m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites
+(
+    gid integer NOT NULL DEFAULT nextval('m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites_seq'::regclass),
+    idurba character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    code_geo character varying(9) COLLATE pg_catalog."default" NOT NULL,
+    rep_cnig character varying(1) COLLATE pg_catalog."default" NOT NULL,
+    nomfic character varying(80) COLLATE pg_catalog."default" NOT NULL,
+    titre character varying(2) COLLATE pg_catalog."default" NOT NULL,
+    complt character varying(80) COLLATE pg_catalog."default",
+    CONSTRAINT an_doc_urba_titre_pieces_ecrites_pkey PRIMARY KEY (gid),
+    CONSTRAINT an_doc_urba_titre_pieces_ecrites_titre_fkey FOREIGN KEY (titre)
+        REFERENCES m_urbanisme_doc.lt_titre_cnig (code) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT an_doc_urba_titre_pieces_ecrites_typ_fkey FOREIGN KEY (rep_cnig)
+        REFERENCES m_urbanisme_doc.lt_typerep_cnig (code) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites
+    OWNER to create_sig;
+
+COMMENT ON TABLE m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites
+    IS 'Liste des pièces écrites des procédures d''urbanisme pour export CNIG et fonctionnel GEO d''accès aux documents';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites.gid
+    IS 'Identifiant unique interne';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites.idurba
+    IS 'Identifiant de la procédure d''urbanisme';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites.code_geo
+    IS 'Code Insee ou siren de l''autorité compétente ou s''applique le document d''urbanisme';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites.rep_cnig
+    IS 'Code du répertoire CNIG de stockage des fichiers (clé étrangère sur lt_typerep_cnig)';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites.nomfic
+    IS 'Libellé du fichier avec l''extension .pdf';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites.titre
+    IS 'Code du libellé générique de la pièce écrite (clé étrangère sur lt_titre_cnig)';
+
+COMMENT ON COLUMN m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites.complt
+    IS 'Compléments d''information permettant d''identifier plus précisément la pièce écrites (si plusieurs pièces de type identique). Cette information sera affichée à l''utilisateur dans le fonctionnel GEO de la fiche de RU ou dans la recherche métier';
+-- Index: idx_an_doc_urba_titre_pieces_e
 
 
 
@@ -3911,7 +4043,8 @@ GRANT SELECT ON TABLE m_urbanisme_doc.an_v_docurba_ccpe TO read_sig;
 
 -- DROP VIEW m_urbanisme_doc.an_v_docurba_valide;
 
-CREATE OR REPLACE VIEW m_urbanisme_doc.an_v_docurba_valide AS 
+CREATE OR REPLACE VIEW m_urbanisme_doc.an_v_docurba_valide
+ AS
  SELECT an_doc_urba_com.insee::text AS insee,
     an_doc_urba.typedoc,
     to_date(an_doc_urba.datappro::text, 'YYYYMMDD'::text) AS datappro,
@@ -3922,12 +4055,12 @@ CREATE OR REPLACE VIEW m_urbanisme_doc.an_v_docurba_valide AS
         END AS l_version,
     an_doc_urba.l_urldgen,
     an_doc_urba.l_urlann,
-    an_doc_urba.l_urllex
+    an_doc_urba.l_urllex,
+    an_doc_urba.idurba
    FROM m_urbanisme_doc.an_doc_urba,
     m_urbanisme_doc.an_doc_urba_com,
     m_urbanisme_doc.lt_nomproc
-  WHERE an_doc_urba.idurba::text = an_doc_urba_com.idurba::text AND an_doc_urba.nomproc::text = lt_nomproc.code::text 
-  AND an_doc_urba.etat::bpchar = '03'::bpchar AND an_doc_urba.typedoc::bpchar <> 'SCOT'::bpchar AND an_doc_urba.typedoc::bpchar <> 'RNU'::bpchar
+  WHERE an_doc_urba.idurba::text = an_doc_urba_com.idurba::text AND an_doc_urba.nomproc::text = lt_nomproc.code::text AND an_doc_urba.etat::bpchar = '03'::bpchar AND an_doc_urba.typedoc::text <> 'SCOT'::text AND an_doc_urba.typedoc::text <> 'RNU'::text
 UNION ALL
  SELECT "left"(an_doc_urba.idurba::text, 5) AS insee,
     an_doc_urba.typedoc,
@@ -3939,21 +4072,16 @@ UNION ALL
         END AS l_version,
     an_doc_urba.l_urldgen,
     an_doc_urba.l_urlann,
-    an_doc_urba.l_urllex
+    an_doc_urba.l_urllex,
+    NULL::character varying AS idurba
    FROM m_urbanisme_doc.an_doc_urba,
     m_urbanisme_doc.lt_nomproc
   WHERE an_doc_urba.nomproc::text = lt_nomproc.code::text AND an_doc_urba.etat::bpchar = '03'::bpchar AND an_doc_urba.typedoc::bpchar = 'RNU'::bpchar;
 
 ALTER TABLE m_urbanisme_doc.an_v_docurba_valide
-  OWNER TO sig_create;
-GRANT ALL ON TABLE m_urbanisme_doc.an_v_docurba_valide TO sig_create;
-GRANT SELECT ON TABLE m_urbanisme_doc.an_v_docurba_valide TO slazarescu;
-GRANT ALL ON TABLE m_urbanisme_doc.an_v_docurba_valide TO create_sig;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE m_urbanisme_doc.an_v_docurba_valide TO edit_sig;
-GRANT SELECT ON TABLE m_urbanisme_doc.an_v_docurba_valide TO read_sig;
+    OWNER TO create_sig;
 COMMENT ON VIEW m_urbanisme_doc.an_v_docurba_valide
-  IS 'Liste des documents d''urbanisme valide sur les communes du Pays Compiégnois avec le formatage d''accès aux dispositions générales, annexes et lexique du PLUih de l''ARC';
-
+    IS 'Liste des documents d''urbanisme valide sur les communes du Pays Compiégnois avec le formatage d''accès aux dispositions générales, annexes et lexique du PLUih de l''ARC';
 
 -- View: x_apps.xapps_an_vmr_docurba_h
 
@@ -7532,6 +7660,140 @@ ALTER TABLE x_apps_public.xappspublic_an_vmr_p_planche_graphique_plui_arc
 
 COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_p_planche_graphique_plui_arc
     IS 'Vue matérialisée formatant l''accès aux planches du règlement graphique du PLUiH (cette vue est ensuite liée dans GEO pour accessiiblité à la parcelle dans la fiche de renseignements d''urbanisme dans GEO)';
+
+-- View: x_apps.xapps_geo_vmr_docurba
+
+-- DROP MATERIALIZED VIEW x_apps.xapps_geo_vmr_docurba;
+
+CREATE MATERIALIZED VIEW x_apps.xapps_geo_vmr_docurba
+TABLESPACE pg_default
+AS
+ WITH req_a AS (
+         SELECT "left"(an_doc_urba.idurba::text, 5) AS insee,
+            an_doc_urba.idurba,
+            an_doc_urba.typedoc,
+            an_doc_urba.etat,
+            an_doc_urba.nomproc,
+            an_doc_urba.l_nomprocn,
+            an_doc_urba.datappro,
+            an_doc_urba.datefin,
+            an_doc_urba.siren,
+            an_doc_urba.nomreg,
+            an_doc_urba.urlreg,
+            an_doc_urba.nomplan,
+            an_doc_urba.urlplan,
+            an_doc_urba.urlpe,
+            an_doc_urba.siteweb,
+            an_doc_urba.typeref,
+            an_doc_urba.dateref,
+            an_doc_urba.l_meta,
+            an_doc_urba.l_moa_proc,
+            an_doc_urba.l_moe_proc,
+            an_doc_urba.l_moa_dmat,
+            an_doc_urba.l_moe_dmat,
+            an_doc_urba.l_observ,
+            an_doc_urba.l_parent,
+            an_doc_urba.l_urldgen,
+            an_doc_urba.l_urlann,
+            an_doc_urba.l_urllex,
+            an_doc_urba.nom,
+            an_doc_urba.rapport,
+            an_doc_urba.padd,
+            an_doc_urba.doo,
+            an_doc_urba.urlrapport,
+            an_doc_urba.urlpadd,
+            an_doc_urba.urldoo
+           FROM m_urbanisme_doc.an_doc_urba
+          WHERE an_doc_urba.typedoc::text = ANY (ARRAY['PLU'::character varying::text, 'CC'::character varying::text, 'POS'::character varying::text])
+        UNION ALL
+         SELECT g.insee,
+            u.idurba,
+            u.typedoc,
+            u.etat,
+            u.nomproc,
+            u.l_nomprocn,
+            u.datappro,
+            u.datefin,
+            u.siren,
+            u.nomreg,
+            u.urlreg,
+            u.nomplan,
+            u.urlplan,
+            u.urlpe,
+            u.siteweb,
+            u.typeref,
+            u.dateref,
+            u.l_meta,
+            u.l_moa_proc,
+            u.l_moe_proc,
+            u.l_moa_dmat,
+            u.l_moe_dmat,
+            u.l_observ,
+            u.l_parent,
+            u.l_urldgen,
+            u.l_urlann,
+            u.l_urllex,
+            u.nom,
+            u.rapport,
+            u.padd,
+            u.doo,
+            u.urlrapport,
+            u.urlpadd,
+            u.urldoo
+           FROM m_urbanisme_doc.an_doc_urba u,
+            r_administratif.an_geo g,
+            r_osm.geo_osm_epci e
+          WHERE u.siren::text = e.cepci::text AND g.epci::text = e.cepci::text AND u.typedoc::text = 'PLUI'::text
+        )
+ SELECT row_number() OVER () AS gid,
+    req_a.insee,
+    c.commune,
+    req_a.idurba,
+    req_a.typedoc,
+    req_a.etat,
+    req_a.nomproc,
+    req_a.l_nomprocn,
+    req_a.datappro,
+    req_a.datefin,
+    req_a.siren,
+    req_a.nomreg,
+    req_a.urlreg,
+    req_a.nomplan,
+    req_a.urlplan,
+    req_a.urlpe,
+    req_a.siteweb,
+    req_a.typeref,
+    req_a.dateref,
+    req_a.l_meta,
+    req_a.l_moa_proc,
+    req_a.l_moe_proc,
+    req_a.l_moa_dmat,
+    req_a.l_moe_dmat,
+    req_a.l_observ,
+    req_a.l_parent,
+    req_a.l_urldgen,
+    req_a.l_urlann,
+    req_a.l_urllex,
+    req_a.nom,
+    req_a.rapport,
+    req_a.padd,
+    req_a.doo,
+    req_a.urlrapport,
+    req_a.urlpadd,
+    req_a.urldoo,
+    c.geom
+   FROM req_a,
+    r_osm.geo_vm_osm_commune_grdc c
+  WHERE req_a.insee = c.insee::text
+WITH DATA;
+
+ALTER TABLE x_apps.xapps_geo_vmr_docurba
+    OWNER TO create_sig;
+
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_geo_vmr_docurba
+    IS 'Vue matérialisée listant toutes les procédures d''urbanisme par commune';
+
+
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
