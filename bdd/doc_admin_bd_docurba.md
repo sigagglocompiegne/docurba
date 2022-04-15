@@ -117,6 +117,23 @@ Particularité(s) à noter : aucune
 
 Particularité(s) à noter : aucune
 
+
+---
+
+`an_doc_urba_titre_pieces_ecrites` : Table listant les pièces écrites des procédures d''urbanisme pour export CNIG et fonctionnel GEO d''accès aux documents
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|  
+|gid|Identifiant unique interne|integer|nextval('m_urbanisme_doc.an_doc_urba_titre_pieces_ecrites_seq'::regclass)|
+|idurba|Identifiant de la procédure d'urbanisme|character varying(30)| |
+|code_geo|Code Insee ou siren de l'autorité compétente ou s'applique le document d'urbanisme|character varying(9)| |
+|rep_cnig|Code du répertoire CNIG de stockage des fichiers (clé étrangère sur lt_typerep_cnig)|character varying(1)| |
+|nomfic|Libellé du fichier avec l'extension .pdf|character varying(80)| |
+|titre|Code du libellé générique de la pièce écrite (clé étrangère sur lt_titre_cnig)|character varying(2)| |
+|complt|Compléments d'information permettant d'identifier plus précisément la pièce écrites (si plusieurs pièces de type identique). Cette information sera affichée à l'utilisateur dans le fonctionnel GEO de la fiche de RU ou dans la recherche métier|character varying(80)| |
+
+Particularité(s) à noter : aucune
+
 ---
 
 `geo_a_habillage_lin` : (archive) Donnée géographique contenant l'habillage linéaire des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
@@ -1136,6 +1153,10 @@ Particularité(s) à noter :
 
 `xapps_geo_vmr_p_zone_urba` :  Vue matérialisée des zones du PLU servant dans les recherches par zonage ou type dans les applicatifs GEO. 
 
+`x_apps.xapps_an_vmr_docurba_h` : Vue matérialisée listant les anciennes procédures d''urbanisme par commune
+
+`xapps_geo_vmr_docurba` : Vue matérialisée listant toutes les procédures d''urbanisme par commune
+
 ## Liste de valeurs
 
 `lt_destdomi` : Liste des valeurs de l'attribut destdomi de la donnée zone_urba
@@ -1572,6 +1593,57 @@ Valeurs possibles :
 |N|Naturel et forestière|
 
 ---
+
+`lt_typerep_cnig` : Liste des valeurs de l'attribut typerep de la donnée an_doc_urba_titre_pieces_ecrites
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|    
+|code|Code|character varying(2)| |
+|valeur|Valeur|character varying(80)| |
+|definition|Libellé clair de l'attribut Valeur|character varying(80)| |
+
+Particularité(s) à noter : aucune
+
+Valeurs possibles :
+
+|Code|Valeur|
+|:---|:---|:---|
+|0|0_Procedure|Procédure|
+|1|1_Rapport_de_presentation|Rapport de présentation|
+|2|2_PADD|PADD|
+|3|3_Reglement|Règlement|
+|4|4_Annexes|Annexes|
+|5|5_Orientations_amenagement|Orientations d'aménagement|
+
+---
+
+`lt_titre_cnig` : Liste des valeurs de l'attribut titre de la donnée an_doc_urba_titre_pieces_ecrites
+
+|Nom attribut | Définition | Type  | Valeurs par défaut |
+|:---|:---|:---|:---|    
+|code|Code|character varying(2)| |
+|valeur|Valeur|character varying(80)| |
+
+Particularité(s) à noter : aucune
+
+Valeurs possibles :
+
+|Code|Valeur|
+|:---|:---|
+|01|Délibération de l'autorité compétente|
+|10|Rapport de présentation|
+|20|PADD|
+|30|Règlement écrit|
+|31|Règlement graphique|
+|32|Liste des emplacements réservés|
+|39|Autres prescriptions|
+|40|Liste des SUP|
+|42|Liste des annexes|
+|41|Plan des SUP|
+|49|Autres annexes|
+|50|Orientations d'aménagement|
+|43|Notice sanitaire|
+|44|Réseaux|
 
 ## Traitement automatisé mis en place (Workflow de l'ETL FME)
 
