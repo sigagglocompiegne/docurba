@@ -52,7 +52,7 @@
 -- 2022/04/06 : GB / Mise à jour de la vue grand public "xappspublic_an_vmr_nru" (correction de remontée et adaptation suite modification de symbologie)
 -- 2022/04/11 : GB / Mise à jour Informations Jugées Utiles (intégration des aléas de coulées de boue et remontées de nappe)
 -- 2022/04/15 : GB / Intégration de la gestion des pièces écrites dans la base de données (option du modèle CNIG 2017d)
-
+-- 2022/05/06 : GB / Correction mineure sur la vue matérialisée de remontée des IJU
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
