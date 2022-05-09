@@ -4893,7 +4893,7 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu
 
 -- View: x_apps.xapps_an_vmr_p_information_horsplu
 
-DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
+-- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
 
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
@@ -5009,20 +5009,21 @@ AS
                     m_risque.an_risq_alea_retraitgonflement_argiles_faible_geo a
                   WHERE p."IDU"::text = a.idu::text
                 ), r_coulee_boue AS (
-                      SELECT p."IDU" AS idu,
-                    'Aléa coulées de boue : '::text || string_agg(distinct a.alea::text,' , ') AS libelle,
+                 SELECT p."IDU" AS idu,
+                    'Aléa coulées de boue : '::text || string_agg(DISTINCT a.alea::text, ' , '::text) AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_risque.an_risq_alea_couleeboue_geo a
-                  WHERE p."IDU"::text = a.idu::text group by p."IDU" 
+                  WHERE p."IDU"::text = a.idu::text
+                  GROUP BY p."IDU"
                 ), r_remonte_nappe AS (
-                  SELECT p."IDU" AS idu,
-                    'Sensibilité remontée de nappe : '::text || string_agg(DISTINCT a.alea::text, ' et ') AS libelle,
+                 SELECT p."IDU" AS idu,
+                    'Sensibilité remontée de nappe : '::text || string_agg(DISTINCT a.alea::text, ' et '::text) AS libelle,
                     'http://infoterre.brgm.fr/rapports//RP-65452-FR.pdf'::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_risque.an_risq_alea_nappe_geo a
-                  WHERE p."IDU"::text = a.idu::text AND a.alea <> 'Pas de débordement de nappe ni d''inondation de cave'
-				  GROUP BY p."IDU"
+                  WHERE p."IDU"::text = a.idu::text AND a.alea::text <> 'Pas de débordement de nappe ni d''inondation de cave'::text
+                  GROUP BY p."IDU"
                 ), r_inv_patri AS (
                  SELECT "PARCELLE"."IDU" AS idu,
                     ('Inventaire des éléments du patrimoine bâti vernaculaire'::text || ' - '::text) || geo_patri_verna.descriptif::text AS libelle,
@@ -5107,6 +5108,20 @@ AS
                    FROM r_bg_edigeo."PARCELLE" p,
                     x_apps.xapps_geo_v_zae o
                   WHERE st_intersects(p."GEOM", o.geom1) IS TRUE
+                ), r_dup_csne AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'La parcelle est impactée dans la DUP du Canal Seine Nord Europe : '::text AS libelle,
+                    ''::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_amenagement.geo_csne_dup d
+                  WHERE st_intersects(p."GEOM", d.geom) IS TRUE
+                ), r_dup_mageo AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'La parcelle est impactée dans la DUP du projet MAGEO : '::text AS libelle,
+                    'https://www.oise.gouv.fr/Publications/Publications-legales/Enquetes-publiques/2021/MAGEO'::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_amenagement.geo_csne_mageo_dup_s d
+                  WHERE st_intersects(p."GEOM", d.geom) IS TRUE
                 )
          SELECT r_natura2000_zps.idu,
             r_natura2000_zps.libelle,
@@ -5242,6 +5257,16 @@ AS
             r_coulee_boue.libelle,
             r_coulee_boue.urlfic
            FROM r_coulee_boue
+		   UNION ALL
+         SELECT r_dup_csne.idu,
+            r_dup_csne.libelle,
+            r_dup_csne.urlfic
+           FROM r_dup_csne
+		   UNION ALL
+         SELECT r_dup_mageo.idu,
+            r_dup_mageo.libelle,
+            r_dup_mageo.urlfic
+           FROM r_dup_mageo
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
@@ -5256,6 +5281,7 @@ ALTER TABLE x_apps.xapps_an_vmr_p_information_horsplu
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
     IS 'Vue matérialisée formatant les données les données informations jugées utiles hors données intégrées dans les données de PLU (cette vue est fusionnée avec xapps_an_vmr_p_information_plu pour être lisible dans la fiche de renseignement d''urbanisme de GEO).
 ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB/00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
+
 
 -- Materialized View: x_apps.xapps_an_vmr_p_information
 
