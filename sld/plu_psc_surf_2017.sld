@@ -428,9 +428,9 @@
 <!-- #####  PSC 05_05  ##### --> 
 
         <se:Rule>
-         <se:Name>Emplacement réservé logement social</se:Name>
+         <se:Name>Emplacement réservé logements/mixité sociale</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé logement social</se:Title>
+            <se:Title>Emplacement réservé logements/mixité sociale</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
@@ -470,9 +470,9 @@
         </se:Rule>
         
         <se:Rule>
-         <se:Name>Emplacement réservé logement social</se:Name>
+         <se:Name>Emplacement réservé logements/mixité sociale</se:Name>
           <se:Description>
-            <se:Title>Emplacement réservé logement social</se:Title>
+            <se:Title>Emplacement réservé logements/mixité sociale</se:Title>
           </se:Description>
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
              <ogc:And>
