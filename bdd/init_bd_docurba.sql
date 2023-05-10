@@ -4898,8 +4898,7 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu
 
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
-AS
- WITH r_p AS (
+AS WITH r_p AS (
          WITH r_natura2000_zps AS (
                  SELECT p."IDU" AS idu,
                         CASE
@@ -4920,6 +4919,16 @@ AS
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_environnement.geo_env_n2000_zsc_m2010 zsc
                   WHERE st_intersects(p."GEOM", zsc.geom)
+                UNION ALL
+                 SELECT p."IDU" AS idu,
+                        CASE
+                            WHEN zsc.nom IS NOT NULL THEN (('Site Natura2000 : ZCS : '::text || zsc.nom::text) || chr(10)) || 'Remarque : les données présentées sont les données validées par la DREAL en janvier 2016.'::text
+                            ELSE NULL::text
+                        END AS libelle,
+                    ''::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_environnement.geo_env_n2000_zsc_zinf_s_r22 zsc
+                  WHERE st_intersects(p."GEOM", zsc.geom) AND zsc.id_rn <> 2200382
                 ), r_smoa AS (
                  SELECT p."IDU" AS idu,
                         CASE
@@ -4990,7 +4999,7 @@ AS
                   WHERE st_intersects("PARCELLE"."GEOM", geo_env_inventairezonesensible.geom)
                 ), r_ens AS (
                  SELECT "PARCELLE"."IDU" AS idu,
-                    'Espace naturel sensible (ENS) : '::text || geo_env_ens.intitule_localisation_lieudit AS libelle,
+                    ((('Espace naturel sensible (ENS) : '::text || geo_env_ens.nom) || ' ('::text) || geo_env_ens.hierar) || ')'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE",
                     m_environnement.geo_env_ens
@@ -5042,16 +5051,16 @@ AS
                 ), r_proc AS (
                  SELECT DISTINCT p."IDU" AS idu,
                         CASE
-                            WHEN (z.date_crea::text IS NULL OR z.date_crea::text = ''::text) AND z.z_proced::text <> '10'::text THEN (('Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.proced_lib::text) || ' - '::text) || z.l_ope_nom::text
-                            WHEN z.z_proced::text = '10'::text AND (z.idsite::text = '60382ad'::text OR z.idsite::text = '60156aa'::text OR z.idsite::text = '60151ha'::text OR z.idsite::text = '60159ag'::text OR z.idsite::text = '60159ha'::text OR z.idsite::text = '60159aa'::text OR z.idsite::text = '60159af'::text OR z.idsite::text = '60159aa'::text) THEN 'Zone d''aménagement concerté : '::text || z.l_ope_nom::text
-                            WHEN (z.date_crea::text IS NOT NULL OR z.date_crea::text <> ''::text) AND z.z_proced::text <> '10'::text THEN (((('Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.proced_lib::text) || ' - '::text) || z.l_ope_nom::text) || ', créée le '::text) || to_char(to_date(z.date_crea::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text)
+                            WHEN (z.date_crea::text IS NULL OR z.date_crea::text = ''::text) AND z.z_proced::text <> '10'::text THEN (('Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.valeur::text) || ' - '::text) || z.nom::text
+                            WHEN z.z_proced::text = '10'::text AND (z.idsite::text = '60382ad'::text OR z.idsite::text = '60156aa'::text OR z.idsite::text = '60151ha'::text OR z.idsite::text = '60159ag'::text OR z.idsite::text = '60159ha'::text OR z.idsite::text = '60159aa'::text OR z.idsite::text = '60159af'::text OR z.idsite::text = '60159aa'::text) THEN 'Zone d''aménagement concerté : '::text || z.nom::text
+                            WHEN (z.date_crea::text IS NOT NULL OR z.date_crea::text <> ''::text) AND z.z_proced::text <> '10'::text THEN (((('Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.valeur::text) || ' - '::text) || z.nom::text) || ', créée le '::text) || to_char(to_date(z.date_crea::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text)
                             ELSE ''::text
                         END AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    x_apps.xapps_geo_vmr_proc z,
-                    m_urbanisme_reg.lt_proced zl
-                  WHERE z.z_proced::text = zl.z_proced::text AND z.z_proced::text <> '10'::text AND st_intersects(p."GEOM", z.geom1)
+                    m_urbanisme_reg.geo_proced z,
+                    m_urbanisme_reg.lt_proc_typ zl
+                  WHERE z.z_proced::text = zl.code::text AND z.z_proced::text <> '10'::text AND st_intersects(p."GEOM", z.geom1)
                 ), r_zarcheo AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     ('La commune dispose d'' un zonage archéologique'::text || chr(10)) || '(cliquez sur + d''infos pour accéder à l''arrêté et à la cartographie communale pour vérifier le positionnement de la parcelle)'::text AS libelle,
@@ -5107,8 +5116,8 @@ AS
                     'La parcelle est comprise dans une zone d''activité économique : '::text || o.site_nom::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    x_apps.xapps_geo_v_zae o
-                  WHERE st_intersects(p."GEOM", o.geom1) IS TRUE
+                    m_activite_eco.geo_eco_site o
+                  WHERE st_intersects(p."GEOM", o.geom1) IS TRUE AND o.typsite::text = '10'::text AND o.epci::text = 'arc'::text
                 ), r_dup_csne AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     'La parcelle est impactée dans la DUP du Canal Seine Nord Europe : '::text AS libelle,
@@ -5123,6 +5132,13 @@ AS
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_amenagement.geo_csne_mageo_dup_s d
                   WHERE st_intersects(p."GEOM", d.geom) IS TRUE
+                ),  r_merule AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    libelle,
+                    urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_urbanisme_reg.geo_zonage_lutte_merule m 
+                  WHERE st_intersects(p."GEOM", m.geom1) IS TRUE
                 )
          SELECT r_natura2000_zps.idu,
             r_natura2000_zps.libelle,
@@ -5258,16 +5274,21 @@ AS
             r_coulee_boue.libelle,
             r_coulee_boue.urlfic
            FROM r_coulee_boue
-		   UNION ALL
+        UNION ALL
          SELECT r_dup_csne.idu,
             r_dup_csne.libelle,
             r_dup_csne.urlfic
            FROM r_dup_csne
-		   UNION ALL
+        UNION ALL
          SELECT r_dup_mageo.idu,
             r_dup_mageo.libelle,
             r_dup_mageo.urlfic
            FROM r_dup_mageo
+       UNION ALL
+         SELECT r_merule.idu,
+            r_merule.libelle,
+            r_merule.urlfic
+           FROM r_merule           
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
@@ -5276,13 +5297,7 @@ AS
    FROM r_p
 WITH DATA;
 
-ALTER TABLE x_apps.xapps_an_vmr_p_information_horsplu
-    OWNER TO create_sig;
-
-COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
-    IS 'Vue matérialisée formatant les données les données informations jugées utiles hors données intégrées dans les données de PLU (cette vue est fusionnée avec xapps_an_vmr_p_information_plu pour être lisible dans la fiche de renseignement d''urbanisme de GEO).
-ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB/00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
-
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
 
 -- Materialized View: x_apps.xapps_an_vmr_p_information
 
