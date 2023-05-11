@@ -5061,6 +5061,16 @@ AS WITH r_p AS (
                     m_urbanisme_reg.geo_proced z,
                     m_urbanisme_reg.lt_proc_typ zl
                   WHERE z.z_proced::text = zl.code::text AND z.z_proced::text <> '10'::text AND st_intersects(p."GEOM", z.geom1)
+                  union all
+                  -- ici gestion des ZAC non encore intégrée dans les PLU
+                  SELECT DISTINCT p."IDU" AS idu,
+					'Zone d''aménagement concerté : '::text || z.nom::text AS libelle,
+                    ''::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_urbanisme_reg.geo_proced z,
+                    m_urbanisme_reg.lt_proc_typ zl
+                  WHERE z.z_proced::text = zl.code::text AND z.z_proced::text = '10'::text and z.idproc = 'PR34' AND st_intersects(p."GEOM", z.geom1) 
+                
                 ), r_zarcheo AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     ('La commune dispose d'' un zonage archéologique'::text || chr(10)) || '(cliquez sur + d''infos pour accéder à l''arrêté et à la cartographie communale pour vérifier le positionnement de la parcelle)'::text AS libelle,
@@ -5132,12 +5142,12 @@ AS WITH r_p AS (
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_amenagement.geo_csne_mageo_dup_s d
                   WHERE st_intersects(p."GEOM", d.geom) IS TRUE
-                ),  r_merule AS (
+                ), r_merule AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    libelle,
-                    urlfic
+                    m.libelle,
+                    m.urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_urbanisme_reg.geo_zonage_lutte_merule m 
+                    m_urbanisme_reg.geo_zonage_lutte_merule m
                   WHERE st_intersects(p."GEOM", m.geom1) IS TRUE
                 )
          SELECT r_natura2000_zps.idu,
@@ -5284,11 +5294,11 @@ AS WITH r_p AS (
             r_dup_mageo.libelle,
             r_dup_mageo.urlfic
            FROM r_dup_mageo
-       UNION ALL
+        UNION ALL
          SELECT r_merule.idu,
             r_merule.libelle,
             r_merule.urlfic
-           FROM r_merule           
+           FROM r_merule
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
@@ -5298,40 +5308,6 @@ AS WITH r_p AS (
 WITH DATA;
 
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
-
--- Materialized View: x_apps.xapps_an_vmr_p_information
-
--- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information;
-
-CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information AS 
- WITH r_t AS (
-         SELECT xapps_an_vmr_p_information_plu.idu,
-            xapps_an_vmr_p_information_plu.libelle,
-            xapps_an_vmr_p_information_plu.urlfic
-           FROM x_apps.xapps_an_vmr_p_information_plu
-          WHERE xapps_an_vmr_p_information_plu.libelle <> ''::text AND xapps_an_vmr_p_information_plu.libelle !~~ '%taxe%'::text AND xapps_an_vmr_p_information_plu.libelle !~~ '%Zone humide%'::text
-        UNION ALL
-         SELECT xapps_an_vmr_p_information_horsplu.idu,
-            xapps_an_vmr_p_information_horsplu.libelle,
-            xapps_an_vmr_p_information_horsplu.urlfic
-           FROM x_apps.xapps_an_vmr_p_information_horsplu
-          WHERE xapps_an_vmr_p_information_horsplu.libelle <> ''::text
-        )
- SELECT row_number() OVER () AS gid,
-    r_t.idu,
-    r_t.libelle,
-    r_t.urlfic
-   FROM r_t
-WITH DATA;
-
-ALTER TABLE x_apps.xapps_an_vmr_p_information
-  OWNER TO sig_create;
-GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO sig_create;
-GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information TO create_sig;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps.xapps_an_vmr_p_information TO edit_sig;
-GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information TO read_sig;
-COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information
-  IS 'Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (assemblage des vues infos PLU et hors PLU)';
 
 
 -- View: x_apps.xapps_an_vmr_p_information_dpu
