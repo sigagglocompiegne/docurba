@@ -4899,6 +4899,7 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
 
 
+
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
 AS WITH r_p AS (
@@ -5064,14 +5065,16 @@ AS WITH r_p AS (
                     m_urbanisme_reg.geo_proced z,
                     m_urbanisme_reg.lt_proc_typ zl
                   WHERE z.z_proced::text = zl.code::text AND z.z_proced::text <> '10'::text AND st_intersects(p."GEOM", z.geom1)
-                UNION ALL
-                 SELECT DISTINCT p."IDU" AS idu,
-                    'Zone d''aménagement concerté : '::text || z.nom::text AS libelle,
+                  union all
+                  -- ici gestion des ZAC non encore intégrée dans les PLU
+                  SELECT DISTINCT p."IDU" AS idu,
+					'Zone d''aménagement concerté : '::text || z.nom::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_proced z,
                     m_urbanisme_reg.lt_proc_typ zl
-                  WHERE z.z_proced::text = zl.code::text AND z.z_proced::text = '10'::text AND z.idproc::text = 'PR34'::text AND st_intersects(p."GEOM", z.geom1)
+                  WHERE z.z_proced::text = zl.code::text AND z.z_proced::text = '10'::text and z.idproc = 'PR34' AND st_intersects(p."GEOM", z.geom1) 
+                
                 ), r_zarcheo AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     ('La commune dispose d'' un zonage archéologique'::text || chr(10)) || '(cliquez sur + d''infos pour accéder à l''arrêté et à la cartographie communale pour vérifier le positionnement de la parcelle)'::text AS libelle,
@@ -5152,19 +5155,10 @@ AS WITH r_p AS (
                   WHERE st_intersects(p."GEOM", m.geom1) IS TRUE
                 ), r_saisine_archeo AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    (((('Modalités de saisine du préfet en matière archéologique préventive : '::text ||
-                        CASE
-                            WHEN m.art1 IS NOT NULL THEN m.art1
-                            ELSE ''::character varying
-                        END::text) || chr(10)) ||
-                        CASE
-                            WHEN m.art2 IS NOT NULL THEN m.art2
-                            ELSE ''::character varying
-                        END::text) || chr(10)) ||
-                        CASE
-                            WHEN m.art3 IS NOT NULL THEN m.art3
-                            ELSE ''::character varying
-                        END::text AS libelle,
+                    'Modalités de saisine du préfet en matière archéologique préventive : <br>' || 
+                    CASE WHEN m.art1 is not null then '&#8226; ' || art1 ELSE '' END || '<br>' ||
+                    CASE WHEN m.art2 is not null then '&#8226; ' || art2 ELSE '' END || '<br>' ||
+                    CASE WHEN m.art3 is not null then '&#8226; ' || art3 ELSE '' END as libelle,
                     m.urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_archeo_saisine m
@@ -5323,7 +5317,7 @@ AS WITH r_p AS (
          SELECT r_saisine_archeo.idu,
             r_saisine_archeo.libelle,
             r_saisine_archeo.urlfic
-           FROM r_saisine_archeo
+           FROM r_saisine_archeo           
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
@@ -5332,8 +5326,11 @@ AS WITH r_p AS (
    FROM r_p
 WITH DATA;
 
-COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
+ALTER TABLE x_apps.xapps_an_vmr_p_information_horsplu 
+    OWNER TO sig_create;
 
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu 
+    IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
 
 -- View: x_apps.xapps_an_vmr_p_information_dpu
 
