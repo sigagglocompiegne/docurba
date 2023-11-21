@@ -54,7 +54,8 @@
 -- 2022/04/15 : GB / Intégration de la gestion des pièces écrites dans la base de données (option du modèle CNIG 2017d)
 -- 2022/05/06 : GB / Correction mineure sur la vue matérialisée de remontée des IJU
 -- 2023/05/10 : GB / Modification de la vue matérilaisée des informations jugées utiles hors PLU (insertion mérule)
--- 2023/05/101 : GB / Modification de la vue matérilaisée des informations jugées utiles hors PLU (insertion ZAC hors PLU)
+-- 2023/05/10 : GB / Modification de la vue matérilaisée des informations jugées utiles hors PLU (insertion ZAC hors PLU)
+-- 2023/11/21 : GB / Modification de la vue matérilaisée des informations jugées utiles hors PLU (insertion saisine préfet pour archéo préventive)
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
@@ -4897,6 +4898,7 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu
 
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
 
+
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
 AS WITH r_p AS (
@@ -5062,16 +5064,14 @@ AS WITH r_p AS (
                     m_urbanisme_reg.geo_proced z,
                     m_urbanisme_reg.lt_proc_typ zl
                   WHERE z.z_proced::text = zl.code::text AND z.z_proced::text <> '10'::text AND st_intersects(p."GEOM", z.geom1)
-                  union all
-                  -- ici gestion des ZAC non encore intégrée dans les PLU
-                  SELECT DISTINCT p."IDU" AS idu,
-					'Zone d''aménagement concerté : '::text || z.nom::text AS libelle,
+                UNION ALL
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'Zone d''aménagement concerté : '::text || z.nom::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_proced z,
                     m_urbanisme_reg.lt_proc_typ zl
-                  WHERE z.z_proced::text = zl.code::text AND z.z_proced::text = '10'::text and z.idproc = 'PR34' AND st_intersects(p."GEOM", z.geom1) 
-                
+                  WHERE z.z_proced::text = zl.code::text AND z.z_proced::text = '10'::text AND z.idproc::text = 'PR34'::text AND st_intersects(p."GEOM", z.geom1)
                 ), r_zarcheo AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     ('La commune dispose d'' un zonage archéologique'::text || chr(10)) || '(cliquez sur + d''infos pour accéder à l''arrêté et à la cartographie communale pour vérifier le positionnement de la parcelle)'::text AS libelle,
@@ -5149,6 +5149,25 @@ AS WITH r_p AS (
                     m.urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_zonage_lutte_merule m
+                  WHERE st_intersects(p."GEOM", m.geom1) IS TRUE
+                ), r_saisine_archeo AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    (((('Modalités de saisine du préfet en matière archéologique préventive : '::text ||
+                        CASE
+                            WHEN m.art1 IS NOT NULL THEN m.art1
+                            ELSE ''::character varying
+                        END::text) || chr(10)) ||
+                        CASE
+                            WHEN m.art2 IS NOT NULL THEN m.art2
+                            ELSE ''::character varying
+                        END::text) || chr(10)) ||
+                        CASE
+                            WHEN m.art3 IS NOT NULL THEN m.art3
+                            ELSE ''::character varying
+                        END::text AS libelle,
+                    m.urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_urbanisme_reg.geo_archeo_saisine m
                   WHERE st_intersects(p."GEOM", m.geom1) IS TRUE
                 )
          SELECT r_natura2000_zps.idu,
@@ -5300,6 +5319,11 @@ AS WITH r_p AS (
             r_merule.libelle,
             r_merule.urlfic
            FROM r_merule
+        UNION ALL
+         SELECT r_saisine_archeo.idu,
+            r_saisine_archeo.libelle,
+            r_saisine_archeo.urlfic
+           FROM r_saisine_archeo
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
