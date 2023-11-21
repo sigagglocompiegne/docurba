@@ -5156,8 +5156,8 @@ AS WITH r_p AS (
                 ), r_saisine_archeo AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     'Modalités de saisine du préfet en matière archéologique préventive : <br>' || 
-                    CASE WHEN m.art1 is not null then '&#8226; ' || art1 ELSE '' END || '<br>' ||
-                    CASE WHEN m.art2 is not null then '&#8226; ' || art2 ELSE '' END || '<br>' ||
+                    CASE WHEN m.art1 is not null then '&#8226; ' || art1 || '<br>' ELSE '' END  ||
+                    CASE WHEN m.art2 is not null then '&#8226; ' || art2 || '<br>' ELSE '' END  ||
                     CASE WHEN m.art3 is not null then '&#8226; ' || art3 ELSE '' END as libelle,
                     m.urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
