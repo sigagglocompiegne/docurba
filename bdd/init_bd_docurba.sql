@@ -4811,8 +4811,9 @@ COMMENT ON VIEW m_urbanisme_doc.geo_v_urbreg_ads_commune
 
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu;
 
-CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu AS 
- WITH r_p AS (
+CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu
+TABLESPACE pg_default
+AS WITH r_p AS (
          WITH r_pct AS (
                  SELECT DISTINCT "PARCELLE"."IDU" AS idu,
                     ((((geo_p_info_pct.libelle::text ||
@@ -4825,15 +4826,15 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu AS
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_pct.l_gen::text) <> 0 THEN (chr(10) || ' Générateur du recul : '::text) || geo_p_info_pct.l_gen::text
+                            WHEN length(geo_p_info_pct.l_gen::text) <> 0 THEN (chr(10) || ' Générateur : '::text) || geo_p_info_pct.l_gen::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_pct.l_valrecul::text) <> 0 THEN (chr(10) || ' Valeur du recul : '::text) || geo_p_info_pct.l_valrecul::text
+                            WHEN length(geo_p_info_pct.l_valrecul::text) <> 0 THEN (chr(10) || ' Emprise : '::text) || geo_p_info_pct.l_valrecul::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_pct.l_typrecul::text) <> 0 THEN (chr(10) || ' Type du recul : '::text) || geo_p_info_pct.l_typrecul::text
+                            WHEN length(geo_p_info_pct.l_typrecul::text) <> 0 THEN (chr(10) || ' Type : '::text) || geo_p_info_pct.l_typrecul::text
                             ELSE ''::text
                         END AS libelle,
                     geo_p_info_pct.urlfic
@@ -4852,21 +4853,21 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu AS
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_surf.l_gen::text) <> 0 THEN (chr(10) || ' Générateur du recul : '::text) || geo_p_info_surf.l_gen::text
+                            WHEN length(geo_p_info_surf.l_gen::text) <> 0 THEN (chr(10) || ' Générateur : '::text) || geo_p_info_surf.l_gen::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_surf.l_valrecul::text) <> 0 THEN (chr(10) || ' Valeur du recul : '::text) || geo_p_info_surf.l_valrecul::text
+                            WHEN length(geo_p_info_surf.l_valrecul::text) <> 0 THEN (chr(10) || ' Emprise : '::text) || geo_p_info_surf.l_valrecul::text
                             ELSE ''::text
                         END) ||
                         CASE
-                            WHEN length(geo_p_info_surf.l_typrecul::text) <> 0 THEN (chr(10) || ' Type du recul : '::text) || geo_p_info_surf.l_typrecul::text
+                            WHEN length(geo_p_info_surf.l_typrecul::text) <> 0 THEN (chr(10) || ' Type : '::text) || geo_p_info_surf.l_typrecul::text
                             ELSE ''::text
                         END AS libelle,
                     geo_p_info_surf.urlfic
                    FROM r_bg_edigeo."PARCELLE",
                     m_urbanisme_doc.geo_p_info_surf
-                  WHERE geo_p_info_surf.typeinf::text <> '04'::text AND geo_p_info_surf.typeinf::text <> '05'::text AND st_intersects("PARCELLE"."GEOM", geo_p_info_surf.geom1)
+                  WHERE geo_p_info_surf.typeinf::text <> '04'::text AND geo_p_info_surf.typeinf::text <> '32'::text AND geo_p_info_surf.typeinf::text <> '05'::text AND geo_p_info_surf.libelle::text <> 'Zonage d''assainissement pluviale'::text AND st_intersects("PARCELLE"."GEOM", geo_p_info_surf.geom1)
                 )
          SELECT r_pct.idu,
             r_pct.libelle,
@@ -4885,14 +4886,8 @@ CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu AS
    FROM r_p
 WITH DATA;
 
-ALTER TABLE x_apps.xapps_an_vmr_p_information_plu
-  OWNER TO sig_create;
-GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_plu TO sig_create;
-GRANT ALL ON TABLE x_apps.xapps_an_vmr_p_information_plu TO create_sig;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE x_apps.xapps_an_vmr_p_information_plu TO edit_sig;
-GRANT SELECT ON TABLE x_apps.xapps_an_vmr_p_information_plu TO read_sig;
-COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu
-  IS 'Vue matérialisée formatant les données les données informations jugées utiles provenant des données intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos hors PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu IS 'Vue matérialisée formatant les données les données informations jugées utiles provenant des données intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos hors PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
+
 
 -- View: x_apps.xapps_an_vmr_p_information_horsplu
 
@@ -5065,16 +5060,14 @@ AS WITH r_p AS (
                     m_urbanisme_reg.geo_proced z,
                     m_urbanisme_reg.lt_proc_typ zl
                   WHERE z.z_proced::text = zl.code::text AND z.z_proced::text <> '10'::text AND st_intersects(p."GEOM", z.geom1)
-                  union all
-                  -- ici gestion des ZAC non encore intégrée dans les PLU
-                  SELECT DISTINCT p."IDU" AS idu,
-					'Zone d''aménagement concerté : '::text || z.nom::text AS libelle,
+                UNION ALL
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'Zone d''aménagement concerté : '::text || z.nom::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_proced z,
                     m_urbanisme_reg.lt_proc_typ zl
-                  WHERE z.z_proced::text = zl.code::text AND z.z_proced::text = '10'::text and z.idproc = 'PR34' AND st_intersects(p."GEOM", z.geom1) 
-                
+                  WHERE z.z_proced::text = zl.code::text AND z.z_proced::text = '10'::text AND z.idproc::text = 'PR34'::text AND st_intersects(p."GEOM", z.geom1)
                 ), r_zarcheo AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     ('La commune dispose d'' un zonage archéologique'::text || chr(10)) || '(cliquez sur + d''infos pour accéder à l''arrêté et à la cartographie communale pour vérifier le positionnement de la parcelle)'::text AS libelle,
@@ -5153,16 +5146,58 @@ AS WITH r_p AS (
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_zonage_lutte_merule m
                   WHERE st_intersects(p."GEOM", m.geom1) IS TRUE
+                ), r_peri_500_gare_statio AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    ('La parcelle est comprise dans le périmètre de 500m de la gare de '::text || m.nom_gare::text) || ' et peut-être concernée par l''application de l''article L151-36 du code de l''urbanisme par la non-obligation de réaliser d''aires de stationnement.'::text AS libelle,
+                    'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000037670829'::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_urbanisme_reg.geo_gare_peri_statio m
+                  WHERE st_intersects(p."GEOM", m.geom1) IS TRUE
                 ), r_saisine_archeo AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    'Modalités de saisine du préfet en matière archéologique préventive : <br>' || 
-                    CASE WHEN m.art1 is not null then '&#8226; ' || art1 || '<br>' ELSE '' END  ||
-                    CASE WHEN m.art2 is not null then '&#8226; ' || art2 || '<br>' ELSE '' END  ||
-                    CASE WHEN m.art3 is not null then '&#8226; ' || art3 ELSE '' END as libelle,
+                    (('Modalités de saisine du préfet en matière archéologique préventive : <br>'::text ||
+                        CASE
+                            WHEN m.art1 IS NOT NULL THEN ('&#8226; '::text || m.art1::text) || '<br>'::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN m.art2 IS NOT NULL THEN ('&#8226; '::text || m.art2::text) || '<br>'::text
+                            ELSE ''::text
+                        END) ||
+                        CASE
+                            WHEN m.art3 IS NOT NULL THEN '&#8226; '::text || m.art3::text
+                            ELSE ''::text
+                        END AS libelle,
                     m.urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_archeo_saisine m
                   WHERE st_intersects(p."GEOM", m.geom1) IS TRUE
+                ), r_zonage_pluv AS (
+                with req_zonage as 
+                (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    ('Zonage d''assainissement pluvial : ' || string_agg(zp.bv,', ')::text) ::text AS libelle
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    (select gid, bv, (st_dump(geom)).geom as geom from m_urbanisme_reg.geo_plui_zonagepluvial) zp
+                  WHERE st_intersects(p."GEOM", zp.geom) IS true and  "CCOCOM" in ('60023','60067','60068','60070','60151','60156','60159',
+                  '60323','60325','60326','60337','60338','60382','60402','60447','60578','60579','60597','60600','60665','60667','60674')
+                  group by p."IDU"
+                ), req_alea as 
+                (
+                  SELECT DISTINCT p."IDU" AS idu,
+                    ('Zonage d''aléa ruissellement : '::text || string_agg(ap.alea,' et ')::text) ::text AS libelle
+                   FROM r_bg_edigeo."PARCELLE" p,
+	                   (select gid, alea, (st_dump(geom)).geom as geom from m_urbanisme_reg.geo_plui_zonagepluvial_alea_v2) ap
+                  WHERE st_intersects(p."GEOM", ap.geom) IS true and  "CCOCOM" in ('60023','60067','60068','60070','60151','60156','60159',
+                  '60323','60325','60326','60337','60338','60382','60402','60447','60578','60579','60597','60600','60665','60667','60674')
+                  group by p."IDU"	
+                )
+                select
+                 z.idu,
+                 z.libelle || case when a.libelle is not null then '<br>' || a.libelle else '' end as libelle,
+                 ''::text as urlfic
+                from 
+                	req_zonage z left join req_alea a on z.idu = a.idu
                 )
          SELECT r_natura2000_zps.idu,
             r_natura2000_zps.libelle,
@@ -5317,7 +5352,17 @@ AS WITH r_p AS (
          SELECT r_saisine_archeo.idu,
             r_saisine_archeo.libelle,
             r_saisine_archeo.urlfic
-           FROM r_saisine_archeo           
+           FROM r_saisine_archeo
+        UNION ALL
+         SELECT r_peri_500_gare_statio.idu,
+            r_peri_500_gare_statio.libelle,
+            r_peri_500_gare_statio.urlfic
+           FROM r_peri_500_gare_statio
+        UNION ALL
+         SELECT r_zonage_pluv.idu,
+            r_zonage_pluv.libelle,
+            r_zonage_pluv.urlfic
+           FROM r_zonage_pluv
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
@@ -5326,11 +5371,8 @@ AS WITH r_p AS (
    FROM r_p
 WITH DATA;
 
-ALTER TABLE x_apps.xapps_an_vmr_p_information_horsplu 
-    OWNER TO sig_create;
+COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
 
-COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu 
-    IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
 
 -- View: x_apps.xapps_an_vmr_p_information_dpu
 
