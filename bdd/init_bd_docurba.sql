@@ -56,7 +56,7 @@
 -- 2023/05/10 : GB / Modification de la vue matériliasée des informations jugées utiles hors PLU (insertion mérule)
 -- 2023/05/10 : GB / Modification de la vue matériliasée des informations jugées utiles hors PLU (insertion ZAC hors PLU)
 -- 2023/11/21 : GB / Modification de la vue matériliasée des informations jugées utiles hors PLU (insertion saisine préfet pour archéo préventive)
--- 2024/06/05 : GB / Modification de la vue matériliasée des informations jugées utiles hors PLU et PLU (insertion zonage d'assainissement pluvial et aléa de ruissellement)
+-- 2024/06/05 : GB / Modification de la vue matériliasée des informations jugées utiles hors PLU et PLU (péri 500m gare, insertion zonage d'assainissement pluvial et aléa de ruissellement + fibre RTE)
 
 -- ####################################################################################################################################################
 -- ###                                                                                                                                              ###
