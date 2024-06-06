@@ -41,10 +41,10 @@
 -- 2020/11/06 : GB / Modification éditoriale dans la vue matérialisée information hors PLU concernant les réseaux
 -- 2021/04/09 : GB / Intégration version mineur Standard 2017d (ajout de 5 prescriptions)
 -- 2021/04/12 : GB / Intégration d'une classe d'objets (an_doc_urba_tpe) pour gérer la correspondance des pièces écrites (Standard 2017d)
--- 2021/04/22 : GB / Intégration Canalisation réseaux humides sur parcelle privé dans la vue xapps_an_vmr_p_information_horsplu pour la remontée en tant qu'informations jugées utiles
+-- 2021/04/22 : GB / Intégration Canalisation réseaux humides sur parcelle privé dans la vue  pour la remontée en tant qu'informations jugées utiles
 -- 2021/04/27 : GB / Intégration Canalisation réseaux humides sur parcelle privé dans la vue xappspublic_an_vmr_nru pour la remontée en tant qu'informations jugées utiles ou SUP pour le gd public
 -- 2021/06/28 : GB / Adaptation vue des informations hors PLU pour intégrer le nom des PA
--- 2021/07/09 : GB / Intégration de la ramontée des parcelles dans le périmètree OPAH-RU dans la vue xapps_an_vmr_p_information_horsplu
+-- 2021/07/09 : GB / Intégration de la ramontée des parcelles dans le périmètree OPAH-RU dans la vue 
 -- 2021/08/11 : GB / Mise à jour des tables réseaux électriques gérant maintenant plusieurs exploitant dans la vue xapps_an_vmr_information_horsplu
 -- 2022/01/13 : GB / Mise à jour vue grand public, et informations hors PLU intégrant l'aléa q100 à la parcelle
 -- 2022/01/22 : GB / Intégration vue matérialisée pour affecter la parcelle à une planche graphique du PLUih + accès aux planches des communes hors PLU
@@ -4894,8 +4894,6 @@ COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu IS 'Vue maté
 
 -- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
 
-
-
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
 AS WITH r_p AS (
@@ -5076,6 +5074,14 @@ AS WITH r_p AS (
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_zonage_archeologique za
                   WHERE "left"(p."IDU"::text, 5) = za.insee::text
+                ), r_fibre_rte AS (
+                 SELECT DISTINCT p."IDU" AS idu,
+                    'La parcelle est traversée ou à proximité immédiate du réseau fibre RTE reliant le poste de Clairoix au centre de commande de Coudun '::text AS libelle,
+                    ''::text AS urlfic
+                   FROM r_bg_edigeo."PARCELLE" p,
+                    m_reseau_sec.geo_ftth_cable ftth
+                     JOIN m_reseau_sec.an_ftth_objet a ON a.idftth = ftth.idftth
+                  WHERE a.gexploit::text = 'RTE'::text AND st_intersects(p."GEOM", ftth.geom)
                 ), r_bta AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     ('La parcelle est traversée ou à proximité immédiate du Réseau '::text || bta.exploitant::text) || ' Basse Tension en ligne aérienne.'::text AS libelle,
@@ -5174,31 +5180,36 @@ AS WITH r_p AS (
                     m_urbanisme_reg.geo_archeo_saisine m
                   WHERE st_intersects(p."GEOM", m.geom1) IS TRUE
                 ), r_zonage_pluv AS (
-                with req_zonage as 
-                (
-                 SELECT DISTINCT p."IDU" AS idu,
-                    ('Zonage d''assainissement pluvial : ' || string_agg(zp.bv,', ')::text) ::text AS libelle
-                   FROM r_bg_edigeo."PARCELLE" p,
-                    (select gid, bv, (st_dump(geom)).geom as geom from m_urbanisme_reg.geo_plui_zonagepluvial) zp
-                  WHERE st_intersects(p."GEOM", zp.geom) IS true and  "CCOCOM" in ('60023','60067','60068','60070','60151','60156','60159',
-                  '60323','60325','60326','60337','60338','60382','60402','60447','60578','60579','60597','60600','60665','60667','60674')
-                  group by p."IDU"
-                ), req_alea as 
-                (
-                  SELECT DISTINCT p."IDU" AS idu,
-                    ('Zonage d''aléa ruissellement : '::text || string_agg(ap.alea,' et ')::text) ::text AS libelle
-                   FROM r_bg_edigeo."PARCELLE" p,
-	                   (select gid, alea, (st_dump(geom)).geom as geom from m_urbanisme_reg.geo_plui_zonagepluvial_alea_v2) ap
-                  WHERE st_intersects(p."GEOM", ap.geom) IS true and  "CCOCOM" in ('60023','60067','60068','60070','60151','60156','60159',
-                  '60323','60325','60326','60337','60338','60382','60402','60447','60578','60579','60597','60600','60665','60667','60674')
-                  group by p."IDU"	
-                )
-                select
-                 z.idu,
-                 z.libelle || case when a.libelle is not null then '<br>' || a.libelle else '' end as libelle,
-                 ''::text as urlfic
-                from 
-                	req_zonage z left join req_alea a on z.idu = a.idu
+                 WITH req_zonage AS (
+                         SELECT DISTINCT p."IDU" AS idu,
+                            'Zonage d''assainissement pluvial : '::text || string_agg(zp.bv::text, ', '::text) AS libelle
+                           FROM r_bg_edigeo."PARCELLE" p,
+                            ( SELECT geo_plui_zonagepluvial.gid,
+                                    geo_plui_zonagepluvial.bv,
+                                    (st_dump(geo_plui_zonagepluvial.geom)).geom AS geom
+                                   FROM m_urbanisme_reg.geo_plui_zonagepluvial) zp
+                          WHERE st_intersects(p."GEOM", zp.geom) IS TRUE AND (p."CCOCOM"::text = ANY (ARRAY['60023'::character varying::text, '60067'::character varying::text, '60068'::character varying::text, '60070'::character varying::text, '60151'::character varying::text, '60156'::character varying::text, '60159'::character varying::text, '60323'::character varying::text, '60325'::character varying::text, '60326'::character varying::text, '60337'::character varying::text, '60338'::character varying::text, '60382'::character varying::text, '60402'::character varying::text, '60447'::character varying::text, '60578'::character varying::text, '60579'::character varying::text, '60597'::character varying::text, '60600'::character varying::text, '60665'::character varying::text, '60667'::character varying::text, '60674'::character varying::text]))
+                          GROUP BY p."IDU"
+                        ), req_alea AS (
+                         SELECT DISTINCT p."IDU" AS idu,
+                            'Zonage d''aléa ruissellement : '::text || string_agg(ap.alea::text, ' et '::text) AS libelle
+                           FROM r_bg_edigeo."PARCELLE" p,
+                            ( SELECT geo_plui_zonagepluvial_alea_v2.gid,
+                                    geo_plui_zonagepluvial_alea_v2.alea,
+                                    (st_dump(geo_plui_zonagepluvial_alea_v2.geom)).geom AS geom
+                                   FROM m_urbanisme_reg.geo_plui_zonagepluvial_alea_v2) ap
+                          WHERE st_intersects(p."GEOM", ap.geom) IS TRUE AND (p."CCOCOM"::text = ANY (ARRAY['60023'::character varying::text, '60067'::character varying::text, '60068'::character varying::text, '60070'::character varying::text, '60151'::character varying::text, '60156'::character varying::text, '60159'::character varying::text, '60323'::character varying::text, '60325'::character varying::text, '60326'::character varying::text, '60337'::character varying::text, '60338'::character varying::text, '60382'::character varying::text, '60402'::character varying::text, '60447'::character varying::text, '60578'::character varying::text, '60579'::character varying::text, '60597'::character varying::text, '60600'::character varying::text, '60665'::character varying::text, '60667'::character varying::text, '60674'::character varying::text]))
+                          GROUP BY p."IDU"
+                        )
+                 SELECT z.idu,
+                    z.libelle ||
+                        CASE
+                            WHEN a.libelle IS NOT NULL THEN '<br>'::text || a.libelle
+                            ELSE ''::text
+                        END AS libelle,
+                    ''::text AS urlfic
+                   FROM req_zonage z
+                     LEFT JOIN req_alea a ON z.idu::text = a.idu::text
                 )
          SELECT r_natura2000_zps.idu,
             r_natura2000_zps.libelle,
@@ -5364,6 +5375,11 @@ AS WITH r_p AS (
             r_zonage_pluv.libelle,
             r_zonage_pluv.urlfic
            FROM r_zonage_pluv
+        UNION ALL
+         SELECT r_fibre_rte.idu,
+            r_fibre_rte.libelle,
+            r_fibre_rte.urlfic
+           FROM r_fibre_rte
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
@@ -5373,6 +5389,8 @@ AS WITH r_p AS (
 WITH DATA;
 
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
+
+
 
 
 -- View: x_apps.xapps_an_vmr_p_information_dpu
