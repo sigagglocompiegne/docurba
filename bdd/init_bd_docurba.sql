@@ -6517,10 +6517,11 @@ COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_geo_vmr_fichegeo_plui_ru
 
 --DROP MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru;
 
+-- x_apps_public.xappspublic_an_vmr_nru source
+
 CREATE MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru
 TABLESPACE pg_default
-AS
- WITH req_princ AS (
+AS WITH req_princ AS (
          SELECT ru.idu,
             upper(ru.commune::text) AS nru_commune,
             ru.section AS nru_section,
@@ -6584,7 +6585,8 @@ AS
           ORDER BY ('60'::text || p.idu)
         ), req_pm1 AS (
          SELECT DISTINCT sup.idu,
-            ((('PM1 : Plan de Prévention des risques d''inondation, zone(s) '::text || string_agg(sup.l_zone::text, ' et '::text)) || ' <a href="'::text) || sup1.l_url::text) || '" target="_blank"><b>Règlement</b></a>'::text AS pm1
+            'PM1 : Plan de Prévention des risques d''inondation, zone(s) '::text || string_agg(sup.l_zone::text, ' et '::text) 
+            || '<br>' || sup1.l_url AS pm1
            FROM r_cadastre.geo_parcelle p,
             m_urbanisme_reg.an_sup_geo_pm1 sup,
             m_urbanisme_reg.an_sup_geo sup1
@@ -6949,9 +6951,7 @@ AS
   GROUP BY req_q100.libelle, req_princ.idu, req_princ.nru_commune, req_princ.nru_section, req_princ.nru_numpar, req_princ.nur_supf, req_princ.nur_regzone, req_princ.nru_urldgen, req_princ.nru_urlann, req_princ.nru_urllex, req_oap.oap, req_dpu.dpu, req_a5.a5, req_ac1.ac1, req_ac4.ac4, req_pm1.pm1, req_a4.a4, req_ac2.ac2, req_el3.el3, req_as1.as1, req_el7.el7, req_i3.i3, req_i4.i4, req_pt1.pt1, req_pt2.pt2, req_pt2lh.pt2lh, req_t1.t1, req_t4t5.t5, req_supcom.sup_com, req_psc_pct.psc_pct, req_psc_lin.psc_lin, req_psc_lin_cv_01.psc_lin, req_psc_lin_cv_03.psc_lin, req_psc_surf.psc_surf, req_zac.zac, req_infosurf.isurf, req_archeo.archeo, req_txamt.txamt
 WITH DATA;
 
-
-COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru
-    IS 'Vue matérialisée contenant les informations pré-formatés du PLUi communes à toutes les communes pour la note de renseignements d''urbanisme';
+COMMENT ON MATERIALIZED VIEW x_apps_public.xappspublic_an_vmr_nru IS 'Vue matérialisée contenant les informations pré-formatés du PLUi communes à toutes les communes pour la note de renseignements d''urbanisme';
 
 
 
