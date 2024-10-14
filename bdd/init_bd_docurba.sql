@@ -4890,9 +4890,7 @@ WITH DATA;
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_plu IS 'Vue matérialisée formatant les données les données informations jugées utiles provenant des données intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos hors PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
 
 
--- View: x_apps.xapps_an_vmr_p_information_horsplu
-
--- DROP MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu;
+-- x_apps.xapps_an_vmr_p_information_horsplu source
 
 CREATE MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
@@ -5045,18 +5043,7 @@ AS WITH r_p AS (
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_reseau_humide.an_eu_zonage_geo z
-                  WHERE p."IDU"::text = z.idu::text AND "left"(p."IDU"::text, 5) <> '60023'::text 
-                  AND "left"(p."IDU"::text, 5) <> '60067'::text AND "left"(p."IDU"::text, 5) <> '60068'::text 
-                  AND "left"(p."IDU"::text, 5) <> '60070'::text AND "left"(p."IDU"::text, 5) <> '60151'::text 
-                  AND "left"(p."IDU"::text, 5) <> '60156'::text AND "left"(p."IDU"::text, 5) <> '60159'::text 
-                  AND "left"(p."IDU"::text, 5) <> '60323'::text AND "left"(p."IDU"::text, 5) <> '60325'::text 
-                  AND "left"(p."IDU"::text, 5) <> '60326'::text AND "left"(p."IDU"::text, 5) <> '60337'::text 
-                  AND "left"(p."IDU"::text, 5) <> '60338'::text AND "left"(p."IDU"::text, 5) <> '60382'::text 
-                  AND "left"(p."IDU"::text, 5) <> '60402'::text AND "left"(p."IDU"::text, 5) <> '60447'::text 
-                  AND "left"(p."IDU"::text, 5) <> '60578'::text AND "left"(p."IDU"::text, 5) <> '60579'::text 
-                  AND "left"(p."IDU"::text, 5) <> '60597'::text AND "left"(p."IDU"::text, 5) <> '60600'::text 
-                  AND "left"(p."IDU"::text, 5) <> '60665'::text AND "left"(p."IDU"::text, 5) <> '60667'::text 
-                  AND "left"(p."IDU"::text, 5) <> '60674'::text AND "left"(p."IDU"::text, 5) <> '60569'::text
+                  WHERE p."IDU"::text = z.idu::text AND "left"(p."IDU"::text, 5) <> '60023'::text AND "left"(p."IDU"::text, 5) <> '60067'::text AND "left"(p."IDU"::text, 5) <> '60068'::text AND "left"(p."IDU"::text, 5) <> '60070'::text AND "left"(p."IDU"::text, 5) <> '60151'::text AND "left"(p."IDU"::text, 5) <> '60156'::text AND "left"(p."IDU"::text, 5) <> '60159'::text AND "left"(p."IDU"::text, 5) <> '60323'::text AND "left"(p."IDU"::text, 5) <> '60325'::text AND "left"(p."IDU"::text, 5) <> '60326'::text AND "left"(p."IDU"::text, 5) <> '60337'::text AND "left"(p."IDU"::text, 5) <> '60338'::text AND "left"(p."IDU"::text, 5) <> '60382'::text AND "left"(p."IDU"::text, 5) <> '60402'::text AND "left"(p."IDU"::text, 5) <> '60447'::text AND "left"(p."IDU"::text, 5) <> '60578'::text AND "left"(p."IDU"::text, 5) <> '60579'::text AND "left"(p."IDU"::text, 5) <> '60597'::text AND "left"(p."IDU"::text, 5) <> '60600'::text AND "left"(p."IDU"::text, 5) <> '60665'::text AND "left"(p."IDU"::text, 5) <> '60667'::text AND "left"(p."IDU"::text, 5) <> '60674'::text AND "left"(p."IDU"::text, 5) <> '60569'::text AND "left"(p."IDU"::text, 5) <> '60145'::text AND "left"(p."IDU"::text, 5) <> '60569'::text AND "left"(p."IDU"::text, 5) <> '60569'::text AND "left"(p."IDU"::text, 5) <> '60569'::text
                 ), r_proc AS (
                  SELECT DISTINCT p."IDU" AS idu,
                         CASE
@@ -5400,7 +5387,6 @@ AS WITH r_p AS (
 WITH DATA;
 
 COMMENT ON MATERIALIZED VIEW x_apps.xapps_an_vmr_p_information_horsplu IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
-
 
 
 -- View: x_apps.xapps_an_vmr_p_information_dpu
