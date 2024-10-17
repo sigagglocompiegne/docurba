@@ -6,7 +6,8 @@ Ensemble des éléments constituant la mise en oeuvre de la base de données des
 
 - Script d'initialisation de la base de données
   * [Suivi des modifications](bdd/plu_00_trace.sql)
-  * [Script d'initialisation de la base de données métier postgis au format cnig2024 et migration v2017d>v2024](bdd/init_bd_docurba_v2024.sql)
+  * [Script d'initialisation de la base de données métiers postgis au format cnig2024](bdd/init_bd_docurba_v2024.sql)
+  * [Script de migration des données métiers postgis du format cnig2017d vers le format cnig2024](bdd/init_bd_docurba_2017dv2024.sql)
 - [Documentation d'administration de la base](bdd/doc_admin_bd_docurba.md)
 - [Documentation d'administration de l'application](app/doc_admin_app_docurba.md)
 - [Ressources pour la sémiologie graphique](sld/)
