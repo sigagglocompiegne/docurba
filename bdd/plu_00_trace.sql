@@ -40,6 +40,6 @@
 -- les nouveaux attributs SYMBOLE, DESTOUI, DESTCDT et DESTNON ont été initialisés avec une valeur NULL
 -- l'attribut NATURE a été complété par l'attribut L_NATURE en minuscule et les blancs remplacés par des '_' (du fait des recommandations de contenus du standard, mot séparé par le caractère '_' et non d'un espace)
 -- l'attribut L_NATURE reste un attribut métier à compléter pour un affichage utilisateur clair. L'attribut NATURE pour le standard est complété automatiquement à la saisie ou à la mise jour
--- les valeurs des attributs NOMFIC et URLFIC ont été modifiées pour les classes d'objets de prescriptions concernant les OAP : remplacements de 'orientations_aménagement' par oap dans le nom du fichiers et le répertoire '5_Orientations_amenagement' par '5_OAP'
+-- les valeurs des attributs NOMFIC et URLFIC ont été modifiées pour la classe d'objets des prescriptions surfaciques concernant les OAP : remplacements de 'orientations_aménagement' par oap dans le nom du fichiers et le répertoire '5_Orientations_amenagement' par '5_OAP'
 
 
