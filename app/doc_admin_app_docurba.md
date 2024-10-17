@@ -7,6 +7,7 @@
   - [ ] en cours de rédaction
   - [ ] relecture
   - [x] finaliser
+  - [x] Plus mis à jour
   - [ ] révision
   
 # Généralité
