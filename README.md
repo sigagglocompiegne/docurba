@@ -5,8 +5,7 @@
 Ensemble des éléments constituant la mise en oeuvre de la base de données des documents d'urbanisme et l'exploitation des données pour les différentes applications (ces applications sont détaillées dans d'autres projets GitHub) :.
 
 - Script d'initialisation de la base de données
-  * [Script d'initialisation de la base de données métier postgis au format cnig2017d](bdd/init_bd_docurba.sql)
-  * [Script de migration des données cnig2014>cnig2017 avec conservation des champs optionnels cnig2014](bdd/mig_bd_docurba.sql)
+  * [Suivi des modifications](bdd/plu_00_trace.sql)
   * [Script d'initialisation de la base de données métier postgis au format cnig2024 et migration v2017d>v2024](bdd/init_bd_docurba_v2024.sql)
 - [Documentation d'administration de la base](bdd/doc_admin_bd_docurba.md)
 - [Documentation d'administration de l'application](app/doc_admin_app_docurba.md)
