@@ -47,7 +47,7 @@ Particularité(s) à noter :
 * Une clé primaire existe sur le champ insee
 ---
 
-   `an_doc_urba` : table issue du standard CNIG 2017  listant l'ensemble des procédures des documents d''urbanisme (y compris les communes en RNU)
+   `an_doc_urba` : table issue du standard CNIG 2024  listant l'ensemble des procédures des documents d''urbanisme (y compris les communes en RNU)
    
 |Nom attribut | Définition | Type | Valeurs par défaut |
 |:---|:---|:---|:---|
@@ -93,7 +93,7 @@ Particularité(s) à noter :
 * Une clé étrangère exsiste sur la table de valeur `lt_typeref`
 ---
 
-`an_doc_urba_com` : table issue du standard CNIG 2017 d'appartenance d'une commune à une procédure définie.
+`an_doc_urba_com` : table issue du standard CNIG 2024 d'appartenance d'une commune à une procédure définie.
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -136,7 +136,7 @@ Particularité(s) à noter : aucune
 
 ---
 
-`geo_a_habillage_lin` : (archive) Donnée géographique contenant l'habillage linéaire des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+`geo_a_habillage_lin` : (archive) Donnée géographique contenant l'habillage linéaire des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -152,7 +152,7 @@ Particularité(s) à noter : aucune
 
 ---
 
-`geo_a_habillage_pct` : (archive) Donnée géographique contenant l'habillage ponctuel des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+`geo_a_habillage_pct` : (archive) Donnée géographique contenant l'habillage ponctuel des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -168,7 +168,7 @@ Particularité(s) à noter : aucune
 
 ---
 
-`geo_a_habillage_surf` : (archive) Donnée géographique contenant l'habillage surfacique des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+`geo_a_habillage_surf` : (archive) Donnée géographique contenant l'habillage surfacique des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -184,7 +184,7 @@ Particularité(s) à noter : aucune
 
 ---
 
-`geo_a_habillage_txt` : (archive) Donnée géographique contenant l'habillage textuel des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+`geo_a_habillage_txt` : (archive) Donnée géographique contenant l'habillage textuel des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -207,7 +207,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_a_info_lin` : (archive) Donnée géographique contenant les informations linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+`geo_a_info_lin` : (archive) Donnée géographique contenant les informations linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -220,6 +220,7 @@ Particularité(s) à noter :
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(80)| |
 |l_dateins|Date d'instauration|character(8)| |
@@ -237,7 +238,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_a_info_pct` : (archive) Donnée géographique contenant les informations ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+`geo_a_info_pct` : (archive) Donnée géographique contenant les informations ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -250,6 +251,7 @@ Particularité(s) à noter :
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(80)| |
 |l_dateins|Date d'instauration|character(8)| |
@@ -267,7 +269,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_a_info_surf` : (archive) Donnée géographique contenant les informations surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+`geo_a_info_surf` : (archive) Donnée géographique contenant les informations surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -280,6 +282,7 @@ Particularité(s) à noter :
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(80)| |
 |l_dateins|Date d'instauration|character(8)| |
@@ -299,7 +302,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_a_prescription_lin` : (archive) Donnée géographique contenant les prescriptions linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+`geo_a_prescription_lin` : (archive) Donnée géographique contenant les prescriptions linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -308,10 +311,12 @@ Particularité(s) à noter :
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
 |stypepsc|Sous type de la prescription|character varying(2)| |
+|nature|Libellé caractérisant un ensemble de prescriptions de même typepsc et stypepsc|character varying(254)| |
 |nomfic|Nom du fichier|character varying(80)| |
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
@@ -330,7 +335,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_a_prescription_pct` : (archive) Donnée géographique contenant les prescriptions ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+`geo_a_prescription_pct` : (archive) Donnée géographique contenant les prescriptions ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -339,10 +344,12 @@ Particularité(s) à noter :
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
 |stypepsc|Sous type de la prescription|character varying(2)| |
+|nature|Libellé caractérisant un ensemble de prescriptions de même typepsc et stypepsc|character varying(254)| |
 |nomfic|Nom du fichier|character varying(80)| |
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
@@ -361,7 +368,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_a_prescription_surf` : (archive) Donnée géographique contenant les prescriptions surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+`geo_a_prescription_surf` : (archive) Donnée géographique contenant les prescriptions surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -370,10 +377,12 @@ Particularité(s) à noter :
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
 |stypepsc|Sous type de la prescription|character varying(2)| |
+|nature|Libellé caractérisant un ensemble de prescriptions de même typepsc et stypepsc|character varying(254)| |
 |nomfic|Nom du fichier|character varying(80)| |
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
@@ -394,7 +403,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_a_zone_urba` : (archive) Donnée géographique contenant les zonages des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2017
+`geo_a_zone_urba` : (archive) Donnée géographique contenant les zonages des documents d'urbanisme locaux (PLUi, PLU, CC) sur le modèle du standard CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -402,15 +411,19 @@ Particularité(s) à noter :
 |libelle|Nom court de la zone|character varying(12)| |
 |libelong|Nom complet de la zone|character varying(254)| |
 |typezone|Type de la zone|character varying(3)| |
+|formdomi|Forme d'aménagement dominante souhaitée pour la zone|character varying(4)| |
+|destoui|Destinations et sous-destinations autorisées|character varying(120)| |
+|destcdt|Destinations et sous-destinations conditionnées|character varying(120)| |
+|destnon|Destinations et sous-destinations interdites|character varying(120)| |
 |nomfic|Nom du fichier du règlement complet|character varying(80)| |
 |urlfic|URL ou URI du fichier du règlement complet|character varying(254)| |
 |l_nomfic|Nom du fichier du règlement de la zone|character varying(80)| |
 |l_urlfic|URL ou URI du fichier du règlement de la zone|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character varying(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |typesect|Type de secteur (uniquement pour la carte communale, ZZ correspond à non concerné)|character varying(2)|'ZZ'::character varying|
 |fermreco|Secteur fermé à la reconstruction (uniquement pour la carte communale)|character varying(3)|'non'::character varying|
-|l_destdomi|Vocation de la zone|character varying(2)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_surf_cal|Surface calculée de la zone en ha|numeric| |
 |l_observ|Observations|character varying(254)| |
@@ -419,7 +432,8 @@ Particularité(s) à noter :
 
 Particularité(s) à noter :
 * Une clé primaire existe sur le champ gid avec une séquence d'incrémentation automatique `m_urbanisme_doc.geo_a_zone_urba_gid_seq`
-* Une clé étrangère existe sur la table de valeur `lt_destdomi`
+* Une clé étrangère existe sur la table de valeur `lt_formdomi`
+* Une clé étrangère existe sur la table de valeur `lt_dest_type`
 * Une clé étrangère existe sur la table de valeur `lt_typesect`
 * Une clé étrangère existe sur la table de valeur `lt_typezone`
 
@@ -437,7 +451,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_p_habillage_lin` : (production) Donnée géographique contenant les habillages linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_p_habillage_lin` : (production) Donnée géographique contenant les habillages linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -455,7 +469,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_p_habillage_pct` : (production) Donnée géographique contenant les habillages ponctuels des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_p_habillage_pct` : (production) Donnée géographique contenant les habillages ponctuels des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -473,7 +487,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_p_habillage_surf` : (production) Donnée géographique contenant les habillages surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_p_habillage_surf` : (production) Donnée géographique contenant les habillages surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -491,7 +505,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_p_habillage_txt` : (production) Donnée géographique contenant les habillages textuels des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_p_habillage_txt` : (production) Donnée géographique contenant les habillages textuels des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -515,7 +529,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_p_info_lin` : (production) Donnée géographique contenant les informations linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_p_info_lin` : (production) Donnée géographique contenant les informations linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -528,6 +542,7 @@ Particularité(s) à noter :
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(80)| |
 |l_dateins|Date d'instauration|character(8)| |
@@ -547,7 +562,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_p_info_pct` : (production) Donnée géographique contenant les informations ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_p_info_pct` : (production) Donnée géographique contenant les informations ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -560,6 +575,7 @@ Particularité(s) à noter :
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(80)| |
 |l_dateins|Date d'instauration|character(8)| |
@@ -579,7 +595,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_p_info_surf` : (production) Donnée géographique contenant les informations surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_p_info_surf` : (production) Donnée géographique contenant les informations surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -592,6 +608,7 @@ Particularité(s) à noter :
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(80)| |
 |l_dateins|Date d'instauration|character(8)| |
@@ -614,7 +631,7 @@ Particularité(s) à noter :
 ---
 
 
-`geo_p_prescription_lin` : (production) Donnée géographique contenant les prescriptions linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_p_prescription_lin` : (production) Donnée géographique contenant les prescriptions linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -623,10 +640,12 @@ Particularité(s) à noter :
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
 |stypepsc|Sous type de la prescription|character varying(2)| |
+|nature|Libellé caractérisant un ensemble de prescriptions de même typepsc et stypepsc|character varying(254)| |
 |nomfic|Nom du fichier|character varying(80)| |
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
@@ -646,7 +665,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_p_prescription_pct` : (production) Donnée géographique contenant les prescriptions ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_p_prescription_pct` : (production) Donnée géographique contenant les prescriptions ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -655,10 +674,12 @@ Particularité(s) à noter :
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
 |stypepsc|Sous type de la prescription|character varying(2)| |
+|nature|Libellé caractérisant un ensemble de prescriptions de même typepsc et stypepsc|character varying(254)| |
 |nomfic|Nom du fichier|character varying(80)| |
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
@@ -679,7 +700,7 @@ Particularité(s) à noter :
 ---
 
 
-`geo_p_prescription_surf` : (production) Donnée géographique contenant les prescriptions surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_p_prescription_surf` : (production) Donnée géographique contenant les prescriptions surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -688,10 +709,12 @@ Particularité(s) à noter :
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
 |stypepsc|Sous type de la prescription|character varying(2)| |
+|nature|Libellé caractérisant un ensemble de prescriptions de même typepsc et stypepsc|character varying(254)| |
 |nomfic|Nom du fichier|character varying(80)| |
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
@@ -744,7 +767,7 @@ Particularité(s) à noter :
   
 ---
 
-`geo_p_zone_urba` : (production) Donnée géographique contenant les zonages des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_p_zone_urba` : (production) Donnée géographique contenant les zonages des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -752,15 +775,19 @@ Particularité(s) à noter :
 |libelle|Nom court de la zone|character varying(12)| |
 |libelong|Nom complet de la zone|character varying(254)| |
 |typezone|Type de la zone|character varying(3)| |
+|formdomi|Forme d'aménagement dominante souhaitée pour la zone|character varying(4)| |
+|destoui|Destinations et sous-destinations autorisées|character varying(120)| |
+|destcdt|Destinations et sous-destinations conditionnées|character varying(120)| |
+|destnon|Destinations et sous-destinations interdites|character varying(120)| |
 |nomfic|Nom du fichier du règlement complet|character varying(80)| |
 |urlfic|URL ou URI du fichier du règlement complet|character varying(254)| |
 |l_nomfic|Nom du fichier du règlement de la zone|character varying(80)| |
 |l_urlfic|URL ou URI du fichier du règlement de la zone|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character varying(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |typesect|Type de secteur (uniquement pour la carte communale, ZZ correspond à non concerné)|character varying(2)|'ZZ'::character varying|
 |fermreco|Secteur fermé à la reconstruction (uniquement pour la carte communale)|character varying(3)|'non'::character varying|
-|l_destdomi|Vocation de la zone|character varying(2)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_surf_cal|Surface calculée de la zone en ha|numeric| |
 |l_observ|Observations|character varying(254)| |
@@ -769,7 +796,8 @@ Particularité(s) à noter :
 
 Particularité(s) à noter :
 * Une clé primaire existe sur le champ idzone
-* Une clé étrangère existe sur la table de valeur `lt_destdomi`
+* Une clé étrangère existe sur la table de valeur `lt_formdomi`
+* Une clé étrangère existe sur la table de valeur `lt_dest_type`
 * Une clé étrangère existe sur la table de valeur `lt_typesect`
 * Une clé étrangère existe sur la table de valeur `lt_typezone`
 * Un index est présent sur le champ geom
@@ -789,7 +817,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_t_habillage_lin` : (pré-production) Donnée géographique contenant les habillages linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_t_habillage_lin` : (pré-production) Donnée géographique contenant les habillages linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -807,7 +835,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_t_habillage_pct` : (pré-production) Donnée géographique contenant les habillages ponctuels des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_t_habillage_pct` : (pré-production) Donnée géographique contenant les habillages ponctuels des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -825,7 +853,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_t_habillage_surf` : (pré-production) Donnée géographique contenant les habillages surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_t_habillage_surf` : (pré-production) Donnée géographique contenant les habillages surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -843,7 +871,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_t_habillage_txt` : (pré-production) Donnée géographique contenant les habillages textuels des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_t_habillage_txt` : (pré-production) Donnée géographique contenant les habillages textuels des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -867,7 +895,7 @@ Particularité(s) à noter :
 ---
 
 
-`geo_t_info_lin` : (pré-production) Donnée géographique contenant les informations linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_t_info_lin` : (pré-production) Donnée géographique contenant les informations linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -880,6 +908,7 @@ Particularité(s) à noter :
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(80)| |
 |l_dateins|Date d'instauration|character(8)| |
@@ -897,7 +926,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_t_info_pct` : (pré-production) Donnée géographique contenant les informations ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_t_info_pct` : (pré-production) Donnée géographique contenant les informations ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -910,6 +939,7 @@ Particularité(s) à noter :
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(80)| |
 |l_dateins|Date d'instauration|character(8)| |
@@ -928,7 +958,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_t_info_surf` : (pré-production) Donnée géographique contenant les informations surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_t_info_surf` : (pré-production) Donnée géographique contenant les informations surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -941,6 +971,7 @@ Particularité(s) à noter :
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(80)| |
 |l_dateins|Date d'instauration|character(8)| |
@@ -958,7 +989,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_t_prescription_lin` : (pré-production) Donnée géographique contenant les prescriptions linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_t_prescription_lin` : (pré-production) Donnée géographique contenant les prescriptions linéaires des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -967,10 +998,12 @@ Particularité(s) à noter :
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
 |stypepsc|Sous type de la prescription|character varying(2)| |
+|nature|Libellé caractérisant un ensemble de prescriptions de même typepsc et stypepsc|character varying(254)| |
 |nomfic|Nom du fichier|character varying(80)| |
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
@@ -991,7 +1024,7 @@ Particularité(s) à noter :
 ---
 
 
-`geo_t_prescription_pct` : (pré-production) Donnée géographique contenant les prescriptions ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_t_prescription_pct` : (pré-production) Donnée géographique contenant les prescriptions ponctuelles des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -1000,10 +1033,12 @@ Particularité(s) à noter :
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
 |stypepsc|Sous type de la prescription|character varying(2)| |
+|nature|Libellé caractérisant un ensemble de prescriptions de même typepsc et stypepsc|character varying(254)| |
 |nomfic|Nom du fichier|character varying(80)| |
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
@@ -1022,7 +1057,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_t_prescription_surf` : (pré-production) Donnée géographique contenant les prescriptions surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_t_prescription_surf` : (pré-production) Donnée géographique contenant les prescriptions surfaciques des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -1031,10 +1066,12 @@ Particularité(s) à noter :
 |txt|Texte étiquette|character varying(10)| |
 |typepsc|Type de la prescription|character varying(2)| |
 |stypepsc|Sous type de la prescription|character varying(2)| |
+|nature|Libellé caractérisant un ensemble de prescriptions de même typepsc et stypepsc|character varying(254)| |
 |nomfic|Nom du fichier|character varying(80)| |
 |urlfic|URL ou URI du fichier|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_nom|Nom|character varying(254)| |
 |l_nature|Nature / vocation|character varying(254)| |
@@ -1054,7 +1091,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_t_zone_urba` : (pré-production) Donnée géographique contenant les zonages des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2017
+`geo_t_zone_urba` : (pré-production) Donnée géographique contenant les zonages des documents d'urbanisme locaux (PLUi, PLU, CC) issue du modèle CNIG 2024
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -1062,15 +1099,19 @@ Particularité(s) à noter :
 |libelle|Nom court de la zone|character varying(12)| |
 |libelong|Nom complet de la zone|character varying(254)| |
 |typezone|Type de la zone|character varying(3)| |
+|formdomi|Forme d'aménagement dominante souhaitée pour la zone|character varying(4)| |
+|destoui|Destinations et sous-destinations autorisées|character varying(120)| |
+|destcdt|Destinations et sous-destinations conditionnées|character varying(120)| |
+|destnon|Destinations et sous-destinations interdites|character varying(120)| |
 |nomfic|Nom du fichier du règlement complet|character varying(80)| |
 |urlfic|URL ou URI du fichier du règlement complet|character varying(254)| |
 |l_nomfic|Nom du fichier du règlement de la zone|character varying(80)| |
 |l_urlfic|URL ou URI du fichier du règlement de la zone|character varying(254)| |
 |idurba|Identifiant du document d'urbanisme|character varying(30)| |
 |datvalid|Date de validation (aaaammjj)|character varying(8)| |
+|symbole|Symbole alternatif issu du registre des symboles|character(20)| |
 |typesect|Type de secteur (uniquement pour la carte communale, ZZ correspond à non concerné)|character varying(2)|'ZZ'::character varying|
 |fermreco|Secteur fermé à la reconstruction (uniquement pour la carte communale)|character varying(3)|'non'::character varying|
-|l_destdomi|Vocation de la zone|character varying(2)| |
 |l_insee|Code INSEE|character varying(5)| |
 |l_surf_cal|Surface calculée de la zone en ha|numeric| |
 |l_observ|Observations|character varying(254)| |
@@ -1078,7 +1119,8 @@ Particularité(s) à noter :
 
 Particularité(s) à noter :
 * Une clé primaire existe sur le champ idzone
-* Une clé étrangère existe sur la table de valeur `lt_destdomi`
+* Une clé étrangère existe sur la table de valeur `lt_formdomi`
+* Une clé étrangère existe sur la table de valeur `lt_dest_type`
 * Une clé étrangère existe sur la table de valeur `lt_typesect`
 * Une clé étrangère existe sur la table de valeur `lt_typezone`
 * 1 trigger :
@@ -1086,7 +1128,7 @@ Particularité(s) à noter :
 
 ---
 
-`geo_t_perimetre_scot` : (pré-production) Donnée géographique contenant les périmètres de SCOT (format CNIG 2018)
+`geo_t_perimetre_scot` : (pré-production) Donnée géographique contenant les périmètres de SCOT (format CNIG 2024)
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|  
@@ -1132,11 +1174,11 @@ Particularité(s) à noter :
 
 ---
 
- ### classes d'objets applicatives sont classés dans le schéma x_apps :
+ ### classes d'objets applicatives sont classés dans le schéma m_urbanisme_doc :
+
+ #### Vue matérialisée applicative PRO
  
- Les classes d'objets applicatives pour l'application de Renseignements d'urbanisme pour le Grand Public seront intégrés plus tard (en cours de réalisation et de tests fonctionnels).
- 
- **ATTENTION** : ces vues sont reformatées à chaque mise à jour de cadastre ou d'un document d'urbanisme dans un Workflow de l'ETL FME.
+  **ATTENTION** : ces vues sont reformatées à chaque mise à jour de cadastre ou d'un document d'urbanisme dans un Workflow de l'ETL FME.
  
 `xapps_an_vmr_p_information` : Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (assemblage des vues infos PLU et hors PLU)
 
@@ -1151,11 +1193,29 @@ Particularité(s) à noter :
 
 `xapps_an_vmr_parcelle_plu` :  Vue matérialisée contenant les informations pré-formatés pour la constitution de la fiche d'information Renseignements d'urbanisme. Cette vue permet de récupérer pour chaque parcelle les informations du PLU et traiter les pbs liés aux zones entre commune et les zonages se touchant. 
 
+`xapps_an_vmr_parcelle_ru` :  Vue matérialisée extrayant de la table PARCELLE de BG les informations essentielles pour la note d'urbanisme. Evite d'utiliser les données intégrées via le module GEOCADASTRE pour des pbs de mises à jour et de reconstructions applicatives.
+
 `xapps_geo_vmr_p_zone_urba` :  Vue matérialisée des zones du PLU servant dans les recherches par zonage ou type dans les applicatifs GEO. 
 
 `x_apps.xapps_an_vmr_docurba_h` : Vue matérialisée listant les anciennes procédures d''urbanisme par commune
 
 `xapps_geo_vmr_docurba` : Vue matérialisée listant toutes les procédures d''urbanisme par commune
+
+`xapps_an_vmr_p_planche_graphique_plu` : Vue matérialisée formatant l'accès aux planches du règlement graphique des PLU (cette vue est ensuite liée dans GEO pour accessiiblité à la parcelle dans la fiche de renseignements d'urbanisme dans GEO)
+
+ #### Vue matérialisée applicative Grand Public
+ 
+  **ATTENTION** : ces vues sont reformatées à chaque envoi d'une mise à jour du PLUih vers la base déportée de Business Géografic pour le fonctionnel de l'application Grand Public via un Workflow de l'ETL FME.
+
+  `xappspublic_an_vmr_nru` : Vue matérialisée contenant les informations pré-formatés du PLUi communes à toutes les communes pour la note de renseignements d'urbanisme
+
+  `xappspublic_an_vmr_p_planche_graphique_plui_arc` : Vue matérialisée formatant l'accès aux planches du règlement graphique du PLUiH (cette vue est ensuite liée dans GEO pour accessiiblité à la parcelle dans la fiche de renseignements d'urbanisme dans GEO)
+
+  `xappspublic_an_vmr_parcelle_plui_ru` : Vue matérialisée contenant les informations pré-formatés du PLUi communes à toutes les communes pour la fiche de Renseignements d'urbanisme (données de production) 
+
+  `xappspublic_geo_vmr_commune_plui_ru` : Vue matérialisée contenant les informations pré-formatés pour la constitution de la fiche d'information sur les communes dans l'application PLU Interactif V0.2 (test pour voir où on met les infos d'urbanisme)
+
+  `xappspublic_geo_vmr_fichegeo_plui_ru` : Vue géographique matérialisée contenant les informations pour l'application Gd Public PLUi Interactif (données de production)
 
 ## Liste de valeurs
 
