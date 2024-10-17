@@ -1219,12 +1219,13 @@ Particularité(s) à noter :
 
 ## Liste de valeurs
 
-`lt_destdomi` : Liste des valeurs de l'attribut destdomi de la donnée zone_urba
+`lt_formdomi` : Liste des valeurs de l'attribut formdomi de la donnée zone_urba
 
 |Nom attribut | Définition | Type  | Valeurs par défaut |
 |:---|:---|:---|:---|    
-|code|Code|character(2)| |
+|code|Code|character varying(4)| |
 |valeur|Valeur|character varying(80)| |
+|def|Définition|character varying(1000)| |
 
 
 Particularité(s) à noter :
@@ -1232,19 +1233,55 @@ Particularité(s) à noter :
 
 Valeurs possibles :
 
-|Code|Valeur|
-|:---|:---|
-|00|Sans objet ou non encore définie dans le règlement|
-|01|Habitat|
-|02|Activité|
-|03|Destination mixte habitat/activité|
-|04|Loisirs et tourisme|
-|05|Equipement|
-|07|Activité agricole|
-|08|Espace naturel|
-|09|Espace remarquable|
-|10|Secteur de carrière|
-|99|Autre|
+|Code|Valeur|Définition|
+|:---|:---|:---|
+|0000|sans objet ou non encore définie dans le règlement||
+|0100|habitat|Tout type d'habitat|
+|0101|habitat centre-ville|Petites parcelles étroites – bâti implanté en mitoyen et à l'alignement Rues sinueuses et non structurées.|
+|0102|habitat centre-villageois|Tissu compact issu d'une implantation historique - petites parcelles étroites – bâti implanté en mitoyen et/ou à l’alignement. Rues sinueuses et non structurées. Présence d'espaces ou équipements publics fédérateurs, nombre de constructions plus important que les hameaux.|
+|0103|habitat faubourg|Tissu compact et dense en extension du centre ancien. Petites parcelles étroites et souvent allongées (autour de 400 m²) en forme parallélogramme – bâti implanté en mitoyen et/ou à l'alignement.|
+|0104|habitat hameau|Tissu compact issu d’une implantation historique. Parcelles de taille variable – bâti globalement implanté au contact de l’espace public. Rues sinueuses et étroites.|
+|0105|habitat collectif|(R+3 et plus). Bâti discontinu, déconnecté des espaces urbains voisins. Taille des parcelles variables avec une prédominance de grandes parcelles de plus de 1 000 m² – voies de desserte larges – bâti en retrait par rapport aux limites parcellaires.|
+|0106|habitat petits collectifs|(R+2 max)Bâti discontinu, déconnecté des espaces urbains voisinsTaille des parcelles variables avec une prédominance de grandes parcelles de plus de 1 000 m² – voies de desserte larges – bâti en retrait par rapport aux limites parcellaires.|
+|0107|habitat pavillonnaire dense|Tissus résidentiel discontinu, dense, organisé et présentant une certaine homogénéité. Petites parcelles en forme homogène – bâti implanté en retrait des limites parcellaires.|
+|0108|habitat pavillonnaire peu dense|Tissus discontinu, non organisé et hétérogène. Bâti implanté de manière aléatoire – plutôt grandes parcelles - bâti implanté en retrait des limites parcellaires.|
+|0109|habitat maitrisé|Bâti isolé au milieu d’un espace naturel, agricole ou forestier Parcelles de forme variable avec prédominance pour les grandes de plus de 1 000 m² - bâti implanté en retrait des limites parcellaires.|
+|0200|activité|Tout type d’activité|
+|0201|activité industrielle / logistique / commerciale|Zone regroupant des entreprises, usines, entrepôts, surfaces commerciales… visibles et en dehors des zones urbanisées.|
+|0202|activité commerces|Espace regroupant des commerces de proximité. Parcelles de taille et forme variables.|
+|0203|activité bureaux|Ensembles d’immeubles de bureaux privatisés abritant des entreprises et activités tertiaires Parcelles de taille et de formes variables – surface de parkings importante mais espaces verts présents.|
+|0300|mixte habitat / activité|Secteur où une mixité fonctionnelle est soit recherchée, soit à encadrer.|
+|0400|loisirs et tourisme|Tout type de loisir et de tourisme|
+|0401|loisir parc et jardin|Parcs et jardins en milieu urbain|
+|0402|loisir parc d'attraction|Parcs d'attraction|
+|0403|loisir balnéaire et nautique|Plages, port de plaisance|
+|0404|loisir de montagne|Pistes et domaines orientés vers les loisirs de montagnes (tracés skiables en hiver, espaces de randonnées, activités sportives …)|
+|0405|loisir sportif|Ensemble d'équipements sportifs (stades, gymnases, circuit automobile …)|
+|0406|tourisme hôtelier|Ensembles d'immeubles d'hébergement hôtelier|
+|0407|tourisme camping|Espaces réservés aux activités de camping|
+|0500|Equipement public|Tout type d’équipement|
+|0501|Equipement de proximité|Crèches, écoles, collèges, lycées, gendarmerie, commissariat, sécurité incendie|
+|0502|Equipement généraux|Hopitaux, Universités|
+|0503|Equipement de défense nationale|Domaine militaire|
+|0600|Enfrastructure de transport|Tout type d’infrastructure de transport|
+|0601|Infrastructure autoroutière|Emprise autoroutière et équipements associés|
+|0602|Infrastructure ferroviaire|Emprise ferroviaire et équipements associés|
+|0603|Infrastructure aéroportuaire|Emprise aéroportuaire et équipements associés|
+|0604|Infrastructure portuaire|Port d'ampleur nationale (frêt, marchandises…)|
+|0700|Activité agricole|Toutes activités agricoles|
+|0701|Terres agricoles non bâties|Terres agricoles dépourvues de toute construction|
+|0702|Terres agricoles avec bâtis légers|Terres agricoles pouvant contenir des constructions démontables (serres, tunnels, constructions sans fondation…)|
+|0703|Terres agricoles avec bâtis en dur|Terres agricoles avec éventuellement des bâtiments agricoles en dur|
+|0704|Terres agricoles avec bâtis agricoles|Terres agricoles avec éventuellement des bâtiments agricoles, le logement des exploitants et des locaux dans le prolongement de l’activité agricole (point de vente à la ferme, atelier de transformation des produits de la ferme...)|
+|0705|Terres agricoles avec bâtis divers|Terres agricoles avec éventuellement des bâtiments agricoles, le logement des exploitants, des locaux dans le prolongement de l’activité agricole (point de vente à la ferme, atelier de transformation des produits de la ferme…), des locaux associés à une diversification (touristique, culturelle, éducative…)|
+|0800|Espace naturel|Tous espaces naturels|
+|0801|Espace naturel remarquable|Espace naturel remarquable|
+|0802|Espace naturel montagne ou littoral|Espace naturel caractéristique du patrimoine naturel et relevant de l’application des dispositions montagne / littoral|
+|0900|Valorisation des sols et sous-sols|Toutes valorisations des sols et sous-sols|
+|0901|Secteur de carrière|Secteur d'activité d'extraction minérale|
+|0902|Secteur d'accueil des déchets|Secteur de traitement ou d'enfouissement des déchets|
+|0903|Secteur de parc photovoltaïque|Secteur susceptible d’accueillir des parcs photovoltaïques|
+|9900|Autre|Autre|
 
 ---
 
@@ -1315,11 +1352,12 @@ Valeurs possibles :
 |:---|:---|
 |RNU|Commune soumise au RNU|
 |E|Elaboration|
-|MC|Mise en compatibilité|
-|MJ|Mise à jour|
+|MEC|Mise en compatibilité|
+|MAJ|Mise à jour|
 |M|Modification de droit commun|
 |MS|Modification simplifiée|
 |R|Révision|
+|RA|Révision allégée|
 |RS|Révision simplifiée|
 |A|Abrogation|
 
@@ -1368,49 +1406,54 @@ Valeurs possibles :
 
 |Code|Sous code|Valeur|Référence législative|Référence réglementaire|
 |:---|:---|:---|:---|:---|
-|01|00|Anciennement « Secteur sauvegardé » puis « Site patrimonial remarquable » supprimé car il correspond à une SUP|Abrogé|Abrogé|
-|02|00|Zone d'aménagement concerté|Livre III code de l'urbanisme|R151-52 8°|
-|03|00|Zone de préemption dans un espace naturel et sensible (Attention : information facultative non exigée par la loi)|L215-1 du code de l'urbanisme|Pas de référence pour annexion|
-|04|00|Périmètre de droit de préemption urbain||R151-52 7°|
-|04|01|Périmètre de droit de préemption urbain renforcé|||
-|05|00|Zone d'aménagement différé||R151-52 7°|
-|07|00|Périmètre de développement prioritaire économie d'énergie||R151-53 1°|
-|08|00|Périmètre forestier : interdiction ou réglementation des plantations (code rural et de la pêche maritime), plantations à réaliser et semis d'essence forestière||R151-53 2°|
-|09|00|Périmètre minier de concession pour l'exploitation ou le stockage||R151-53 3°|
-|10|00|Zone de recherche et d'exploitation de carrière||R151-53 4°|
-|11|00|Périmètre des zones délimitées - divisions foncières soumises à déclaration préalable||R151-52 4°|
-|12|00|Périmètre de sursis à statuer||R151-52 13°|
-|13|00|Secteur de programme d'aménagement d'ensemble||R151-52 9°|
-|14|00|Périmètre de voisinage d'infrastructure de transport terrestre||R151-53 5°|
-|15|00|les Zones Agricoles Protégées abrogées car traitées en SUP A9|Abrogé|Abrogé|
-|16|00|Site archéologique (Attention : information facultative non exigée par la loi)|L522-5 2e alinéa du code du patrimoine sans obligation pour le PLU||
-|17|00|Zone à risque d'exposition au plomb||R151-53 6°|
-|19|01|Zone d'assainissement collectif/non collectif, eaux usées/eaux pluviales, schéma de réseaux eau et assainissement, systèmes d'élimination des déchets||R151-53 8° (zone)|
-|19|02|Emplacements traitement eaux et déchets||R151-53 8° (emplacement)|
-|20|00|Règlement local de publicité|L581-14 code de l'environnement|R151-53 11°|
-|21|00|Projet de plan de prévention des risques|L562-2 code de l’environnement|R151-53 9°|
-|22|00|Protection des rives des plans d'eau en zone de montagne|L122-12||
-|23|00|Arrêté du préfet coordonnateur de massif||R151-52 6°|
-|25|00|Périmètre de protection des espaces agricoles et naturels périurbain||R151-52 3°|
-|26|00|Lotissement|Abrogé|Abrogé|
-|27|00|Plan d'exposition au bruit des aérodromes||R151-52 2°|
-|30|00|Périmètre projet urbain partenarial||R151-52 12°|
-|31|00|Périmètre patrimoniaux d'exclusion des matériaux et énergies renouvelables pris par délibération|L151-17 2°|R151-52 1°|
-|32|00|Secteur de taxe d'aménagement||R151-52 10°|
-|33|00|Droit de préemption commercial (Attention : information facultative non exigée par la loi)|L 214-1|Aucune base pour report en annexe PLU - R 214-1 et 2|
-|34|00|Périmètre d'opération d'intérêt national (Attention : information facultative non exigée par la loi)|L102-12|Aucune base pour report en annexe PLU – R102-3|
-|35|00|Périmètre de secteur affecté par un seuil minimal de densité||R151-52 11°|
-|36|00|Schémas d'aménagement de plage||R151-52 5°|
-|37|00|Bois ou forêts relevant du régime forestier||R151-53 7°|
-|38|00|Secteurs d'information sur les sols||R151-53 10°|
-|39|00|Périmètres de projets AFUP (dans lesquels les propriétaires fonciers sont incités à se regrouper en AFU de projet et les AFU de projet à mener leurs opérations de façon concertée)|L322-13|R151-52 14°|
-|40|01|Périmètre d'un bien inscrit au patrimoine mondial|L612-1 et R612-1 à R612-2 code du patrimoine|R151-53|
-|40|02|Zone tampon d'un bien inscrit au patrimoine mondial|L612-1 et R612-1 à R612-2 code du patrimoine|R151-53|
-|97|00|Périmètre d'application d'une pièce écrite territorialisée relative aux annexes (liste des annexes, liste des SUP, plan des SUP)|||
-|98|00|Périmètre d'annulation partielle du document d'urbanisme (lorqu'elle impacte le règlement graphique)|||
-|99|00|Autre périmètre, secteur, plan, document, site, projet, espace|||
-|99|01|Autre relevant de la loi littoral|||
-|99|02|Autre relevant de la loi montagne|||
+|01|Anciennement « Secteur sauvegardé » puis « Site patrimonial remarquable » supprimé car il correspond à une SUP|
+|02|Zone d'aménagement concerté|
+|03|Zone de préemption dans un espace naturel et sensible (Attention : information facultative non exigée par la loi)|
+|04|Périmètre de droit de préemption urbain|
+|04|Périmètre de droit de préemption urbain renforcé|
+|05|Zone d'aménagement différé|
+|07|Périmètre de développement prioritaire économie d'énergie|
+|08|Périmètre forestier : interdiction ou réglementation des plantations (code rural et de la pêche maritime), plantations à réaliser et semis d'essence forestière|
+|09|Périmètre minier de concession pour l'exploitation ou le stockage|
+|10|Zone de recherche et d'exploitation de carrière|
+|11|Périmètre des zones délimitées - divisions foncières soumises à déclaration préalable|
+|12|Périmètre de sursis à statuer|
+|13|Secteur de programme d'aménagement d'ensemble|
+|14|Périmètre de voisinage d'infrastructure de transport terrestre|
+|15|les Zones Agricoles Protégées abrogées car traitées en SUP A9|
+|16|Site archéologique (Attention : information facultative non exigée par la loi)|
+|17|Zone à risque d'exposition au plomb|
+|19|Zone d'assainissement collectif/non collectif, eaux usées/eaux pluviales, schéma de réseaux eau et assainissement, systèmes d'élimination des déchets|
+|19|Emplacements traitement eaux et déchets|
+|20|Règlement local de publicité|
+|21|Projet de plan de prévention des risques|
+|22|Protection des rives des plans d'eau en zone de montagne|
+|23|Arrêté du préfet coordonnateur de massif|
+|25|Périmètre de protection des espaces agricoles et naturels périurbain|
+|26|Lotissement|
+|27|Plan d'exposition au bruit des aérodromes|
+|30|Périmètre projet urbain partenarial|
+|31|Périmètre patrimoniaux d'exclusion des matériaux et énergies renouvelables pris par délibération|
+|32|Secteur de taxe d'aménagement|
+|33|Droit de préemption commercial (Attention : information facultative non exigée par la loi)|
+|34|Périmètre d'opération d'intérêt national (Attention : information facultative non exigée par la loi)|
+|35|Périmètre de secteur affecté par un seuil minimal de densité|
+|36|Schémas d'aménagement de plage|
+|37|Bois ou forêts relevant du régime forestier|
+|38|Secteurs d'information sur les sols|
+|39|Périmètres de projets AFUP (dans lesquels les propriétaires fonciers sont incités à se regrouper en AFU de projet et les AFU de projet à mener leurs opérations de façon concertée)|
+|40|Périmètre d’un bien inscrit au patrimoine mondial|
+|40|Zone tampon d’un bien inscrit au patrimoine mondial|
+|41|Bande de recul le long des axes à grande circulation|
+|42|Secteurs délimités par délibération de l'autorité compétente en matière d'urbanisme, dans lesquels certaines opérations sont soumises à autorisation d'urbanisme.|
+|42|secteur dans lequel les travaux de démolition sont soumis à permis de démolir|
+|42|Secteur dans lequel l'édification d'une clôture doit être précédée d'une déclaration préalable|
+|42|Secteur dans lequel les travaux de ravalement sont soumis à déclaration préalable|
+|97|Périmètre d’application d’une pièce écrite territorialisée relative aux annexes (liste des annexes, liste et plan des SUP)|
+|98|Périmètre d’annulation partielle du document d’urbanisme (lorsqu’elle impacte le règlement graphique)|
+|99|Autre périmètre, secteur, plan, document, site, projet, espace|
+|99|Autre relevant de la loi littoral|
+|99|Autre relevant de la loi montagne|
 
 
 ---
@@ -1433,158 +1476,172 @@ Valeurs possibles :
 
 |Code|Sous code|Valeur|Référence législative|Référence réglementaire|
 |:---|:---|:---|:---|:---| 
-|01|00|Espace boisé classé|L113-1|R151-31 1°|
-|01|01|Espace boisé classé à protéger ou conserver|L113-1|R151-31 1°|
-|01|02|Espace boisé classé à créer|L113-1|R151-31 1°|
-|01|03|Espace boisé classé significatif au titre de la loi littoral|L121-27||
-|02|00|Limitations de la constructibilité pour des raisons environnementales, de risques,d'intérêt général||R151-31 2° et R151-34 1°|
-|02|01|Secteur avec interdiction de constructibilité pour des raisons environnementales,de risques, d'intérêt général||R151-31 2°|
-|02|02|Secteur avec conditions spéciales de constructibilité pour des raisons environnementales, de risques, d'intérêt général||R151-34 1°|
-|03|00|Secteur avec disposition de reconstruction / démolition|L151-10|R151-34 3°|
-|03|01|Secteur dans lequel la reconstruction à l'identique d'un bâtiment détruit par un sinistre n'est pas autorisée||R161-7|
-|03|02|Interdiction de restauration de bâtiment dont il reste l'essentiel des murs porteurs|L111-23||
-|04|00|Périmètre issu des PDU sur obligation de stationnement|L151-47 dernier alinéa||
-|05|00|Emplacement réservé|L151-41 1° à 3°|R151-48 2°,R151-50 1°,R151-34 4°,R151-43 3°|
-|05|01|Emplacement réservé aux voies publiques|L151-41 1°|R151-48 2°|
-|05|02|Emplacement réservé aux ouvrages publics|L151-41 1°|R151-50 1°|
-|05|03|Emplacement réservé aux installations d'intérêt général|L151-41 2°|R151-34 4°|
-|05|04|Emplacement réservé aux espaces verts/continuités écologiques|L151-41 3°|R151-43 3°|
-|05|05|Emplacement réservé logement social/mixité sociale|L151-41 4°|R151-38 1°|
-|05|06|Servitude de localisation des voies, ouvrages publics, installations d'intérêt général et espaces verts en zone U ou AU|L151-41 dernier alinéa||
-|05|07|Secteur de projet en attente d'un projet d'aménagement global|L151-41 5°|R151-32|
-|06|06|Secteur à densité maximale pour les reconstructions ou aménagements de bâtiments existants|Abrogé|Abrogé|
-|07|00|Patrimoine bâti, paysager ou éléments de paysages à protéger pour des motifs d'ordre culturel, historique, architectural ou écologique|L151-19 et L151-23|R151-41 3° et R151-43 5°|
-|07|01|Patrimoine bâti à protéger pour des motifs d'ordre culturel, historique, architectural|L151-19|R151-41 3°|
-|07|02|Patrimoine paysager à protéger pour des motifs d'ordre culturel, historique, architectural|L151-19|R151-41 3°|
-|07|03|Patrimoine paysager correspondant à un espacer boisé à protéger pour des motifs d'ordre culturel, historique, architectural|L151-19|R151-41 3°|
-|07|04|Éléments de paysage, (sites et secteurs) à préserver pour des motifs d'ordre écologique|L151-23|R151-43 5°|
-|07|05|Éléments de paysage correspondant à un espace boisé, (sites et secteurs) à préserver pour des motifs d'ordre écologique|L151-23 al.1|R151-43 5°|
-|08|00|Terrain cultivé ou non bâti à protéger en zone urbaine|L151-23 al. 2|R151-43 6°|
-|13|00|Zone à aménager en vue de la pratique du ski|L151-38 al. 2|R151-48 3°|
-|14|00|Secteur de plan de masse||R151-40|
-|15|00|Règles d'implantation des constructions|L151-17 et L151-18 ?|R151-39 dernier alinéa|
-|15|01|Implantation des constructions par rapport aux voies et aux emprises publiques|L151-18||
-|15|02|Implantation des constructions par rapport aux limites séparatives latérales|L151-18||
-|15|03|Implantation des constructions par rapport aux limites des fonds de parcelles|L151-18 ?||
-|15|98|Implantation alternative des constructions|L151-17||
-|16|00|Constructions et installations nécessaires à des équipements collectifs|L151-11 1°||
-|16|01|Bâtiment susceptible de changer de destination|L151-11 2°||
-|16|02|Bâtiments d'habitation existants pouvant faire l'objet d’extensions ou d’annexes|L151-12||
-|16|03|Secteur de taille et de capacité d'accueil limitées (STECAL)|L151-13||
-|16|04|Constructions et installations nécessaires à l'activité agricole en zone A ou N|L151-11 II|R151-23 1° et R151-25 1°|
-|17|00|Secteur à programme de logements mixité sociale en zone U et AU|L151-15|R151-38 3°|
-|18|00|Secteur comportant des orientations d'aménagement et de programmation (OAP)|L151-6 et L151-7||
-|18|01|OAP de projet (sans règlement)|L151-6 et L151-7|R151-8|
-|18|02|OAP entrées de ville|L151-6 et L151-7 1°|R151-6|
-|18|03|OAP relatives à la réhabilitation, la restructuration, la mise en valeur ou l'aménagement|L.151-7 4°||
-|18|04|OAP d'adaptation des périmètres de transports collectifs|L151-7 6°||
-|18|05|OAP patrimoniales, architecturales et écologiques|L151-6 et L151-7|R151-7|
-|18|06|OAP relatives à l'habitat|L151-6 ou L151-46||
-|18|07|OAP comprenant des dispositions relatives à l'équipement commercial et artisanal|L151-6 2e alinéa ou L151-7 2°||
-|18|08|OAP relatives aux transports et aux déplacements|L151-6 ou L151-47||
-|19|00|Secteur protégé en raison de la richesse du sol et du sous-sol||R.151-34 2°|
-|20|00|Secteur à transfert de constructibilité en zone N|L151-25|R151-36|
-|22|00|Diversité commerciale à protéger ou à développer|L151-16|R151-37 4°|
-|22|01|Diversité commerciale à protéger|L151-16|R151-37 4°|
-|22|02|Diversité commerciale à développer|L151-16|R151-37 4°|
-|22|03|Linéaire commercial protégé|L151-16|R151-37 4°|
-|22|04|Linéaire commercial protégé renforcé|L151-16|R151-37 4°|
-|23|00|Secteur avec taille minimale des logements en zone U et AU|L151-14|R151-38 2°|
-|24|00|Voies, chemins, transport public à conserver et à créer|L151-38|R151-48 1°|
-|24|01|Voies de circulation à créer, modifier ou conserver|L151-38|R151-48 1°|
-|24|02|Voies de circulation à modifier|L151-38|R151-48 1°|
-|24|03|Voies de circulation à créer|L151-38|R151-48 1°|
-|24|04|Voies de circulation à conserver|L151-38|R151-48 1°|
-|25|00|Eléments de continuité écologique et trame verte et bleue|L151-23 al. 2|R151-43 4° et R151-43-8°|
-|26|00|Secteur de performance énergétique|L151-21|R151-42 1°|
-|26|01|Secteur de performance énergétique renforcé|L151-21|R151-42 2°|
-|27|00|Secteur d’aménagement numérique|L151-40|R151-50 2°|
-|28|00|Conditions de desserte|| R151-47 1° et 2°|
-|28|01|Conditions permettant une bonne desserte des terrains par les services publics de collecte des déchets||R151-47 2°|
-|29|00|Secteur avec densité minimale de construction||R151-39 2e alinéa|
-|29|01|Secteur avec densité minimale de construction à proximité des transports collectifs|L151-26||
-|30|00|Majoration des volumes constructibles||R151-37 2°|
-|30|01|Majoration des volumes constructibles pour l'habitation|L151-28 1°|R151-37 5°|
-|30|02|Majoration des volumes constructibles pour les programmes comportant des logements locatifs sociaux|L151-28 2°|R151-37 2°|
-|30|03|Majoration des volumes constructibles pour exemplarité énergétique ou environnementale|L151-28 3°|R151-42 3°|
-|30|04|Majoration des volumes constructibles pour les programmes comportant des logements intermédiaires|L151-28 4°|R151-37 7°|
-|31|00|Espaces remarquables du littoral|L121-23|R121-4 1° à 8°|
-|31|01|Dunes, landes côtières, plages et lidos, estrans, falaises et abords|L121-23|R121-4 1°|
-|31|02|Forêts et zones boisées proches du rivage de la mer et des plans d'eau intérieurs d'une superficie supérieure à 1 000 hectares|L121-23|R121-4 2°|
-|31|03|Ilots inhabités|L121-23|R121-4 3°|
-|31|04|Parties naturelles des estuaires, des rias ou abers et des caps|L121-23|R121-4 4°|
-|31|05|Marais, vasières, tourbières, plans d'eau, les zones humides et milieux temporairement immergés|L121-23|R121-4 5°|
-|31|06|Milieux abritant des concentrations naturelles d'espèces animales ou végétales|L121-23|R121-4 6°|
-|31|07|Parties naturelles des sites inscrits ou classés|L121-23|R121-4 7°|
-|31|08|Formations géologiques|L121-23|R121-4 8°|
-|32|00|Exclusion protection de plans d'eau de faible importance|L122-12|R122-2|
-|33|00|Secteur de dérogation aux protections des rives des plans d'eau en zone de montagne|L122-14 1°||
-|34|00|Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver|L122-9°||
-|35|00|Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver|L122-10||
-|36|00|Mixité des destinations ou sous-destinations||R151-37 1°|
-|37|00|Règles différenciées entre le rez-de-chaussée et les étages supérieurs des constructions||R151-37 3°|
-|37|01|Règles différenciées pour le rez-de-chaussée en raison des risques inondations||R151-42 4°|
-|37|02|Règles différenciées pour mixité sociale et fonctionnelle||R151-37 1° et 3°|
-|38|00|Emprise au sol||R151-39|
-|38|01|Emprise au sol minimale||R151-39 2e alinéa|
-|38|02|Emprise au sol maximale||R151-39 1er alinéa|
-|38|97|Emprise au sol règles qualitatives||R151-39 dernier alinéa|
-|38|98|Emprise au sol règles alternatives||R151-41 1°|
-|39|00|Hauteur||R151-39|
-|39|01|Hauteur minimale||R151-39 2e alinéa|
-|39|02|Hauteur maximale||R151-39 1er alinéa|
-|39|97|Hauteur règles qualitatives||R151-39 dernier alinéa|
-|39|98|Hauteur règles alternatives||R151-41 1°|
-|40|00|Volumétrie||R151-39|
-|40|01|Volumétrie minimale|||
-|40|02|Volumétrie maximale|||
-|40|97|Règles volumétriques qualitatives||R151-39 dernier alinéa|
-|40|98|Règles volumétriques alternatives||R151-41 1°|
-|41|00|Aspect extérieur|L151-18|R151-41 2°|
-|41|01|Aspect extérieur façades|L151-18|R151-41 2°|
-|41|02|Aspect extérieur toitures|L151-18|R151-41 2°|
-|41|03|Aspect extérieur clôtures|L151-18|R151-41 2°|
-|41|98|Aspect extérieur règles alternatives||R151-13|
-|42|00|Coefficient de biotope par surface|L151-22|R151-43 1°|
-|43|00|Réalisation d'espaces libres, plantations, aires de jeux et de loisir||R151-43 2° et 8°|
-|43|01|Réalisation d'espaces libres||R151-43 2°|
-|43|02|Réalisation d'aires de jeux et de loisirs||R151-43 2°|
-|43|03|Réglementation des plantations||R151-43 8°|
-|44|00|Stationnement|||
-|44|01|Stationnement minimal|L151-30 à L151-37||
-|44|02|Stationnement maximal|L151-30 à L151-37|R151-45 3°|
-|44|03|Caractéristiques et type de stationnement||R151-45 1°|
-|44|04|Minoration des règles de stationnement||R151-45 2°|
-|44|98|Stationnement règles alternatives||R151-13|
-|45|00|Zone d'aménagement concerté (surface de plancher, destination)|L151-27||
-|46|00|Constructibilité espace boisé antérieur au 20ème siècle|L151-20||
-|47|00|Desserte par les réseaux|L151-39|R151-49|
-|47|01|Réseaux publics d'eau|L151-39|R151-49|
-|47|02|Réseaux publics d'électricité|L151-39|R151-49|
-|47|03|Réseaux publics d'assainissement|L151-39|R151-49|
-|47|04|Conditions de réalisation d'un assainissement non collectif|L151-39|R151-49|
-|47|05|Infrastructures et réseaux de communications électroniques|L151-39|R151-49 3°|
-|48|00|Mesures pour limiter l'imperméabilisation des sols||R151-49 2°|
-|48|01|Installations nécessaires à la gestion des eaux pluviales et du ruissellement||R151-43 7° et R151-49 2°|
-|49|00|Opération d'ensemble imposée en zone AU||R151-20|
-|49|01|Urbanisation par opération d'ensemble||R151-20 2|
-|49|02|Urbanisation conditionnée à la réalisation des équipements internes à la zone||R151-20 2|
-|50|00|Interdiction types d'activités, destinations, sous-destinations|L151-9|R151-30|
-|51|00|Autorisation sous conditions types d'activités, destinations, sous-destinations|L151-9|R151-33|
-|97|00|Périmètre d'application d'une pièce écrite territorialisée (rapport de présentation, PADD, règlement, règlement graphique, POA)|||
-|97|01|Périmètre d'application d'une pièce écrite territorialisée (rapport de présentation, PADD, règlement, règlement graphique, POA)couvert par un plan de secteurs|L151-3||
-|99|00|Autre||R151-27 à R151-29|
-|99|01|Autre : affectation des sols et destination des constructions|L151-9 à L151-10|R151-30 à R151-36|
-|99|02|Autre : zones naturelles, agricoles ou forestières|L151-11 à L151-13|R151-17 à R151-26|
-|99|03|Autre : mixité sociale et fonctionnelle en zones urbaines ou à urbaniser|L151-14 à L151-16|R151-37 à R151-38|
-|99|04|Autre : qualité du cadre de vie|L151-17 à L151-25||
-|99|05|Autre : Qualité urbaine, architecturale, environnementale et paysagère||R151-41 à R151-42|
-|99|06|Autre : Traitement environnemental et paysager des espaces non bâtis et abords des constructions||R151-43|
-|99|07|Autre : densité|L151-26 à L151-29-1||
-|99|08|Autre : équipements, réseaux et emplacements réservés|L151-38 à L151-42|R151-47 à R151-50|
-|99|09|Autre : plan local d'urbanisme tenant lieu de programme local de l'habitat et de plan de déplacements urbains|L151-44 à L151-48|R151-54 à R151-55|
-|99|10|Autre : plan local d'urbanisme tenant lieu de programme de déplacements urbains||R151-54 à R151-55|
-
+|01|Espace boisé classé|
+|01|Espace boisé classé à protéger ou conserver|
+|01|Espace boisé classé à créer|
+|01|Espace boisé classé significatif au titre de la loi littoral|
+|02|Limitations de la constructibilité pour des raisons environnementales, de risques,d'intérêt général|
+|02|Secteur avec interdiction de constructibilité pour des raisons environnementales,de risques, d'intérêt général|
+|02|Secteur avec conditions spéciales de constructibilité pour des raisons environnementales, de risques, d'intérêt général|
+|03|Secteur avec disposition de reconstruction / démolition|
+|03|Secteur dans lequel la reconstruction à l'identique d'un bâtiment détruit par un sinistre n'est pas autorisée|
+|03|Interdiction de restauration de bâtiment dont il reste l'essentiel des murs porteurs|
+|03|Interdiction de reconstruction à l'identique|
+|04|Périmètre issu des PDU sur obligation de stationnement|
+|05|Emplacement réservé|
+|05|Emplacement réservé aux voies publiques|
+|05|Emplacement réservé aux ouvrages publics|
+|05|Emplacement réservé aux installations d'intérêt général|
+|05|Emplacement réservé aux espaces verts/continuités écologiques|
+|05|Emplacement réservé logement social/mixité sociale|
+|05|Servitude de localisation des voies, ouvrages publics, installations d'intérêt général et espaces verts en zone U ou AU|
+|05|Secteur de projet en attente d'un projet d'aménagement global|
+|05|Emplacements réservés à la relocalisation d'équipements, de constructions et d'installations exposés au recul du trait de côté|
+|06|Secteur à densité maximale pour les reconstructions ou aménagements de bâtiments existants|
+|07|Patrimoine bâti, paysager ou éléments de paysages à protéger pour des motifs d'ordre culturel, historique, architectural ou écologique|
+|07|Patrimoine bâti à protéger pour des motifs d'ordre culturel, historique, architectural|
+|07|Patrimoine paysager à protéger pour des motifs d'ordre culturel, historique, architectural|
+|07|Patrimoine paysager correspondant à un espacer boisé à protéger pour des motifs d'ordre culturel, historique, architectural|
+|07|Éléments de paysage, (sites et secteurs) à préserver pour des motifs d'ordre écologique|
+|07|Éléments de paysage correspondant à un espace boisé, (sites et secteurs) à préserver pour des motifs d'ordre écologique|
+|08|Terrain cultivé ou non bâti à protéger en zone urbaine|
+|13|Zone à aménager en vue de la pratique du ski|
+|14|Secteur de plan de masse|
+|15|Règles d'implantation des constructions|
+|15|Implantation des constructions par rapport aux voies et aux emprises publiques|
+|15|Implantation des constructions par rapport aux limites séparatives latérales|
+|15|Implantation des constructions par rapport aux limites des fonds de parcelles|
+|15|Implantation alternative des constructions|
+|16|Constructions et installations nécessaires à des équipements collectifs|
+|16|Bâtiment susceptible de changer de destination|
+|16|Bâtiments d'habitation existants pouvant faire l'objet d’extensions ou d’annexes|
+|16|Secteur de taille et de capacité d'accueil limitées (STECAL)|
+|16|Constructions et installations nécessaires à l'activité agricole en zone A ou N|
+|16|Diversification de l'activité agricole : transformation conditionnement et ventes de produits agricoles (activités liées au tourisme exclues|
+|17|Secteur à programme de logements mixité sociale en zone U et AU|
+|18|Secteur comportant des orientations d'aménagement et de programmation (OAP)|
+|18|OAP de projet (sans règlement)|
+|18|OAP entrées de ville|
+|18|OAP relatives à la réhabilitation, la restructuration, la mise en valeur ou l'aménagement|
+|18|OAP d'adaptation des périmètres de transports collectifs|
+|18|OAP patrimoniales, architecturales et écologiques|
+|18|OAP relatives à l'habitat|
+|18|OAP comprenant des dispositions relatives à l'équipement commercial et artisanal|
+|18|OAP relatives aux transports et aux déplacements|
+|18|OAP relatives aux espaces publics en zone d'aménagement concerté|
+|18|OAP relatives aux ouvrages publics, installations d'intérêts général et espaces verts en zone d'aménagements concerté|
+|18|OAP valant création de zone d'aménagement concerté|
+|18|OAP Secteurs de renaturation|
+|18|OAP relatives à la protection des franges urbaines et rurales|
+|18|OAP recul du trait de côte|
+|18|OAP trames vertes et bleues|
+|18|OAP zone d’accélération de la production d’énergies renouvelables|
+|19|Secteur protégé en raison de la richesse du sol et du sous-sol|
+|20|Secteur à transfert de constructibilité en zone N|
+|22|Diversité commerciale à protéger ou à développer|
+|22|Diversité commerciale à protéger|
+|22|Diversité commerciale à développer|
+|22|Linéaire commercial protégé|
+|22|Linéaire commercial protégé renforcé|
+|23|Secteur avec taille minimale des logements en zone U et AU|
+|24|Voies, chemins, transport public à conserver et à créer|
+|24|Voies de circulation à créer, modifier ou conserver|
+|24|Voies de circulation à modifier|
+|24|Voies de circulation à créer|
+|24|Voies de circulation à conserver|
+|25|Eléments de continuité écologique et trame verte et bleue|
+|26|Secteur de performance énergétique|
+|26|Secteur de performance énergétique renforcé|
+|27|Secteur d’aménagement numérique|
+|28|Conditions de desserte|
+|28|Conditions permettant une bonne desserte des terrains par les services publics de collecte des déchets|
+|29|Secteur avec densité minimale de construction|
+|29|Secteur avec densité minimale de construction à proximité des transports collectifs|
+|29|Secteur de ZAC avec densité minimale de construction|
+|30|Majoration des volumes constructibles|
+|30|Majoration des volumes constructibles pour l'habitation|
+|30|Majoration des volumes constructibles pour les programmes comportant des logements locatifs sociaux|
+|30|Majoration des volumes constructibles pour exemplarité énergétique ou environnementale|
+|30|Majoration des volumes constructibles pour les programmes comportant des logements intermédiaires|
+|31|Espaces remarquables du littoral|
+|31|Dunes, landes côtières, plages et lidos, estrans, falaises et abords|
+|31|Forêts et zones boisées proches du rivage de la mer et des plans d'eau intérieurs d'une superficie supérieure à 1 000 hectares|
+|31|Ilots inhabités|
+|31|Parties naturelles des estuaires, des rias ou abers et des caps|
+|31|Marais, vasières, tourbières, plans d'eau, les zones humides et milieux temporairement immergés|
+|31|Milieux abritant des concentrations naturelles d'espèces animales ou végétales|
+|31|Parties naturelles des sites inscrits ou classés|
+|31|Formations géologiques|
+|32|Exclusion protection de plans d'eau de faible importance|
+|33|Secteur de dérogation aux protections des rives des plans d'eau en zone de montagne|
+|34|Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver|
+|35|Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver|
+|36|Mixité des destinations ou sous-destinations|
+|37|Règles différenciées entre le rez-de-chaussée et les étages supérieurs des constructions|
+|37|Règles différenciées pour le rez-de-chaussée en raison des risques inondations|
+|37|Règles différenciées pour mixité sociale et fonctionnelle|
+|38|Emprise au sol|
+|38|Emprise au sol minimale|
+|38|Emprise au sol maximale|
+|38|Emprise au sol règles qualitatives|
+|38|Emprise au sol règles alternatives|
+|39|Hauteur|
+|39|Hauteur minimale|
+|39|Hauteur maximale|
+|39|Hauteur règles qualitatives|
+|39|Hauteur règles alternatives|
+|40|Volumétrie|
+|40|Volumétrie minimale|
+|40|Volumétrie maximale|
+|40|Règles volumétriques qualitatives|
+|40|Règles volumétriques alternatives|
+|41|Aspect extérieur|
+|41|Aspect extérieur façades|
+|41|Aspect extérieur toitures|
+|41|Aspect extérieur clôtures|
+|41|Aspect extérieur règles alternatives|
+|42|Coefficient de biotope par surface|
+|43|Réalisation d'espaces libres, plantations, aires de jeux et de loisir|
+|43|Réalisation d'espaces libres|
+|43|Réalisation d'aires de jeux et de loisirs|
+|43|Réglementation des plantations|
+|44|Stationnement|
+|44|Stationnement minimal|
+|44|Stationnement maximal|
+|44|Caractéristiques et type de stationnement|
+|44|Minoration des règles de stationnement|
+|44|Réalisation d'aires de livraisons imposée|
+|44|Stationnement règles alternatives|
+|45|Zone d'aménagement concerté (surface de plancher, destination)|
+|46|Constructibilité espace boisé antérieur au 20ème siècle|
+|47|Desserte par les réseaux|
+|47|Réseaux publics d'eau|
+|47|Réseaux publics d'électricité|
+|47|Réseaux publics d'assainissement|
+|47|Conditions de réalisation d'un assainissement non collectif|
+|47|Infrastructures et réseaux de communications électroniques|
+|48|Mesures pour limiter l'imperméabilisation des sols|
+|48|Installations nécessaires à la gestion des eaux pluviales et du ruissellement|
+|49|Opération d'ensemble imposée en zone AU|
+|49|Urbanisation par opération d'ensemble|
+|49|Urbanisation conditionnée à la réalisation des équipements internes à la zone|
+|50|Interdiction types d'activités, destinations, sous-destinations|
+|51|Autorisation sous conditions types d'activités, destinations, sous-destinations|
+|52|Infrastructures et équipements logistiques à préserver ou à développer en zones U et AU|
+|53|Dérogation à l’article L.111-6 pour l’implantation des constructions le long des grands axes routiers|
+|97|Périmètre d’application d’une pièce écrite territorialisée (rapport de présentation, PADD, règlement, règlement graphique, POA)|
+|97|Périmètre couvert par un Plan de secteurs|
+|99|Autre|
+|99|Autre : affectation des sols et destination des constructions|
+|99|Autre : zones naturelles, agricoles ou forestières|
+|99|Autre : mixité sociale et fonctionnelle en zones urbaines ou à urbaniser|
+|99|Autre : qualité du cadre de vie|
+|99|Autre : Qualité urbaine, architecturale, environnementale et paysagère|
+|99|Autre : Traitement environnemental et paysager des espaces non bâtis et abords des constructions|
+|99|Autre : densité|
+|99|Autre : équipements, réseaux et emplacements réservés|
+|99|Autre : plan local d'urbanisme tenant lieu de programme local de l'habitat et de plan de déplacements urbains|
+|99|Autre : plan local d'urbanisme tenant lieu de programme de déplacements urbains|
 
 ---
 
@@ -1607,6 +1664,7 @@ Valeurs possibles :
 |02|BD Parcellaire|
 |03|RPCU|
 |04|Référentiel local|
+|05|Orthophoto & Cadastre|
 
 ---
 
@@ -1673,7 +1731,9 @@ Valeurs possibles :
 |2|2_PADD|PADD|
 |3|3_Reglement|Règlement|
 |4|4_Annexes|Annexes|
-|5|5_Orientations_amenagement|Orientations d'aménagement|
+|5|5_OAP|Orientations d'aménagement|
+|6|6_POA|Programme d'orientations et d'actions|
+|7|7_Plans_de_secteur|Plans de secteur|
 
 ---
 
@@ -1709,11 +1769,11 @@ Valeurs possibles :
 
 Plusieurs Workflow ont été mis en place pour gérer à la fois l'intégration ou la mise à jour de nouvelles procédures d'urbanisme ainsi que la mise à jour de la partie applicative lors d'une nouvelle procédure, d'une mise à jour du cadastre, d'une servitude ou de la prise en compte d'une nouvelle information jugée utile non présente dans les documents d'urbanisme.
 
-Des fiches de procédures ont été réalisées, elles sont ici `Y:\Ressources\4-Partage\3-Procedures\Fiches` et intégrées dans le classeur des procédures.
+Les procédures sont décrites dans le GitUhb privé sur les procédures internes au Service d'Information Géographique de l'Agglomération de la Région de Compiègne.
 
 ### Gestion des procédures PLU
 
-L'ensemble des fichiers a utilisé est placé ici `Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB\PLU`.
+L'ensemble des fichiers a utilisé est placé ici `R:\Ressources\4-Partage\3-Procedures\FME\metiers\urb\PLU`.
 
 Une série de traitement a été mis en place pour gérer l'ensemble des cas généré par une procédure de mise à jour des données.
 
@@ -1742,7 +1802,7 @@ Les données reçues d'un bureau d'étude doivent être vérifier au préalable 
 
 ### Gestion des procédures d'intégration des SUP et des informations jugées utiles (hors PLU)
 
-L'ensemble des fichiers a utilisé est placé ici `Y:\Ressources\4-Partage\3-Procedures\FME\prod\URB`.
+L'ensemble des fichiers a utilisé est placé ici `R:\Ressources\4-Partage\3-Procedures\FME\metiers\urb`.
 
 Une série de traitement a été mis en place pour créer des tables de références listant l'ensemble des parcelles avec les SUP (sous répertoire `\SUP`)et les informations jugées utiles (hors PLU) s'y appliquant (sous répertoire `Information_jugées_utiles`). Ces procédures doivent être lancées uniquement lors d'une mise à jour du cadastre, d'une servitude, d'une information ou de l'intégration d'une nouvelle servitude ou informations. Des fiches de procédures ont été réalisées pour tous les cas d'usage. A défaut certains traitements peuvent être lancés indépendemment lors d'une SUP ou d'une information ajoutées entre 2 mises à jour cadastrales. Dans ce cas, il faut s'adresser à l'administrateur SIG.
 
