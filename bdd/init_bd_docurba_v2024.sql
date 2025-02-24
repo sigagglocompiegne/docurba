@@ -7318,13 +7318,6 @@ WITH DATA;
 
 COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.xapps_an_vmr_p_information_horsplu IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
 
--- Permissions
-
-ALTER TABLE m_urbanisme_doc.xapps_an_vmr_p_information_horsplu OWNER TO sig_create;
-GRANT ALL ON TABLE m_urbanisme_doc.xapps_an_vmr_p_information_horsplu TO create_sig;
-GRANT ALL ON TABLE m_urbanisme_doc.xapps_an_vmr_p_information_horsplu TO sig_create;
-GRANT UPDATE, SELECT, DELETE, INSERT ON TABLE m_urbanisme_doc.xapps_an_vmr_p_information_horsplu TO sig_edit;
-GRANT SELECT ON TABLE m_urbanisme_doc.xapps_an_vmr_p_information_horsplu TO sig_read;
 -- ####################################################### VUE - xapps_an_vmr_p_information ##################################################
 
 -- m_urbanisme_doc_v2024.xapps_an_vmr_p_information source
