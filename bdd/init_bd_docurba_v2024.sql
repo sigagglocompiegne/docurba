@@ -6807,9 +6807,9 @@ GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_plu TO sig_c
 
 -- ####################################################### VUE - xapps_an_vmr_p_information_horsplu ##################################################
 
--- m_urbanisme_doc_v2024.xapps_an_vmr_p_information_horsplu source
+-- m_urbanisme_doc.xapps_an_vmr_p_information_horsplu source
 
-CREATE MATERIALIZED VIEW m_urbanisme_doc_v2024.xapps_an_vmr_p_information_horsplu
+CREATE MATERIALIZED VIEW m_urbanisme_doc.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
 AS WITH r_p AS (
          WITH r_natura2000_zps AS (
@@ -7002,7 +7002,7 @@ AS WITH r_p AS (
                     ('La parcelle est traversée ou à proximité immédiate du Réseau '::text || bta.exploitant::text) || ' Basse Tension en ligne aérienne.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_reseau_sec.geo_ele_b_bta bta
+                    m_reseau_sec.old_geo_ele_b_bta bta
                   WHERE st_intersects(p."GEOM", bta.geom)
                 ), r_bts AS (
                  SELECT DISTINCT p."IDU" AS idu,
@@ -7023,7 +7023,7 @@ AS WITH r_p AS (
                     ('La parcelle est traversée ou à proximité immédiate du Réseau '::text || htas.exploitant::text) || ' Moyenne Tension en ligne souterraine.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_reseau_sec.geo_ele_b_htas htas
+                    m_reseau_sec.old_geo_ele_b_htas htas
                   WHERE st_intersects(p."GEOM", htas.geom)
                 ), r_cana_prive AS (
                  SELECT DISTINCT p."IDU" AS idu,
@@ -7070,11 +7070,19 @@ AS WITH r_p AS (
                   WHERE st_intersects(p."GEOM", m.geom1) IS TRUE
                 ), r_peri_500_gare_statio AS (
                  SELECT DISTINCT p."IDU" AS idu,
-                    ('La parcelle est comprise dans le périmètre de 500m de la gare de '::text || m.nom_gare::text) || ' et peut-être concernée par l''application de l''article L151-36 du code de l''urbanisme par la non-obligation de réaliser d''aires de stationnement.'::text AS libelle,
+                    ('La parcelle est comprise dans le périmètre de 500m de la gare de '::text || m.nom_gare::text) || ' et peut-être concernée par l''application de l''article L151-35 et L. 151-36 du code de l''urbanisme en matière de règles de stationnement.'::text AS libelle,
                     'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000037670829'::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
                     m_urbanisme_reg.geo_gare_peri_statio m
                   WHERE st_intersects(p."GEOM", m.geom1) IS TRUE
+                ), r_hab_peril AS (
+                 SELECT DISTINCT '60'::text || p.idu AS idu,
+                    (('L''unité foncière, auquelle appartient la parcelle, est concernée par un arrêté de péril.'::text || chr(10)) || 'Contactez le servie Habitat pour plus de précisions : '::text) || h.nm_doc::text AS libelle,
+                    ''::text AS urlfic
+                   FROM r_cadastre.geo_parcelle p,
+                    r_cadastre.geo_unite_fonciere uf,
+                    m_habitat.xapps_geo_v_hab_indigne_peril h
+                  WHERE st_intersects(h.geom, uf.geom) IS TRUE AND uf.id = p.iduf
                 ), r_saisine_archeo AS (
                  SELECT DISTINCT p."IDU" AS idu,
                     (('Modalités de saisine du préfet en matière archéologique préventive : <br>'::text ||
@@ -7295,6 +7303,11 @@ AS WITH r_p AS (
             r_fibre_rte.libelle,
             r_fibre_rte.urlfic
            FROM r_fibre_rte
+        UNION ALL
+         SELECT r_hab_peril.idu,
+            r_hab_peril.libelle,
+            r_hab_peril.urlfic
+           FROM r_hab_peril
         )
  SELECT row_number() OVER () AS gid,
     r_p.idu,
@@ -7303,16 +7316,15 @@ AS WITH r_p AS (
    FROM r_p
 WITH DATA;
 
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc_v2024.xapps_an_vmr_p_information_horsplu IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
+COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.xapps_an_vmr_p_information_horsplu IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
 
 -- Permissions
 
-ALTER TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_horsplu OWNER TO sig_create;
-GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_horsplu TO create_sig;
-GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_horsplu TO sig_create;
-GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_horsplu TO sig_edit;
-GRANT SELECT ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_horsplu TO sig_read;
-
+ALTER TABLE m_urbanisme_doc.xapps_an_vmr_p_information_horsplu OWNER TO sig_create;
+GRANT ALL ON TABLE m_urbanisme_doc.xapps_an_vmr_p_information_horsplu TO create_sig;
+GRANT ALL ON TABLE m_urbanisme_doc.xapps_an_vmr_p_information_horsplu TO sig_create;
+GRANT UPDATE, SELECT, DELETE, INSERT ON TABLE m_urbanisme_doc.xapps_an_vmr_p_information_horsplu TO sig_edit;
+GRANT SELECT ON TABLE m_urbanisme_doc.xapps_an_vmr_p_information_horsplu TO sig_read;
 -- ####################################################### VUE - xapps_an_vmr_p_information ##################################################
 
 -- m_urbanisme_doc_v2024.xapps_an_vmr_p_information source
