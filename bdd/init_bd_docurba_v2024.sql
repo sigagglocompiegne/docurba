@@ -6808,7 +6808,7 @@ GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_plu TO sig_c
 -- ####################################################### VUE - xapps_an_vmr_p_information_horsplu ##################################################
 
 -- m_urbanisme_doc.xapps_an_vmr_p_information_horsplu source
-
+--drop materialized view if exists m_urbanisme_doc.xapps_an_vmr_p_information_horsplu;
 CREATE MATERIALIZED VIEW m_urbanisme_doc.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
 AS WITH r_p AS (
@@ -7119,7 +7119,7 @@ AS WITH r_p AS (
                            FROM r_bg_edigeo."PARCELLE" p,
                             ( SELECT geo_plui_zonagepluvial_alea_v2.gid,
                                     geo_plui_zonagepluvial_alea_v2.alea,
-                                    (st_dump(geo_plui_zonagepluvial_alea_v2.geom)).geom AS geom
+                                    (st_dump(geo_plui_zonagepluvial_alea_v2.geom1)).geom AS geom
                                    FROM m_urbanisme_reg.geo_plui_zonagepluvial_alea_v2) ap
                           WHERE st_intersects(p."GEOM", ap.geom) IS TRUE AND (p."CCOCOM"::text = ANY (ARRAY['60023'::character varying::text, '60067'::character varying::text, '60068'::character varying::text, '60070'::character varying::text, '60151'::character varying::text, '60156'::character varying::text, '60159'::character varying::text, '60323'::character varying::text, '60325'::character varying::text, '60326'::character varying::text, '60337'::character varying::text, '60338'::character varying::text, '60382'::character varying::text, '60402'::character varying::text, '60447'::character varying::text, '60578'::character varying::text, '60579'::character varying::text, '60597'::character varying::text, '60600'::character varying::text, '60665'::character varying::text, '60667'::character varying::text, '60674'::character varying::text]))
                           GROUP BY p."IDU"
@@ -7318,41 +7318,6 @@ WITH DATA;
 
 COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.xapps_an_vmr_p_information_horsplu IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
 
--- ####################################################### VUE - xapps_an_vmr_p_information ##################################################
-
--- m_urbanisme_doc_v2024.xapps_an_vmr_p_information source
-
-CREATE MATERIALIZED VIEW m_urbanisme_doc_v2024.xapps_an_vmr_p_information
-TABLESPACE pg_default
-AS WITH r_t AS (
-         SELECT xapps_an_vmr_p_information_plu.idu,
-            xapps_an_vmr_p_information_plu.libelle,
-            xapps_an_vmr_p_information_plu.urlfic
-           FROM m_urbanisme_doc_v2024.xapps_an_vmr_p_information_plu
-          WHERE xapps_an_vmr_p_information_plu.libelle <> ''::text AND xapps_an_vmr_p_information_plu.libelle !~~ '%taxe%'::text AND xapps_an_vmr_p_information_plu.libelle !~~ '%Zone humide%'::text
-        UNION ALL
-         SELECT xapps_an_vmr_p_information_horsplu.idu,
-            xapps_an_vmr_p_information_horsplu.libelle,
-            xapps_an_vmr_p_information_horsplu.urlfic
-           FROM m_urbanisme_doc_v2024.xapps_an_vmr_p_information_horsplu
-          WHERE xapps_an_vmr_p_information_horsplu.libelle <> ''::text
-        )
- SELECT row_number() OVER () AS gid,
-    r_t.idu,
-    r_t.libelle,
-    r_t.urlfic
-   FROM r_t
-WITH DATA;
-
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc_v2024.xapps_an_vmr_p_information IS 'Vue matérialisée formatant les données les données informations jugées utiles pour la fiche de renseignements d''urbanisme (assemblage des vues infos PLU et hors PLU)';
-
--- Permissions
-
-ALTER TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information OWNER TO create_sig;
-GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information TO create_sig;
-GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information TO sig_edit;
-GRANT SELECT ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information TO sig_read;
-GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information TO sig_create;
 
 -- ####################################################### VUE - xapps_an_vmr_p_information_dpu ##################################################
 
