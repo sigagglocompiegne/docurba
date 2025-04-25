@@ -6807,8 +6807,6 @@ GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_plu TO sig_c
 
 -- ####################################################### VUE - xapps_an_vmr_p_information_horsplu ##################################################
 
--- m_urbanisme_doc.xapps_an_vmr_p_information_horsplu source
---drop materialized view if exists m_urbanisme_doc.xapps_an_vmr_p_information_horsplu;
 CREATE MATERIALIZED VIEW m_urbanisme_doc.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
 AS WITH r_p AS (
@@ -6863,11 +6861,11 @@ AS WITH r_p AS (
                   WHERE p."IDU"::text = q100.idu::text
                 ), r_sageba_zh AS (
                  SELECT DISTINCT "PARCELLE"."IDU" AS idu,
-                    'Zone humide SAGEBA (V5.1) : Zone humide avérée'::text AS libelle,
+                    'Zone humide SAGEBA (V6) : Zone humide avérée'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE",
-                    m_environnement.geo_env_sageba_zhv51
-                  WHERE st_intersects("PARCELLE"."GEOM", geo_env_sageba_zhv51.geom)
+                    m_environnement.geo_env_sageba_zhv6
+                  WHERE st_intersects("PARCELLE"."GEOM", geo_env_sageba_zhv6.geom)
                 ), r_zico AS (
                  SELECT "PARCELLE"."IDU" AS idu,
                     'Zones Importantes pour la Conservation des Oiseaux (ZICO) : '::text || geo_env_zico.nom::text AS libelle,
@@ -7319,81 +7317,6 @@ WITH DATA;
 COMMENT ON MATERIALIZED VIEW m_urbanisme_doc.xapps_an_vmr_p_information_horsplu IS 'Vue matérialisée formatant les données d''informations jugées utiles provenant des données non intégrées dans les données des PLU (cette vue est ensuite assemblée avec celle des infos PLU pour être accessible dans la fiche de renseignements d''urbanisme dans GEO)';
 
 
--- ####################################################### VUE - xapps_an_vmr_p_information_dpu ##################################################
-
--- m_urbanisme_doc_v2024.xapps_an_vmr_p_information_dpu source
-
-CREATE MATERIALIZED VIEW m_urbanisme_doc_v2024.xapps_an_vmr_p_information_dpu
-TABLESPACE pg_default
-AS WITH r_p AS (
-         WITH r_surf AS (
-                 SELECT "PARCELLE"."IDU" AS idu,
-                    geo_p_info_surf.libelle,
-                    geo_p_info_surf.l_nom,
-                    geo_p_info_surf.l_bnfcr,
-                    geo_p_info_surf.l_dateins,
-                    geo_p_info_surf.l_gen,
-                    geo_p_info_surf.urlfic
-                   FROM r_bg_edigeo."PARCELLE",
-                    m_urbanisme_doc_v2024.geo_p_info_surf
-                  WHERE geo_p_info_surf.typeinf::text = '04'::text AND st_intersects("PARCELLE"."GEOM", geo_p_info_surf.geom1)
-                )
-         SELECT p."IDU" AS idu,
-            r_surf.libelle,
-            r_surf.l_nom,
-            r_surf.l_bnfcr,
-            r_surf.l_dateins,
-            r_surf.l_gen,
-            r_surf.urlfic
-           FROM r_bg_edigeo."PARCELLE" p
-             LEFT JOIN r_surf ON p."IDU"::text = r_surf.idu::text
-        )
- SELECT row_number() OVER () AS gid,
-    r_p.idu,
-        CASE
-            WHEN r_p.l_nom::text = ''::text OR r_p.l_nom IS NULL THEN ''::character varying
-            ELSE r_p.l_nom
-        END AS l_nom,
-        CASE
-            WHEN r_p.libelle IS NULL OR r_p.libelle::text = ''::text THEN 'Parcelle non concernée'::character varying
-            ELSE
-            CASE
-                WHEN r_p.l_nom IS NULL OR r_p.l_nom::text = ''::text THEN r_p.l_gen
-                ELSE r_p.l_nom
-            END
-        END AS application,
-        CASE
-            WHEN r_p.l_bnfcr::text = ''::text OR r_p.l_bnfcr IS NULL THEN ''::character varying
-            ELSE r_p.l_bnfcr
-        END AS beneficiaire,
-        CASE
-            WHEN r_p.l_dateins::text = ''::text OR r_p.l_dateins::text IS NULL THEN ''::text
-            ELSE to_char(to_date(r_p.l_dateins::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text)
-        END AS date_ins,
-    r_p.urlfic
-   FROM r_p
-  ORDER BY (
-        CASE
-            WHEN r_p.libelle IS NULL OR r_p.libelle::text = ''::text THEN 'Parcelle non concernée'::character varying
-            ELSE
-            CASE
-                WHEN r_p.l_nom IS NULL OR r_p.l_nom::text = ''::text THEN r_p.l_gen
-                ELSE r_p.l_nom
-            END
-        END) DESC
-WITH DATA;
-
-COMMENT ON MATERIALIZED VIEW m_urbanisme_doc_v2024.xapps_an_vmr_p_information_dpu IS 'Vue matérialisée formatant les données les données des DPU pour la fiche de renseignements d''''urbanisme (fiche d''''information de GEO).
-ATTENTION : cette vue est reformatée à chaque mise à jour de cadastre dans FME (Y:\\\\Ressources\\\\4-Partage\\\\3-Procedures\\\\FME\\prod\\\\URB\\\\00_MAJ_COMPLETE_SUP_INFO_UTILES.fmw) 
-afin de conserver le lien vers le bon schéma de cadastre suite au rennomage de ceux-ci durant l''''intégration. Si cette vue est modifiée ici pensez à répercuter la mise à jour dans le trans former SQLExecutor.';
-
--- Permissions
-
-ALTER TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_dpu OWNER TO create_sig;
-GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_dpu TO create_sig;
-GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_dpu TO sig_edit;
-GRANT SELECT ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_dpu TO sig_read;
-GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_dpu TO sig_create;
 
 -- ####################################################### VUE - xapps_an_vmr_p_planche_graphique_plu ##################################################
 
@@ -7450,13 +7373,7 @@ CREATE INDEX idx_xapps_an_vmr_p_planche_gra ON m_urbanisme_doc_v2024.xapps_an_vm
 
 COMMENT ON MATERIALIZED VIEW m_urbanisme_doc_v2024.xapps_an_vmr_p_planche_graphique_plu IS 'Vue matérialisée formatant l''accès aux planches du règlement graphique des PLU (cette vue est ensuite liée dans GEO pour accessiiblité à la parcelle dans la fiche de renseignements d''urbanisme dans GEO)';
 
--- Permissions
 
-ALTER TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_planche_graphique_plu OWNER TO create_sig;
-GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_planche_graphique_plu TO create_sig;
-GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_planche_graphique_plu TO sig_edit;
-GRANT SELECT ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_planche_graphique_plu TO sig_read;
-GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_planche_graphique_plu TO sig_create;
 
 
 -- ####################################################### VUE - xapps_an_vmr_p_prescription ##################################################
