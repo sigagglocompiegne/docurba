@@ -6807,6 +6807,8 @@ GRANT ALL ON TABLE m_urbanisme_doc_v2024.xapps_an_vmr_p_information_plu TO sig_c
 
 -- ####################################################### VUE - xapps_an_vmr_p_information_horsplu ##################################################
 
+-- m_urbanisme_doc.xapps_an_vmr_p_information_horsplu source
+
 CREATE MATERIALIZED VIEW m_urbanisme_doc.xapps_an_vmr_p_information_horsplu
 TABLESPACE pg_default
 AS WITH r_p AS (
@@ -6964,7 +6966,7 @@ AS WITH r_p AS (
                         CASE
                             WHEN (z.date_crea::text IS NULL OR z.date_crea::text = ''::text) AND z.z_proced::text <> '10'::text THEN (('Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.valeur::text) || ' - '::text) || z.nom::text
                             WHEN z.z_proced::text = '10'::text AND (z.idsite::text = '60382ad'::text OR z.idsite::text = '60156aa'::text OR z.idsite::text = '60151ha'::text OR z.idsite::text = '60159ag'::text OR z.idsite::text = '60159ha'::text OR z.idsite::text = '60159aa'::text OR z.idsite::text = '60159af'::text OR z.idsite::text = '60159aa'::text) THEN 'Zone d''aménagement concerté : '::text || z.nom::text
-                            WHEN (z.date_crea::text IS NOT NULL OR z.date_crea::text <> ''::text) AND z.z_proced::text <> '10'::text THEN (((('Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.valeur::text) || ' - '::text) || z.nom::text) || ', créée le '::text) || to_char(to_date(z.date_crea::text, 'YYYYMMDD'::text)::timestamp without time zone, 'DD-MM-YYYY'::text)
+                            WHEN (z.date_crea::text IS NOT NULL OR z.date_crea::text <> ''::text) AND z.z_proced::text <> '10'::text THEN (((('Procédure d''urbanisme (autre qu''une ZAC) : '::text || zl.valeur::text) || ' - '::text) || z.nom::text) || ', créée le '::text) || z.date_crea
                             ELSE ''::text
                         END AS libelle,
                     ''::text AS urlfic
@@ -7000,7 +7002,7 @@ AS WITH r_p AS (
                     ('La parcelle est traversée ou à proximité immédiate du Réseau '::text || bta.exploitant::text) || ' Basse Tension en ligne aérienne.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_reseau_sec.old_geo_ele_b_bta bta
+                    m_reseau_sec.geo_ele_b_bta bta
                   WHERE st_intersects(p."GEOM", bta.geom)
                 ), r_bts AS (
                  SELECT DISTINCT p."IDU" AS idu,
@@ -7021,7 +7023,7 @@ AS WITH r_p AS (
                     ('La parcelle est traversée ou à proximité immédiate du Réseau '::text || htas.exploitant::text) || ' Moyenne Tension en ligne souterraine.'::text AS libelle,
                     ''::text AS urlfic
                    FROM r_bg_edigeo."PARCELLE" p,
-                    m_reseau_sec.old_geo_ele_b_htas htas
+                    m_reseau_sec.geo_ele_b_htas htas
                   WHERE st_intersects(p."GEOM", htas.geom)
                 ), r_cana_prive AS (
                  SELECT DISTINCT p."IDU" AS idu,
@@ -7103,22 +7105,24 @@ AS WITH r_p AS (
                 ), r_zonage_pluv AS (
                  WITH req_zonage AS (
                          SELECT DISTINCT p."IDU" AS idu,
-                            'Zonage d''assainissement pluvial : '::text || string_agg(zp.bv::text, ', '::text) AS libelle
+                            'Zonage pluvial (zone d''assainissement) : '::text || string_agg(DISTINCT ((zp.bv::text || ' ('::text) || zp.zonage::text) || ')'::text, ', '::text) AS libelle
                            FROM r_bg_edigeo."PARCELLE" p,
                             ( SELECT geo_plui_zonagepluvial.gid,
                                     geo_plui_zonagepluvial.bv,
+                                    geo_plui_zonagepluvial.zonage,
                                     (st_dump(geo_plui_zonagepluvial.geom)).geom AS geom
                                    FROM m_urbanisme_reg.geo_plui_zonagepluvial) zp
                           WHERE st_intersects(p."GEOM", zp.geom) IS TRUE AND (p."CCOCOM"::text = ANY (ARRAY['60023'::character varying::text, '60067'::character varying::text, '60068'::character varying::text, '60070'::character varying::text, '60151'::character varying::text, '60156'::character varying::text, '60159'::character varying::text, '60323'::character varying::text, '60325'::character varying::text, '60326'::character varying::text, '60337'::character varying::text, '60338'::character varying::text, '60382'::character varying::text, '60402'::character varying::text, '60447'::character varying::text, '60578'::character varying::text, '60579'::character varying::text, '60597'::character varying::text, '60600'::character varying::text, '60665'::character varying::text, '60667'::character varying::text, '60674'::character varying::text]))
                           GROUP BY p."IDU"
                         ), req_alea AS (
                          SELECT DISTINCT p."IDU" AS idu,
-                            'Zonage d''aléa ruissellement : '::text || string_agg(ap.alea::text, ' et '::text) AS libelle
+                            'Zonage pluvial (aléa de ruissellement) : '::text || string_agg(DISTINCT ((ap.type::text || ' ('::text) || ap.nom::text) || ')'::text, ', '::text) AS libelle
                            FROM r_bg_edigeo."PARCELLE" p,
-                            ( SELECT geo_plui_zonagepluvial_alea_v2.gid,
-                                    geo_plui_zonagepluvial_alea_v2.alea,
-                                    (st_dump(geo_plui_zonagepluvial_alea_v2.geom1)).geom AS geom
-                                   FROM m_urbanisme_reg.geo_plui_zonagepluvial_alea_v2) ap
+                            ( SELECT geo_plui_zonagepluvial_alea.gid,
+                                    geo_plui_zonagepluvial_alea.type,
+                                    geo_plui_zonagepluvial_alea.nom,
+                                    (st_dump(geo_plui_zonagepluvial_alea.geom)).geom AS geom
+                                   FROM m_urbanisme_reg.geo_plui_zonagepluvial_alea) ap
                           WHERE st_intersects(p."GEOM", ap.geom) IS TRUE AND (p."CCOCOM"::text = ANY (ARRAY['60023'::character varying::text, '60067'::character varying::text, '60068'::character varying::text, '60070'::character varying::text, '60151'::character varying::text, '60156'::character varying::text, '60159'::character varying::text, '60323'::character varying::text, '60325'::character varying::text, '60326'::character varying::text, '60337'::character varying::text, '60338'::character varying::text, '60382'::character varying::text, '60402'::character varying::text, '60447'::character varying::text, '60578'::character varying::text, '60579'::character varying::text, '60597'::character varying::text, '60600'::character varying::text, '60665'::character varying::text, '60667'::character varying::text, '60674'::character varying::text]))
                           GROUP BY p."IDU"
                         )
@@ -7308,9 +7312,9 @@ AS WITH r_p AS (
            FROM r_hab_peril
         )
  SELECT row_number() OVER () AS gid,
-    r_p.idu,
-    r_p.libelle,
-    r_p.urlfic
+    idu,
+    libelle,
+    urlfic
    FROM r_p
 WITH DATA;
 
